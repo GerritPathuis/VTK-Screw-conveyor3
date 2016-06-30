@@ -240,6 +240,7 @@ Public Class Form1
 "Gypsum, Raw 1 inch(Calc.Sulfate, Plast.of Paris);75D25;30A;2D;1120;1280;2",
 "Hay, Chopped **;10C35JY;30A;2A, 2B;130;190;1.6",
 "Hexanedioic Acid (Adipic Acid);45A35;30A;2B;720;720;0.5",
+"Hisarna Granulaat;--;--;--,--,--;--;2000;4",                       'Toegevoegd 25-6-2016
 "Hominy, Dry;43C25D;30A;1A,1B,1C;560;800;0.4",
 "Hops, Spend, Dry;35D35;30A;2A,2B,2C;560;560;1",
 "Hops, Spent, Wet;53D45V;30A;2A,2B;800;880;1.5",
@@ -626,6 +627,10 @@ Public Class Form1
         TextBox3.Text = iso_power.ToString
         TextBox4.Text = mekog.ToString
         'End If
+    End Sub
+
+    Private Sub Label74_Click(sender As Object, e As EventArgs) Handles Label74.Click
+
     End Sub
 
     Private Sub ComboBox3_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox3.SelectedIndexChanged
