@@ -22,6 +22,7 @@ Partial Class Form1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.GroupBox7 = New System.Windows.Forms.GroupBox()
@@ -229,8 +230,8 @@ Partial Class Form1
         Me.Label32 = New System.Windows.Forms.Label()
         Me.Label31 = New System.Windows.Forms.Label()
         Me.TabPage5 = New System.Windows.Forms.TabPage()
-        Me.Panel1 = New System.Windows.Forms.Panel()
         Me.GroupBox16 = New System.Windows.Forms.GroupBox()
+        Me.Panel1 = New System.Windows.Forms.Panel()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox7.SuspendLayout()
@@ -2441,13 +2442,6 @@ Partial Class Form1
         Me.TabPage5.Text = "Sales Price"
         Me.TabPage5.UseVisualStyleBackColor = True
         '
-        'Panel1
-        '
-        Me.Panel1.Location = New System.Drawing.Point(8, 17)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(335, 287)
-        Me.Panel1.TabIndex = 0
-        '
         'GroupBox16
         '
         Me.GroupBox16.Location = New System.Drawing.Point(503, 41)
@@ -2457,12 +2451,20 @@ Partial Class Form1
         Me.GroupBox16.TabStop = False
         Me.GroupBox16.Text = "GroupBox16"
         '
+        'Panel1
+        '
+        Me.Panel1.Location = New System.Drawing.Point(8, 17)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(335, 287)
+        Me.Panel1.TabIndex = 0
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(934, 514)
         Me.Controls.Add(Me.TabControl1)
+        Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Form1"
         Me.Text = "Screw conveyors 2.2e"
         Me.TabControl1.ResumeLayout(False)
