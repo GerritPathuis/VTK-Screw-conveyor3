@@ -2,6 +2,7 @@
 Imports System
 Imports System.Globalization
 Imports System.Threading
+Imports Word = Microsoft.Office.Interop.Word
 
 
 Public Class Form1
@@ -500,6 +501,151 @@ Public Class Form1
     "DN350;14 inch; 355.6; 7.92;  9.53; -;   0",
     "DN400;16 inch; 406.4; 7.92;  9.53; -;   0"}
 
+
+    Public Shared motorred() As String =
+     {"Description; Speed; power;cost",
+     "3 Kw, 20rpmR87*;20;3;987.14",
+     "3 Kw, 20rpmR107;20;3;1908.74",
+     "0.75 Kw, 1450 rpm;1450;0.75;1103.25",
+      "1.1 Kw, 1440 rpm;1440;1.1;2103.25",
+      "1.5 Kw, 1440 rpm;1440;1.5;3103.25",
+      "2.2 Kw, 1440 rpm;1440;2.2;4103.25",
+      "3 Kw, 1455 rpm;1455;3;1103.25",
+      "4 Kw, 1465 rpm;1465;4;2103.25",
+      "5.5 Kw, 1475 rpm;1475;5.5;3103.25",
+      "7.5 Kw, 1475 rpm;1475;7.5;4103.25",
+      "9.2 Kw, 1475 rpm;1475;9.2;2103.25",
+      "11 Kw, 1475 rpm;1475;11;3103.25",
+      "15 Kw, 1475 rpm;1475;15;4103.25",
+      "18.5 Kw, 1480 rpm;1480;18.5;1103.25",
+      "22 Kw, 1482 rpm;1482;22;2103.25",
+      "30 Kw, 1480 rpm;1480;30;3103.25",
+      "37 Kw, 1482 rpm;1482;37;4103.25"}
+
+    Public Shared coupl() As String =
+     {"Diameter;cost,percentage na korting",
+      "58 mm, n-eupexB;102.7;0.55",
+      "68 mm, n-eupexB;111.24;0.55",
+      "80 mm, n-eupexB;127.5;0.55",
+      "95 mm, n-eupexB;159.58;0.55",
+      "110 mm, n-eupexA;291.6;0.55",
+      "125 mm, n-eupexA;407.35;0.55",
+      "140 mm, n-eupexA;534.4;0.55",
+      "160 mm, n-eupexA;742.05;0.55",
+      "180 mm, n-eupexA;904.4;0.55",
+      "200 mm, n-eupexA;1173.5;0.55",
+      "225 mm, n-eupexA;1580;0.55",
+      "250 mm, n-eupexA;1907.1;0.55",
+      "280 mm, n-eupexA;2339;0.55",
+      "315 mm, n-eupexA;3190.7;0.55",
+      "350 mm, n-eupexA;4433;0.55",
+      "400 mm, n-eupexA;5778;0.55",
+      "440 mm, n-eupexA;7167.5;0.55",
+      "480 mm, n-eupexA;8983.5;0.55"}
+
+    Public Shared ppaint() As String =
+     {"Description;cost",
+      "10-20m2 75um zink compound;13.25",
+      "20-100m2 75um zink compound;12.50",
+      "10-20m2 150um primer en epoxy aflak (binnen);17.0",
+      "20-100m2 150um primer en epoxy aflak (binnen);16.40",
+      "10-20m2 150um primer en polyurethaan aflak (buiten)lichte belasting;17.90",
+      "20-100m2 150um primer en polyurethaan aflak (buiten)lichte belasting;17.25",
+      "10-20m2 225um primer, midcoating en polyurethaan aflak (buiten)middelzware belasting;18.60",
+      "20-100m2 225um primer, midcoating en polyurethaan aflak (buiten)middelzware belasting;18.15",
+      "10-20m2 330um primer, midcoating en polyurethaan aflak (buiten)zware belasting;20.75",
+      "20-100m2 330um primer, midcoating en polyurethaan aflak (buiten)zware belasting;20.0",
+      "10-20m2 75um primer, laag hittebestendig zincsilicaat -90C tot +400C anticorrosief (zonder afwerklaag);13.25",
+       "20-100m2 75um primer, laag hittebestendig zincsilicaat -90C tot +400C anticorrosief (zonder afwerklaag);12.50",
+       "10-20m2 120um primer, hittebestendig zincsilicaat -90C tot +400C anticorrosief (met afwerklaag);19.50",
+       "20-100m2 120um primer, hittebestendig zincsilicaat -90C tot +400C anticorrosief (met afwerklaag);18.0",
+       "10-20m2 250um primer, midcoating en polyurethaan aflak (buiten)zware belasting;23.0",
+      "20-100m2 250um primer, midcoating en polyurethaan aflak (buiten)zware belasting;22.0"}
+
+
+    Public Shared lager() As String = 'T=trekbus, C=cylindrisch, zie SKFboekje
+     {"40 mm Trekbus;120.45",
+     "50 mm Trekbus;152.57",
+      "55 mm Trekbus;0",
+      "60 mm Trekbus;196.23",
+      "65 mm Trekbus;0",
+      "70 mm Trekbus;311.98",
+      "75 mm Trekbus;0",
+      "80 mm Trekbus;318.59",
+      "85 mm Trekbus;0",
+      "90 mm Trekbus;420.29",
+      "100 mm Trekbus;553.54",
+      "110 mm Trekbus;590.63",
+      "115 mm Trekbus;729.07",
+      "120 mm Trekbus;0",
+      "125 mm Trekbus;901.85",
+      "130 mm Trekbus;0",
+       "135 mm Trekbus;1111.90",
+      "140 mm Trekbus;1385.19",
+      "180 mm Trekbus;2505.50",
+    "40 mm Cylindrisch;94.39",
+    "50 mm Cylindrisch;106.76",
+      "55 mm Cylindrisch;0",
+      "60 mm Cylindrisch;142.49",
+      "65 mm Cylindrisch;0",
+      "70 mm Cylindrisch;260.12",
+      "75 mm Cylindrisch;0",
+      "80 mm Cylindrisch;228.69",
+      "85 mm Cylindrisch;0",
+      "90 mm Cylindrisch;298.29",
+      "95 mm Cylindrisch;0",
+      "100 mm Cylindrisch;395.47",
+      "110 mm Cylindrisch;526.52",
+      "120 mm Cylindrisch;629.66",
+      "130 mm Cylindrisch;777.68",
+      "140 mm Cylindrisch;962.66",
+      "150 mm Cylindrisch;1187.03",
+      "160 mm Cylindrisch;1474.77",
+      "210 mm Cylindrisch;200",
+      "360 mm Cylindrisch;250"}
+
+    Public Shared astap_dia() As String =
+      {"100 ;1103.25",
+      "110;2103.25",
+      "120 ;3103.25",
+      "140 ;1103.25",
+      "160;2103.25",
+      "200 ;3103.25",
+      "210 ;1103.25",
+      "260;2103.25",
+      "310 ;3103.25",
+      "350 ;4103.25",
+      "400 ;1103.25",
+      "500 ;4103.25"}
+
+    Public Shared pakking() As String =
+      {"Flowtite wit, 3*1.5 ;53.25",
+      "Flowtite wit, 5*2 ;53.25",
+      "Flowtite wit, 7*2.5 ;53.25",
+      "Flowtite wit, 10*3 ;53.25",
+      "230x133x6 Silicone wit;8.15",
+      "200 ;3103.25",
+      "210 ;1103.25",
+      "260;2103.25",
+      "310 ;3103.25",
+      "350 ;4103.25",
+      "400 ;1103.25",
+      "500 ;4103.25"}
+
+    Public Shared lining() As String =
+      {"100 ;1103.25",
+      "110;2103.25",
+      "120 ;3103.25",
+      "140 ;1103.25",
+      "160;2103.25",
+      "200 ;3103.25",
+      "210 ;1103.25",
+      "260;2103.25",
+      "310 ;3103.25",
+      "350 ;4103.25",
+      "400 ;1103.25",
+      "500 ;4103.25"}
+
     Public Shared emotor() As String = {"3.0; 1500", "4.0; 1500", "5.5; 1500", "7.5; 1500", "11;  1500", "15; 1500", "22; 1500",
                                        "30  ; 1500", "37;  1500", "45;  1500", "55;  1500", "75; 1500", "90; 1500",
                                        "110 ; 1500", "132; 1500", "160; 1500", "200; 1500"}
@@ -546,8 +692,16 @@ Public Class Form1
         Next hh
         ComboBox5.SelectedIndex = 0
 
+
         pipe_dia_combo()
         pipe_wall_combo()
+        motorreductor()
+        Coupling_combo()
+        Lager_combo()
+        astap_combo()
+        paint_combo()
+        pakking_combo()
+        lining_combo()
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles NumericUpDown9.ValueChanged, NumericUpDown7.ValueChanged, NumericUpDown6.ValueChanged, NumericUpDown5.ValueChanged, NumericUpDown4.ValueChanged, NumericUpDown3.ValueChanged, NumericUpDown2.ValueChanged, Button1.Click, NumericUpDown1.ValueChanged, TabPage1.Enter
@@ -613,9 +767,9 @@ Public Class Form1
         '--------------- ISO 7119 -----------------
         height = conv_length * Sin(angle / 360 * 2 * PI)
 
-        iso_forward = flow_hr * conv_length * 9.91 * progress_resistance / (3600 * 1000)     'Forwards [kW]
-        iso_incline = flow_hr * height * 9.81 / (3600 * 1000)                           'Uphill [kW]
-        iso_no_product = diam_trough * conv_length / 20                                      'Power for seals 0. + bearings [kW]
+        iso_forward = flow_hr * conv_length * 9.91 * progress_resistance / (3600 * 1000)    'Forwards [kW]
+        iso_incline = flow_hr * height * 9.81 / (3600 * 1000)                               'Uphill [kW]
+        iso_no_product = diam_trough * conv_length / 20                                     'Power for seals 0. + bearings [kW]
 
         iso_power = Round(iso_forward + iso_incline + iso_no_product, 1)
 
@@ -629,7 +783,7 @@ Public Class Form1
         'End If
     End Sub
 
-    Private Sub Label74_Click(sender As Object, e As EventArgs) Handles Label74.Click
+    Private Sub Label74_Click(sender As Object, e As EventArgs) 
 
     End Sub
 
@@ -639,6 +793,10 @@ Public Class Form1
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
         save_to_disk()
+    End Sub
+
+    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown29.ValueChanged, NumericUpDown28.ValueChanged, NumericUpDown24.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown22.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown19.ValueChanged, NumericUpDown18.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown12.ValueChanged, NumericUpDown10.ValueChanged, NumericUpDown32.ValueChanged, NumericUpDown31.ValueChanged, NumericUpDown26.ValueChanged, NumericUpDown25.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox4.SelectedIndexChanged, ComboBox13.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox11.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox8.CheckedChanged, CheckBox5.CheckedChanged, CheckBox4.CheckedChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged
+        costing_material()
     End Sub
 
     'Materiaal in de conveyor
@@ -652,6 +810,15 @@ Public Class Form1
             MessageBox.Show(ex.Message)  ' Show the exception's message.
         End Try
     End Sub
+
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click, TabPage5.Enter, NumericUpDown34.ValueChanged, NumericUpDown33.ValueChanged, NumericUpDown30.ValueChanged, NumericUpDown27.ValueChanged
+        costing_material()
+    End Sub
+
+    Private Sub GroupBox14_Enter(sender As Object, e As EventArgs) Handles GroupBox14.Enter
+
+    End Sub
+
     'Please note complete calculation in [m] nit [mm]
     Private Sub calulate_stress_1()
         Dim qq As Double
@@ -885,8 +1052,10 @@ Public Class Form1
         For hh = 0 To (UBound(pipe) - 1)                'Fill combobox 3 with pipe data
             words = pipe(hh).Split(";")
             ComboBox3.Items.Add(Trim(words(2)))
+            ComboBox9.Items.Add(Trim(words(2)))
         Next hh
         ComboBox3.SelectedIndex = 2
+        ComboBox9.SelectedIndex = 2
 
         words = pipe(ComboBox3.SelectedIndex).Split(";")
         Double.TryParse(words(2), pipe_OD)
@@ -908,6 +1077,421 @@ Public Class Form1
         ComboBox6.SelectedIndex = 1
     End Sub
 
+    Private Sub motorreductor()
+        Dim words() As String
+
+        ComboBox4.Items.Clear()
+        '-------Fill combobox4,  selection------------------
+        For hh = 1 To (UBound(motorred))                'Fill combobox 3 with pipe data
+            words = motorred(hh).Split(";")
+            ComboBox4.Items.Add(Trim(words(0)))
+        Next hh
+        ComboBox4.SelectedIndex = 2
+
+    End Sub
+    Private Sub Coupling_combo()
+        Dim words() As String
+
+
+        ComboBox7.Items.Clear()
+        '-------Fill combobox7,  selection------------------
+        For hh = 1 To (UBound(coupl))                'Fill combobox 7 with coupling data
+            words = coupl(hh).Split(";")
+            ComboBox7.Items.Add(Trim(words(0)))
+        Next hh
+        ComboBox7.SelectedIndex = 1
+
+        words = coupl(ComboBox7.SelectedIndex + 1).Split(";")
+
+    End Sub
+    Private Sub Lager_combo()
+        Dim words() As String
+
+        ComboBox8.Items.Clear()
+        '-------Fill combobox8,  selection------------------
+        For hh = 0 To lager.Length - 1                'Fill combobox 8 with lager data
+            words = lager(hh).Split(";")
+            ComboBox8.Items.Add(words(0))
+        Next hh
+        ComboBox8.SelectedIndex = 1
+
+        words = lager(ComboBox8.SelectedIndex).Split(";")
+
+    End Sub
+
+    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        Dim oWord As Word.Application
+        Dim oDoc As Word.Document
+        Dim oTable As Word.Table
+        Dim oPara1, oPara2 As Word.Paragraph
+        Dim row, font_sizze As Integer
+
+
+
+        'Start Word and open the document template. 
+        font_sizze = 9
+        oWord = CreateObject("Word.Application")
+        oWord.Visible = True
+        oDoc = oWord.Documents.Add
+
+        'Insert a paragraph at the beginning of the document. 
+        oPara1 = oDoc.Content.Paragraphs.Add
+        oPara1.Range.Text = "VTK Engineering"
+        oPara1.Range.Font.Name = "Arial"
+        oPara1.Range.Font.Size = font_sizze + 3
+        oPara1.Range.Font.Bold = True
+        oPara1.Format.SpaceAfter = 1                '24 pt spacing after paragraph. 
+        oPara1.Range.InsertParagraphAfter()
+
+        oPara2 = oDoc.Content.Paragraphs.Add(oDoc.Bookmarks.Item("\endofdoc").Range)
+        oPara2.Range.Font.Size = font_sizze + 1
+        oPara2.Format.SpaceAfter = 1
+        oPara2.Range.Font.Bold = False
+        oPara2.Range.Text = "Kostencalculatie van schroeftransporteur" & vbCrLf
+        oPara2.Range.InsertParagraphAfter()
+
+        '----------------------------------------------
+        'Insert a table, fill it with data and change the column widths.
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 5, 2)
+        oTable.Range.ParagraphFormat.SpaceAfter = 1
+        oTable.Range.Font.Size = font_sizze
+        oTable.Range.Font.Bold = False
+        oTable.Rows.Item(1).Range.Font.Bold = True
+
+        row = 1
+        oTable.Cell(row, 1).Range.Text = "Project Name"
+        oTable.Cell(row, 2).Range.Text = TextBox23.Text
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Project number "
+        oTable.Cell(row, 2).Range.Text = TextBox35.Text
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Schroefnummer "
+        oTable.Cell(row, 2).Range.Text = TextBox53.Text
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Author "
+        oTable.Cell(row, 2).Range.Text = Environment.UserName
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Date "
+        oTable.Cell(row, 2).Range.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+
+        oTable.Columns.Item(1).Width = oWord.InchesToPoints(2.5)   'Change width of columns 1 & 2.
+        oTable.Columns.Item(2).Width = oWord.InchesToPoints(2)
+        oTable.Rows.Item(1).Range.Font.Bold = True
+        oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+
+        '----------------------------------------------
+        'Insert a 14 x 5 table, fill it with data and change the column widths.
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 14, 5)
+        oTable.Range.ParagraphFormat.SpaceAfter = 1
+        oTable.Range.Font.Size = font_sizze
+        oTable.Range.Font.Bold = False
+        oTable.Rows.Item(1).Range.Font.Bold = True
+        oTable.Rows.Item(1).Range.Font.Size = font_sizze + 2
+        row = 1
+        oTable.Cell(row, 1).Range.Text = "Input Data"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Diameter trough"
+        oTable.Cell(row, 3).Range.Text = NumericUpDown1.Value
+        oTable.Cell(row, 2).Range.Text = "[mm]"
+
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Diameter pipe"
+        oTable.Cell(row, 3).Range.Text = ComboBox9.SelectedItem
+        oTable.Cell(row, 2).Range.Text = "[mm]"
+        oTable.Cell(row, 5).Range.Text = TextBox45.Text
+        oTable.Cell(row, 4).Range.Text = "[kg]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Wall thickness pipe"
+        oTable.Cell(row, 3).Range.Text = ComboBox6.SelectedItem
+        oTable.Cell(row, 2).Range.Text = "[mm]"
+
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Pitch"
+        oTable.Cell(row, 3).Range.Text = NumericUpDown2.Value
+        oTable.Cell(row, 2).Range.Text = "[-]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Blad dikte"
+        oTable.Cell(row, 3).Range.Text = NumericUpDown8.Value
+        oTable.Cell(row, 2).Range.Text = "[mm]"
+        oTable.Cell(row, 5).Range.Text = TextBox46.Text
+        oTable.Cell(row, 4).Range.Text = "[kg]"
+        row += 1
+
+        oTable.Cell(row, 1).Range.Text = "Toerental"
+        oTable.Cell(row, 3).Range.Text = NumericUpDown7.Value
+        oTable.Cell(row, 2).Range.Text = "[rpm]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Installed Power"
+        oTable.Cell(row, 3).Range.Text = ComboBox5.SelectedItem
+        oTable.Cell(row, 2).Range.Text = "[kW]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Conveyor length"
+        oTable.Cell(row, 3).Range.Text = NumericUpDown3.Value
+        oTable.Cell(row, 2).Range.Text = "[m]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Inclination angle"
+        oTable.Cell(row, 3).Range.Text = NumericUpDown4.Value
+        oTable.Cell(row, 2).Range.Text = "[deg]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Staalsoort"
+        oTable.Cell(row, 3).Range.Text = ComboBox2.SelectedItem
+        oTable.Cell(row, 2).Range.Text = "[-]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Temperature"
+        oTable.Cell(row, 3).Range.Text = NumericUpDown11.Value
+        oTable.Cell(row, 2).Range.Text = "[C]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Product type"
+        oTable.Cell(row, 3).Range.Text = ComboBox1.SelectedItem
+        oTable.Cell(row, 2).Range.Text = "[-]"
+        row += 1
+        '---- -----
+        oTable.Cell(row, 1).Range.Text = "Capacity"
+        oTable.Cell(row, 3).Range.Text = NumericUpDown5.Value
+        oTable.Cell(row, 2).Range.Text = "[ton/hr]"
+
+
+        oTable.Columns.Item(1).Width = oWord.InchesToPoints(2.4)   'Change width of columns 1 & 2.
+        oTable.Columns.Item(2).Width = oWord.InchesToPoints(0.6)
+        oTable.Columns.Item(3).Width = oWord.InchesToPoints(1.6)
+        oTable.Columns.Item(4).Width = oWord.InchesToPoints(0.4)
+        oTable.Columns.Item(5).Width = oWord.InchesToPoints(0.6)
+
+        oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+        'Insert a 16 x 3 table, fill it with data and change the column widths.
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 18, 5)
+        oTable.Range.ParagraphFormat.SpaceAfter = 1
+        oTable.Range.Font.Size = font_sizze
+        oTable.Range.Font.Bold = False
+        oTable.Rows.Item(1).Range.Font.Bold = True
+        oTable.Rows.Item(1).Range.Font.Size = font_sizze + 2
+        row = 1
+        oTable.Cell(row, 1).Range.Text = "Input sizes"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Motorreductor"
+        oTable.Cell(row, 3).Range.Text = ComboBox4.SelectedItem
+        oTable.Cell(row, 2).Range.Text = "[-]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Coupling"
+        oTable.Cell(row, 3).Range.Text = ComboBox7.SelectedItem
+        oTable.Cell(row, 2).Range.Text = "[-]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Lager asdiameter"
+        oTable.Cell(row, 3).Range.Text = ComboBox8.SelectedItem
+        oTable.Cell(row, 2).Range.Text = "[mm]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Aantal certificaten "
+        oTable.Cell(row, 3).Range.Text = NumericUpDown27.Value
+        oTable.Cell(row, 2).Range.Text = "[-]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Dikte kop-en staartplaat"
+        oTable.Cell(row, 3).Range.Text = NumericUpDown10.Value
+        oTable.Cell(row, 2).Range.Text = "[mm]"
+        oTable.Cell(row, 5).Range.Text = TextBox42.Text
+        oTable.Cell(row, 4).Range.Text = "[kg]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Dikte schroefblad"
+        oTable.Cell(row, 3).Range.Text = NumericUpDown8.Value
+        oTable.Cell(row, 2).Range.Text = "[mm]"
+        oTable.Cell(row, 5).Range.Text = TextBox46.Text
+        oTable.Cell(row, 4).Range.Text = "[kg]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Dikte trog"
+        oTable.Cell(row, 3).Range.Text = NumericUpDown14.Value
+        oTable.Cell(row, 2).Range.Text = "[mm]"
+        oTable.Cell(row, 5).Range.Text = TextBox47.Text
+        oTable.Cell(row, 4).Range.Text = "[kg]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Dikte deksel"
+        oTable.Cell(row, 3).Range.Text = NumericUpDown15.Value
+        oTable.Cell(row, 2).Range.Text = "[mm]"
+        oTable.Cell(row, 5).Range.Text = TextBox48.Text
+        oTable.Cell(row, 4).Range.Text = "[kg]"
+
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Asafdichting lengte, diameter "
+        oTable.Cell(row, 3).Range.Text = NumericUpDown28.Value & ",  " & NumericUpDown29.Value
+        oTable.Cell(row, 2).Range.Text = "[mm]"
+        oTable.Cell(row, 5).Range.Text = TextBox87.Text
+        oTable.Cell(row, 4).Range.Text = "[kg]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Astap lengte, diameter"
+        oTable.Cell(row, 3).Range.Text = NumericUpDown24.Value & ",  " & ComboBox13.SelectedItem
+        oTable.Cell(row, 2).Range.Text = "[mm]"
+        oTable.Cell(row, 5).Range.Text = TextBox54.Text
+        oTable.Cell(row, 4).Range.Text = "[kg]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Inlaat dikte"
+        oTable.Cell(row, 3).Range.Text = NumericUpDown18.Value
+        oTable.Cell(row, 2).Range.Text = "[mm]"
+        oTable.Cell(row, 5).Range.Text = TextBox43.Text
+        oTable.Cell(row, 4).Range.Text = "[kg]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Uitlaat dikte"
+        oTable.Cell(row, 3).Range.Text = NumericUpDown19.Value
+        oTable.Cell(row, 2).Range.Text = "[mm]"
+        oTable.Cell(row, 5).Range.Text = TextBox44.Text
+        oTable.Cell(row, 4).Range.Text = "[kg]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Dikte voet, stuks"
+        oTable.Cell(row, 3).Range.Text = NumericUpDown22.Value & ",  " & NumericUpDown23.Value
+        oTable.Cell(row, 2).Range.Text = "[mm]"
+        oTable.Cell(row, 5).Range.Text = TextBox49.Text
+        oTable.Cell(row, 4).Range.Text = "[kg]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Afschermkap hoogte, breedte, dikte"
+        oTable.Cell(row, 3).Range.Text = NumericUpDown32.Value & ",  " & NumericUpDown31.Value & ",  " & NumericUpDown26.Value
+        oTable.Cell(row, 2).Range.Text = "[mm]"
+        oTable.Cell(row, 5).Range.Text = TextBox76.Text
+        oTable.Cell(row, 4).Range.Text = "[kg]"
+
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Lining dikte"
+        oTable.Cell(row, 3).Range.Text = NumericUpDown25.Value
+        oTable.Cell(row, 2).Range.Text = "[mm]"
+        oTable.Cell(row, 5).Range.Text = TextBox77.Text
+        oTable.Cell(row, 4).Range.Text = "[kg]"
+
+        row += 1
+        oTable.Cell(row, 5).Range.Text = "_____"
+
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Total weight steel"
+        oTable.Cell(row, 5).Range.Text = TextBox65.Text
+        oTable.Cell(row, 4).Range.Text = "[kg]"
+
+        oTable.Columns.Item(1).Width = oWord.InchesToPoints(2.4)   'Change width of columns 1 & 2.
+        oTable.Columns.Item(2).Width = oWord.InchesToPoints(0.6)
+        oTable.Columns.Item(3).Width = oWord.InchesToPoints(1.6)
+        oTable.Columns.Item(4).Width = oWord.InchesToPoints(0.4)
+        oTable.Columns.Item(5).Width = oWord.InchesToPoints(0.6)
+
+        oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+        'Insert a 16 x 3 table, fill it with data and change the column widths.
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 11, 8)
+        oTable.Range.ParagraphFormat.SpaceAfter = 1
+        oTable.Range.Font.Size = font_sizze
+        oTable.Range.Font.Bold = False
+        oTable.Rows.Item(1).Range.Font.Bold = True
+        oTable.Rows.Item(1).Range.Font.Size = font_sizze + 2
+        row = 1
+        oTable.Cell(row, 1).Range.Text = "Kosten"
+        row += 1
+        oTable.Rows.Item(2).Range.Font.Bold = True
+        oTable.Cell(row, 6).Range.Text = "Material"
+        oTable.Cell(row, 1).Range.Text = "Labour"
+        row += 1
+        oTable.Cell(row, 3).Range.Text = "Hours"
+        oTable.Cell(row, 5).Range.Text = "Costs"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Engineering"
+        oTable.Cell(row, 2).Range.Text = "[hr]"
+        oTable.Cell(row, 3).Range.Text = NumericUpDown30.Value
+        oTable.Cell(row, 4).Range.Text = "[€]"
+        oTable.Cell(row, 5).Range.Text = TextBox67.Text
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Project"
+        oTable.Cell(row, 3).Range.Text = NumericUpDown33.Value
+        oTable.Cell(row, 2).Range.Text = "[hr]"
+        oTable.Cell(row, 4).Range.Text = "[€]"
+        oTable.Cell(row, 5).Range.Text = TextBox70.Text
+
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Factory"
+        oTable.Cell(row, 3).Range.Text = NumericUpDown34.Value
+        oTable.Cell(row, 2).Range.Text = "[hr]"
+        oTable.Cell(row, 5).Range.Text = TextBox72.Text
+        oTable.Cell(row, 4).Range.Text = "[€]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Total hours"
+        oTable.Cell(row, 3).Range.Text = TextBox106.Text
+        oTable.Cell(row, 2).Range.Text = "[hr]"
+        row += 1
+
+        oTable.Cell(row, 1).Range.Text = "Total labour costs "
+        oTable.Cell(row, 5).Range.Text = TextBox98.Text
+        oTable.Cell(row, 4).Range.Text = "[€]"
+        oTable.Cell(row, 6).Range.Text = "Total cost material"
+        oTable.Cell(row, 8).Range.Text = TextBox66.Text
+        oTable.Cell(row, 7).Range.Text = "[€]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Percentage labour "
+        oTable.Cell(row, 5).Range.Text = TextBox101.Text
+        oTable.Cell(row, 4).Range.Text = "[%]"
+        oTable.Cell(row, 6).Range.Text = "Percentage material"
+        oTable.Cell(row, 8).Range.Text = TextBox100.Text
+        oTable.Cell(row, 7).Range.Text = "[%]"
+
+        row += 1
+
+        oTable.Cell(row, 1).Range.Text = "Total cost price"
+        oTable.Cell(row, 5).Range.Text = TextBox73.Text
+        oTable.Cell(row, 4).Range.Text = "[€]"
+
+        row += 1
+        oTable.Rows.Item(11).Range.Font.Bold = True
+        oTable.Rows.Item(11).Range.Font.Size = font_sizze + 1
+        oTable.Cell(row, 1).Range.Text = "Total sale price"
+        oTable.Cell(row, 5).Range.Text = TextBox75.Text
+        oTable.Cell(row, 4).Range.Text = "[€]"
+
+        oTable.Columns.Item(1).Width = oWord.InchesToPoints(1.2)   'Change width of columns 1 & 2.
+        oTable.Columns.Item(2).Width = oWord.InchesToPoints(0.4)
+        oTable.Columns.Item(3).Width = oWord.InchesToPoints(0.6)
+        oTable.Columns.Item(4).Width = oWord.InchesToPoints(0.4)   'Change width of columns 1 & 2.
+        oTable.Columns.Item(5).Width = oWord.InchesToPoints(1.4)
+        oTable.Columns.Item(6).Width = oWord.InchesToPoints(1.5)
+        oTable.Columns.Item(7).Width = oWord.InchesToPoints(0.4)
+        oTable.Columns.Item(8).Width = oWord.InchesToPoints(0.6)
+    End Sub
+    Private Sub astap_combo()
+        Dim words() As String
+
+        ComboBox13.Items.Clear()
+        '-------Fill combobox6, pipe wall selection------------------
+        For hh = 0 To astap_dia.Length - 1                'Fill combobox 3 with pipe data
+            words = astap_dia(hh).Split(";")
+            ComboBox13.Items.Add(words(0))
+        Next hh
+        ComboBox13.SelectedIndex = 1
+        words = astap_dia(ComboBox13.SelectedIndex).Split(";")
+    End Sub
+    Private Sub paint_combo()
+        Dim words() As String
+
+        ComboBox12.Items.Clear()
+        '-------Fill combobox6, pipe wall selection------------------
+        For hh = 1 To ppaint.Length - 1                'Fill combobox 3 with pipe data
+            words = ppaint(hh).Split(";")
+            ComboBox12.Items.Add(words(0))
+        Next hh
+        ComboBox12.SelectedIndex = 1
+        words = ppaint(ComboBox12.SelectedIndex).Split(";")
+    End Sub
+    Private Sub pakking_combo()
+        Dim words() As String
+
+        ComboBox10.Items.Clear()
+        '-------Fill combobox6, pipe wall selection------------------
+        For hh = 0 To pakking.Length - 1                'Fill combobox 3 with pipe data
+            words = pakking(hh).Split(";")
+            ComboBox10.Items.Add(words(0))
+        Next hh
+        ComboBox10.SelectedIndex = 4
+        words = pakking(ComboBox10.SelectedIndex).Split(";")
+    End Sub
+    Private Sub lining_combo()
+        Dim words() As String
+
+        ComboBox11.Items.Clear()
+        '-------Fill combobox6, pipe wall selection------------------
+        For hh = 0 To lining.Length - 1                'Fill combobox 3 with pipe data
+            words = lining(hh).Split(";")
+            ComboBox11.Items.Add(words(0))
+        Next hh
+        ComboBox11.SelectedIndex = 1
+        words = lining(ComboBox11.SelectedIndex).Split(";")
+    End Sub
     'Save data and line chart to file
     Private Sub save_to_disk()
         Dim bmp_tab_page1 As New Bitmap(TabPage1.Width, TabPage1.Height)
@@ -929,8 +1513,560 @@ Public Class Form1
         TabPage2.Show()
         TabPage2.DrawToBitmap(bmp_tab_page2, DisplayRectangle)
         bmp_tab_page2.Save(str_file3, Imaging.ImageFormat.Png)
-
         MessageBox.Show("Files is saved to c:\temp ")
+    End Sub
+
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        print_word()
+    End Sub
+
+    Private Sub print_word()
+        Dim oWord As Word.Application ' = Nothing
+        Dim oDoc As Word.Document
+        Dim oTable As Word.Table
+        Dim oPara1, oPara2 As Word.Paragraph
+        Dim row, font_sizze As Integer
+        Dim ufilename As String
+
+        Try
+            oWord = New Word.Application()
+
+            'Start Word and open the document template. 
+            font_sizze = 9
+            oWord = CreateObject("Word.Application")
+            oWord.Visible = True
+            oDoc = oWord.Documents.Add
+
+            'Insert a paragraph at the beginning of the document. 
+            oPara1 = oDoc.Content.Paragraphs.Add
+            oPara1.Range.Text = "VTK Engineering"
+            oPara1.Range.Font.Name = "Arial"
+            oPara1.Range.Font.Size = font_sizze + 3
+            oPara1.Range.Font.Bold = True
+            oPara1.Format.SpaceAfter = 1                '24 pt spacing after paragraph. 
+            oPara1.Range.InsertParagraphAfter()
+
+            oPara2 = oDoc.Content.Paragraphs.Add(oDoc.Bookmarks.Item("\endofdoc").Range)
+            oPara2.Range.Font.Size = font_sizze + 1
+            oPara2.Format.SpaceAfter = 1
+            oPara2.Range.Font.Bold = False
+            oPara2.Range.Text = "Screw Conveyor Stress calculation " & vbCrLf
+            oPara2.Range.InsertParagraphAfter()
+
+            '----------------------------------------------
+            'Insert a table, fill it with data and change the column widths.
+            oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 5, 2)
+            oTable.Range.ParagraphFormat.SpaceAfter = 1
+            oTable.Range.Font.Size = font_sizze
+            oTable.Range.Font.Bold = False
+            oTable.Rows.Item(1).Range.Font.Bold = True
+
+            row = 1
+            oTable.Cell(row, 1).Range.Text = "Project Name"
+            oTable.Cell(row, 2).Range.Text = TextBox65.Text
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Project number "
+            oTable.Cell(row, 2).Range.Text = TextBox66.Text
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Machine Id "
+            oTable.Cell(row, 2).Range.Text = TextBox67.Text
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Author "
+            oTable.Cell(row, 2).Range.Text = Environment.UserName
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Date "
+            oTable.Cell(row, 2).Range.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+
+            oTable.Columns(1).Width = oWord.InchesToPoints(2.5)   'Change width of columns 1 & 2.
+            oTable.Columns(2).Width = oWord.InchesToPoints(2)
+
+            oTable.Rows.Item(1).Range.Font.Bold = True
+            oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+
+            '----------------------------------------------
+            'Insert a 16 x 3 table, fill it with data and change the column widths.
+            oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 16, 3)
+            oTable.Range.ParagraphFormat.SpaceAfter = 1
+            oTable.Range.Font.Size = font_sizze
+            oTable.Range.Font.Bold = False
+            oTable.Rows.Item(1).Range.Font.Bold = True
+            oTable.Rows.Item(1).Range.Font.Size = font_sizze + 2
+            row = 1
+            oTable.Cell(row, 1).Range.Text = "Conveyor Data"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Diameter trough"
+            oTable.Cell(row, 2).Range.Text = NumericUpDown1.Value
+            oTable.Cell(row, 3).Range.Text = "[mm]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Diameter pipe"
+            oTable.Cell(row, 2).Range.Text = ComboBox3.Text & " x " & ComboBox6.Text
+            oTable.Cell(row, 3).Range.Text = "[mm]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Pitch"
+            oTable.Cell(row, 2).Range.Text = NumericUpDown2.Value
+            oTable.Cell(row, 3).Range.Text = "[-]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Blade thicknes"
+            oTable.Cell(row, 2).Range.Text = NumericUpDown8.Value
+            oTable.Cell(row, 3).Range.Text = "[mm]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Length"
+            oTable.Cell(row, 2).Range.Text = NumericUpDown3.Value
+            oTable.Cell(row, 3).Range.Text = "[m]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Inclination angle"
+            oTable.Cell(row, 2).Range.Text = NumericUpDown4.Value
+            oTable.Cell(row, 3).Range.Text = "[degree]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Speed"
+            oTable.Cell(row, 2).Range.Text = NumericUpDown7.Value
+            oTable.Cell(row, 3).Range.Text = "[rpm]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Flight tip speed"
+            oTable.Cell(row, 2).Range.Text = TextBox11.Text
+            oTable.Cell(row, 3).Range.Text = "[m/s]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Filling "
+            oTable.Cell(row, 2).Range.Text = TextBox1.Text
+            oTable.Cell(row, 3).Range.Text = "[%]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Power ISO 7119"
+            oTable.Cell(row, 2).Range.Text = TextBox3.Text
+            oTable.Cell(row, 3).Range.Text = "[kW]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Power MEKOG"
+            oTable.Cell(row, 2).Range.Text = TextBox4.Text
+            oTable.Cell(row, 3).Range.Text = "[kW]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Power Installed"
+            oTable.Cell(row, 2).Range.Text = ComboBox5.Text
+            oTable.Cell(row, 3).Range.Text = "[kW]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Product"
+            oTable.Cell(row, 2).Range.Text = ComboBox1.Text.Remove(22)
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Product Flow"
+            oTable.Cell(row, 2).Range.Text = NumericUpDown5.Value
+            oTable.Cell(row, 3).Range.Text = "[ton/hr]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Product Density"
+            oTable.Cell(row, 2).Range.Text = NumericUpDown6.Value
+            oTable.Cell(row, 3).Range.Text = "[kg/m3]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Forward resistance"
+            oTable.Cell(row, 2).Range.Text = NumericUpDown9.Value
+            oTable.Cell(row, 3).Range.Text = "[kg/m3]"
+
+            oTable.Columns(1).Width = oWord.InchesToPoints(2.0)
+            oTable.Columns(2).Width = oWord.InchesToPoints(1.8)
+            oTable.Columns(3).Width = oWord.InchesToPoints(1.5)
+            oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+
+            '------------- Results----------------------
+            'Insert a 5 x 3 table, fill it with data and change the column widths.
+            oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 8, 3)
+            oTable.Range.ParagraphFormat.SpaceAfter = 1
+            oTable.Range.Font.Size = font_sizze
+            oTable.Range.Font.Bold = False
+            oTable.Rows.Item(1).Range.Font.Bold = True
+            oTable.Rows.Item(1).Range.Font.Size = font_sizze + 2
+            row = 1
+            oTable.Cell(row, 1).Range.Text = "Calculation Results"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Bending Stress"
+            oTable.Cell(row, 2).Range.Text = TextBox9.Text
+            oTable.Cell(row, 3).Range.Text = "[N/mm^2]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Torque Stress"
+            oTable.Cell(row, 2).Range.Text = TextBox12.Text
+            oTable.Cell(row, 3).Range.Text = "[N/mm^2]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Combined Stress"
+            oTable.Cell(row, 2).Range.Text = TextBox21.Text
+            oTable.Cell(row, 3).Range.Text = "[N/mm^2]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Selected steel"
+            oTable.Cell(row, 2).Range.Text = ComboBox2.Text
+            oTable.Cell(row, 3).Range.Text = "[-]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Max. Fatique stress"
+            oTable.Cell(row, 2).Range.Text = TextBox8.Text
+            oTable.Cell(row, 3).Range.Text = "[N/mm2]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Max Flex"
+            oTable.Cell(row, 2).Range.Text = TextBox20.Text
+            oTable.Cell(row, 3).Range.Text = "[mm]"
+            row += 1
+            oTable.Columns(1).Width = oWord.InchesToPoints(2.0)
+            oTable.Columns(2).Width = oWord.InchesToPoints(1.8)
+            oTable.Columns(3).Width = oWord.InchesToPoints(1.5)
+            oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+
+            ''-------------- Checks-------
+            'Insert a 5 x 1 table, fill it with data and change the column widths.
+            oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 5, 1)
+            oTable.Range.ParagraphFormat.SpaceAfter = 1
+            oTable.Range.Font.Size = font_sizze
+            oTable.Range.Font.Bold = False
+            oTable.Rows.Item(1).Range.Font.Bold = True
+            oTable.Rows.Item(1).Range.Font.Size = font_sizze + 2
+            row = 1
+            oTable.Cell(row, 1).Range.Text = "Checks "
+            row += 1
+            If (TextBox11.BackColor = Color.Red) Then
+                oTable.Cell(row, 1).Range.Text = "NOK, for ATEX, Flight speed > 1 m/s"
+            Else
+                oTable.Cell(row, 1).Range.Text = "OK, Flight speed for ATEX applications"
+            End If
+            row += 1
+            If NumericUpDown7.BackColor = Color.Red Then
+                oTable.Cell(row, 1).Range.Text = "NOK, Rotational speed > 45 rpm, too fast"
+            Else
+                oTable.Cell(row, 1).Range.Text = "OK, Rotational speed"
+            End If
+            row += 1
+            If TextBox1.BackColor = Color.Red Then
+                oTable.Cell(row, 1).Range.Text = "NOK, Filling percentage > 40%"
+            Else
+                oTable.Cell(row, 1).Range.Text = "OK, Filling percentage"
+            End If
+            row += 1
+            If TextBox21.BackColor = Color.Red Then
+                oTable.Cell(row, 1).Range.Text = "NOK, Combined pipe stress too high"
+            Else
+                oTable.Cell(row, 1).Range.Text = "OK, Combined pipe stress"
+            End If
+            oTable.Columns(1).Width = oWord.InchesToPoints(4.0)
+            oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+
+            '--------------Save file word file------------------
+            'See https://msdn.microsoft.com/en-us/library/63w57f4b.aspx
+            ufilename = "C:\temp\Conveyor_" & DateTime.Now.ToString("yyyy_MM_dd__HH_mm_ss") & ".docx"
+            oWord.ActiveDocument.SaveAs(ufilename)
+        Catch ex As Exception
+            MessageBox.Show("Line 683, " & ex.Message)  ' Show the exception's message.
+        End Try
+    End Sub
+
+    Private Sub costing_material()
+        Dim rho_materiaal, rho_kunststof, conv_length As Double
+        Dim dikte_trog, opp_trog, kopstaartplaat, weight_kopstaartplaat, kg_trog As Double
+        Dim weight_pipe, dikte_deksel, speling_trog, diam_schroef As Double
+        Dim kg_inlaat, kg_uitlaat, kg_lining, dikte_inlaat, dikte_uitlaat, dikte_lining, dikte_voet As Double
+        Dim kg_deksel, kg_voet, kg_schroefblad As Double
+        Dim hoek_spoed As Double
+        Dim nr_flights, spoed As Double
+        Dim kg_astap, dia_astap, lengte_astap As Double
+        Dim kg_afschermkap, hoogte_afschermkap_h, breedte_afschermkap_b, dikte_afschermkap_d As Double
+        Dim total_kg, tot_oppervlak As Double
+        Dim oppb_stopbus, oppb_afschermkap, oppb_astap, oppb_voet, oppb_uitlaat, oppb_inlaat, oppb_deksel, oppb_trog, oppb_kopstaartplaat, oppb_schroefblad, oppb_pipe As Double
+        Dim cost_kopstaartplaat, cost_trog, cost_pipe, cost_deksel, cost_inlaat, cost_uitlaat As Double
+        Dim cost_voet, cost_schroefblad, cost_astap, cost_lining, cost_afschermkap, cost_paint As Double
+        Dim cost_motorreductor, cost_koppeling, cost_lagers, cost_stopbuspakking, cost_pakking As Double
+        Dim stopbuslengte, stopbusdia, kg_stopbus, cost_stopbus As Double
+        Dim certificate_cost, totalplate_cost, total_cost As Double
+        Dim uren_engineering, uren_project, uren_fabrieks, tot_uren As Double
+        Dim engineering_prijs_uur, project_prijs_uur, fabriek_prijs_uur As Double
+        Dim prijs_engineering, prijs_project, prijs_fabriek As Double
+        Dim tot_prijsarbeid, geheel_totprijs, dekking, marge_cost, verkoopprijs, perc_mater, perc_arbeid As Double
+
+
+        conv_length = NumericUpDown3.Value             'lengte van de trog
+        TextBox40.Text = ComboBox2.Text                'materiaalsoort staal
+        TextBox41.Text = (pipe_OD * 1000).ToString     'diameter pijp
+        TextBox51.Text = NumericUpDown3.Value          'lengte trog
+        TextBox52.Text = ComboBox5.Text                'vermogen aandrijving
+
+        Select Case True
+            Case (RadioButton6.Checked)     'staal, s235JR
+                rho_materiaal = 7850
+                TextBox93.Text = "0.88" '"0.87"     'kop staart  '[€/kg]
+                TextBox94.Text = "2.09" '"0.87"     'schroefpijp
+                TextBox95.Text = "3.03" 'Rosner Hardox'"0.87"     'schroefblad
+                TextBox96.Text = "0.78" '"0.87"     'trog
+                TextBox97.Text = "0.78" '"0.87"     'deksel
+                TextBox92.Text = "2.09" '"1.52"     'astap ronde staf afm 60
+                TextBox91.Text = "0.78" '"0.87"     'inlaat
+                TextBox90.Text = "0.78" '"0.87"     'uitlaat
+                TextBox89.Text = "0.78" '"0.87"     'voet
+                TextBox85.Text = "0.78" '"0.87"     'afschermkap
+                TextBox84.Text = "0.25"     'lining
+                TextBox86.Text = "1.47"'"0.87"     'stopbus
+            Case (RadioButton7.Checked)     'rvs304, warmgewalst
+                rho_materiaal = 8000
+                TextBox93.Text = "2.45"     'kop staart 
+                TextBox94.Text = "2.45"     'schroefpijp
+                TextBox95.Text = "2.45"     'schroefblad
+                TextBox96.Text = "2.45"     'trog
+                TextBox97.Text = "2.45"     'deksel
+                TextBox92.Text = "1.52"     'astap [€/kg] materiaal is standaard van staal
+                TextBox91.Text = "2.45"     'inlaat
+                TextBox90.Text = "2.45"     'uitlaat
+                TextBox89.Text = "2.45"     'voet
+                TextBox85.Text = "2.45"     'afschermkap
+                TextBox84.Text = "0.25"     'lining  
+                TextBox86.Text = "2.45"     'stopbus
+            Case (RadioButton8.Checked)     'rvs316, warmgewalst(zie vtke-151401)
+                rho_materiaal = 7860
+                TextBox93.Text = "4.07" '"3.54"     'kop staart 
+                TextBox94.Text = "7.57" '"3.54"     'schroefpijp
+                TextBox95.Text = "6.07" '"3.54"     'schroefblad
+                TextBox96.Text = "4.07" '"3.54"     'trog
+                TextBox97.Text = "4.07" '"3.54"     'deksel
+                TextBox92.Text = "2.09" '"1.52"     'astap [€/kg] materiaal is standaard van staal
+                TextBox91.Text = "4.07" '"3.54"     'inlaat
+                TextBox90.Text = "4.07" '"3.54"     'uitlaat
+                TextBox89.Text = "4.07" '"3.54"     'voet
+                TextBox85.Text = "4.07" '"3.54"     'afschermkap
+                TextBox84.Text = "0.25"             'lining  
+                TextBox86.Text = "4.69" '"3.54"     'stopbus
+        End Select
+
+        dikte_trog = NumericUpDown14.Value / 1000
+        Select Case True
+            Case (RadioButton4.Checked)
+                opp_trog = 2 * PI * ((diam_trough / 2) * dikte_trog)
+                kopstaartplaat = diam_trough ^ 2
+
+            Case (RadioButton5.Checked)
+                opp_trog = (PI * (diam_trough / 2) * dikte_trog + 2 * dikte_trog * (0.045 + diam_trough / 2) + 0.075 * dikte_trog)   'troghoogte=trogbreedte/2+45mm, flens= 0.05+0.025
+                kopstaartplaat = (diam_trough * (diam_trough + 0.045))
+        End Select
+
+        weight_kopstaartplaat = kopstaartplaat * (NumericUpDown10.Value / 1000) * rho_materiaal
+        oppb_kopstaartplaat = 2 * kopstaartplaat
+
+        kg_trog = 2 * weight_kopstaartplaat + opp_trog * conv_length * rho_materiaal
+        oppb_trog = 2 * kopstaartplaat + 2 * opp_trog * conv_length / dikte_trog                'kuip zowel uitwendig als inwendig
+
+        Double.TryParse(ComboBox9.SelectedItem, pipe_OD)         ' ComboBox3 = ComboBox9
+        pipe_OD = pipe_OD / 1000
+        pipe_wall = ComboBox6.SelectedItem / 1000
+        pipe_ID = (pipe_OD - 2 * pipe_wall)
+        weight_pipe = rho_materiaal * PI / 4 * (pipe_OD ^ 2 - pipe_ID ^ 2) * conv_length
+        oppb_pipe = pipe_OD * PI * conv_length
+
+        NumericUpDown18.Value = NumericUpDown14.Value                         'dikte inlaat=dikte trog
+        NumericUpDown19.Value = NumericUpDown14.Value                         'dikte uitlaat=dikte trog
+        NumericUpDown26.Value = NumericUpDown15.Value                         'dikte afschermkap=dikte deksel
+
+        If diam_trough > 0.3015 Then                          'in [m], radiale speling schroef in kuip: tot diam 0.3m 7.5 mm, daarboven 10mm
+            speling_trog = 0.01
+        Else
+            speling_trog = 0.0075
+        End If
+        diam_schroef = diam_trough - 2 * speling_trog
+
+        dikte_deksel = NumericUpDown15.Value / 1000
+        kg_deksel = conv_length * dikte_deksel * (diam_trough + 0.075) * rho_materiaal     '50mm voor de horizontale flens en 25mm voor het stukje naar beneden
+        oppb_deksel = 2 * conv_length * (diam_trough + 0.075)                                 'zowel inwendig als uitwendig
+
+        dikte_inlaat = NumericUpDown18.Value / 1000
+        Select Case True
+            Case (RadioButton4.Checked)
+                kg_inlaat = 2 * 0.005 * (diam_trough + 0.01)                       '2*flens in breedterichting met 5mm uitsteeksel aan beide kanten
+                kg_inlaat += 2 * 0.005 * (diam_trough * 1.2)                       '2*flens in lengterichting (lengte=1.2*dia, breedte=dia)
+                kg_inlaat += 2 * ((0.5 * diam_trough + 0.075) * 1.2 * diam_trough) '2*plaat in lengterichting, 75mm uitstekend boven de ronding
+                kg_inlaat += 2 * diam_trough * (0.075 + diam_trough / 2)           '2*plaat in breedterichting, 75mm uitstekend boven de ronding
+                kg_inlaat -= 2 * 0.5 * PI * (diam_trough / 2) ^ 2                  '2* uitsparing in breedterichting omdat de uitlaat om de trog heen gaat
+                kg_inlaat *= NumericUpDown20.Value * dikte_inlaat * rho_materiaal
+            Case (RadioButton5.Checked)
+                kg_inlaat = 2 * 0.005 * (diam_trough + 0.01)                       '2*flens in breedterichting met 5mm uitsteeksel aan beide kanten
+                kg_inlaat += 2 * 0.005 * (diam_trough * 1.2)                       '2*flens in lengterichting (lengte=1.2*dia, breedte=dia)
+                kg_inlaat *= 2                                                      'flenzen aan zowel boven als onderkant(ter bevestiging aan trog)
+                kg_inlaat += 2 * (0.075 * 1.2 * diam_trough)                       '2*plaat in lengterichting, 75mm uitstekend boven deksel
+                kg_inlaat += 2 * diam_trough * 0.075                               '2*plaat in breedterichting, 75mm uitstekend boven deksel
+                kg_inlaat *= NumericUpDown20.Value * dikte_inlaat * rho_materiaal
+        End Select
+        oppb_inlaat = kg_inlaat / (dikte_inlaat * rho_materiaal)
+
+        dikte_uitlaat = NumericUpDown19.Value / 1000
+        kg_uitlaat = 2 * 0.005 * (diam_trough + 0.01)                       '2*flens in breedterichting met 5mm uitsteeksel aan beide kanten
+        kg_uitlaat += 2 * 0.005 * (diam_trough * 1.2)                       '2*flens in lengterichting (lengte=1.2*dia, breedte=dia)
+        kg_uitlaat += 2 * ((0.5 * diam_trough + 0.075) * 1.2 * diam_trough) '2*plaat in lengterichting, 75mm uitstekend boven de ronding
+        kg_uitlaat += 2 * diam_trough * (0.075 + diam_trough / 2)           '2*plaat in breedterichting, 75mm uitstekend boven de ronding
+        kg_uitlaat -= 2 * 0.5 * PI * (diam_trough / 2) ^ 2                  '2* uitsparing in breedterichting omdat de uitlaat om de trog heen gaat
+        kg_uitlaat *= NumericUpDown21.Value * dikte_uitlaat * rho_materiaal
+        oppb_uitlaat = kg_uitlaat / (dikte_uitlaat * rho_materiaal)
+
+        dikte_voet = NumericUpDown22.Value / 1000                           'van [mm] naar[m]
+        kg_voet = 1.2 * diam_trough * (0.3 + 0.8) * diam_trough             'oppervlakte van een verticale plaat van hoog 0.8*d bij 1.2*d breed + van een horizontale plaat van 0.3*d hoog bij 1.2*d breed
+        kg_voet -= 0.5 * PI * (diam_trough / 2) ^ 2                         'uitsparing in de voet door de trog
+        kg_voet *= rho_materiaal * NumericUpDown23.Value * dikte_voet
+        oppb_voet = 2 * kg_voet / (rho_materiaal * dikte_voet)              'voor en achterkant geverfd
+
+        NumericUpDown12.Value = NumericUpDown8.Value                    'Dikte schroefblad bij tab1 opgegeven
+        spoed = diam_schroef * NumericUpDown2.Value
+        nr_flights = conv_length / spoed
+        hoek_spoed = Atan(spoed / (PI * diam_schroef))                  '[rad]    
+        'MessageBox.Show(Round(conv_length, 3).ToString)
+
+        ' kg_schroefblad = rho_materiaal * (NumericUpDown12.Value / 1000) * (1 / 2) * (diam_schroef - pipe_OD) * Sqrt(1 + (PI * diam_schroef) ^ 2) / (diam_schroef * NumericUpDown2.Value)
+        kg_schroefblad = PI * rho_materiaal * (NumericUpDown12.Value / 1000) * 0.25 * nr_flights * (diam_schroef ^ 2 - pipe_OD ^ 2) / Cos(hoek_spoed)         ' DIT IS DE ECHTE FORMULE!!!!!
+        oppb_schroefblad = 2 * (kg_schroefblad / (NumericUpDown12.Value * rho_materiaal / 1000))
+
+        Double.TryParse(ComboBox13.SelectedItem, dia_astap)             '[mm] 
+        dia_astap = dia_astap / 1000                                    '[m]
+        lengte_astap = NumericUpDown24.Value / 1000                     'lengte in meters
+        kg_astap = 7850 * lengte_astap * PI * (dia_astap / 2) ^ 2       'het standaardmateriaal is staal, dit is het totale inkoopmateriaal, wat daarna nog wordt gefreesd/gedraaid
+        oppb_astap = PI * dia_astap * lengte_astap
+
+        rho_kunststof = 970                                             '[kg/m3] dichtheid HDPE
+        dikte_lining = NumericUpDown25.Value / 1000
+        kg_lining = rho_kunststof * (PI * diam_trough + 0.5 * (0.045 + diam_trough / 2)) * dikte_lining * conv_length
+
+
+        hoogte_afschermkap_h = NumericUpDown32.Value / 1000                         'van [mm] naar[m]
+        breedte_afschermkap_b = NumericUpDown31.Value / 1000                        'van [mm] naar[m]
+        dikte_afschermkap_d = NumericUpDown26.Value / 1000                          'van [mm] naar[m]
+        kg_afschermkap = rho_materiaal * dikte_afschermkap_d * (4 * hoogte_afschermkap_h * breedte_afschermkap_b + breedte_afschermkap_b ^ 2)  'aanname van afmeting 
+        oppb_afschermkap = kg_afschermkap / (rho_materiaal * dikte_afschermkap_d)
+
+        stopbuslengte = NumericUpDown28.Value / 1000                                  'in designscherm heet dit asafdichting
+        stopbusdia = NumericUpDown29.Value / 1000
+        kg_stopbus = rho_materiaal * stopbuslengte * PI * (stopbusdia / 2) ^ 2        'dit is het totale inkoopmateriaal, wat daarna nog wordt gefreesd/gedraaid
+        oppb_stopbus = PI * stopbusdia * stopbuslengte + 2 * PI * (stopbusdia / 2) ^ 2
+
+        total_kg = 2 * weight_kopstaartplaat + kg_trog + weight_pipe + kg_inlaat + kg_uitlaat + kg_voet + kg_schroefblad + kg_astap + kg_lining + kg_afschermkap + kg_stopbus
+        tot_oppervlak = oppb_stopbus + oppb_afschermkap + oppb_astap + oppb_voet + oppb_uitlaat + oppb_inlaat + oppb_kopstaartplaat + oppb_schroefblad + oppb_pipe
+        Select Case True
+            Case (RadioButton4.Checked)
+                total_kg = total_kg
+                tot_oppervlak = tot_oppervlak
+            Case (RadioButton5.Checked)
+                total_kg = total_kg + kg_deksel
+                tot_oppervlak = tot_oppervlak + oppb_deksel
+        End Select
+
+
+        TextBox42.Text = Round(weight_kopstaartplaat, 1).ToString
+        TextBox47.Text = Round(kg_trog, 1).ToString
+        TextBox45.Text = Round(weight_pipe, 1).ToString
+        TextBox48.Text = Round(kg_deksel, 1).ToString
+        TextBox43.Text = Round(kg_inlaat, 1).ToString
+        TextBox44.Text = Round(kg_uitlaat, 1).ToString
+        TextBox49.Text = Round(kg_voet, 1).ToString
+        TextBox46.Text = Round(kg_schroefblad, 1).ToString
+        TextBox54.Text = Round(kg_astap, 1).ToString
+        TextBox77.Text = Round(kg_lining, 1).ToString
+        TextBox76.Text = Round(kg_afschermkap, 1).ToString
+        TextBox87.Text = Round(kg_stopbus, 1).ToString
+        TextBox108.Text = Round(tot_oppervlak, 1).ToString
+
+        Try
+            cost_kopstaartplaat = weight_kopstaartplaat * Double.Parse(TextBox93.Text)
+            cost_trog = kg_trog * Double.Parse(TextBox96.Text)
+            cost_pipe = weight_pipe * Double.Parse(TextBox94.Text)
+            cost_deksel = kg_deksel * Double.Parse(TextBox97.Text)
+            cost_inlaat = kg_inlaat * Double.Parse(TextBox91.Text)
+            cost_uitlaat = kg_uitlaat * Double.Parse(TextBox90.Text)
+            cost_voet = kg_voet * Double.Parse(TextBox89.Text)
+            cost_schroefblad = kg_schroefblad * Double.Parse(TextBox95.Text)
+            cost_astap = kg_astap * Double.Parse(TextBox92.Text)
+            cost_lining = kg_lining * Double.Parse(TextBox84.Text)
+            cost_afschermkap = kg_afschermkap * Double.Parse(TextBox85.Text)
+            cost_stopbus = 300              '€, te ingewikkeld om precieze prijs te bepalen
+
+            totalplate_cost = 2 * cost_kopstaartplaat + cost_trog + cost_pipe + cost_inlaat + cost_uitlaat + cost_voet + cost_schroefblad + cost_astap + cost_lining + cost_afschermkap + cost_stopbus
+        Catch ex As Exception
+            'MessageBox.Show(ex.Message & "Line 1290")  ' Show the exception's message.
+        End Try
+
+        Select Case True
+            Case (RadioButton4.Checked)
+                totalplate_cost = totalplate_cost
+            Case (RadioButton5.Checked)
+                totalplate_cost = totalplate_cost + cost_deksel
+        End Select
+
+        Try
+            Dim words1() As String = lager(ComboBox8.SelectedIndex).Split(";")
+            cost_lagers = words1(1)
+
+            Dim words2() As String = coupl(ComboBox7.SelectedIndex + 1).Split(";")
+            cost_koppeling = words2(1) * words2(2)                                           'inclusief kortingspercentage van 45%
+
+            If CheckBox2.Checked Then
+                Dim words3() As String = motorred(ComboBox4.SelectedIndex + 1).Split(";")
+                cost_motorreductor = words3(3)
+            Else
+                cost_motorreductor = 0
+            End If
+
+            Dim words4() As String = ppaint(ComboBox12.SelectedIndex + 1).Split(";")
+            cost_paint = words4(1) * tot_oppervlak
+            Dim words5() As String = pakking(ComboBox10.SelectedIndex + 1).Split(";")
+            cost_pakking = words5(1)
+            'Dim words6() As String = lining(ComboBox11.SelectedIndex + 1).Split(";")
+            'cost_lining = words6(1)
+
+        Catch ex As Exception
+            'MessageBox.Show(ex.Message & "Line 1290")  ' Show the exception's message.
+        End Try
+
+
+        certificate_cost = 50 * NumericUpDown27.Value               'ervan uitgaande dat een certificaat €50/stuk kost
+        total_cost = totalplate_cost + cost_motorreductor + cost_koppeling + cost_lagers + cost_stopbuspakking + cost_paint + certificate_cost + cost_pakking
+
+        TextBox63.Text = Round(cost_lagers, 2).ToString
+        TextBox57.Text = Round(cost_motorreductor, 2).ToString
+        TextBox58.Text = Round(cost_koppeling, 2).ToString
+        TextBox107.Text = Round(cost_paint, 2).ToString
+        TextBox104.Text = Round(cost_pakking, 2).ToString
+
+        TextBox56.Text = Round(cost_kopstaartplaat, 1).ToString
+        TextBox61.Text = Round(cost_trog, 1).ToString
+        TextBox59.Text = Round(cost_pipe, 1).ToString
+        TextBox62.Text = Round(cost_deksel, 1).ToString
+        TextBox79.Text = Round(cost_inlaat, 1).ToString
+        TextBox80.Text = Round(cost_uitlaat, 1).ToString
+        TextBox81.Text = Round(cost_voet, 1).ToString
+        TextBox60.Text = Round(cost_schroefblad, 1).ToString
+        TextBox78.Text = Round(cost_astap, 1).ToString
+        TextBox83.Text = Round(cost_lining, 1).ToString
+        TextBox82.Text = Round(cost_afschermkap, 1).ToString
+        TextBox64.Text = Round(cost_stopbus, 1).ToString
+
+        ''Tabblad sales price
+
+        uren_engineering = NumericUpDown30.Value
+        uren_project = NumericUpDown33.Value
+        uren_fabrieks = NumericUpDown34.Value
+        engineering_prijs_uur = 80
+        project_prijs_uur = 100
+        fabriek_prijs_uur = 60
+        prijs_engineering = uren_engineering * engineering_prijs_uur
+        prijs_project = uren_project * project_prijs_uur
+        prijs_fabriek = uren_fabrieks * fabriek_prijs_uur
+        tot_uren = uren_engineering + uren_project + uren_fabrieks
+
+        tot_prijsarbeid = prijs_engineering + prijs_project + prijs_fabriek
+        geheel_totprijs = total_cost + tot_prijsarbeid
+        perc_mater = 100 * total_cost / geheel_totprijs
+        perc_arbeid = 100 * tot_prijsarbeid / geheel_totprijs
+        dekking = geheel_totprijs * 0.175
+        marge_cost = (geheel_totprijs + dekking) * 0.1
+        verkoopprijs = geheel_totprijs + dekking + marge_cost
+
+        TextBox65.Text = Round(total_kg, 0).ToString
+        TextBox55.Text = Round(totalplate_cost, 0).ToString
+        TextBox68.Text = Round(engineering_prijs_uur, 0).ToString
+        TextBox67.Text = Round(prijs_engineering, 1).ToString
+        TextBox69.Text = Round(project_prijs_uur, 0).ToString
+        TextBox70.Text = Round(prijs_project, 0).ToString
+        TextBox71.Text = Round(fabriek_prijs_uur, 0).ToString
+        TextBox72.Text = Round(prijs_fabriek, 0).ToString
+        TextBox106.Text = Round(tot_uren, 0).ToString
+
+        TextBox66.Text = Round(certificate_cost, 0).ToString
+        TextBox103.Text = Round(total_cost, 1).ToString
+        TextBox98.Text = Round(tot_prijsarbeid, 0).ToString
+        TextBox100.Text = Round(perc_mater, 0).ToString
+        TextBox101.Text = Round(perc_arbeid, 0).ToString
+        TextBox73.Text = Round(geheel_totprijs, 0).ToString
+        TextBox74.Text = Round(dekking, 0).ToString
+        TextBox99.Text = Round(marge_cost, 0).ToString
+        TextBox75.Text = Round(verkoopprijs, 0).ToString
 
     End Sub
 End Class
