@@ -1,5 +1,5 @@
 ﻿Imports System.Math
-Imports System
+Imports System.IO
 Imports System.Globalization
 Imports System.Threading
 Imports Word = Microsoft.Office.Interop.Word
@@ -718,7 +718,8 @@ Public Class Form1
         Dim iso_power As Double         'Total Power 
         Dim height As Double            'Height difference due to inclination 
         Dim mekog As Double             'Mekog installed power
-        Dim flight_speed As Double         'Flight speed
+        Dim flight_speed As Double      'Flight speed
+        Dim r_time As Double            'Flight speed
 
         '-------------- get data----------
         diam_trough = NumericUpDown1.Value / 1000               'Trough width[m]
@@ -776,11 +777,15 @@ Public Class Form1
         '--------------- MEKOG -----------------
         mekog = Round(flow_hr * conv_length / (40 * 1.36 * 1000), 1)    '[kW]
 
+        '-------------- Retention time --------------------
+        r_time = conv_length / (speed / 60 * pitch)                     '[sec]
+
         '--------------- present results------------
         TextBox1.Text = filling_perc.ToString
         TextBox3.Text = iso_power.ToString
         TextBox4.Text = mekog.ToString
-        'End If
+        TextBox110.Text = Round(r_time, 0).ToString
+
     End Sub
 
     Private Sub Label74_Click(sender As Object, e As EventArgs) 
@@ -1741,8 +1746,13 @@ Public Class Form1
 
             '--------------Save file word file------------------
             'See https://msdn.microsoft.com/en-us/library/63w57f4b.aspx
-            ufilename = "C:\temp\Conveyor_" & DateTime.Now.ToString("yyyy_MM_dd__HH_mm_ss") & ".docx"
-            oWord.ActiveDocument.SaveAs(ufilename)
+
+            ufilename = "N:\Engineering\VBasic\Rapport_copy\Conveyor_report_" & DateTime.Now.ToString("yyyy_MM_dd__HH_mm_ss") & ".docx"
+
+            If Directory.Exists("N:\Engineering\VBasic\Rapport_copy") Then
+                GroupBox12.Text = "File saved at " & ufilename
+                oWord.ActiveDocument.SaveAs(ufilename)
+            End If
         Catch ex As Exception
             MessageBox.Show("Line 683, " & ex.Message)  ' Show the exception's message.
         End Try
@@ -1997,8 +2007,8 @@ Public Class Form1
             cost_paint = words4(1) * tot_oppervlak
             Dim words5() As String = pakking(ComboBox10.SelectedIndex + 1).Split(";")
             cost_pakking = words5(1)
-            'Dim words6() As String = lining(ComboBox11.SelectedIndex + 1).Split(";")
-            'cost_lining = words6(1)
+            Dim words6() As String = lining(ComboBox11.SelectedIndex + 1).Split(";")
+            cost_lining = words6(1)
 
         Catch ex As Exception
             'MessageBox.Show(ex.Message & "Line 1290")  ' Show the exception's message.

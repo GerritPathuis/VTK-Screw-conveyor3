@@ -353,6 +353,8 @@ Partial Class Form1
         Me.Label129 = New System.Windows.Forms.Label()
         Me.Label130 = New System.Windows.Forms.Label()
         Me.Label131 = New System.Windows.Forms.Label()
+        Me.TextBox110 = New System.Windows.Forms.TextBox()
+        Me.Label74 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox17.SuspendLayout()
@@ -708,6 +710,8 @@ Partial Class Form1
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.TextBox110)
+        Me.GroupBox1.Controls.Add(Me.Label74)
         Me.GroupBox1.Controls.Add(Me.TextBox11)
         Me.GroupBox1.Controls.Add(Me.Label30)
         Me.GroupBox1.Controls.Add(Me.NumericUpDown1)
@@ -732,7 +736,7 @@ Partial Class Form1
         Me.GroupBox1.Controls.Add(Me.Label1)
         Me.GroupBox1.Location = New System.Drawing.Point(8, 114)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(370, 312)
+        Me.GroupBox1.Size = New System.Drawing.Size(370, 351)
         Me.GroupBox1.TabIndex = 11
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Conveyor data"
@@ -2390,6 +2394,7 @@ Partial Class Form1
         Me.NumericUpDown35.Name = "NumericUpDown35"
         Me.NumericUpDown35.Size = New System.Drawing.Size(41, 20)
         Me.NumericUpDown35.TabIndex = 141
+        Me.NumericUpDown35.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'TextBox102
         '
@@ -2418,6 +2423,7 @@ Partial Class Form1
         Me.NumericUpDown32.Name = "NumericUpDown32"
         Me.NumericUpDown32.Size = New System.Drawing.Size(56, 20)
         Me.NumericUpDown32.TabIndex = 137
+        Me.NumericUpDown32.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.NumericUpDown32.Value = New Decimal(New Integer() {200, 0, 0, 0})
         '
         'NumericUpDown31
@@ -2428,6 +2434,7 @@ Partial Class Form1
         Me.NumericUpDown31.Name = "NumericUpDown31"
         Me.NumericUpDown31.Size = New System.Drawing.Size(56, 20)
         Me.NumericUpDown31.TabIndex = 136
+        Me.NumericUpDown31.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.NumericUpDown31.Value = New Decimal(New Integer() {200, 0, 0, 0})
         '
         'TextBox87
@@ -2455,6 +2462,7 @@ Partial Class Form1
         Me.NumericUpDown29.Name = "NumericUpDown29"
         Me.NumericUpDown29.Size = New System.Drawing.Size(41, 20)
         Me.NumericUpDown29.TabIndex = 131
+        Me.NumericUpDown29.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.NumericUpDown29.Value = New Decimal(New Integer() {130, 0, 0, 0})
         '
         'NumericUpDown28
@@ -2465,6 +2473,7 @@ Partial Class Form1
         Me.NumericUpDown28.Name = "NumericUpDown28"
         Me.NumericUpDown28.Size = New System.Drawing.Size(39, 20)
         Me.NumericUpDown28.TabIndex = 130
+        Me.NumericUpDown28.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.NumericUpDown28.Value = New Decimal(New Integer() {100, 0, 0, 0})
         '
         'NumericUpDown26
@@ -2475,6 +2484,7 @@ Partial Class Form1
         Me.NumericUpDown26.Name = "NumericUpDown26"
         Me.NumericUpDown26.Size = New System.Drawing.Size(56, 20)
         Me.NumericUpDown26.TabIndex = 125
+        Me.NumericUpDown26.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.NumericUpDown26.Value = New Decimal(New Integer() {4, 0, 0, 0})
         '
         'NumericUpDown25
@@ -2484,6 +2494,7 @@ Partial Class Form1
         Me.NumericUpDown25.Name = "NumericUpDown25"
         Me.NumericUpDown25.Size = New System.Drawing.Size(56, 20)
         Me.NumericUpDown25.TabIndex = 124
+        Me.NumericUpDown25.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.NumericUpDown25.Value = New Decimal(New Integer() {4, 0, 0, 0})
         '
         'NumericUpDown24
@@ -2494,6 +2505,7 @@ Partial Class Form1
         Me.NumericUpDown24.Name = "NumericUpDown24"
         Me.NumericUpDown24.Size = New System.Drawing.Size(56, 20)
         Me.NumericUpDown24.TabIndex = 123
+        Me.NumericUpDown24.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.NumericUpDown24.Value = New Decimal(New Integer() {100, 0, 0, 0})
         '
         'NumericUpDown23
@@ -2503,6 +2515,7 @@ Partial Class Form1
         Me.NumericUpDown23.Name = "NumericUpDown23"
         Me.NumericUpDown23.Size = New System.Drawing.Size(34, 20)
         Me.NumericUpDown23.TabIndex = 122
+        Me.NumericUpDown23.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.NumericUpDown23.Value = New Decimal(New Integer() {4, 0, 0, 0})
         '
         'NumericUpDown22
@@ -2512,6 +2525,7 @@ Partial Class Form1
         Me.NumericUpDown22.Name = "NumericUpDown22"
         Me.NumericUpDown22.Size = New System.Drawing.Size(56, 20)
         Me.NumericUpDown22.TabIndex = 121
+        Me.NumericUpDown22.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.NumericUpDown22.Value = New Decimal(New Integer() {4, 0, 0, 0})
         '
         'NumericUpDown21
@@ -2521,6 +2535,7 @@ Partial Class Form1
         Me.NumericUpDown21.Name = "NumericUpDown21"
         Me.NumericUpDown21.Size = New System.Drawing.Size(34, 20)
         Me.NumericUpDown21.TabIndex = 120
+        Me.NumericUpDown21.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.NumericUpDown21.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'NumericUpDown20
@@ -2530,6 +2545,7 @@ Partial Class Form1
         Me.NumericUpDown20.Name = "NumericUpDown20"
         Me.NumericUpDown20.Size = New System.Drawing.Size(34, 20)
         Me.NumericUpDown20.TabIndex = 119
+        Me.NumericUpDown20.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.NumericUpDown20.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'Label109
@@ -2643,6 +2659,7 @@ Partial Class Form1
         Me.NumericUpDown19.Name = "NumericUpDown19"
         Me.NumericUpDown19.Size = New System.Drawing.Size(56, 20)
         Me.NumericUpDown19.TabIndex = 104
+        Me.NumericUpDown19.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.NumericUpDown19.Value = New Decimal(New Integer() {4, 0, 0, 0})
         '
         'Label107
@@ -2664,6 +2681,7 @@ Partial Class Form1
         Me.NumericUpDown18.Name = "NumericUpDown18"
         Me.NumericUpDown18.Size = New System.Drawing.Size(56, 20)
         Me.NumericUpDown18.TabIndex = 101
+        Me.NumericUpDown18.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.NumericUpDown18.Value = New Decimal(New Integer() {4, 0, 0, 0})
         '
         'TextBox83
@@ -3036,6 +3054,7 @@ Partial Class Form1
         Me.NumericUpDown15.Name = "NumericUpDown15"
         Me.NumericUpDown15.Size = New System.Drawing.Size(56, 20)
         Me.NumericUpDown15.TabIndex = 42
+        Me.NumericUpDown15.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.NumericUpDown15.Value = New Decimal(New Integer() {3, 0, 0, 0})
         '
         'Label66
@@ -3074,6 +3093,7 @@ Partial Class Form1
         Me.NumericUpDown14.Name = "NumericUpDown14"
         Me.NumericUpDown14.Size = New System.Drawing.Size(56, 20)
         Me.NumericUpDown14.TabIndex = 41
+        Me.NumericUpDown14.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.NumericUpDown14.Value = New Decimal(New Integer() {6, 0, 0, 0})
         '
         'Label64
@@ -3101,6 +3121,7 @@ Partial Class Form1
         Me.NumericUpDown12.Name = "NumericUpDown12"
         Me.NumericUpDown12.Size = New System.Drawing.Size(56, 20)
         Me.NumericUpDown12.TabIndex = 40
+        Me.NumericUpDown12.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.NumericUpDown12.Value = New Decimal(New Integer() {6, 0, 0, 0})
         '
         'TextBox47
@@ -3198,6 +3219,7 @@ Partial Class Form1
         Me.NumericUpDown10.Name = "NumericUpDown10"
         Me.NumericUpDown10.Size = New System.Drawing.Size(56, 20)
         Me.NumericUpDown10.TabIndex = 30
+        Me.NumericUpDown10.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.NumericUpDown10.Value = New Decimal(New Integer() {8, 0, 0, 0})
         '
         'TabPage5
@@ -3224,9 +3246,9 @@ Partial Class Form1
         '
         'Button6
         '
-        Me.Button6.Location = New System.Drawing.Point(672, 320)
+        Me.Button6.Location = New System.Drawing.Point(632, 320)
         Me.Button6.Name = "Button6"
-        Me.Button6.Size = New System.Drawing.Size(116, 20)
+        Me.Button6.Size = New System.Drawing.Size(172, 50)
         Me.Button6.TabIndex = 56
         Me.Button6.Text = "Print to word"
         Me.Button6.UseVisualStyleBackColor = True
@@ -3271,7 +3293,7 @@ Partial Class Form1
         Me.GroupBox16.Controls.Add(Me.Label94)
         Me.GroupBox16.Location = New System.Drawing.Point(441, 12)
         Me.GroupBox16.Name = "GroupBox16"
-        Me.GroupBox16.Size = New System.Drawing.Size(333, 267)
+        Me.GroupBox16.Size = New System.Drawing.Size(363, 267)
         Me.GroupBox16.TabIndex = 54
         Me.GroupBox16.TabStop = False
         Me.GroupBox16.Text = "Totalen"
@@ -3901,6 +3923,25 @@ Partial Class Form1
         Me.Label131.TabIndex = 48
         Me.Label131.Text = "Engineering uren"
         '
+        'TextBox110
+        '
+        Me.TextBox110.Enabled = False
+        Me.TextBox110.Location = New System.Drawing.Point(203, 302)
+        Me.TextBox110.Name = "TextBox110"
+        Me.TextBox110.Size = New System.Drawing.Size(57, 20)
+        Me.TextBox110.TabIndex = 28
+        Me.TextBox110.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label74
+        '
+        Me.Label74.AutoSize = True
+        Me.Label74.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label74.Location = New System.Drawing.Point(14, 302)
+        Me.Label74.Name = "Label74"
+        Me.Label74.Size = New System.Drawing.Size(126, 16)
+        Me.Label74.TabIndex = 27
+        Me.Label74.Text = "Retention time [sec]"
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4323,4 +4364,6 @@ Partial Class Form1
     Friend WithEvents Label58 As Label
     Friend WithEvents Label32 As Label
     Friend WithEvents Label31 As Label
+    Friend WithEvents TextBox110 As TextBox
+    Friend WithEvents Label74 As Label
 End Class
