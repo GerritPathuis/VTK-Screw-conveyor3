@@ -624,13 +624,13 @@ Public Class Form1
       "Flowtite wit, 7*2.5 ;53.25",
       "Flowtite wit, 10*3 ;53.25",
       "230x133x6 Silicone wit;8.15",
-      "200 ;3103.25",
-      "210 ;1103.25",
-      "260;2103.25",
-      "310 ;3103.25",
-      "350 ;4103.25",
-      "400 ;1103.25",
-      "500 ;4103.25"}
+      "200; 50.00",
+      "210; 50.00",
+      "260; 50.00",
+      "310; 60.00",
+      "350; 60.00",
+      "400; 70.00",
+      "500; 80.00"}
 
     Public Shared lining() As String =
       {"100 ;1103.25",
@@ -787,11 +787,6 @@ Public Class Form1
         TextBox110.Text = Round(r_time, 0).ToString
 
     End Sub
-
-    Private Sub Label74_Click(sender As Object, e As EventArgs) 
-
-    End Sub
-
     Private Sub ComboBox3_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox3.SelectedIndexChanged
         pipe_wall_combo()   'Put new wall thicknesses in the combobox
     End Sub
@@ -800,7 +795,7 @@ Public Class Form1
         save_to_disk()
     End Sub
 
-    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown29.ValueChanged, NumericUpDown28.ValueChanged, NumericUpDown24.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown22.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown19.ValueChanged, NumericUpDown18.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown12.ValueChanged, NumericUpDown10.ValueChanged, NumericUpDown32.ValueChanged, NumericUpDown31.ValueChanged, NumericUpDown26.ValueChanged, NumericUpDown25.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox4.SelectedIndexChanged, ComboBox13.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox11.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox8.CheckedChanged, CheckBox5.CheckedChanged, CheckBox4.CheckedChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged
+    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown29.ValueChanged, NumericUpDown28.ValueChanged, NumericUpDown24.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown22.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown19.ValueChanged, NumericUpDown18.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown12.ValueChanged, NumericUpDown10.ValueChanged, NumericUpDown32.ValueChanged, NumericUpDown31.ValueChanged, NumericUpDown26.ValueChanged, NumericUpDown25.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox4.SelectedIndexChanged, ComboBox13.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox11.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox8.CheckedChanged, CheckBox5.CheckedChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged
         costing_material()
     End Sub
 
@@ -819,11 +814,6 @@ Public Class Form1
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click, TabPage5.Enter, NumericUpDown34.ValueChanged, NumericUpDown33.ValueChanged, NumericUpDown30.ValueChanged, NumericUpDown27.ValueChanged
         costing_material()
     End Sub
-
-    Private Sub GroupBox14_Enter(sender As Object, e As EventArgs) Handles GroupBox14.Enter
-
-    End Sub
-
     'Please note complete calculation in [m] nit [mm]
     Private Sub calulate_stress_1()
         Dim qq As Double
@@ -1020,10 +1010,9 @@ Public Class Form1
                     TextBox21.BackColor = Color.LightGreen
                 End If
 
-
-                '---------------- Max doorbuiging gelijkmatige belasting f= 5.Q.L^4/(384 .E.I) --------------------
-                '---------------- materiaal kolom is niet meegenomen ----------------------------------------------
-                Elast = 210 * 1000 ^ 2                                   '[N/mm2]
+            '---------------- Max doorbuiging gelijkmatige belasting f= 5.Q.L^4/(384 .E.I) --------------------
+            '---------------- materiaal kolom is niet meegenomen ----------------------------------------------
+            Elast = 210 * 1000 ^ 2                                   '[N/mm2]
 
                 Q_Deflect_max = (5 * Q_load_comb * conv_length ^ 4) / (384 * Elast * pipe_Ix)
                 TextBox20.Text = Round(Q_Deflect_max, 1).ToString     '[mm]
@@ -1081,7 +1070,6 @@ Public Class Form1
         Next
         ComboBox6.SelectedIndex = 1
     End Sub
-
     Private Sub motorreductor()
         Dim words() As String
 
@@ -1092,11 +1080,9 @@ Public Class Form1
             ComboBox4.Items.Add(Trim(words(0)))
         Next hh
         ComboBox4.SelectedIndex = 2
-
     End Sub
     Private Sub Coupling_combo()
         Dim words() As String
-
 
         ComboBox7.Items.Clear()
         '-------Fill combobox7,  selection------------------
@@ -1107,7 +1093,6 @@ Public Class Form1
         ComboBox7.SelectedIndex = 1
 
         words = coupl(ComboBox7.SelectedIndex + 1).Split(";")
-
     End Sub
     Private Sub Lager_combo()
         Dim words() As String
@@ -1121,7 +1106,6 @@ Public Class Form1
         ComboBox8.SelectedIndex = 1
 
         words = lager(ComboBox8.SelectedIndex).Split(";")
-
     End Sub
 
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
@@ -1130,8 +1114,6 @@ Public Class Form1
         Dim oTable As Word.Table
         Dim oPara1, oPara2 As Word.Paragraph
         Dim row, font_sizze As Integer
-
-
 
         'Start Word and open the document template. 
         font_sizze = 9
@@ -1772,7 +1754,7 @@ Public Class Form1
         Dim oppb_stopbus, oppb_afschermkap, oppb_astap, oppb_voet, oppb_uitlaat, oppb_inlaat, oppb_deksel, oppb_trog, oppb_kopstaartplaat, oppb_schroefblad, oppb_pipe As Double
         Dim cost_kopstaartplaat, cost_trog, cost_pipe, cost_deksel, cost_inlaat, cost_uitlaat As Double
         Dim cost_voet, cost_schroefblad, cost_astap, cost_lining, cost_afschermkap, cost_paint As Double
-        Dim cost_motorreductor, cost_koppeling, cost_lagers, cost_stopbuspakking, cost_pakking As Double
+        Dim cost_motorreductor, cost_koppeling, cost_lagers, cost_stopbuspakking, cost_pakking, cost_hang As Double
         Dim stopbuslengte, stopbusdia, kg_stopbus, cost_stopbus As Double
         Dim certificate_cost, totalplate_cost, total_cost As Double
         Dim uren_engineering, uren_project, uren_fabrieks, tot_uren As Double
@@ -1948,7 +1930,6 @@ Public Class Form1
                 tot_oppervlak = tot_oppervlak + oppb_deksel
         End Select
 
-
         TextBox42.Text = Round(weight_kopstaartplaat, 1).ToString
         TextBox47.Text = Round(kg_trog, 1).ToString
         TextBox45.Text = Round(weight_pipe, 1).ToString
@@ -1968,6 +1949,8 @@ Public Class Form1
             cost_trog = kg_trog * Double.Parse(TextBox96.Text)
             cost_pipe = weight_pipe * Double.Parse(TextBox94.Text)
             cost_deksel = kg_deksel * Double.Parse(TextBox97.Text)
+            If Not CheckBox5.Checked Then cost_deksel = 0
+
             cost_inlaat = kg_inlaat * Double.Parse(TextBox91.Text)
             cost_uitlaat = kg_uitlaat * Double.Parse(TextBox90.Text)
             cost_voet = kg_voet * Double.Parse(TextBox89.Text)
@@ -1976,8 +1959,13 @@ Public Class Form1
             cost_lining = kg_lining * Double.Parse(TextBox84.Text)
             cost_afschermkap = kg_afschermkap * Double.Parse(TextBox85.Text)
             cost_stopbus = 300              '€, te ingewikkeld om precieze prijs te bepalen
+            If Not CheckBox8.Checked Then cost_stopbus = 0
 
-            totalplate_cost = 2 * cost_kopstaartplaat + cost_trog + cost_pipe + cost_inlaat + cost_uitlaat + cost_voet + cost_schroefblad + cost_astap + cost_lining + cost_afschermkap + cost_stopbus
+            cost_hang = NumericUpDown35.Value * 500
+
+            totalplate_cost = 2 * cost_kopstaartplaat + cost_trog + cost_pipe + cost_inlaat + cost_uitlaat + cost_voet
+            totalplate_cost += cost_schroefblad + cost_astap + cost_lining + cost_afschermkap + cost_stopbus + cost_hang
+
         Catch ex As Exception
             'MessageBox.Show(ex.Message & "Line 1290")  ' Show the exception's message.
         End Try
@@ -1995,25 +1983,24 @@ Public Class Form1
 
             Dim words2() As String = coupl(ComboBox7.SelectedIndex + 1).Split(";")
             cost_koppeling = words2(1) * words2(2)                                           'inclusief kortingspercentage van 45%
+            If Not CheckBox3.Checked Then cost_koppeling = 0
 
-            If CheckBox2.Checked Then
-                Dim words3() As String = motorred(ComboBox4.SelectedIndex + 1).Split(";")
+            Dim words3() As String = motorred(ComboBox4.SelectedIndex + 1).Split(";")
                 cost_motorreductor = words3(3)
-            Else
-                cost_motorreductor = 0
-            End If
+            If Not CheckBox2.Checked Then cost_motorreductor = 0
 
             Dim words4() As String = ppaint(ComboBox12.SelectedIndex + 1).Split(";")
             cost_paint = words4(1) * tot_oppervlak
+
             Dim words5() As String = pakking(ComboBox10.SelectedIndex + 1).Split(";")
             cost_pakking = words5(1)
+
             Dim words6() As String = lining(ComboBox11.SelectedIndex + 1).Split(";")
             cost_lining = words6(1)
 
         Catch ex As Exception
             'MessageBox.Show(ex.Message & "Line 1290")  ' Show the exception's message.
         End Try
-
 
         certificate_cost = 50 * NumericUpDown27.Value               'ervan uitgaande dat een certificaat €50/stuk kost
         total_cost = totalplate_cost + cost_motorreductor + cost_koppeling + cost_lagers + cost_stopbuspakking + cost_paint + certificate_cost + cost_pakking
@@ -2036,6 +2023,8 @@ Public Class Form1
         TextBox83.Text = Round(cost_lining, 1).ToString
         TextBox82.Text = Round(cost_afschermkap, 1).ToString
         TextBox64.Text = Round(cost_stopbus, 1).ToString
+        TextBox88.Text = Round(certificate_cost, 1).ToString
+        TextBox102.Text = Round(cost_hang, 1).ToString
 
         ''Tabblad sales price
 
@@ -2058,10 +2047,10 @@ Public Class Form1
         marge_cost = (geheel_totprijs + dekking) * 0.1
         verkoopprijs = geheel_totprijs + dekking + marge_cost
 
-        TextBox65.Text = Round(total_kg, 0).ToString
-        TextBox55.Text = Round(totalplate_cost, 0).ToString
-        TextBox68.Text = Round(engineering_prijs_uur, 0).ToString
-        TextBox67.Text = Round(prijs_engineering, 1).ToString
+        TextBox109.Text = Round(total_kg, 0).ToString
+        TextBox68.Text = Round(totalplate_cost, 0).ToString
+        TextBox105.Text = Round(engineering_prijs_uur, 0).ToString
+        TextBox55.Text = Round(prijs_engineering, 1).ToString
         TextBox69.Text = Round(project_prijs_uur, 0).ToString
         TextBox70.Text = Round(prijs_project, 0).ToString
         TextBox71.Text = Round(fabriek_prijs_uur, 0).ToString
