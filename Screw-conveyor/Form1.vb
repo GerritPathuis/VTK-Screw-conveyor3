@@ -547,53 +547,54 @@ Public Class Form1
      {"Description;cost",
       "10-20m2 75um zink compound;13.25",
       "20-100m2 75um zink compound;12.50",
-      "10-20m2 150um primer en epoxy aflak (binnen);17.0",
-      "20-100m2 150um primer en epoxy aflak (binnen);16.40",
-      "10-20m2 150um primer en polyurethaan aflak (buiten)lichte belasting;17.90",
-      "20-100m2 150um primer en polyurethaan aflak (buiten)lichte belasting;17.25",
-      "10-20m2 225um primer, midcoating en polyurethaan aflak (buiten)middelzware belasting;18.60",
-      "20-100m2 225um primer, midcoating en polyurethaan aflak (buiten)middelzware belasting;18.15",
-      "10-20m2 330um primer, midcoating en polyurethaan aflak (buiten)zware belasting;20.75",
-      "20-100m2 330um primer, midcoating en polyurethaan aflak (buiten)zware belasting;20.0",
-      "10-20m2 75um primer, laag hittebestendig zincsilicaat -90C tot +400C anticorrosief (zonder afwerklaag);13.25",
-      "20-100m2 75um primer, laag hittebestendig zincsilicaat -90C tot +400C anticorrosief (zonder afwerklaag);12.50",
-      "10-20m2 120um primer, hittebestendig zincsilicaat -90C tot +400C anticorrosief (met afwerklaag);19.50",
-      "20-100m2 120um primer, hittebestendig zincsilicaat -90C tot +400C anticorrosief (met afwerklaag);18.0",
-      "10-20m2 250um primer, midcoating en polyurethaan aflak (buiten)zware belasting;23.0",
-      "20-100m2 250um primer, midcoating en polyurethaan aflak (buiten)zware belasting;22.0"}
+      "10-20m2 150um primer en epoxy (binnen);17.0",
+      "20-100m2 150um primer en epoxy (binnen);16.40",
+      "10-20m2 150um primer en polyurethaan (buiten);17.90",
+      "20-100m2 150um primer en polyurethaan (buiten);17.25",
+      "10-20m2 225um primer, midcoat, polyurethaan (buiten);18.60",
+      "20-100m2 225um primer, midcoat, polyurethaan (buiten);18.15",
+      "10-20m2 330um primer, midcoat, polyurethaan (buiten);20.75",
+      "20-100m2 330um primer, midcoat, polyurethaan (buiten);20.0",
+      "10-20m2 75um primer, zincsilicaat -90C/+400C;13.25",
+      "20-100m2 75um primer,  zincsilicaat -90C tot +400C;12.50",
+      "10-20m2 120um primer,  zincsilicaat -90C tot +400C;19.50",
+      "20-100m2 120um primer,  zincsilicaat -90C tot +400C;18.0",
+      "10-20m2 250um primer, midcoat, polyurethaan;23.0",
+      "20-100m2 250um primer, midcoat, polyurethaan;22.0"}
 
 
     Public Shared lager() As String = 'T=trekbus, C=cylindrisch, zie SKFboekje
-     {"40 mm Trekbus;120.45",
+     {"diameter;prijs",
+     "40 mm Trekbus;120.45",
      "50 mm Trekbus;152.57",
-      "55 mm Trekbus;0",
+      "55 mm Trekbus;170",
       "60 mm Trekbus;196.23",
-      "65 mm Trekbus;0",
+      "65 mm Trekbus;250",
       "70 mm Trekbus;311.98",
-      "75 mm Trekbus;0",
+      "75 mm Trekbus;315",
       "80 mm Trekbus;318.59",
-      "85 mm Trekbus;0",
+      "85 mm Trekbus;370",
       "90 mm Trekbus;420.29",
       "100 mm Trekbus;553.54",
       "110 mm Trekbus;590.63",
       "115 mm Trekbus;729.07",
-      "120 mm Trekbus;0",
+      "120 mm Trekbus;800",
       "125 mm Trekbus;901.85",
-      "130 mm Trekbus;0",
+      "130 mm Trekbus;1000",
        "135 mm Trekbus;1111.90",
       "140 mm Trekbus;1385.19",
       "180 mm Trekbus;2505.50",
     "40 mm Cylindrisch;94.39",
     "50 mm Cylindrisch;106.76",
-      "55 mm Cylindrisch;0",
+      "55 mm Cylindrisch;120",
       "60 mm Cylindrisch;142.49",
-      "65 mm Cylindrisch;0",
+      "65 mm Cylindrisch;170",
       "70 mm Cylindrisch;260.12",
-      "75 mm Cylindrisch;0",
-      "80 mm Cylindrisch;228.69",
-      "85 mm Cylindrisch;0",
+      "75 mm Cylindrisch;270",
+      "80 mm Cylindrisch;280.69",
+      "85 mm Cylindrisch;290",
       "90 mm Cylindrisch;298.29",
-      "95 mm Cylindrisch;0",
+      "95 mm Cylindrisch;340",
       "100 mm Cylindrisch;395.47",
       "110 mm Cylindrisch;526.52",
       "120 mm Cylindrisch;629.66",
@@ -601,36 +602,31 @@ Public Class Form1
       "140 mm Cylindrisch;962.66",
       "150 mm Cylindrisch;1187.03",
       "160 mm Cylindrisch;1474.77",
-      "210 mm Cylindrisch;200",
-      "360 mm Cylindrisch;250"}
+      "210 mm Cylindrisch;1700",
+      "360 mm Cylindrisch;3500"}
 
-    Public Shared astap_dia() As String =
-      {"100 ;1103.25",
-      "110 ;2103.25",
-      "120 ;3103.25",
-      "140 ;1103.25",
-      "160;2103.25",
-      "200 ;3103.25",
-      "210 ;1103.25",
-      "260;2103.25",
-      "310 ;3103.25",
-      "350 ;4103.25",
-      "400 ;1103.25",
-      "500 ;4103.25"}
+    Public Shared astap_dia() As String =   'tbv as diameter selectie
+      {"Dia;empty",
+      "100 ;0",
+      "110 ;0",
+      "120 ;0",
+      "140 ;0",
+      "160 ;0",
+      "200 ;0",
+      "210 ;0",
+      "260 ;0",
+      "310 ;0",
+      "350 ;0",
+      "400 ;0",
+      "500 ;0"}
 
     Public Shared pakking() As String =
-      {"Flowtite wit, 3*1.5 ;53.25",
-      "Flowtite wit, 5*2 ;53.25",
-      "Flowtite wit, 7*2.5 ;53.25",
-      "Flowtite wit, 10*3 ;53.25",
-      "230x133x6 Silicone wit;8.15",
-      "200; 50.00",
-      "210; 50.00",
-      "260; 50.00",
-      "310; 60.00",
-      "350; 60.00",
-      "400; 70.00",
-      "500; 80.00"}
+     {"Merk;maat;prijs",
+      "Flowtite wit, 3*1.5  ;53",
+      "Flowtite wit, 5*2    ;73",
+      "Flowtite wit, 7*2.5  ;83",
+      "Flowtite wit, 10*3   ;103",
+      "230x133x6 Silicone wit;8.15"}
 
 
     Public Shared emotor() As String = {"3.0; 1500", "4.0; 1500", "5.5; 1500", "7.5; 1500", "11;  1500", "15; 1500", "22; 1500",
@@ -781,7 +777,7 @@ Public Class Form1
         save_to_disk()
     End Sub
 
-    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown29.ValueChanged, NumericUpDown28.ValueChanged, NumericUpDown24.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown12.ValueChanged, NumericUpDown10.ValueChanged, NumericUpDown25.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox4.SelectedIndexChanged, ComboBox13.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox8.CheckedChanged, CheckBox5.CheckedChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, CheckBox4.CheckedChanged
+    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown12.ValueChanged, NumericUpDown10.ValueChanged, NumericUpDown25.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox4.SelectedIndexChanged, ComboBox13.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox8.CheckedChanged, CheckBox5.CheckedChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, CheckBox4.CheckedChanged, CheckBox7.CheckedChanged, CheckBox6.CheckedChanged, CheckBox9.CheckedChanged
         costing_material()
     End Sub
 
@@ -1077,21 +1073,17 @@ Public Class Form1
             ComboBox7.Items.Add(Trim(words(0)))
         Next hh
         ComboBox7.SelectedIndex = 1
-
-        words = coupl(ComboBox7.SelectedIndex + 1).Split(";")
     End Sub
     Private Sub Lager_combo()
         Dim words() As String
 
         ComboBox8.Items.Clear()
         '-------Fill combobox8,  selection------------------
-        For hh = 0 To lager.Length - 1                'Fill combobox 8 with lager data
+        For hh = 1 To lager.Length - 1                'Fill combobox 8 with lager data
             words = lager(hh).Split(";")
             ComboBox8.Items.Add(words(0))
         Next hh
         ComboBox8.SelectedIndex = 1
-
-        words = lager(ComboBox8.SelectedIndex).Split(";")
     End Sub
 
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
@@ -1232,14 +1224,14 @@ Public Class Form1
 
         oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
         'Insert a 16 x 3 table, fill it with data and change the column widths.
-        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 18, 5)
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 12, 5)
         oTable.Range.ParagraphFormat.SpaceAfter = 1
         oTable.Range.Font.Size = font_sizze
         oTable.Range.Font.Bold = False
         oTable.Rows.Item(1).Range.Font.Bold = True
         oTable.Rows.Item(1).Range.Font.Size = font_sizze + 2
         row = 1
-        oTable.Cell(row, 1).Range.Text = "Input sizes"
+        oTable.Cell(row, 1).Range.Text = "Input data"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Motorreductor"
         oTable.Cell(row, 3).Range.Text = ComboBox4.SelectedItem
@@ -1282,14 +1274,8 @@ Public Class Form1
         oTable.Cell(row, 4).Range.Text = "[kg]"
 
         row += 1
-        oTable.Cell(row, 1).Range.Text = "Asafdichting lengte, diameter "
-        oTable.Cell(row, 3).Range.Text = NumericUpDown28.Value & ",  " & NumericUpDown29.Value
-        oTable.Cell(row, 2).Range.Text = "[mm]"
-        oTable.Cell(row, 5).Range.Text = TextBox87.Text
-        oTable.Cell(row, 4).Range.Text = "[kg]"
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Astap lengte, diameter"
-        oTable.Cell(row, 3).Range.Text = NumericUpDown24.Value & ",  " & ComboBox13.SelectedItem
+        oTable.Cell(row, 1).Range.Text = "Astap diameter"
+        oTable.Cell(row, 3).Range.Text = ComboBox13.SelectedItem
         oTable.Cell(row, 2).Range.Text = "[mm]"
         oTable.Cell(row, 5).Range.Text = TextBox54.Text
         oTable.Cell(row, 4).Range.Text = "[kg]"
@@ -1297,8 +1283,8 @@ Public Class Form1
         row += 1
         oTable.Cell(row, 5).Range.Text = "_____"
         row += 1
-        oTable.Cell(row, 1).Range.Text = "Total weight steel"
-        oTable.Cell(row, 5).Range.Text = TextBox65.Text
+        oTable.Cell(row, 1).Range.Text = "Total sheet steel"
+        oTable.Cell(row, 5).Range.Text = TextBox109.Text
         oTable.Cell(row, 4).Range.Text = "[kg]"
 
         oTable.Columns.Item(1).Width = oWord.InchesToPoints(2.4)   'Change width of columns 1 & 2.
@@ -1321,15 +1307,15 @@ Public Class Form1
         oTable.Rows.Item(2).Range.Font.Bold = True
         oTable.Cell(row, 6).Range.Text = "Material"
         oTable.Cell(row, 1).Range.Text = "Labour"
-        row += 1
-        oTable.Cell(row, 3).Range.Text = "Hours"
-        oTable.Cell(row, 5).Range.Text = "Costs"
+        'row += 1
+        'oTable.Cell(row, 3).Range.Text = "Hours"
+        'oTable.Cell(row, 5).Range.Text = "Costs"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Engineering"
         oTable.Cell(row, 2).Range.Text = "[hr]"
         oTable.Cell(row, 3).Range.Text = NumericUpDown30.Value
         oTable.Cell(row, 4).Range.Text = "[€]"
-        oTable.Cell(row, 5).Range.Text = TextBox67.Text
+        oTable.Cell(row, 5).Range.Text = TextBox55.Text
         row += 1
         oTable.Cell(row, 1).Range.Text = "Project"
         oTable.Cell(row, 3).Range.Text = NumericUpDown33.Value
@@ -1338,7 +1324,7 @@ Public Class Form1
         oTable.Cell(row, 5).Range.Text = TextBox70.Text
 
         row += 1
-        oTable.Cell(row, 1).Range.Text = "Factory"
+        oTable.Cell(row, 1).Range.Text = "Work shop"
         oTable.Cell(row, 3).Range.Text = NumericUpDown34.Value
         oTable.Cell(row, 2).Range.Text = "[hr]"
         oTable.Cell(row, 5).Range.Text = TextBox72.Text
@@ -1347,13 +1333,10 @@ Public Class Form1
         oTable.Cell(row, 1).Range.Text = "Total hours"
         oTable.Cell(row, 3).Range.Text = TextBox106.Text
         oTable.Cell(row, 2).Range.Text = "[hr]"
-        row += 1
-
-        oTable.Cell(row, 1).Range.Text = "Total labour costs "
         oTable.Cell(row, 5).Range.Text = TextBox98.Text
         oTable.Cell(row, 4).Range.Text = "[€]"
         oTable.Cell(row, 6).Range.Text = "Total cost material"
-        oTable.Cell(row, 8).Range.Text = TextBox66.Text
+        oTable.Cell(row, 8).Range.Text = TextBox103.Text
         oTable.Cell(row, 7).Range.Text = "[€]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Percentage labour "
@@ -1389,37 +1372,34 @@ Public Class Form1
         Dim words() As String
 
         ComboBox13.Items.Clear()
-        '-------Fill combobox6, pipe wall selection------------------
-        For hh = 0 To astap_dia.Length - 1                'Fill combobox 3 with pipe data
+        '-------Fill combobox------------------
+        For hh = 1 To astap_dia.Length - 1                'Fill combobox 3 with pipe data
             words = astap_dia(hh).Split(";")
             ComboBox13.Items.Add(words(0))
         Next hh
         ComboBox13.SelectedIndex = 1
-        words = astap_dia(ComboBox13.SelectedIndex).Split(";")
     End Sub
     Private Sub paint_combo()
         Dim words() As String
 
         ComboBox12.Items.Clear()
-        '-------Fill combobox6, pipe wall selection------------------
+        '-------Fill combobox ------------------
         For hh = 1 To ppaint.Length - 1                'Fill combobox 3 with pipe data
             words = ppaint(hh).Split(";")
             ComboBox12.Items.Add(words(0))
         Next hh
         ComboBox12.SelectedIndex = 1
-        words = ppaint(ComboBox12.SelectedIndex).Split(";")
     End Sub
     Private Sub pakking_combo()
         Dim words() As String
 
         ComboBox10.Items.Clear()
-        '-------Fill combobox6, pipe wall selection------------------
-        For hh = 0 To pakking.Length - 1                'Fill combobox 3 with pipe data
+        '-------Fill combobox-----------------
+        For hh = 1 To pakking.Length - 1                'Fill combobox 3 with pipe data
             words = pakking(hh).Split(";")
             ComboBox10.Items.Add(words(0))
         Next hh
-        ComboBox10.SelectedIndex = 4
-        words = pakking(ComboBox10.SelectedIndex).Split(";")
+        ComboBox10.SelectedIndex = 3
     End Sub
 
     'Save data and line chart to file
@@ -1688,17 +1668,20 @@ Public Class Form1
         Dim dikte_trog, opp_trog, kopstaartplaat, weight_kopstaartplaat, kg_trog As Double
         Dim weight_pipe, dikte_deksel, speling_trog, diam_schroef As Double
         Dim kg_inlaat, kg_uitlaat, kg_lining, dikte_lining As Double
-        Dim kg_deksel, kg_voet, kg_schroefblad As Double
+        Dim kg_deksel, kg_voet, kg_schroefblad, total_kg_plaat As Double
         Dim hoek_spoed As Double
         Dim nr_flights, spoed As Double
         Dim kg_astap, dia_astap, lengte_astap As Double
         Dim kg_afschermkap As Double
-        Dim total_kg, tot_oppervlak As Double
-        Dim oppb_stopbus, oppb_afschermkap, oppb_astap, oppb_voet, oppb_uitlaat, oppb_inlaat, oppb_deksel, oppb_trog, oppb_kopstaartplaat, oppb_schroefblad, oppb_pipe As Double
+        Dim tot_opperv_paint As Double
+        Dim oppb_afschermkap, oppb_astap, oppb_voet, oppb_uitlaat, oppb_inlaat As Double
+        Dim oppb_deksel, oppb_trog, oppb_kopstaartplaat, oppb_schroefblad, oppb_pipe As Double
         Dim cost_kopstaartplaat, cost_trog, cost_pipe, cost_deksel, cost_inlaat, cost_uitlaat As Double
-        Dim cost_voet, cost_schroefblad, cost_astap, cost_lining, cost_afschermkap, cost_paint As Double
-        Dim cost_motorreductor, cost_koppeling, cost_lagers, cost_stopbuspakking, cost_pakking, cost_hang As Double
-        Dim stopbuslengte, stopbusdia, kg_stopbus, cost_stopbus As Double
+        Dim cost_voet, cost_schroefblad, cost_astap, cost_lining, cost_afschermkap As Double
+        Dim cost_paint, cost_painting, cost_cutting As Double
+        Dim cost_motorreductor, cost_koppeling, cost_lagers, cost_stopbuspakking As Double
+        Dim cost_pakking, cost_hang, cost_transport As Double
+        Dim cost_stopbus As Double
         Dim certificate_cost, totalplate_cost, total_cost As Double
         Dim uren_engineering, uren_project, uren_fabrieks, tot_uren As Double
         Dim engineering_prijs_uur, project_prijs_uur, fabriek_prijs_uur As Double
@@ -1713,10 +1696,9 @@ Public Class Form1
 
         '---------------------------------------------- PRICES -----------------------------------------
         '-----------------------------------------------------------------------------------------------
-        TextBox84.Text = "3.25"             'lining [€/kg]
-        TextBox85.Text = "10.00"               'alu afschermkap [€/kg]
-        TextBox89.Text = "3.00"             'voet [€/kg]
-        TextBox86.Text = "4.69"             'rvs stopbus [€/kg]
+        TextBox84.Text = "3.25"                 'lining [€/kg]
+        TextBox85.Text = "10.00"                'alu afschermkap [€/kg]
+        TextBox113.Text = "0.50"                'snijkosten [€/kg]
 
         Select Case True
             Case (RadioButton6.Checked)         'staal, s235JR
@@ -1727,8 +1709,6 @@ Public Class Form1
                 TextBox96.Text = "0.78"         'trog
                 TextBox97.Text = "0.78"         'deksel
                 TextBox92.Text = "2.09"         'astap ronde staf afm 60
-                TextBox91.Text = "15"          'inlaat [€/kg]
-                TextBox90.Text = "15"          'uitlaat [€/kg]
             Case (RadioButton7.Checked)         'rvs304, warmgewalst
                 rho_materiaal = 8000
                 TextBox93.Text = "2.45"         'kop staart 
@@ -1737,9 +1717,6 @@ Public Class Form1
                 TextBox96.Text = "2.45"         'trog
                 TextBox97.Text = "2.45"         'deksel
                 TextBox92.Text = "1.52"         'astap [€/kg] materiaal is standaard van staal
-                TextBox91.Text = "2.45"         'inlaat
-                TextBox90.Text = "20"          'uitlaat
-                TextBox86.Text = "20"          'stopbus
             Case (RadioButton8.Checked)         'rvs316, warmgewalst(zie vtke-151401)
                 rho_materiaal = 7860
                 TextBox93.Text = "4.07"         'kop staart 
@@ -1748,12 +1725,10 @@ Public Class Form1
                 TextBox96.Text = "4.07"         'trog
                 TextBox97.Text = "4.07"         'deksel
                 TextBox92.Text = "2.09"         'astap [€/kg] materiaal is standaard van staal
-                TextBox91.Text = "30"          'inlaat
-                TextBox90.Text = "30"         'uitlaat
         End Select
 
         Try
-            Dim words1() As String = lager(ComboBox8.SelectedIndex).Split(";")
+            Dim words1() As String = lager(ComboBox8.SelectedIndex + 1).Split(";")
             cost_lagers = words1(1)
 
             Dim words2() As String = coupl(ComboBox7.SelectedIndex + 1).Split(";")
@@ -1765,25 +1740,31 @@ Public Class Form1
             If Not CheckBox2.Checked Then cost_motorreductor = 0
 
             Dim words4() As String = ppaint(ComboBox12.SelectedIndex + 1).Split(";")
-            cost_paint = words4(1) * tot_oppervlak
+            cost_paint = words4(1)
+            If Not CheckBox6.Checked Then cost_paint = 0
 
             Dim words5() As String = pakking(ComboBox10.SelectedIndex + 1).Split(";")
             cost_pakking = words5(1)
 
+            cost_inlaat = 300   'inlaat chute
+            cost_uitlaat = 300  'Uitlaat chute
+            cost_voet = 100     'Conveyor supports
+
         Catch ex As Exception
-            'MessageBox.Show(ex.Message & "Line 1290")  ' Show the exception's message.
+            'MessageBox.Show(ex.Message & "Line 1778")  ' Show the exception's message.
         End Try
 
 
-        '----------------------------------------WEIGHT CALCULATION-----------------------------------------
+        '----------------------------------------WEIGHT + AREA CALCULATIONS-----------------------------------------
         '----------------------------------------------------------------------------------------------
         dikte_trog = NumericUpDown14.Value / 1000
-        Select Case True
+
+
+        Select Case True                'Pijpschroef oppervlak
             Case (RadioButton4.Checked)
                 opp_trog = 2 * PI * ((diam_trough / 2) * dikte_trog)
                 kopstaartplaat = diam_trough ^ 2
-
-            Case (RadioButton5.Checked)
+            Case (RadioButton5.Checked) 'Trogschroef oppervlak
                 opp_trog = (PI * (diam_trough / 2) * dikte_trog + 2 * dikte_trog * (0.045 + diam_trough / 2) + 0.075 * dikte_trog)   'troghoogte=trogbreedte/2+45mm, flens= 0.05+0.025
                 kopstaartplaat = (diam_trough * (diam_trough + 0.045))
         End Select
@@ -1810,16 +1791,9 @@ Public Class Form1
 
         dikte_deksel = NumericUpDown15.Value / 1000
         kg_deksel = conv_length * dikte_deksel * (diam_trough + 0.075) * rho_materiaal     '50mm voor de horizontale flens en 25mm voor het stukje naar beneden
-        oppb_deksel = 2 * conv_length * (diam_trough + 0.075)                                 'zowel inwendig als uitwendig
+        oppb_deksel = 2 * conv_length * (diam_trough + 0.075)                              'zowel inwendig als uitwendig
 
-        kg_inlaat = 10          '[kg]
-        oppb_inlaat = 1         '[m2]
 
-        kg_uitlaat = 10         '[kg]
-        oppb_uitlaat = 1        '[m2]
-
-        kg_voet = 5             '[kg]
-        oppb_voet = 0.5         '[m2]
 
         NumericUpDown12.Value = NumericUpDown8.Value                    'Dikte schroefblad bij tab1 opgegeven
         spoed = diam_schroef * NumericUpDown2.Value
@@ -1831,7 +1805,7 @@ Public Class Form1
 
         Double.TryParse(ComboBox13.SelectedItem, dia_astap)             '[mm] 
         dia_astap = dia_astap / 1000                                    '[m]
-        lengte_astap = NumericUpDown24.Value / 1000                     'lengte in meters
+        lengte_astap = 1.0                                              'lengte in meters average 1m
         kg_astap = 7850 * lengte_astap * PI * (dia_astap / 2) ^ 2       'het standaardmateriaal is staal, dit is het totale inkoopmateriaal, wat daarna nog wordt gefreesd/gedraaid
         oppb_astap = PI * dia_astap * lengte_astap
 
@@ -1839,83 +1813,77 @@ Public Class Form1
         dikte_lining = NumericUpDown25.Value / 1000
         kg_lining = rho_kunststof * (PI * diam_trough + 0.5 * (0.045 + diam_trough / 2)) * dikte_lining * conv_length
 
-        kg_afschermkap = 10         '[kg] 
+        '---------- estimated weights---------------
+        kg_inlaat = 10              '[kg] inlaat chute
+        kg_uitlaat = 10             '[kg] uitlaat chute
+        kg_voet = 5                 '[kg] conveyor supports
+        kg_afschermkap = 10         '[kg] koppelingkap
+
+        '---------- estimated area's---------------
+        oppb_inlaat = 1             '[m2]
+        oppb_uitlaat = 1            '[m2]
+        oppb_voet = 0.5             '[m2]
         oppb_afschermkap = 1        '[m2]
 
-        stopbuslengte = NumericUpDown28.Value / 1000                                  'in designscherm heet dit asafdichting
-        stopbusdia = NumericUpDown29.Value / 1000
-        kg_stopbus = rho_materiaal * stopbuslengte * PI * (stopbusdia / 2) ^ 2        'dit is het totale inkoopmateriaal, wat daarna nog wordt gefreesd/gedraaid
-        oppb_stopbus = PI * stopbusdia * stopbuslengte + 2 * PI * (stopbusdia / 2) ^ 2
-
-        ' Waarom worden in godsnaam de gewichten van allerlei delen van verschillende materialen opgeteld
-        total_kg = 2 * weight_kopstaartplaat + kg_trog + weight_pipe + kg_inlaat + kg_uitlaat + kg_voet + kg_schroefblad + kg_astap + kg_lining + kg_afschermkap + kg_stopbus
-        tot_oppervlak = oppb_stopbus + oppb_afschermkap + oppb_astap + oppb_voet + oppb_uitlaat + oppb_inlaat + oppb_kopstaartplaat + oppb_schroefblad + oppb_pipe
-        Select Case True
-            Case (RadioButton4.Checked)
-                total_kg = total_kg
-                tot_oppervlak = tot_oppervlak
-            Case (RadioButton5.Checked)
-                total_kg = total_kg + kg_deksel
-                tot_oppervlak = tot_oppervlak + oppb_deksel
-        End Select
+        total_kg_plaat = 2 * weight_kopstaartplaat + kg_trog + kg_inlaat + kg_uitlaat + kg_voet + kg_afschermkap    'Onderdelen van plaat die gesneden worden
+        tot_opperv_paint = oppb_voet + oppb_uitlaat + oppb_inlaat + oppb_trog        'Buiten Oppervlak paint onderdelen 
 
 
+        '----------------------------------------COST CALCULATION-----------------------------------------
+        '----------------------------------------------------------------------------------------------
         Try
+            cost_painting = cost_paint * tot_opperv_paint
             cost_kopstaartplaat = weight_kopstaartplaat * Double.Parse(TextBox93.Text)
             cost_trog = kg_trog * Double.Parse(TextBox96.Text)
             cost_pipe = weight_pipe * Double.Parse(TextBox94.Text)
             cost_deksel = kg_deksel * Double.Parse(TextBox97.Text)
             If Not CheckBox5.Checked Then cost_deksel = 0
 
-            cost_inlaat = kg_inlaat * Double.Parse(TextBox91.Text) * NumericUpDown20.Value
-            cost_uitlaat = kg_uitlaat * Double.Parse(TextBox90.Text) * NumericUpDown21.Value
-            cost_voet = kg_voet * Double.Parse(TextBox89.Text) * NumericUpDown23.Value
+            cost_cutting = total_kg_plaat * Double.Parse(TextBox113.Text)
+            If Not CheckBox9.Checked Then cost_cutting = 0
+
+            cost_inlaat *= NumericUpDown20.Value
+            cost_uitlaat *= NumericUpDown21.Value
+            cost_voet *= NumericUpDown23.Value
             cost_schroefblad = kg_schroefblad * Double.Parse(TextBox95.Text)
             cost_astap = kg_astap * Double.Parse(TextBox92.Text)
             cost_lining = kg_lining * Double.Parse(TextBox84.Text)
             If Not CheckBox4.Checked Then cost_lining = 0
             cost_afschermkap = kg_afschermkap * Double.Parse(TextBox85.Text)
-            cost_stopbus = 300                              '€, te ingewikkeld om precieze prijs te bepalen
+            cost_stopbus = 500                                  '€, te ingewikkeld om precieze prijs te bepalen (2 stuks) 
             If Not CheckBox8.Checked Then cost_stopbus = 0
 
             cost_hang = NumericUpDown35.Value * 500
+            cost_transport = 800                                '€ intern transport
+            If Not CheckBox7.Checked Then cost_transport = 0
 
             totalplate_cost = 2 * cost_kopstaartplaat + cost_trog + cost_pipe + cost_inlaat + cost_uitlaat + cost_voet
-            totalplate_cost += cost_schroefblad + cost_astap + cost_lining + cost_afschermkap + cost_stopbus + cost_hang
+            totalplate_cost += cost_schroefblad + cost_astap + cost_lining + cost_afschermkap + cost_stopbus + cost_hang + cost_deksel
 
         Catch ex As Exception
-            'MessageBox.Show(ex.Message & "Line 1290")  ' Show the exception's message.
+            'MessageBox.Show(ex.Message & "Line 1904")  ' Show the exception's message.
         End Try
 
-        Select Case True
-            Case (RadioButton4.Checked)
-                totalplate_cost = totalplate_cost
-            Case (RadioButton5.Checked)
-                totalplate_cost = totalplate_cost + cost_deksel
-        End Select
-
-        certificate_cost = 50 * NumericUpDown27.Value               'ervan uitgaande dat een certificaat €50/stuk kost
-        total_cost = totalplate_cost + cost_motorreductor + cost_koppeling + cost_lagers + cost_stopbuspakking + cost_paint + certificate_cost + cost_pakking
+        certificate_cost = 50 * NumericUpDown27.Value               'certificaat €50/stuk 
+        total_cost = totalplate_cost + cost_motorreductor + cost_koppeling + cost_lagers + cost_stopbuspakking
+        total_cost += cost_painting + certificate_cost + cost_pakking + cost_transport + cost_cutting
 
         TextBox42.Text = Round(weight_kopstaartplaat, 1).ToString
         TextBox47.Text = Round(kg_trog, 1).ToString
         TextBox45.Text = Round(weight_pipe, 1).ToString
         TextBox48.Text = Round(kg_deksel, 1).ToString
-        TextBox43.Text = Round(kg_inlaat, 1).ToString
-        TextBox44.Text = Round(kg_uitlaat, 1).ToString
-        TextBox49.Text = Round(kg_voet, 1).ToString
         TextBox46.Text = Round(kg_schroefblad, 1).ToString
         TextBox54.Text = Round(kg_astap, 1).ToString
         TextBox77.Text = Round(kg_lining, 1).ToString
         TextBox76.Text = Round(kg_afschermkap, 1).ToString
-        TextBox87.Text = Round(kg_stopbus, 1).ToString
-        TextBox108.Text = Round(tot_oppervlak, 1).ToString
+        TextBox108.Text = Round(tot_opperv_paint, 1).ToString
 
-        TextBox63.Text = Round(cost_lagers, 2).ToString
-        TextBox57.Text = Round(cost_motorreductor, 2).ToString
-        TextBox58.Text = Round(cost_koppeling, 2).ToString
-        TextBox107.Text = Round(cost_paint, 2).ToString
-        TextBox104.Text = Round(cost_pakking, 2).ToString
+        TextBox63.Text = Round(cost_lagers, 2).ToString         'Lagers
+        TextBox57.Text = Round(cost_motorreductor, 2).ToString  'Drive
+        TextBox58.Text = Round(cost_koppeling, 2).ToString      'Coupling
+        TextBox107.Text = Round(cost_painting, 2).ToString      'Paint
+        TextBox104.Text = Round(cost_pakking, 2).ToString       'Seals
+        TextBox43.Text = Round(cost_cutting, 2).ToString        'Plate cutting
 
         TextBox56.Text = Round(cost_kopstaartplaat, 1).ToString
         TextBox61.Text = Round(cost_trog, 1).ToString
@@ -1931,6 +1899,7 @@ Public Class Form1
         TextBox64.Text = Round(cost_stopbus, 1).ToString
         TextBox88.Text = Round(certificate_cost, 1).ToString
         TextBox102.Text = Round(cost_hang, 1).ToString
+        TextBox112.Text = Round(cost_transport, 1).ToString
 
         ''Tabblad sales price
 
@@ -1953,7 +1922,7 @@ Public Class Form1
         marge_cost = (geheel_totprijs + dekking) * 0.1
         verkoopprijs = geheel_totprijs + dekking + marge_cost
 
-        TextBox109.Text = Round(total_kg, 0).ToString
+        TextBox109.Text = Round(total_kg_plaat, 0).ToString
         TextBox68.Text = Round(totalplate_cost, 0).ToString
         TextBox105.Text = Round(engineering_prijs_uur, 0).ToString
         TextBox55.Text = Round(prijs_engineering, 1).ToString
