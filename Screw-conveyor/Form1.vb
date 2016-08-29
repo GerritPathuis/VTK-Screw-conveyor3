@@ -503,24 +503,31 @@ Public Class Form1
 
 
     Public Shared motorred() As String =
-     {"Description; Speed; power;cost",
-     "3 Kw, 20rpmR87*;20;3;987.14",
-     "3 Kw, 20rpmR107;20;3;1908.74",
-     "0.75 Kw, 1450 rpm;1450;0.75;1103.25",
-      "1.1 Kw, 1440 rpm;1440;1.1;2103.25",
-      "1.5 Kw, 1440 rpm;1440;1.5;3103.25",
-      "2.2 Kw, 1440 rpm;1440;2.2;4103.25",
-      "3 Kw, 1455 rpm;1455;3;1103.25",
-      "4 Kw, 1465 rpm;1465;4;2103.25",
-      "5.5 Kw, 1475 rpm;1475;5.5;3103.25",
-      "7.5 Kw, 1475 rpm;1475;7.5;4103.25",
-      "9.2 Kw, 1475 rpm;1475;9.2;2103.25",
-      "11 Kw, 1475 rpm;1475;11;3103.25",
-      "15 Kw, 1475 rpm;1475;15;4103.25",
-      "18.5 Kw, 1480 rpm;1480;18.5;1103.25",
-      "22 Kw, 1482 rpm;1482;22;2103.25",
-      "30 Kw, 1480 rpm;1480;30;3103.25",
-      "37 Kw, 1482 rpm;1482;37;4103.25"}
+     {"Description; Speed; power;cost;shaftdia",
+     "0.18 Kw,R27DR63M4;69.5;0.18;253.51;25",
+     "3 Kw,Bauer BG60-11/DHE11XAC-TF;49.5;3;1132;50",
+     "3 Kw, 20rpmR107;20;3;1908.74;70",
+     "3 Kw, R77DRM100L4;29.12;3;896.25;40",
+     "3 Kw, R137R77/II2GD EDRE100LC4;6.2;3;3851.01;90",
+     "1.1 Kw, R77/II2GD EDRE90M4;27;1.1;814.50;40",
+     "0.75 Kw, R87DRE90L6;940;0.75;1003.71;50",
+     "2.2 Kw, R47DRE100M4;14.56;2.2;471.18;30",
+      "1.1 Kw,R97DRN90S4;186;1.1;1340.06;60",
+      "2.2 Kw 15.1023;55;2.2;0;0",
+      "1.5 Kw, 1440 rpm;1440;1.5;0;0",
+      "2.2 Kw, 1440 rpm;1440;2.2;0;0",
+      "3 Kw, 1455 rpm;1455;3;0;0",
+      "4 Kw, 1465 rpm;1465;4;0;0",
+      "5.5 Kw, 1475 rpm;1475;5.5;0;0",
+      "7.5 Kw, 1475 rpm;1475;7.5;0;0",
+      "9.2 Kw, 1475 rpm;1475;9.2;0;0",
+      "11 Kw, 1475 rpm;1475;11;0;0",
+      "15 Kw, 1475 rpm;1475;15;0;0",
+      "18.5 Kw, 1480 rpm;1480;18.5;0;0",
+      "22 Kw, 1482 rpm;1482;22;0;0",
+      "30 Kw, R137DRP225S4/TF/PT;53;30;5802.48;90",
+      "45 Kw, R147DRP250M4/TF/NIB/PT;49;45;8588.74;110",
+      "37 Kw, 1482 rpm;1482;37;0;0"}
 
     Public Shared coupl() As String =
      {"Diameter;cost,percentage na korting",
@@ -528,6 +535,15 @@ Public Class Form1
       "68 mm, n-eupexB;111.24;0.55",
       "80 mm, n-eupexB;127.5;0.55",
       "95 mm, n-eupexB;159.58;0.55",
+      "160 mm, n-eupexB;294.50;0.45",
+      "flender, n-eupexB180;264.94;1",
+      "flender, n-eupexB225;313.77;1",
+      "N-eupexA250;509.57;1",
+      "flender, n-eupexB250;387.75;1",
+      "flender, n-eupexA280;763.26;1",
+      "flender, n-eupexA315;852.50;1",
+      "flender, n-eupexA400;1545.50;1",
+      "200 mm, n-eupexB;480;0.45",
       "110 mm, n-eupexA;291.6;0.55",
       "125 mm, n-eupexA;407.35;0.55",
       "140 mm, n-eupexA;534.4;0.55",
@@ -542,6 +558,7 @@ Public Class Form1
       "400 mm, n-eupexA;5778;0.55",
       "440 mm, n-eupexA;7167.5;0.55",
       "480 mm, n-eupexA;8983.5;0.55"}
+
 
     Public Shared ppaint() As String =
      {"Description;cost",
