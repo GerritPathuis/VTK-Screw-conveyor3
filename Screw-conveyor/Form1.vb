@@ -708,7 +708,7 @@ Public Class Form1
         calulate_stress_1()
     End Sub
 
-    Private Sub calculate()
+    Private Sub Calculate()
         Dim cap_hr As Double    '100% Çapacity conveyor [m3/hr]
         Dim cap_act As Double   'actual Çapacity conveyor [m3/hr]
         Dim iso_forward As Double       'Power for forward motion
@@ -732,7 +732,7 @@ Public Class Form1
         angle = NumericUpDown4.Value                            '[degree]
         speed = NumericUpDown7.Value                            '[rpm]
 
-        Flight_speed = speed / 60 * PI * diam_trough
+        flight_speed = speed / 60 * PI * diam_trough
         TextBox11.Text = Round(flight_speed, 2).ToString 'Flight speed [m/s]
 
         If flight_speed > 1.0 Then
@@ -814,7 +814,7 @@ Public Class Form1
         costing_material()
     End Sub
     'Please note complete calculation in [m] nit [mm]
-    Private Sub calulate_stress_1()
+    Private Sub Calulate_stress_1()
         Dim qq As Double
         Dim Q_load_1, Q_load_2, Q_load_comb, Q_load_3, Q_Deflect_max, Q_max_bend, pos_x As Double
         Dim F_tangent, Radius_transport As Double
@@ -1036,7 +1036,7 @@ Public Class Form1
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click, NumericUpDown11.ValueChanged, ComboBox2.SelectedIndexChanged, NumericUpDown13.ValueChanged, TabPage2.Enter, NumericUpDown17.ValueChanged, NumericUpDown16.ValueChanged, ComboBox3.ValueMemberChanged, ComboBox5.SelectedIndexChanged, ComboBox6.SelectedIndexChanged, RadioButton3.CheckedChanged, RadioButton2.CheckedChanged, RadioButton1.CheckedChanged, CheckBox1.CheckedChanged
         calulate_stress_1()
     End Sub
-    Private Sub pipe_dia_combo()
+    Private Sub Pipe_dia_combo()
         Dim words() As String
 
         ComboBox3.Items.Clear()
@@ -1055,7 +1055,7 @@ Public Class Form1
         pipe_OD /= 1000                                         'Outside Diameter [m]
         TextBox16.Text = Round(pipe_OD * 1000, 1).ToString      'Diameter [mm]
     End Sub
-    Private Sub pipe_wall_combo()
+    Private Sub Pipe_wall_combo()
         Dim words() As String
         Dim temp As Double
 
@@ -1069,7 +1069,7 @@ Public Class Form1
         Next
         ComboBox6.SelectedIndex = 1
     End Sub
-    Private Sub motorreductor()
+    Private Sub Motorreductor()
         Dim words() As String
 
         ComboBox4.Items.Clear()
@@ -1385,7 +1385,7 @@ Public Class Form1
         oTable.Columns.Item(7).Width = oWord.InchesToPoints(0.4)
         oTable.Columns.Item(8).Width = oWord.InchesToPoints(0.6)
     End Sub
-    Private Sub astap_combo()
+    Private Sub Astap_combo()
         Dim words() As String
 
         ComboBox13.Items.Clear()
@@ -1396,7 +1396,7 @@ Public Class Form1
         Next hh
         ComboBox13.SelectedIndex = 1
     End Sub
-    Private Sub paint_combo()
+    Private Sub Paint_combo()
         Dim words() As String
 
         ComboBox12.Items.Clear()
@@ -1407,7 +1407,7 @@ Public Class Form1
         Next hh
         ComboBox12.SelectedIndex = 1
     End Sub
-    Private Sub pakking_combo()
+    Private Sub Pakking_combo()
         Dim words() As String
 
         ComboBox10.Items.Clear()
@@ -1420,7 +1420,7 @@ Public Class Form1
     End Sub
 
     'Save data and line chart to file
-    Private Sub save_to_disk()
+    Private Sub Save_to_disk()
         Dim bmp_tab_page1 As New Bitmap(TabPage1.Width, TabPage1.Height)
         Dim bmp_tab_page2 As New Bitmap(TabPage2.Width, TabPage2.Height)
         Dim str_file2, str_file3 As String
@@ -1447,7 +1447,7 @@ Public Class Form1
         print_word()
     End Sub
 
-    Private Sub print_word()
+    Private Sub Print_word()
         Dim oWord As Word.Application ' = Nothing
         Dim oDoc As Word.Document
         Dim oTable As Word.Table
@@ -1680,7 +1680,7 @@ Public Class Form1
         End Try
     End Sub
 
-    Private Sub costing_material()
+    Private Sub Costing_material()
         Dim rho_materiaal, rho_kunststof, conv_length As Double
         Dim dikte_trog, opp_trog, kopstaartplaat, weight_kopstaartplaat, kg_trog As Double
         Dim weight_pipe, dikte_deksel, speling_trog, diam_schroef As Double

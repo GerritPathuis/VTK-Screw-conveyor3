@@ -168,10 +168,13 @@ Partial Class Form1
         Me.Label36 = New System.Windows.Forms.Label()
         Me.ListBox4 = New System.Windows.Forms.ListBox()
         Me.TabPage4 = New System.Windows.Forms.TabPage()
+        Me.GroupBox15 = New System.Windows.Forms.GroupBox()
+        Me.RadioButton4 = New System.Windows.Forms.RadioButton()
+        Me.RadioButton5 = New System.Windows.Forms.RadioButton()
         Me.Button7 = New System.Windows.Forms.Button()
         Me.GroupBox13 = New System.Windows.Forms.GroupBox()
-        Me.RadioButton5 = New System.Windows.Forms.RadioButton()
-        Me.RadioButton4 = New System.Windows.Forms.RadioButton()
+        Me.TextBox44 = New System.Windows.Forms.TextBox()
+        Me.Label134 = New System.Windows.Forms.Label()
         Me.TextBox53 = New System.Windows.Forms.TextBox()
         Me.Label73 = New System.Windows.Forms.Label()
         Me.TextBox52 = New System.Windows.Forms.TextBox()
@@ -351,9 +354,6 @@ Partial Class Form1
         Me.Label129 = New System.Windows.Forms.Label()
         Me.Label130 = New System.Windows.Forms.Label()
         Me.Label131 = New System.Windows.Forms.Label()
-        Me.TextBox44 = New System.Windows.Forms.TextBox()
-        Me.Label134 = New System.Windows.Forms.Label()
-        Me.GroupBox15 = New System.Windows.Forms.GroupBox()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox17.SuspendLayout()
@@ -385,6 +385,7 @@ Partial Class Form1
         CType(Me.NumericUpDown11, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage3.SuspendLayout()
         Me.TabPage4.SuspendLayout()
+        Me.GroupBox15.SuspendLayout()
         Me.GroupBox13.SuspendLayout()
         Me.GroupBox19.SuspendLayout()
         Me.GroupBox14.SuspendLayout()
@@ -405,7 +406,6 @@ Partial Class Form1
         CType(Me.NumericUpDown34, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown33, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown30, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox15.SuspendLayout()
         Me.SuspendLayout()
         '
         'TabControl1
@@ -915,7 +915,7 @@ Partial Class Form1
         Me.NumericUpDown2.Size = New System.Drawing.Size(57, 20)
         Me.NumericUpDown2.TabIndex = 8
         Me.NumericUpDown2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.NumericUpDown2.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NumericUpDown2.Value = New Decimal(New Integer() {75, 0, 0, 131072})
         '
         'NumericUpDown4
         '
@@ -1984,6 +1984,39 @@ Partial Class Form1
         Me.TabPage4.Text = "Costing"
         Me.TabPage4.UseVisualStyleBackColor = True
         '
+        'GroupBox15
+        '
+        Me.GroupBox15.Controls.Add(Me.RadioButton4)
+        Me.GroupBox15.Controls.Add(Me.RadioButton5)
+        Me.GroupBox15.Location = New System.Drawing.Point(14, 282)
+        Me.GroupBox15.Name = "GroupBox15"
+        Me.GroupBox15.Size = New System.Drawing.Size(243, 57)
+        Me.GroupBox15.TabIndex = 8
+        Me.GroupBox15.TabStop = False
+        Me.GroupBox15.Text = "Type schroeftransporteur"
+        '
+        'RadioButton4
+        '
+        Me.RadioButton4.AutoSize = True
+        Me.RadioButton4.Checked = True
+        Me.RadioButton4.Location = New System.Drawing.Point(19, 24)
+        Me.RadioButton4.Name = "RadioButton4"
+        Me.RadioButton4.Size = New System.Drawing.Size(77, 17)
+        Me.RadioButton4.TabIndex = 2
+        Me.RadioButton4.TabStop = True
+        Me.RadioButton4.Text = "Pijpschroef"
+        Me.RadioButton4.UseVisualStyleBackColor = True
+        '
+        'RadioButton5
+        '
+        Me.RadioButton5.AutoSize = True
+        Me.RadioButton5.Location = New System.Drawing.Point(135, 24)
+        Me.RadioButton5.Name = "RadioButton5"
+        Me.RadioButton5.Size = New System.Drawing.Size(82, 17)
+        Me.RadioButton5.TabIndex = 74
+        Me.RadioButton5.Text = "Trogschroef"
+        Me.RadioButton5.UseVisualStyleBackColor = True
+        '
         'Button7
         '
         Me.Button7.Location = New System.Drawing.Point(33, 441)
@@ -2018,27 +2051,24 @@ Partial Class Form1
         Me.GroupBox13.TabStop = False
         Me.GroupBox13.Text = "Data"
         '
-        'RadioButton5
+        'TextBox44
         '
-        Me.RadioButton5.AutoSize = True
-        Me.RadioButton5.Location = New System.Drawing.Point(135, 24)
-        Me.RadioButton5.Name = "RadioButton5"
-        Me.RadioButton5.Size = New System.Drawing.Size(82, 17)
-        Me.RadioButton5.TabIndex = 74
-        Me.RadioButton5.Text = "Trogschroef"
-        Me.RadioButton5.UseVisualStyleBackColor = True
+        Me.TextBox44.Enabled = False
+        Me.TextBox44.Location = New System.Drawing.Point(160, 137)
+        Me.TextBox44.Name = "TextBox44"
+        Me.TextBox44.Size = New System.Drawing.Size(62, 20)
+        Me.TextBox44.TabIndex = 76
+        Me.TextBox44.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
-        'RadioButton4
+        'Label134
         '
-        Me.RadioButton4.AutoSize = True
-        Me.RadioButton4.Checked = True
-        Me.RadioButton4.Location = New System.Drawing.Point(19, 24)
-        Me.RadioButton4.Name = "RadioButton4"
-        Me.RadioButton4.Size = New System.Drawing.Size(77, 17)
-        Me.RadioButton4.TabIndex = 2
-        Me.RadioButton4.TabStop = True
-        Me.RadioButton4.Text = "Pijpschroef"
-        Me.RadioButton4.UseVisualStyleBackColor = True
+        Me.Label134.AutoSize = True
+        Me.Label134.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label134.Location = New System.Drawing.Point(9, 135)
+        Me.Label134.Name = "Label134"
+        Me.Label134.Size = New System.Drawing.Size(127, 18)
+        Me.Label134.TabIndex = 75
+        Me.Label134.Text = "Diameter flight [m]"
         '
         'TextBox53
         '
@@ -3953,36 +3983,6 @@ Partial Class Form1
         Me.Label131.TabIndex = 48
         Me.Label131.Text = "Engineering uren"
         '
-        'TextBox44
-        '
-        Me.TextBox44.Enabled = False
-        Me.TextBox44.Location = New System.Drawing.Point(160, 137)
-        Me.TextBox44.Name = "TextBox44"
-        Me.TextBox44.Size = New System.Drawing.Size(62, 20)
-        Me.TextBox44.TabIndex = 76
-        Me.TextBox44.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'Label134
-        '
-        Me.Label134.AutoSize = True
-        Me.Label134.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label134.Location = New System.Drawing.Point(9, 135)
-        Me.Label134.Name = "Label134"
-        Me.Label134.Size = New System.Drawing.Size(127, 18)
-        Me.Label134.TabIndex = 75
-        Me.Label134.Text = "Diameter flight [m]"
-        '
-        'GroupBox15
-        '
-        Me.GroupBox15.Controls.Add(Me.RadioButton4)
-        Me.GroupBox15.Controls.Add(Me.RadioButton5)
-        Me.GroupBox15.Location = New System.Drawing.Point(14, 282)
-        Me.GroupBox15.Name = "GroupBox15"
-        Me.GroupBox15.Size = New System.Drawing.Size(243, 57)
-        Me.GroupBox15.TabIndex = 8
-        Me.GroupBox15.TabStop = False
-        Me.GroupBox15.Text = "Type schroeftransporteur"
-        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4037,6 +4037,8 @@ Partial Class Form1
         Me.TabPage3.ResumeLayout(False)
         Me.TabPage3.PerformLayout()
         Me.TabPage4.ResumeLayout(False)
+        Me.GroupBox15.ResumeLayout(False)
+        Me.GroupBox15.PerformLayout()
         Me.GroupBox13.ResumeLayout(False)
         Me.GroupBox13.PerformLayout()
         Me.GroupBox19.ResumeLayout(False)
@@ -4062,8 +4064,6 @@ Partial Class Form1
         CType(Me.NumericUpDown34, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NumericUpDown33, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NumericUpDown30, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox15.ResumeLayout(False)
-        Me.GroupBox15.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
