@@ -637,6 +637,26 @@ Public Class Form1
       "400 ;0",
       "500 ;0"}
 
+    Public Shared Screw_dia() As String =   'tbv screw diameter selectie
+      {"Screw_Dia;empty",
+      "230 ;0",
+      "250 ;0",
+      "280 ;0",
+      "310 ;0",
+      "340 ;0",
+      "375 ;0",
+      "420 ;0",
+      "470 ;0",
+      "520 ;0",
+      "570 ;0",
+      "630 ;0",
+      "700 ;0",
+      "800 ;0",
+      "900 ;0",
+      "1000 ;0",
+      "1200 ;0",
+      "1400 ;0"}
+
     Public Shared pakking() As String =
      {"Merk;maat;prijs",
       "Flowtite wit, 3*1.5  ;53",
@@ -650,19 +670,19 @@ Public Class Form1
                                        "30  ; 1500", "37;  1500", "45;  1500", "55;  1500", "75; 1500", "90; 1500",
                                        "110 ; 1500", "132; 1500", "160; 1500", "200; 1500"}
 
-    Public Shared diam_trough As Double                         '[m]
-    Public Shared pipe_OD, pipe_ID, pipe_wall As Double
+    Public Shared _diam_trough As Double                         '[m]
+    Public Shared _pipe_OD, _pipe_ID, _pipe_wall As Double
     Public Shared pipe_Ix, pipe_Wx, pipe_Wp As Double            'Lineair en polair weerstand moment
     Public Shared pitch As Double
     Public Shared installed_power As Double
     Public Shared sigma02, sigma_fatique, Elast As Double
     Public Shared inlet_length, conv_length, product_density As Double
-    Dim angle As Double
-    Dim speed As Double
-    Dim flow_hr As Double
-    Dim density As Double
-    Dim filling_perc As Double
-    Dim progress_resistance As Double                   'Friction from product to steel
+    Public Shared _angle As Double
+    Public Shared speed As Double
+    Public Shared flow_hr As Double
+    Public Shared density As Double
+    Public Shared filling_perc As Double
+    Public Shared progress_resistance As Double                   'Friction from product to steel
 
     Public Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim words() As String
@@ -692,20 +712,21 @@ Public Class Form1
         Next hh
         ComboBox5.SelectedIndex = 0
 
-
-        pipe_dia_combo()
-        pipe_wall_combo()
-        motorreductor()
+        Screw_combo_init()
+        Pipe_dia_combo_init()
+        Pipe_wall_combo_init()
+        Motorreductor()
         Coupling_combo()
         Lager_combo()
-        astap_combo()
-        paint_combo()
-        pakking_combo()
+        Astap_combo()
+
+        Paint_combo()
+        Pakking_combo()
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles NumericUpDown9.ValueChanged, NumericUpDown7.ValueChanged, NumericUpDown6.ValueChanged, NumericUpDown5.ValueChanged, NumericUpDown4.ValueChanged, NumericUpDown3.ValueChanged, NumericUpDown2.ValueChanged, Button1.Click, NumericUpDown1.ValueChanged, TabPage1.Enter
-        calculate()
-        calulate_stress_1()
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles NumericUpDown9.ValueChanged, NumericUpDown7.ValueChanged, NumericUpDown6.ValueChanged, NumericUpDown5.ValueChanged, NumericUpDown4.ValueChanged, NumericUpDown3.ValueChanged, NumericUpDown2.ValueChanged, Button1.Click, TabPage1.Enter, ComboBox11.SelectedValueChanged
+        Calculate()
+        Calulate_stress_1()
     End Sub
 
     Private Sub Calculate()
@@ -721,25 +742,23 @@ Public Class Form1
         Dim r_time As Double            'Flight speed
 
         '-------------- get data----------
-        diam_trough = NumericUpDown1.Value / 1000               'Trough width[m]
-        TextBox18.Text = diam_trough * 1000.ToString
-        TextBox16.Text = pipe_OD * 1000.ToString                'Pipe diameter [m]
+        Double.TryParse(ComboBox11.SelectedItem, _diam_trough)
+        _diam_trough /= 1000                                    '[m] -> [mm]
+        TextBox18.Text = _diam_trough * 1000.ToString
+        TextBox16.Text = _pipe_OD * 1000.ToString                'Pipe diameter [m]
 
-        pitch = diam_trough * NumericUpDown2.Value              '[-]
+        pitch = _diam_trough * NumericUpDown2.Value              '[-]
         conv_length = NumericUpDown3.Value                      'Conveyor length [m]
         TextBox19.Text = conv_length.ToString
 
-        angle = NumericUpDown4.Value                            '[degree]
+        _angle = NumericUpDown4.Value                            '[degree]
         speed = NumericUpDown7.Value                            '[rpm]
 
-        flight_speed = speed / 60 * PI * diam_trough
+        flight_speed = speed / 60 * PI * _diam_trough
         TextBox11.Text = Round(flight_speed, 2).ToString 'Flight speed [m/s]
 
-        If flight_speed > 1.0 Then
-            TextBox11.BackColor = Color.Red
-        Else
-            TextBox11.BackColor = Color.LightGreen
-        End If
+        Label135.Visible = IIf(flight_speed > 1.0, True, False)
+
 
         If speed > 45 Then
             NumericUpDown7.BackColor = Color.Red
@@ -752,24 +771,24 @@ Public Class Form1
         progress_resistance = NumericUpDown9.Value      '[-]
 
         '--------------- now calc-----------------
-        cap_hr = PI / 4 * (diam_trough ^ 2 - pipe_OD ^ 2) * pitch * speed * 60            ' [m]
-        cap_hr = cap_hr * (100 - angle * 2) / 100                                         ' capacity loss due to inclination (2% per degree)
+
+        cap_hr = PI / 4 * (_diam_trough ^ 2 - _pipe_OD ^ 2) * pitch * speed * 60          ' [m]
+        cap_hr = cap_hr * (100 - _angle * 2) / 100                                         ' capacity loss due to inclination (2% per degree)
 
         cap_act = flow_hr / density
         filling_perc = Round(cap_act / cap_hr * 100, 1)
 
-        If filling_perc > 40 Then
-            TextBox1.BackColor = Color.Red
-        Else
-            TextBox1.BackColor = Color.LightGreen
-        End If
+        If filling_perc > 100 Then filling_perc = 100
+
+        TextBox1.BackColor = IIf(filling_perc > 40, Color.Red, Color.LightGreen)
+
 
         '--------------- ISO 7119 -----------------
-        height = conv_length * Sin(angle / 360 * 2 * PI)
+        height = conv_length * Sin(_angle / 360 * 2 * PI)
 
         iso_forward = flow_hr * conv_length * 9.91 * progress_resistance / (3600 * 1000)    'Forwards [kW]
         iso_incline = flow_hr * height * 9.81 / (3600 * 1000)                               'Uphill [kW]
-        iso_no_product = diam_trough * conv_length / 20                                     'Power for seals 0. + bearings [kW]
+        iso_no_product = _diam_trough * conv_length / 20                                     'Power for seals 0. + bearings [kW]
 
         iso_power = Round(iso_forward + iso_incline + iso_no_product, 1)
 
@@ -786,16 +805,13 @@ Public Class Form1
         TextBox110.Text = Round(r_time, 0).ToString
 
     End Sub
-    Private Sub ComboBox3_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox3.SelectedIndexChanged
-        pipe_wall_combo()   'Put new wall thicknesses in the combobox
-    End Sub
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
-        save_to_disk()
+        Save_to_disk()
     End Sub
 
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown12.ValueChanged, NumericUpDown10.ValueChanged, NumericUpDown25.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox4.SelectedIndexChanged, ComboBox13.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox8.CheckedChanged, CheckBox5.CheckedChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, CheckBox4.CheckedChanged, CheckBox7.CheckedChanged, CheckBox6.CheckedChanged, CheckBox9.CheckedChanged, TabPage4.Enter
-        costing_material()
+        Costing_material()
     End Sub
 
     'Materiaal in de conveyor
@@ -811,7 +827,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click, TabPage5.Enter, NumericUpDown34.ValueChanged, NumericUpDown33.ValueChanged, NumericUpDown30.ValueChanged, NumericUpDown27.ValueChanged
-        costing_material()
+        Costing_material()
     End Sub
     'Please note complete calculation in [m] nit [mm]
     Private Sub Calulate_stress_1()
@@ -878,28 +894,28 @@ Public Class Form1
         If ComboBox3.SelectedIndex > -1 Then
             words = pipe(ComboBox3.SelectedIndex).Split(";")
 
-            Double.TryParse(words(2), pipe_OD)
-            pipe_OD /= 1000                             'Outside Diameter [m]
-            pipe_OR = pipe_OD / 2                       'Radius [mm]
-            pipe_wall = ComboBox6.SelectedItem / 1000   'Wall thickness [mm]
-            pipe_ID = (pipe_OD - 2 * pipe_wall)         'Inside diameter [mm]
-            pipe_IR = pipe_ID / 2                       'Inside radius [mm]
+            Double.TryParse(words(2), _pipe_OD)
+            _pipe_OD /= 1000                             'Outside Diameter [m]
+            pipe_OR = _pipe_OD / 2                       'Radius [mm]
+            _pipe_wall = ComboBox6.SelectedItem / 1000   'Wall thickness [mm]
+            _pipe_ID = (_pipe_OD - 2 * _pipe_wall)         'Inside diameter [mm]
+            pipe_IR = _pipe_ID / 2                       'Inside radius [mm]
 
-            weight_m = PI / 4 * (pipe_OD ^ 2 - pipe_ID ^ 2) * 7850          'Weight per meter [kg/m]
+            weight_m = PI / 4 * (_pipe_OD ^ 2 - _pipe_ID ^ 2) * 7850          'Weight per meter [kg/m]
 
             TextBox13.Text = Round(weight_m, 1).ToString                    'gewicht per meter
-            TextBox16.Text = Round(pipe_OD * 1000, 1).ToString              'Diameter [m]
+            TextBox16.Text = Round(_pipe_OD * 1000, 1).ToString              'Diameter [m]
 
             '---------------- Traagheids moment Ix= PI/64.(D^4-d^4)---------------------
-            pipe_Ix = PI / 64 * (pipe_OD ^ 4 - pipe_ID ^ 4)                  '[m4]
+            pipe_Ix = PI / 64 * (_pipe_OD ^ 4 - _pipe_ID ^ 4)                  '[m4]
             TextBox26.Text = Round(pipe_Ix * 1000 ^ 4, 0).ToString
 
             '---------------- Weerstand moment Buiging  Wx= PI/32.(D^4-d^4)/D---------------------
-            pipe_Wx = PI / 32 * (pipe_OD ^ 4 - pipe_ID ^ 4) / pipe_OD        '[m3]
+            pipe_Wx = PI / 32 * (_pipe_OD ^ 4 - _pipe_ID ^ 4) / _pipe_OD        '[m3]
             TextBox14.Text = Round(pipe_Wx * 1000 ^ 3, 0).ToString
 
             '---------------- Weerstand moment Torsie (polair)  Wp= PI/16.(D^4-d^4)/D --------------
-            pipe_Wp = PI / 16 * (pipe_OD ^ 4 - pipe_ID ^ 4) / pipe_OD       '[m3]
+            pipe_Wp = PI / 16 * (_pipe_OD ^ 4 - _pipe_ID ^ 4) / _pipe_OD       '[m3]
             TextBox15.Text = Round(pipe_Wp * 1000 ^ 3, 0).ToString
 
 
@@ -907,10 +923,10 @@ Public Class Form1
             '====================================================================================================================================
 
             '---------------- gewicht flight---mm dik----------------------------------
-            flight_hoogte = (diam_trough - pipe_OD / 1000) / 2                                  '[m]
-            flight_lengte_buiten = Sqrt((PI * diam_trough) ^ 2 + (pitch) ^ 2)
+            flight_hoogte = (_diam_trough - _pipe_OD / 1000) / 2                                  '[m]
+            flight_lengte_buiten = Sqrt((PI * _diam_trough) ^ 2 + (pitch) ^ 2)
 
-            flight_lengte_binnen = Sqrt((PI * pipe_OD / 1000) ^ 2 + (pitch) ^ 2)
+            flight_lengte_binnen = Sqrt((PI * _pipe_OD / 1000) ^ 2 + (pitch) ^ 2)
             flight_lengte_gem = (flight_lengte_buiten + flight_lengte_binnen) / 2
             fligh_dik = NumericUpDown8.Value / 1000                                             '[m]
             flight_gewicht = (flight_hoogte * flight_lengte_gem * fligh_dik * 7850) / pitch     'Flight Gewicht per meter
@@ -929,10 +945,10 @@ Public Class Form1
             TextBox22.Text = Round(Q_load_1, 0).ToString            'Belasting [kg/m]
 
             '----------- Axial load caused by transport of product
-            Radius_transport = (diam_trough + pipe_OD) / 4                  'Acc Jos (D+d)/4
+            Radius_transport = (_diam_trough + _pipe_OD) / 4                  'Acc Jos (D+d)/4
             F_tangent = P_torque / Radius_transport
             Q_load_2 = F_tangent / conv_length                              'Transport kracht geeft doorbuiging pijp
-            Q_load_3 = pipe_OD * kolom_height * product_density * 9.91      'gelijkmatige belasting op de pijp door materiaal kolom
+            Q_load_3 = _pipe_OD * kolom_height * product_density * 9.91      'gelijkmatige belasting op de pijp door materiaal kolom
             TextBox17.Text = Round(Q_load_3, 0).ToString                    '[N/m]
 
             '============================================ Traditionele VTK berekening ===========================================================
@@ -1034,9 +1050,22 @@ Public Class Form1
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click, NumericUpDown11.ValueChanged, ComboBox2.SelectedIndexChanged, NumericUpDown13.ValueChanged, TabPage2.Enter, NumericUpDown17.ValueChanged, NumericUpDown16.ValueChanged, ComboBox3.ValueMemberChanged, ComboBox5.SelectedIndexChanged, ComboBox6.SelectedIndexChanged, RadioButton3.CheckedChanged, RadioButton2.CheckedChanged, RadioButton1.CheckedChanged, CheckBox1.CheckedChanged
-        calulate_stress_1()
+        Calulate_stress_1()
     End Sub
-    Private Sub Pipe_dia_combo()
+    Private Sub Screw_dia_combo()
+        Dim words() As String
+
+        If (ComboBox11.SelectedIndex > -1) Then      'Prevent exceptions
+            words = Screw_dia(ComboBox11.SelectedIndex).Split(";")
+            Double.TryParse(words(0), _diam_trough)
+            _diam_trough /= 1000                    'Trough width[m]
+
+            TextBox18.Text = Round(_diam_trough * 1000, 3).ToString
+            MessageBox.Show(_diam_trough.ToString)
+        End If
+    End Sub
+
+    Private Sub Pipe_dia_combo_init()
         Dim words() As String
 
         ComboBox3.Items.Clear()
@@ -1051,11 +1080,11 @@ Public Class Form1
         ComboBox9.SelectedIndex = 2
 
         words = pipe(ComboBox3.SelectedIndex).Split(";")
-        Double.TryParse(words(2), pipe_OD)
-        pipe_OD /= 1000                                         'Outside Diameter [m]
-        TextBox16.Text = Round(pipe_OD * 1000, 1).ToString      'Diameter [mm]
+        Double.TryParse(words(2), _pipe_OD)
+        _pipe_OD /= 1000                                         'Outside Diameter [m]
+        TextBox16.Text = Round(_pipe_OD * 1000, 1).ToString      'Diameter [mm]
     End Sub
-    Private Sub Pipe_wall_combo()
+    Private Sub Pipe_wall_combo_init()
         Dim words() As String
         Dim temp As Double
 
@@ -1102,6 +1131,7 @@ Public Class Form1
         Next hh
         ComboBox8.SelectedIndex = 1
     End Sub
+
 
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
         Dim oWord As Word.Application
@@ -1173,7 +1203,7 @@ Public Class Form1
         oTable.Cell(row, 1).Range.Text = "Input Data"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Diameter trough"
-        oTable.Cell(row, 3).Range.Text = NumericUpDown1.Value
+        oTable.Cell(row, 3).Range.Text = ComboBox11.Text
         oTable.Cell(row, 2).Range.Text = "[mm]"
 
         row += 1
@@ -1385,6 +1415,12 @@ Public Class Form1
         oTable.Columns.Item(7).Width = oWord.InchesToPoints(0.4)
         oTable.Columns.Item(8).Width = oWord.InchesToPoints(0.6)
     End Sub
+
+    Private Sub ComboBox11_SelectedIndexChanged(sender As Object, e As EventArgs)
+        Screw_dia_combo()
+        Calculate()
+    End Sub
+
     Private Sub Astap_combo()
         Dim words() As String
 
@@ -1396,6 +1432,18 @@ Public Class Form1
         Next hh
         ComboBox13.SelectedIndex = 1
     End Sub
+    Private Sub Screw_combo_init()
+        Dim words() As String
+
+        ComboBox11.Items.Clear()
+        '-------Fill combobox------------------
+        For hh = 1 To Screw_dia.Length - 1                'Fill combobox 11 with screw data
+            words = Screw_dia(hh).Split(";")
+            ComboBox11.Items.Add(words(0))
+        Next hh
+        ComboBox11.SelectedIndex = 6
+    End Sub
+
     Private Sub Paint_combo()
         Dim words() As String
 
@@ -1444,7 +1492,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
-        print_word()
+        Print_word()
     End Sub
 
     Private Sub Print_word()
@@ -1522,7 +1570,7 @@ Public Class Form1
             oTable.Cell(row, 1).Range.Text = "Conveyor Data"
             row += 1
             oTable.Cell(row, 1).Range.Text = "Diameter trough"
-            oTable.Cell(row, 2).Range.Text = NumericUpDown1.Value
+            oTable.Cell(row, 2).Range.Text = ComboBox11.Text
             oTable.Cell(row, 3).Range.Text = "[mm]"
             row += 1
             oTable.Cell(row, 1).Range.Text = "Diameter pipe"
@@ -1707,10 +1755,10 @@ Public Class Form1
 
         conv_length = NumericUpDown3.Value             'lengte van de trog
         TextBox40.Text = ComboBox2.Text                'materiaalsoort staal
-        TextBox41.Text = (pipe_OD * 1000).ToString     'diameter pijp
+        TextBox41.Text = (_pipe_OD * 1000).ToString     'diameter pijp
         TextBox51.Text = NumericUpDown3.Value          'lengte trog
         TextBox52.Text = ComboBox5.Text                'vermogen aandrijving
-        TextBox44.Text = diam_trough.ToString           'diameter flight
+        TextBox44.Text = _diam_trough.ToString           'diameter flight
 
         '---------------------------------------------- PRICES -----------------------------------------
         '-----------------------------------------------------------------------------------------------
@@ -1780,11 +1828,11 @@ Public Class Form1
 
         Select Case True                'Pijpschroef oppervlak
             Case (RadioButton4.Checked)
-                opp_trog = 2 * PI * ((diam_trough / 2) * dikte_trog)
-                kopstaartplaat = diam_trough ^ 2
+                opp_trog = 2 * PI * ((_diam_trough / 2) * dikte_trog)
+                kopstaartplaat = _diam_trough ^ 2
             Case (RadioButton5.Checked) 'Trogschroef oppervlak
-                opp_trog = (PI * (diam_trough / 2) * dikte_trog + 2 * dikte_trog * (0.045 + diam_trough / 2) + 0.075 * dikte_trog)   'troghoogte=trogbreedte/2+45mm, flens= 0.05+0.025
-                kopstaartplaat = (diam_trough * (diam_trough + 0.045))
+                opp_trog = (PI * (_diam_trough / 2) * dikte_trog + 2 * dikte_trog * (0.045 + _diam_trough / 2) + 0.075 * dikte_trog)   'troghoogte=trogbreedte/2+45mm, flens= 0.05+0.025
+                kopstaartplaat = (_diam_trough * (_diam_trough + 0.045))
         End Select
 
         weight_kopstaartplaat = kopstaartplaat * (NumericUpDown10.Value / 1000) * rho_materiaal
@@ -1793,23 +1841,23 @@ Public Class Form1
         kg_trog = 2 * weight_kopstaartplaat + opp_trog * conv_length * rho_materiaal
         oppb_trog = 2 * kopstaartplaat + 2 * opp_trog * conv_length / dikte_trog                'kuip zowel uitwendig als inwendig
 
-        Double.TryParse(ComboBox9.SelectedItem, pipe_OD)         ' ComboBox3 = ComboBox9
-        pipe_OD = pipe_OD / 1000
-        pipe_wall = ComboBox6.SelectedItem / 1000
-        pipe_ID = (pipe_OD - 2 * pipe_wall)
-        weight_pipe = rho_materiaal * PI / 4 * (pipe_OD ^ 2 - pipe_ID ^ 2) * conv_length
-        oppb_pipe = pipe_OD * PI * conv_length
+        Double.TryParse(ComboBox9.SelectedItem, _pipe_OD)         ' ComboBox3 = ComboBox9
+        _pipe_OD = _pipe_OD / 1000
+        _pipe_wall = ComboBox6.SelectedItem / 1000
+        _pipe_ID = (_pipe_OD - 2 * _pipe_wall)
+        weight_pipe = rho_materiaal * PI / 4 * (_pipe_OD ^ 2 - _pipe_ID ^ 2) * conv_length
+        oppb_pipe = _pipe_OD * PI * conv_length
 
-        If diam_trough > 0.3015 Then                          'in [m], radiale speling schroef in kuip: tot diam 0.3m 7.5 mm, daarboven 10mm
+        If _diam_trough > 0.3015 Then                          'in [m], radiale speling schroef in kuip: tot diam 0.3m 7.5 mm, daarboven 10mm
             speling_trog = 0.01
         Else
             speling_trog = 0.0075
         End If
-        diam_schroef = diam_trough - 2 * speling_trog
+        diam_schroef = _diam_trough - 2 * speling_trog
 
         dikte_deksel = NumericUpDown15.Value / 1000
-        kg_deksel = conv_length * dikte_deksel * (diam_trough + 0.075) * rho_materiaal     '50mm voor de horizontale flens en 25mm voor het stukje naar beneden
-        oppb_deksel = 2 * conv_length * (diam_trough + 0.075)                              'zowel inwendig als uitwendig
+        kg_deksel = conv_length * dikte_deksel * (_diam_trough + 0.075) * rho_materiaal     '50mm voor de horizontale flens en 25mm voor het stukje naar beneden
+        oppb_deksel = 2 * conv_length * (_diam_trough + 0.075)                              'zowel inwendig als uitwendig
 
 
 
@@ -1818,7 +1866,7 @@ Public Class Form1
         nr_flights = conv_length / spoed
         hoek_spoed = Atan(spoed / (PI * diam_schroef))                  '[rad]    
 
-        kg_schroefblad = PI * rho_materiaal * (NumericUpDown12.Value / 1000) * 0.25 * nr_flights * (diam_schroef ^ 2 - pipe_OD ^ 2) / Cos(hoek_spoed)         ' DIT IS DE ECHTE FORMULE!!!!!
+        kg_schroefblad = PI * rho_materiaal * (NumericUpDown12.Value / 1000) * 0.25 * nr_flights * (diam_schroef ^ 2 - _pipe_OD ^ 2) / Cos(hoek_spoed)         ' DIT IS DE ECHTE FORMULE!!!!!
         oppb_schroefblad = 2 * (kg_schroefblad / (NumericUpDown12.Value * rho_materiaal / 1000))
 
         Double.TryParse(ComboBox13.SelectedItem, dia_astap)             '[mm] 
@@ -1829,7 +1877,7 @@ Public Class Form1
 
         rho_kunststof = 970                                             '[kg/m3] dichtheid HDPE
         dikte_lining = NumericUpDown25.Value / 1000
-        kg_lining = rho_kunststof * (PI * diam_trough + 0.5 * (0.045 + diam_trough / 2)) * dikte_lining * conv_length
+        kg_lining = rho_kunststof * (PI * _diam_trough + 0.5 * (0.045 + _diam_trough / 2)) * dikte_lining * conv_length
 
         '---------- estimated weights---------------
         kg_inlaat = 10              '[kg] inlaat chute
