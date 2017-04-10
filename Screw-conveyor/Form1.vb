@@ -7,7 +7,8 @@ Imports Word = Microsoft.Office.Interop.Word
 
 Public Class Form1
     'Materials name; CEMA Material code; Conveyor loading; Component group, density min, Density max, HP Material
-    Public Shared inputs() As String = {"Adipic Acid;45A35;30A;2B;720;720;0.5",
+    Public Shared _inputs() As String = {
+"Adipic Acid;45A35;30A;2B;720;720;0.5",
 "Alfalfa Meal;18B45WY;30A;2D;220;350;0.6",
 "Alfalfa Pellets;42C25;45;2D;660;690;0.5",
 "Alfalfa Seed;13B15N;45;1A,1B,1C;160;240;0.4",
@@ -103,7 +104,7 @@ Public Class Form1
 "Caustic Soda (Sodium Hydroxide);88B35RSU;30A;3D;1410;1410;1.8",
 "Caustic Soda, Flakes;47C45RSUX;30A;3A,3B;750;750;1.5",
 "Celite (Diatomaceous Earth);14A36Y;30B;3D;180;270;1.6",
-"Cellulose + TBA;VTK;30B;2D;960;800;1.6",
+"Cellulose with TBA;VTK;30B;2D;960;800;1.6",
 "Cement, Aerated (Portland);68A16M;30B;2D;960;1200;1.4",
 "Cement, Clinker;85D36;30B;3D;1200;1520;1.8",
 "Cement, Mortar;133B35Q;30A;3D;2130;2130;3",
@@ -598,11 +599,11 @@ Public Class Form1
       "120 mm Trekbus;800",
       "125 mm Trekbus;901.85",
       "130 mm Trekbus;1000",
-       "135 mm Trekbus;1111.90",
+      "135 mm Trekbus;1111.90",
       "140 mm Trekbus;1385.19",
       "180 mm Trekbus;2505.50",
-    "40 mm Cylindrisch;94.39",
-    "50 mm Cylindrisch;106.76",
+      "40 mm Cylindrisch;94.39",
+      "50 mm Cylindrisch;106.76",
       "55 mm Cylindrisch;120",
       "60 mm Cylindrisch;142.49",
       "65 mm Cylindrisch;170",
@@ -637,22 +638,14 @@ Public Class Form1
       "400 ;0",
       "500 ;0"}
 
-    Public Shared Screw_dia() As String =   'tbv screw diameter selectie
-      {"Screw_Dia;empty",
-      "230 ;0",
-      "250 ;0",
+    Public Shared Flight_dia() As String =   'tbv screw diameter selectie
+      {"Flight_dia;empty",
       "280 ;0",
-      "310 ;0",
-      "340 ;0",
-      "375 ;0",
-      "420 ;0",
-      "470 ;0",
-      "520 ;0",
-      "570 ;0",
+      "330 ;0",
+      "400 ;0",
+      "500 ;0",
       "630 ;0",
-      "700 ;0",
       "800 ;0",
-      "900 ;0",
       "1000 ;0",
       "1200 ;0",
       "1400 ;0"}
@@ -670,7 +663,13 @@ Public Class Form1
                                        "30  ; 1500", "37;  1500", "45;  1500", "55;  1500", "75; 1500", "90; 1500",
                                        "110 ; 1500", "132; 1500", "160; 1500", "200; 1500"}
 
-    Public Shared _diam_trough As Double                         '[m]
+
+    '----------- directory's-----------
+    Dim dirpath_Eng As String = "N:\Engineering\VBasic\Fan_sizing_input\"
+    Dim dirpath_Rap As String = "N:\Engineering\VBasic\Fan_rapport_copy\"
+    Dim dirpath_Home As String = "C:\Temp\"
+
+    Public Shared _diam_flight As Double                         '[m]
     Public Shared _pipe_OD, _pipe_ID, _pipe_wall As Double
     Public Shared pipe_Ix, pipe_Wx, pipe_Wp As Double            'Lineair en polair weerstand moment
     Public Shared pitch As Double
@@ -691,15 +690,15 @@ Public Class Form1
         Thread.CurrentThread.CurrentUICulture = New CultureInfo("en-US")
 
 
-        For hh = 0 To (UBound(inputs) - 1)              'Fill combobox1
-            words = inputs(hh).Split(";")
+        For hh = 0 To (UBound(_inputs) - 1)              'Fill combobox1
+            words = _inputs(hh).Split(CType(";", Char()))
             ComboBox1.Items.Add(words(0))
         Next hh
         ComboBox1.SelectedIndex = 225                   'Grafite ore
 
         '-------Fill combobox2, Steel selection------------------
         For hh = 0 To (UBound(steel) - 1)               'Fill combobox 2 with steel data
-            words = steel(hh).Split(";")
+            words = steel(hh).Split(CType(";", Char()))
             ComboBox2.Items.Add(words(0))
         Next hh
         ComboBox2.SelectedIndex = 8                     'rvs 304
@@ -707,7 +706,7 @@ Public Class Form1
 
         '-------Fill combobox5, emotor selection------------------
         For hh = 0 To (UBound(emotor) - 1)               'Fill combobox 5 emotor data
-            words = emotor(hh).Split(";")
+            words = emotor(hh).Split(CType(";", Char()))
             ComboBox5.Items.Add(words(0))
         Next hh
         ComboBox5.SelectedIndex = 0
@@ -742,22 +741,22 @@ Public Class Form1
         Dim r_time As Double            'Flight speed
 
         '-------------- get data----------
-        Double.TryParse(ComboBox11.SelectedItem, _diam_trough)
-        _diam_trough /= 1000                                    '[m] -> [mm]
-        TextBox18.Text = _diam_trough * 1000.ToString
-        TextBox16.Text = _pipe_OD * 1000.ToString                'Pipe diameter [m]
+        Double.TryParse(CType(ComboBox11.SelectedItem, String), _diam_flight)
+        _diam_flight /= 1000                                    '[m] -> [mm]
+        TextBox18.Text = CType(_diam_flight * CDbl(1000.ToString), String)
+        TextBox16.Text = CType(_pipe_OD * CDbl(1000.ToString), String)                'Pipe diameter [m]
 
-        pitch = _diam_trough * NumericUpDown2.Value              '[-]
+        pitch = _diam_flight * NumericUpDown2.Value              '[-]
         conv_length = NumericUpDown3.Value                      'Conveyor length [m]
         TextBox19.Text = conv_length.ToString
 
         _angle = NumericUpDown4.Value                            '[degree]
         speed = NumericUpDown7.Value                            '[rpm]
 
-        flight_speed = speed / 60 * PI * _diam_trough
+        flight_speed = speed / 60 * PI * _diam_flight
         TextBox11.Text = Round(flight_speed, 2).ToString 'Flight speed [m/s]
 
-        Label135.Visible = IIf(flight_speed > 1.0, True, False)
+        Label135.Visible = CBool(IIf(flight_speed > 1.0, True, False))
 
 
         If speed > 45 Then
@@ -772,7 +771,7 @@ Public Class Form1
 
         '--------------- now calc-----------------
 
-        cap_hr = PI / 4 * (_diam_trough ^ 2 - _pipe_OD ^ 2) * pitch * speed * 60          ' [m]
+        cap_hr = PI / 4 * (_diam_flight ^ 2 - _pipe_OD ^ 2) * pitch * speed * 60          ' [m]
         cap_hr = cap_hr * (100 - _angle * 2) / 100                                         ' capacity loss due to inclination (2% per degree)
 
         cap_act = flow_hr / density
@@ -780,7 +779,7 @@ Public Class Form1
 
         If filling_perc > 100 Then filling_perc = 100
 
-        TextBox1.BackColor = IIf(filling_perc > 40, Color.Red, Color.LightGreen)
+        TextBox1.BackColor = CType(IIf(filling_perc > 40, Color.Red, Color.LightGreen), Color)
 
 
         '--------------- ISO 7119 -----------------
@@ -788,7 +787,7 @@ Public Class Form1
 
         iso_forward = flow_hr * conv_length * 9.91 * progress_resistance / (3600 * 1000)    'Forwards [kW]
         iso_incline = flow_hr * height * 9.81 / (3600 * 1000)                               'Uphill [kW]
-        iso_no_product = _diam_trough * conv_length / 20                                     'Power for seals 0. + bearings [kW]
+        iso_no_product = _diam_flight * conv_length / 20                                     'Power for seals 0. + bearings [kW]
 
         iso_power = Round(iso_forward + iso_incline + iso_no_product, 1)
 
@@ -817,9 +816,9 @@ Public Class Form1
     'Materiaal in de conveyor
     Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged
         Try
-            Dim words() As String = inputs(ComboBox1.SelectedIndex).Split(";")
-            NumericUpDown6.Value = words(5) 'Density max
-            NumericUpDown9.Value = words(6) 'Material factor
+            Dim words() As String = _inputs(ComboBox1.SelectedIndex).Split(CType(";", Char()))
+            NumericUpDown6.Value = CDec(words(5)) 'Density max
+            NumericUpDown9.Value = CDec(words(6)) 'Material factor
             Label37.Text = "CEMA material code " & words(1)
         Catch ex As Exception
             MessageBox.Show(ex.Message)  ' Show the exception's message.
@@ -854,12 +853,12 @@ Public Class Form1
         product_density = NumericUpDown6.Value              'product density [kg/m3]
 
         If (ComboBox5.SelectedIndex > -1) Then      'Prevent exceptions
-            words = emotor(ComboBox5.SelectedIndex).Split(";")
+            words = emotor(ComboBox5.SelectedIndex).Split(CType(";", Char()))
             Double.TryParse(words(0), installed_power)
         End If
 
         If (ComboBox2.SelectedIndex > -1) Then      'Prevent exceptions
-            words = steel(ComboBox2.SelectedIndex).Split(";")
+            words = steel(ComboBox2.SelectedIndex).Split(CType(";", Char()))
             TextBox6.Text = words(6)     'Density steel
 
             '--------------- select the strength @ temperature
@@ -886,18 +885,19 @@ Public Class Form1
                 Case (qq > 350 AndAlso qq <= 400)
                     Double.TryParse(words(17), sigma02)    'Sigma 0.2 [N/mm]
             End Select
-            TextBox7.Text = sigma02
+            TextBox7.Text = CType(sigma02, String)
             sigma_fatique = sigma02 * 0.35                   'Fatique stress uitgelegd op oneindige levensduur
             TextBox8.Text = Round(sigma_fatique, 0).ToString
         End If
 
         If ComboBox3.SelectedIndex > -1 Then
-            words = pipe(ComboBox3.SelectedIndex).Split(";")
+            words = pipe(ComboBox3.SelectedIndex).Split(CType(";", Char()))
 
             Double.TryParse(words(2), _pipe_OD)
             _pipe_OD /= 1000                             'Outside Diameter [m]
             pipe_OR = _pipe_OD / 2                       'Radius [mm]
-            _pipe_wall = ComboBox6.SelectedItem / 1000   'Wall thickness [mm]
+            _pipe_wall = CDbl(ComboBox6.SelectedItem)   'Wall thickness [mm]
+            _pipe_wall /= 1000
             _pipe_ID = (_pipe_OD - 2 * _pipe_wall)         'Inside diameter [mm]
             pipe_IR = _pipe_ID / 2                       'Inside radius [mm]
 
@@ -923,8 +923,8 @@ Public Class Form1
             '====================================================================================================================================
 
             '---------------- gewicht flight---mm dik----------------------------------
-            flight_hoogte = (_diam_trough - _pipe_OD / 1000) / 2                                  '[m]
-            flight_lengte_buiten = Sqrt((PI * _diam_trough) ^ 2 + (pitch) ^ 2)
+            flight_hoogte = (_diam_flight - _pipe_OD / 1000) / 2                                  '[m]
+            flight_lengte_buiten = Sqrt((PI * _diam_flight) ^ 2 + (pitch) ^ 2)
 
             flight_lengte_binnen = Sqrt((PI * _pipe_OD / 1000) ^ 2 + (pitch) ^ 2)
             flight_lengte_gem = (flight_lengte_buiten + flight_lengte_binnen) / 2
@@ -945,7 +945,7 @@ Public Class Form1
             TextBox22.Text = Round(Q_load_1, 0).ToString            'Belasting [kg/m]
 
             '----------- Axial load caused by transport of product
-            Radius_transport = (_diam_trough + _pipe_OD) / 4                  'Acc Jos (D+d)/4
+            Radius_transport = (_diam_flight + _pipe_OD) / 4                  'Acc Jos (D+d)/4
             F_tangent = P_torque / Radius_transport
             Q_load_2 = F_tangent / conv_length                              'Transport kracht geeft doorbuiging pijp
             Q_load_3 = _pipe_OD * kolom_height * product_density * 9.91      'gelijkmatige belasting op de pijp door materiaal kolom
@@ -1049,19 +1049,19 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click, NumericUpDown11.ValueChanged, ComboBox2.SelectedIndexChanged, NumericUpDown13.ValueChanged, TabPage2.Enter, NumericUpDown17.ValueChanged, NumericUpDown16.ValueChanged, ComboBox3.ValueMemberChanged, ComboBox5.SelectedIndexChanged, ComboBox6.SelectedIndexChanged, RadioButton3.CheckedChanged, RadioButton2.CheckedChanged, RadioButton1.CheckedChanged, CheckBox1.CheckedChanged
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click, NumericUpDown11.ValueChanged, ComboBox2.SelectedIndexChanged, NumericUpDown13.ValueChanged, TabPage2.Enter, NumericUpDown17.ValueChanged, NumericUpDown16.ValueChanged, ComboBox5.SelectedIndexChanged, ComboBox6.SelectedIndexChanged, RadioButton3.CheckedChanged, RadioButton2.CheckedChanged, RadioButton1.CheckedChanged, CheckBox1.CheckedChanged, ComboBox3.SelectedIndexChanged
         Calulate_stress_1()
     End Sub
     Private Sub Screw_dia_combo()
         Dim words() As String
 
         If (ComboBox11.SelectedIndex > -1) Then      'Prevent exceptions
-            words = Screw_dia(ComboBox11.SelectedIndex).Split(";")
-            Double.TryParse(words(0), _diam_trough)
-            _diam_trough /= 1000                    'Trough width[m]
+            words = Flight_dia(ComboBox11.SelectedIndex).Split(CType(";", Char()))
+            Double.TryParse(words(0), _diam_flight)
+            _diam_flight /= 1000                    'Trough width[m]
 
-            TextBox18.Text = Round(_diam_trough * 1000, 3).ToString
-            MessageBox.Show(_diam_trough.ToString)
+            TextBox18.Text = Round(_diam_flight * 1000, 3).ToString
+            MessageBox.Show(_diam_flight.ToString)
         End If
     End Sub
 
@@ -1072,14 +1072,14 @@ Public Class Form1
 
         '-------Fill combobox3, Pipe selection------------------
         For hh = 0 To (UBound(pipe) - 1)                'Fill combobox 3 with pipe data
-            words = pipe(hh).Split(";")
+            words = pipe(hh).Split(CType(";", Char()))
             ComboBox3.Items.Add(Trim(words(2)))
             ComboBox9.Items.Add(Trim(words(2)))
         Next hh
         ComboBox3.SelectedIndex = 2
         ComboBox9.SelectedIndex = 2
 
-        words = pipe(ComboBox3.SelectedIndex).Split(";")
+        words = pipe(ComboBox3.SelectedIndex).Split(CType(";", Char()))
         Double.TryParse(words(2), _pipe_OD)
         _pipe_OD /= 1000                                         'Outside Diameter [m]
         TextBox16.Text = Round(_pipe_OD * 1000, 1).ToString      'Diameter [mm]
@@ -1090,7 +1090,7 @@ Public Class Form1
 
         ComboBox6.Items.Clear()
         '-------Fill combobox6, pipe wall selection------------------
-        words = pipe(ComboBox3.SelectedIndex).Split(";")  'Fill combobox 6 pipe wall data
+        words = pipe(ComboBox3.SelectedIndex).Split(CType(";", Char()))  'Fill combobox 6 pipe wall data
         For hh = 3 To 5
             If Double.TryParse(words(hh), temp) Then
                 ComboBox6.Items.Add(Trim(words(hh)))
@@ -1104,7 +1104,7 @@ Public Class Form1
         ComboBox4.Items.Clear()
         '-------Fill combobox4,  selection------------------
         For hh = 1 To (UBound(motorred))                'Fill combobox 3 with pipe data
-            words = motorred(hh).Split(";")
+            words = motorred(hh).Split(CType(";", Char()))
             ComboBox4.Items.Add(Trim(words(0)))
         Next hh
         ComboBox4.SelectedIndex = 2
@@ -1115,7 +1115,7 @@ Public Class Form1
         ComboBox7.Items.Clear()
         '-------Fill combobox7,  selection------------------
         For hh = 1 To (UBound(coupl))                'Fill combobox 7 with coupling data
-            words = coupl(hh).Split(";")
+            words = coupl(hh).Split(CType(";", Char()))
             ComboBox7.Items.Add(Trim(words(0)))
         Next hh
         ComboBox7.SelectedIndex = 1
@@ -1126,7 +1126,7 @@ Public Class Form1
         ComboBox8.Items.Clear()
         '-------Fill combobox8,  selection------------------
         For hh = 1 To lager.Length - 1                'Fill combobox 8 with lager data
-            words = lager(hh).Split(";")
+            words = lager(hh).Split(CType(";", Char()))
             ComboBox8.Items.Add(words(0))
         Next hh
         ComboBox8.SelectedIndex = 1
@@ -1142,7 +1142,7 @@ Public Class Form1
 
         'Start Word and open the document template. 
         font_sizze = 9
-        oWord = CreateObject("Word.Application")
+        oWord = CType(CreateObject("Word.Application"), Word.Application)
         oWord.Visible = True
         oDoc = oWord.Documents.Add
 
@@ -1151,14 +1151,14 @@ Public Class Form1
         oPara1.Range.Text = "VTK Engineering"
         oPara1.Range.Font.Name = "Arial"
         oPara1.Range.Font.Size = font_sizze + 3
-        oPara1.Range.Font.Bold = True
+        oPara1.Range.Font.Bold = CInt(True)
         oPara1.Format.SpaceAfter = 1                '24 pt spacing after paragraph. 
         oPara1.Range.InsertParagraphAfter()
 
         oPara2 = oDoc.Content.Paragraphs.Add(oDoc.Bookmarks.Item("\endofdoc").Range)
         oPara2.Range.Font.Size = font_sizze + 1
         oPara2.Format.SpaceAfter = 1
-        oPara2.Range.Font.Bold = False
+        oPara2.Range.Font.Bold = CInt(False)
         oPara2.Range.Text = "Kostencalculatie van schroeftransporteur" & vbCrLf
         oPara2.Range.InsertParagraphAfter()
 
@@ -1167,8 +1167,8 @@ Public Class Form1
         oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 5, 2)
         oTable.Range.ParagraphFormat.SpaceAfter = 1
         oTable.Range.Font.Size = font_sizze
-        oTable.Range.Font.Bold = False
-        oTable.Rows.Item(1).Range.Font.Bold = True
+        oTable.Range.Font.Bold = CInt(False)
+        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
 
         row = 1
         oTable.Cell(row, 1).Range.Text = "Project Name"
@@ -1188,7 +1188,7 @@ Public Class Form1
 
         oTable.Columns.Item(1).Width = oWord.InchesToPoints(2.5)   'Change width of columns 1 & 2.
         oTable.Columns.Item(2).Width = oWord.InchesToPoints(2)
-        oTable.Rows.Item(1).Range.Font.Bold = True
+        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
         oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
 
         '----------------------------------------------
@@ -1196,70 +1196,70 @@ Public Class Form1
         oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 14, 5)
         oTable.Range.ParagraphFormat.SpaceAfter = 1
         oTable.Range.Font.Size = font_sizze
-        oTable.Range.Font.Bold = False
-        oTable.Rows.Item(1).Range.Font.Bold = True
+        oTable.Range.Font.Bold = CInt(False)
+        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
         oTable.Rows.Item(1).Range.Font.Size = font_sizze + 2
         row = 1
         oTable.Cell(row, 1).Range.Text = "Input Data"
         row += 1
-        oTable.Cell(row, 1).Range.Text = "Diameter trough"
+        oTable.Cell(row, 1).Range.Text = "Diameter Flight"
         oTable.Cell(row, 3).Range.Text = ComboBox11.Text
         oTable.Cell(row, 2).Range.Text = "[mm]"
 
         row += 1
         oTable.Cell(row, 1).Range.Text = "Diameter pipe"
-        oTable.Cell(row, 3).Range.Text = ComboBox9.SelectedItem
+        oTable.Cell(row, 3).Range.Text = CType(ComboBox9.SelectedItem, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
         oTable.Cell(row, 5).Range.Text = TextBox45.Text
         oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Wall thickness pipe"
-        oTable.Cell(row, 3).Range.Text = ComboBox6.SelectedItem
+        oTable.Cell(row, 3).Range.Text = CType(ComboBox6.SelectedItem, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
 
         row += 1
         oTable.Cell(row, 1).Range.Text = "Pitch"
-        oTable.Cell(row, 3).Range.Text = NumericUpDown2.Value
+        oTable.Cell(row, 3).Range.Text = CType(NumericUpDown2.Value, String)
         oTable.Cell(row, 2).Range.Text = "[-]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Blad dikte"
-        oTable.Cell(row, 3).Range.Text = NumericUpDown8.Value
+        oTable.Cell(row, 3).Range.Text = CType(NumericUpDown8.Value, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
         oTable.Cell(row, 5).Range.Text = TextBox46.Text
         oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
 
         oTable.Cell(row, 1).Range.Text = "Toerental"
-        oTable.Cell(row, 3).Range.Text = NumericUpDown7.Value
+        oTable.Cell(row, 3).Range.Text = CType(NumericUpDown7.Value, String)
         oTable.Cell(row, 2).Range.Text = "[rpm]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Installed Power"
-        oTable.Cell(row, 3).Range.Text = ComboBox5.SelectedItem
+        oTable.Cell(row, 3).Range.Text = CType(ComboBox5.SelectedItem, String)
         oTable.Cell(row, 2).Range.Text = "[kW]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Conveyor length"
-        oTable.Cell(row, 3).Range.Text = NumericUpDown3.Value
+        oTable.Cell(row, 3).Range.Text = CType(NumericUpDown3.Value, String)
         oTable.Cell(row, 2).Range.Text = "[m]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Inclination angle"
-        oTable.Cell(row, 3).Range.Text = NumericUpDown4.Value
+        oTable.Cell(row, 3).Range.Text = CType(NumericUpDown4.Value, String)
         oTable.Cell(row, 2).Range.Text = "[deg]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Staalsoort"
-        oTable.Cell(row, 3).Range.Text = ComboBox2.SelectedItem
+        oTable.Cell(row, 3).Range.Text = CType(ComboBox2.SelectedItem, String)
         oTable.Cell(row, 2).Range.Text = "[-]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Temperature"
-        oTable.Cell(row, 3).Range.Text = NumericUpDown11.Value
+        oTable.Cell(row, 3).Range.Text = CType(NumericUpDown11.Value, String)
         oTable.Cell(row, 2).Range.Text = "[C]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Product type"
-        oTable.Cell(row, 3).Range.Text = ComboBox1.SelectedItem
+        oTable.Cell(row, 3).Range.Text = CType(ComboBox1.SelectedItem, String)
         oTable.Cell(row, 2).Range.Text = "[-]"
         row += 1
         '---- -----
         oTable.Cell(row, 1).Range.Text = "Capacity"
-        oTable.Cell(row, 3).Range.Text = NumericUpDown5.Value
+        oTable.Cell(row, 3).Range.Text = CType(NumericUpDown5.Value, String)
         oTable.Cell(row, 2).Range.Text = "[ton/hr]"
 
 
@@ -1274,55 +1274,55 @@ Public Class Form1
         oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 12, 5)
         oTable.Range.ParagraphFormat.SpaceAfter = 1
         oTable.Range.Font.Size = font_sizze
-        oTable.Range.Font.Bold = False
-        oTable.Rows.Item(1).Range.Font.Bold = True
+        oTable.Range.Font.Bold = CInt(False)
+        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
         oTable.Rows.Item(1).Range.Font.Size = font_sizze + 2
         row = 1
         oTable.Cell(row, 1).Range.Text = "Input data"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Motorreductor"
-        oTable.Cell(row, 3).Range.Text = ComboBox4.SelectedItem
+        oTable.Cell(row, 3).Range.Text = CType(ComboBox4.SelectedItem, String)
         oTable.Cell(row, 2).Range.Text = "[-]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Coupling"
-        oTable.Cell(row, 3).Range.Text = ComboBox7.SelectedItem
+        NewMethod(oTable, row)
         oTable.Cell(row, 2).Range.Text = "[-]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Lager asdiameter"
-        oTable.Cell(row, 3).Range.Text = ComboBox8.SelectedItem
+        oTable.Cell(row, 3).Range.Text = CType(ComboBox8.SelectedItem, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Aantal certificaten "
-        oTable.Cell(row, 3).Range.Text = NumericUpDown27.Value
+        oTable.Cell(row, 3).Range.Text = CType(NumericUpDown27.Value, String)
         oTable.Cell(row, 2).Range.Text = "[-]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Dikte kop-en staartplaat"
-        oTable.Cell(row, 3).Range.Text = NumericUpDown10.Value
+        oTable.Cell(row, 3).Range.Text = CType(NumericUpDown10.Value, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
         oTable.Cell(row, 5).Range.Text = TextBox42.Text
         oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Dikte schroefblad"
-        oTable.Cell(row, 3).Range.Text = NumericUpDown8.Value
+        oTable.Cell(row, 3).Range.Text = CType(NumericUpDown8.Value, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
         oTable.Cell(row, 5).Range.Text = TextBox46.Text
         oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Dikte trog"
-        oTable.Cell(row, 3).Range.Text = NumericUpDown14.Value
+        oTable.Cell(row, 3).Range.Text = CType(NumericUpDown14.Value, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
         oTable.Cell(row, 5).Range.Text = TextBox47.Text
         oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Dikte deksel"
-        oTable.Cell(row, 3).Range.Text = NumericUpDown15.Value
+        oTable.Cell(row, 3).Range.Text = CType(NumericUpDown15.Value, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
         oTable.Cell(row, 5).Range.Text = TextBox48.Text
         oTable.Cell(row, 4).Range.Text = "[kg]"
 
         row += 1
         oTable.Cell(row, 1).Range.Text = "Astap diameter"
-        oTable.Cell(row, 3).Range.Text = ComboBox13.SelectedItem
+        oTable.Cell(row, 3).Range.Text = CType(ComboBox13.SelectedItem, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
         oTable.Cell(row, 5).Range.Text = TextBox54.Text
         oTable.Cell(row, 4).Range.Text = "[kg]"
@@ -1345,13 +1345,13 @@ Public Class Form1
         oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 11, 8)
         oTable.Range.ParagraphFormat.SpaceAfter = 1
         oTable.Range.Font.Size = font_sizze
-        oTable.Range.Font.Bold = False
-        oTable.Rows.Item(1).Range.Font.Bold = True
+        oTable.Range.Font.Bold = CInt(False)
+        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
         oTable.Rows.Item(1).Range.Font.Size = font_sizze + 2
         row = 1
         oTable.Cell(row, 1).Range.Text = "Kosten"
         row += 1
-        oTable.Rows.Item(2).Range.Font.Bold = True
+        oTable.Rows.Item(2).Range.Font.Bold = CInt(True)
         oTable.Cell(row, 6).Range.Text = "Material"
         oTable.Cell(row, 1).Range.Text = "Labour"
         'row += 1
@@ -1360,19 +1360,19 @@ Public Class Form1
         row += 1
         oTable.Cell(row, 1).Range.Text = "Engineering"
         oTable.Cell(row, 2).Range.Text = "[hr]"
-        oTable.Cell(row, 3).Range.Text = NumericUpDown30.Value
+        oTable.Cell(row, 3).Range.Text = CType(NumericUpDown30.Value, String)
         oTable.Cell(row, 4).Range.Text = "[€]"
         oTable.Cell(row, 5).Range.Text = TextBox55.Text
         row += 1
         oTable.Cell(row, 1).Range.Text = "Project"
-        oTable.Cell(row, 3).Range.Text = NumericUpDown33.Value
+        oTable.Cell(row, 3).Range.Text = CType(NumericUpDown33.Value, String)
         oTable.Cell(row, 2).Range.Text = "[hr]"
         oTable.Cell(row, 4).Range.Text = "[€]"
         oTable.Cell(row, 5).Range.Text = TextBox70.Text
 
         row += 1
         oTable.Cell(row, 1).Range.Text = "Work shop"
-        oTable.Cell(row, 3).Range.Text = NumericUpDown34.Value
+        oTable.Cell(row, 3).Range.Text = CType(NumericUpDown34.Value, String)
         oTable.Cell(row, 2).Range.Text = "[hr]"
         oTable.Cell(row, 5).Range.Text = TextBox72.Text
         oTable.Cell(row, 4).Range.Text = "[€]"
@@ -1400,7 +1400,7 @@ Public Class Form1
         oTable.Cell(row, 4).Range.Text = "[€]"
 
         row += 1
-        oTable.Rows.Item(11).Range.Font.Bold = True
+        oTable.Rows.Item(11).Range.Font.Bold = CInt(True)
         oTable.Rows.Item(11).Range.Font.Size = font_sizze + 1
         oTable.Cell(row, 1).Range.Text = "Total sale price"
         oTable.Cell(row, 5).Range.Text = TextBox75.Text
@@ -1416,6 +1416,10 @@ Public Class Form1
         oTable.Columns.Item(8).Width = oWord.InchesToPoints(0.6)
     End Sub
 
+    Private Sub NewMethod(oTable As Word.Table, row As Integer)
+        oTable.Cell(row, 3).Range.Text = CType(ComboBox7.SelectedItem, String)
+    End Sub
+
     Private Sub ComboBox11_SelectedIndexChanged(sender As Object, e As EventArgs)
         Screw_dia_combo()
         Calculate()
@@ -1427,7 +1431,7 @@ Public Class Form1
         ComboBox13.Items.Clear()
         '-------Fill combobox------------------
         For hh = 1 To astap_dia.Length - 1                'Fill combobox 3 with pipe data
-            words = astap_dia(hh).Split(";")
+            words = astap_dia(hh).Split(CType(";", Char()))
             ComboBox13.Items.Add(words(0))
         Next hh
         ComboBox13.SelectedIndex = 1
@@ -1437,11 +1441,11 @@ Public Class Form1
 
         ComboBox11.Items.Clear()
         '-------Fill combobox------------------
-        For hh = 1 To Screw_dia.Length - 1                'Fill combobox 11 with screw data
-            words = Screw_dia(hh).Split(";")
+        For hh = 1 To Flight_dia.Length - 1                'Fill combobox 11 with flight data
+            words = Flight_dia(hh).Split(CType(";", Char()))
             ComboBox11.Items.Add(words(0))
         Next hh
-        ComboBox11.SelectedIndex = 6
+        ComboBox11.SelectedIndex = 2
     End Sub
 
     Private Sub Paint_combo()
@@ -1450,7 +1454,7 @@ Public Class Form1
         ComboBox12.Items.Clear()
         '-------Fill combobox ------------------
         For hh = 1 To ppaint.Length - 1                'Fill combobox 3 with pipe data
-            words = ppaint(hh).Split(";")
+            words = ppaint(hh).Split(CType(";", Char()))
             ComboBox12.Items.Add(words(0))
         Next hh
         ComboBox12.SelectedIndex = 1
@@ -1461,7 +1465,7 @@ Public Class Form1
         ComboBox10.Items.Clear()
         '-------Fill combobox-----------------
         For hh = 1 To pakking.Length - 1                'Fill combobox 3 with pipe data
-            words = pakking(hh).Split(";")
+            words = pakking(hh).Split(CType(";", Char()))
             ComboBox10.Items.Add(words(0))
         Next hh
         ComboBox10.SelectedIndex = 3
@@ -1488,7 +1492,6 @@ Public Class Form1
         TabPage2.Show()
         TabPage2.DrawToBitmap(bmp_tab_page2, DisplayRectangle)
         bmp_tab_page2.Save(str_file3, Imaging.ImageFormat.Png)
-        MessageBox.Show("Files is saved to c:\temp ")
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
@@ -1501,14 +1504,14 @@ Public Class Form1
         Dim oTable As Word.Table
         Dim oPara1, oPara2 As Word.Paragraph
         Dim row, font_sizze As Integer
-        Dim ufilename As String
+        Dim ufilename, str As String
 
         Try
             oWord = New Word.Application()
 
             'Start Word and open the document template. 
             font_sizze = 9
-            oWord = CreateObject("Word.Application")
+            oWord = CType(CreateObject("Word.Application"), Word.Application)
             oWord.Visible = True
             oDoc = oWord.Documents.Add
 
@@ -1517,14 +1520,14 @@ Public Class Form1
             oPara1.Range.Text = "VTK Engineering"
             oPara1.Range.Font.Name = "Arial"
             oPara1.Range.Font.Size = font_sizze + 3
-            oPara1.Range.Font.Bold = True
+            oPara1.Range.Font.Bold = CInt(True)
             oPara1.Format.SpaceAfter = 1                '24 pt spacing after paragraph. 
             oPara1.Range.InsertParagraphAfter()
 
             oPara2 = oDoc.Content.Paragraphs.Add(oDoc.Bookmarks.Item("\endofdoc").Range)
             oPara2.Range.Font.Size = font_sizze + 1
             oPara2.Format.SpaceAfter = 1
-            oPara2.Range.Font.Bold = False
+            oPara2.Range.Font.Bold = CInt(False)
             oPara2.Range.Text = "Screw Conveyor Stress calculation " & vbCrLf
             oPara2.Range.InsertParagraphAfter()
 
@@ -1533,8 +1536,8 @@ Public Class Form1
             oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 5, 2)
             oTable.Range.ParagraphFormat.SpaceAfter = 1
             oTable.Range.Font.Size = font_sizze
-            oTable.Range.Font.Bold = False
-            oTable.Rows.Item(1).Range.Font.Bold = True
+            oTable.Range.Font.Bold = CInt(False)
+            oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
 
             row = 1
             oTable.Cell(row, 1).Range.Text = "Project Name"
@@ -1555,16 +1558,16 @@ Public Class Form1
             oTable.Columns(1).Width = oWord.InchesToPoints(2.5)   'Change width of columns 1 & 2.
             oTable.Columns(2).Width = oWord.InchesToPoints(2)
 
-            oTable.Rows.Item(1).Range.Font.Bold = True
+            oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
             oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
 
             '----------------------------------------------
             'Insert a 16 x 3 table, fill it with data and change the column widths.
-            oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 16, 3)
+            oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 18, 3)
             oTable.Range.ParagraphFormat.SpaceAfter = 1
             oTable.Range.Font.Size = font_sizze
-            oTable.Range.Font.Bold = False
-            oTable.Rows.Item(1).Range.Font.Bold = True
+            oTable.Range.Font.Bold = CInt(False)
+            oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
             oTable.Rows.Item(1).Range.Font.Size = font_sizze + 2
             row = 1
             oTable.Cell(row, 1).Range.Text = "Conveyor Data"
@@ -1578,23 +1581,23 @@ Public Class Form1
             oTable.Cell(row, 3).Range.Text = "[mm]"
             row += 1
             oTable.Cell(row, 1).Range.Text = "Pitch"
-            oTable.Cell(row, 2).Range.Text = NumericUpDown2.Value
+            oTable.Cell(row, 2).Range.Text = CType(NumericUpDown2.Value, String)
             oTable.Cell(row, 3).Range.Text = "[-]"
             row += 1
             oTable.Cell(row, 1).Range.Text = "Blade thicknes"
-            oTable.Cell(row, 2).Range.Text = NumericUpDown8.Value
+            oTable.Cell(row, 2).Range.Text = CType(NumericUpDown8.Value, String)
             oTable.Cell(row, 3).Range.Text = "[mm]"
             row += 1
             oTable.Cell(row, 1).Range.Text = "Length"
-            oTable.Cell(row, 2).Range.Text = NumericUpDown3.Value
+            oTable.Cell(row, 2).Range.Text = CType(NumericUpDown3.Value, String)
             oTable.Cell(row, 3).Range.Text = "[m]"
             row += 1
             oTable.Cell(row, 1).Range.Text = "Inclination angle"
-            oTable.Cell(row, 2).Range.Text = NumericUpDown4.Value
+            oTable.Cell(row, 2).Range.Text = CType(NumericUpDown4.Value, String)
             oTable.Cell(row, 3).Range.Text = "[degree]"
             row += 1
             oTable.Cell(row, 1).Range.Text = "Speed"
-            oTable.Cell(row, 2).Range.Text = NumericUpDown7.Value
+            oTable.Cell(row, 2).Range.Text = CType(NumericUpDown7.Value, String)
             oTable.Cell(row, 3).Range.Text = "[rpm]"
             row += 1
             oTable.Cell(row, 1).Range.Text = "Flight tip speed"
@@ -1616,20 +1619,24 @@ Public Class Form1
             oTable.Cell(row, 1).Range.Text = "Power Installed"
             oTable.Cell(row, 2).Range.Text = ComboBox5.Text
             oTable.Cell(row, 3).Range.Text = "[kW]"
+
             row += 1
             oTable.Cell(row, 1).Range.Text = "Product"
-            oTable.Cell(row, 2).Range.Text = ComboBox1.Text.Remove(22)
+            str = ComboBox1.Text
+            If Len(str) > 22 Then str = str.Substring(0, 22)
+            oTable.Cell(row, 2).Range.Text = str
+
             row += 1
             oTable.Cell(row, 1).Range.Text = "Product Flow"
-            oTable.Cell(row, 2).Range.Text = NumericUpDown5.Value
+            oTable.Cell(row, 2).Range.Text = CType(NumericUpDown5.Value, String)
             oTable.Cell(row, 3).Range.Text = "[ton/hr]"
             row += 1
             oTable.Cell(row, 1).Range.Text = "Product Density"
-            oTable.Cell(row, 2).Range.Text = NumericUpDown6.Value
+            oTable.Cell(row, 2).Range.Text = CType(NumericUpDown6.Value, String)
             oTable.Cell(row, 3).Range.Text = "[kg/m3]"
             row += 1
             oTable.Cell(row, 1).Range.Text = "Forward resistance"
-            oTable.Cell(row, 2).Range.Text = NumericUpDown9.Value
+            oTable.Cell(row, 2).Range.Text = CType(NumericUpDown9.Value, String)
             oTable.Cell(row, 3).Range.Text = "[kg/m3]"
 
             oTable.Columns(1).Width = oWord.InchesToPoints(2.0)
@@ -1642,8 +1649,8 @@ Public Class Form1
             oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 8, 3)
             oTable.Range.ParagraphFormat.SpaceAfter = 1
             oTable.Range.Font.Size = font_sizze
-            oTable.Range.Font.Bold = False
-            oTable.Rows.Item(1).Range.Font.Bold = True
+            oTable.Range.Font.Bold = CInt(False)
+            oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
             oTable.Rows.Item(1).Range.Font.Size = font_sizze + 2
             row = 1
             oTable.Cell(row, 1).Range.Text = "Calculation Results"
@@ -1682,8 +1689,8 @@ Public Class Form1
             oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 5, 1)
             oTable.Range.ParagraphFormat.SpaceAfter = 1
             oTable.Range.Font.Size = font_sizze
-            oTable.Range.Font.Bold = False
-            oTable.Rows.Item(1).Range.Font.Bold = True
+            oTable.Range.Font.Bold = CInt(False)
+            oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
             oTable.Rows.Item(1).Range.Font.Size = font_sizze + 2
             row = 1
             oTable.Cell(row, 1).Range.Text = "Checks "
@@ -1717,12 +1724,15 @@ Public Class Form1
             '--------------Save file word file------------------
             'See https://msdn.microsoft.com/en-us/library/63w57f4b.aspx
 
-            ufilename = "N:\Engineering\VBasic\Rapport_copy\Conveyor_report_" & DateTime.Now.ToString("yyyy_MM_dd__HH_mm_ss") & ".docx"
+            ufilename = "Conveyor_report_" & DateTime.Now.ToString("yyyy_MM_dd__HH_mm_ss") & ".docx"
 
-            If Directory.Exists("N:\Engineering\VBasic\Rapport_copy") Then
-                GroupBox12.Text = "File saved at " & ufilename
-                oWord.ActiveDocument.SaveAs(ufilename)
+            If Directory.Exists(dirpath_Rap) Then
+                ufilename = dirpath_Rap & ufilename
+            Else
+                ufilename = dirpath_Home & ufilename
             End If
+            oWord.ActiveDocument.SaveAs(ufilename.ToString)
+
         Catch ex As Exception
             MessageBox.Show("Line 683, " & ex.Message)  ' Show the exception's message.
         End Try
@@ -1755,10 +1765,10 @@ Public Class Form1
 
         conv_length = NumericUpDown3.Value             'lengte van de trog
         TextBox40.Text = ComboBox2.Text                'materiaalsoort staal
-        TextBox41.Text = (_pipe_OD * 1000).ToString     'diameter pijp
-        TextBox51.Text = NumericUpDown3.Value          'lengte trog
+        TextBox41.Text = (_pipe_OD * 1000).ToString    'diameter pijp
+        TextBox51.Text = CType(NumericUpDown3.Value, String)          'lengte trog
         TextBox52.Text = ComboBox5.Text                'vermogen aandrijving
-        TextBox44.Text = _diam_trough.ToString           'diameter flight
+        TextBox44.Text = _diam_flight.ToString         'diameter flight
 
         '---------------------------------------------- PRICES -----------------------------------------
         '-----------------------------------------------------------------------------------------------
@@ -1794,23 +1804,23 @@ Public Class Form1
         End Select
 
         Try
-            Dim words1() As String = lager(ComboBox8.SelectedIndex + 1).Split(";")
-            cost_lagers = words1(1)
+            Dim words1() As String = lager(ComboBox8.SelectedIndex + 1).Split(CType(";", Char()))
+            cost_lagers = CDbl(words1(1))
 
-            Dim words2() As String = coupl(ComboBox7.SelectedIndex + 1).Split(";")
-            cost_koppeling = words2(1) * words2(2)                                           'inclusief kortingspercentage van 45%
+            Dim words2() As String = coupl(ComboBox7.SelectedIndex + 1).Split(CType(";", Char()))
+            cost_koppeling = CDbl(words2(1)) * CDbl(words2(2))                                         'inclusief kortingspercentage van 45%
             If Not CheckBox3.Checked Then cost_koppeling = 0
 
-            Dim words3() As String = motorred(ComboBox4.SelectedIndex + 1).Split(";")
-            cost_motorreductor = words3(3)
+            Dim words3() As String = motorred(ComboBox4.SelectedIndex + 1).Split(CType(";", Char()))
+            cost_motorreductor = CDbl(words3(3))
             If Not CheckBox2.Checked Then cost_motorreductor = 0
 
-            Dim words4() As String = ppaint(ComboBox12.SelectedIndex + 1).Split(";")
-            cost_paint = words4(1)
+            Dim words4() As String = ppaint(ComboBox12.SelectedIndex + 1).Split(CType(";", Char()))
+            cost_paint = CDbl(words4(1))
             If Not CheckBox6.Checked Then cost_paint = 0
 
-            Dim words5() As String = pakking(ComboBox10.SelectedIndex + 1).Split(";")
-            cost_pakking = words5(1)
+            Dim words5() As String = pakking(ComboBox10.SelectedIndex + 1).Split(CType(";", Char()))
+            cost_pakking = CDbl(words5(1))
 
             cost_inlaat = 300   'inlaat chute
             cost_uitlaat = 300  'Uitlaat chute
@@ -1828,11 +1838,11 @@ Public Class Form1
 
         Select Case True                'Pijpschroef oppervlak
             Case (RadioButton4.Checked)
-                opp_trog = 2 * PI * ((_diam_trough / 2) * dikte_trog)
-                kopstaartplaat = _diam_trough ^ 2
+                opp_trog = 2 * PI * ((_diam_flight / 2) * dikte_trog)
+                kopstaartplaat = _diam_flight ^ 2
             Case (RadioButton5.Checked) 'Trogschroef oppervlak
-                opp_trog = (PI * (_diam_trough / 2) * dikte_trog + 2 * dikte_trog * (0.045 + _diam_trough / 2) + 0.075 * dikte_trog)   'troghoogte=trogbreedte/2+45mm, flens= 0.05+0.025
-                kopstaartplaat = (_diam_trough * (_diam_trough + 0.045))
+                opp_trog = (PI * (_diam_flight / 2) * dikte_trog + 2 * dikte_trog * (0.045 + _diam_flight / 2) + 0.075 * dikte_trog)   'troghoogte=trogbreedte/2+45mm, flens= 0.05+0.025
+                kopstaartplaat = (_diam_flight * (_diam_flight + 0.045))
         End Select
 
         weight_kopstaartplaat = kopstaartplaat * (NumericUpDown10.Value / 1000) * rho_materiaal
@@ -1841,23 +1851,24 @@ Public Class Form1
         kg_trog = 2 * weight_kopstaartplaat + opp_trog * conv_length * rho_materiaal
         oppb_trog = 2 * kopstaartplaat + 2 * opp_trog * conv_length / dikte_trog                'kuip zowel uitwendig als inwendig
 
-        Double.TryParse(ComboBox9.SelectedItem, _pipe_OD)         ' ComboBox3 = ComboBox9
+        Double.TryParse(CType(ComboBox9.SelectedItem, String), _pipe_OD)         ' ComboBox3 = ComboBox9
         _pipe_OD = _pipe_OD / 1000
-        _pipe_wall = ComboBox6.SelectedItem / 1000
+        _pipe_wall = CDbl(ComboBox6.SelectedItem)
+        _pipe_wall /= 1000
         _pipe_ID = (_pipe_OD - 2 * _pipe_wall)
         weight_pipe = rho_materiaal * PI / 4 * (_pipe_OD ^ 2 - _pipe_ID ^ 2) * conv_length
         oppb_pipe = _pipe_OD * PI * conv_length
 
-        If _diam_trough > 0.3015 Then                          'in [m], radiale speling schroef in kuip: tot diam 0.3m 7.5 mm, daarboven 10mm
+        If _diam_flight > 0.3015 Then                          'in [m], radiale speling schroef in kuip: tot diam 0.3m 7.5 mm, daarboven 10mm
             speling_trog = 0.01
         Else
             speling_trog = 0.0075
         End If
-        diam_schroef = _diam_trough - 2 * speling_trog
+        diam_schroef = _diam_flight - 2 * speling_trog
 
         dikte_deksel = NumericUpDown15.Value / 1000
-        kg_deksel = conv_length * dikte_deksel * (_diam_trough + 0.075) * rho_materiaal     '50mm voor de horizontale flens en 25mm voor het stukje naar beneden
-        oppb_deksel = 2 * conv_length * (_diam_trough + 0.075)                              'zowel inwendig als uitwendig
+        kg_deksel = conv_length * dikte_deksel * (_diam_flight + 0.075) * rho_materiaal     '50mm voor de horizontale flens en 25mm voor het stukje naar beneden
+        oppb_deksel = 2 * conv_length * (_diam_flight + 0.075)                              'zowel inwendig als uitwendig
 
 
 
@@ -1869,7 +1880,7 @@ Public Class Form1
         kg_schroefblad = PI * rho_materiaal * (NumericUpDown12.Value / 1000) * 0.25 * nr_flights * (diam_schroef ^ 2 - _pipe_OD ^ 2) / Cos(hoek_spoed)         ' DIT IS DE ECHTE FORMULE!!!!!
         oppb_schroefblad = 2 * (kg_schroefblad / (NumericUpDown12.Value * rho_materiaal / 1000))
 
-        Double.TryParse(ComboBox13.SelectedItem, dia_astap)             '[mm] 
+        Double.TryParse(CType(ComboBox13.SelectedItem, String), dia_astap)             '[mm] 
         dia_astap = dia_astap / 1000                                    '[m]
         lengte_astap = 1.0                                              'lengte in meters average 1m
         kg_astap = 7850 * lengte_astap * PI * (dia_astap / 2) ^ 2       'het standaardmateriaal is staal, dit is het totale inkoopmateriaal, wat daarna nog wordt gefreesd/gedraaid
@@ -1877,7 +1888,7 @@ Public Class Form1
 
         rho_kunststof = 970                                             '[kg/m3] dichtheid HDPE
         dikte_lining = NumericUpDown25.Value / 1000
-        kg_lining = rho_kunststof * (PI * _diam_trough + 0.5 * (0.045 + _diam_trough / 2)) * dikte_lining * conv_length
+        kg_lining = rho_kunststof * (PI * _diam_flight + 0.5 * (0.045 + _diam_flight / 2)) * dikte_lining * conv_length
 
         '---------- estimated weights---------------
         kg_inlaat = 10              '[kg] inlaat chute
@@ -1998,7 +2009,7 @@ Public Class Form1
         TextBox72.Text = Round(prijs_fabriek, 0).ToString
         TextBox106.Text = Round(tot_uren, 0).ToString
 
-        TextBox66.Text = Round(certificate_cost, 0).ToString
+        TextBox88.Text = Round(certificate_cost, 0).ToString
         TextBox111.Text = Round(total_cost, 2).ToString
         TextBox103.Text = Round(total_cost, 1).ToString
         TextBox98.Text = Round(tot_prijsarbeid, 0).ToString

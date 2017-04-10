@@ -475,6 +475,7 @@ Partial Class Form1
         Me.TextBox66.Name = "TextBox66"
         Me.TextBox66.Size = New System.Drawing.Size(170, 20)
         Me.TextBox66.TabIndex = 73
+        Me.TextBox66.Text = "P17.1"
         '
         'Label82
         '
@@ -985,9 +986,9 @@ Partial Class Form1
         Me.Label1.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label1.Location = New System.Drawing.Point(14, 21)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(136, 16)
+        Me.Label1.Size = New System.Drawing.Size(126, 16)
         Me.Label1.TabIndex = 0
-        Me.Label1.Text = "Diameter trough [mm]"
+        Me.Label1.Text = "Diameter flight [mm]"
         '
         'TabPage2
         '
@@ -3999,7 +4000,7 @@ Partial Class Form1
         Me.Controls.Add(Me.TabControl1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Form1"
-        Me.Text = "Screw conveyors 2.2g"
+        Me.Text = "Screw conveyors 2.2h"
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.GroupBox17.ResumeLayout(False)
