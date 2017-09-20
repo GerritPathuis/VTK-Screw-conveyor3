@@ -464,7 +464,7 @@ Public Class Form1
     '--- "Oude benaming;Norm:;EN10027-1;Werkstof;[mm/m1/100°C];Poisson ;kg/m3;E [Gpa];Rm (20c);Rp0.2(0c);Rp0.2(20c);Rp(50c);Rp(100c);Rp(150c);Rp(200c);Rp(250c);Rp(300c);Rp(350c);Rp(400c);Equiv-ASTM;Opmerking",
     Public Shared steel() As String =
      {"Oude benaming;Norm:;EN10027-1;Werkstof;[mm/m1/100°C];Poisson ;kg/m3;E [Gpa];Rm (20c);0;20;50;100;150;Rp(200c);Rp(250c);Rp(300c);Rp(350c);Rp(400c);Equiv-ASTM;Opmerking",
-      "Domex 690XPD(E);EN10149-2 UNS;S700MCD(E);1.8974;1.29;0.28;7850;192;810;675;740;765;690;675;660;640;620;580;540;--;--",
+    "Domex 690XPD(E);EN10149-2 UNS;S700MCD(E);1.8974;1.29;0.28;7850;192;810;675;740;765;690;675;660;640;620;580;540;--;--",
     "Duplex(Avesta-2205);EN 10088-1 UfllW;X2CrNiMoN22-5-3 saisna;1.4462;1.4;0.28;7800;200;640-950;335;460;385;360;335;315;300;0;0;0;A240-S31803;Max 300c",
     "Hastelloy-C22;DIN Nr: ASTM UNS;NiCr21Mo14W 2277 B575 N06022;2.4602;1.25;0.29;9000;205;786-800;310;370;354;338;310;283;260;248;244;241;--;--",
     "Inconel- 600;DIN Nicrofer7216 ASTM SO ;NiCr15Fe Alloy 600 B168 NiCr15Fe8 Npsepo;2.4816;1.44;0.29;8400;214;550;170;240;185;180;170;165;160;155;152;150;--;--",
@@ -747,17 +747,16 @@ Public Class Form1
         TextBox16.Text = CType(_pipe_OD * CDbl(1000.ToString), String)                'Pipe diameter [m]
 
         pitch = _diam_flight * NumericUpDown2.Value              '[-]
-        conv_length = NumericUpDown3.Value                      'Conveyor length [m]
+        conv_length = NumericUpDown3.Value                       'Conveyor length [m]
         TextBox19.Text = conv_length.ToString
 
         _angle = NumericUpDown4.Value                            '[degree]
-        speed = NumericUpDown7.Value                            '[rpm]
+        speed = NumericUpDown7.Value                             '[rpm]
 
         flight_speed = speed / 60 * PI * _diam_flight
         TextBox11.Text = Round(flight_speed, 2).ToString 'Flight speed [m/s]
 
         Label135.Visible = CBool(IIf(flight_speed > 1.0, True, False))
-
 
         If speed > 45 Then
             NumericUpDown7.BackColor = Color.Red
@@ -1027,9 +1026,9 @@ Public Class Form1
 
             '---------------- Max doorbuiging gelijkmatige belasting f= 5.Q.L^4/(384 .E.I) --------------------
             '---------------- materiaal kolom is niet meegenomen ----------------------------------------------
-            Elast = 210 * 1000 ^ 2                                   '[N/mm2]
-
-            Q_Deflect_max = (5 * Q_load_comb * conv_length ^ 4) / (384 * Elast * pipe_Ix)
+            'Elast = 210 * 1000 ^ 2                                   '[N/mm2]  ??????
+            Elast = NumericUpDown1.Value * 1000 '[N/mm2]
+            Q_Deflect_max = (5 * Q_load_comb / 1000 * conv_length ^ 4) / (384 * Elast * pipe_Ix)
             TextBox20.Text = Round(Q_Deflect_max, 1).ToString     '[mm]
 
             Select Case True
@@ -1675,6 +1674,10 @@ Public Class Form1
             oTable.Cell(row, 2).Range.Text = TextBox8.Text
             oTable.Cell(row, 3).Range.Text = "[N/mm2]"
             row += 1
+            oTable.Cell(row, 1).Range.Text = "Center pipe load (weight only)"
+            oTable.Cell(row, 2).Range.Text = TextBox22.Text
+            oTable.Cell(row, 3).Range.Text = "[N/m]"
+            row += 1
             oTable.Cell(row, 1).Range.Text = "Max Flex"
             oTable.Cell(row, 2).Range.Text = TextBox20.Text
             oTable.Cell(row, 3).Range.Text = "[mm]"
@@ -1763,7 +1766,7 @@ Public Class Form1
         Dim prijs_engineering, prijs_project, prijs_fabriek As Double
         Dim tot_prijsarbeid, geheel_totprijs, dekking, marge_cost, verkoopprijs, perc_mater, perc_arbeid As Double
 
-        conv_length = NumericUpDown3.Value             'lengte van de trog
+        conv_length = NumericUpDown3.Value             'lengte van de trog [m]
         TextBox40.Text = ComboBox2.Text                'materiaalsoort staal
         TextBox41.Text = (_pipe_OD * 1000).ToString    'diameter pijp
         TextBox51.Text = CType(NumericUpDown3.Value, String)          'lengte trog
