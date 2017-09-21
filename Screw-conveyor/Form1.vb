@@ -1,11 +1,17 @@
 ﻿Imports System.Math
 Imports System.IO
+Imports System.Text
 Imports System.Globalization
 Imports System.Threading
 Imports Word = Microsoft.Office.Interop.Word
 
-
 Public Class Form1
+
+    '----------- directory's-----------
+    Dim dirpath_Eng As String = "N:\Engineering\VBasic\Conveyor_sizing_input\"
+    Dim dirpath_Rap As String = "N:\Engineering\VBasic\Conveyor_rapport_copy\"
+    Dim dirpath_Home_GP As String = "C:\Temp\"
+
     'Materials name; CEMA Material code; Conveyor loading; Component group, density min, Density max, HP Material
     Public Shared _inputs() As String = {
 "Adipic Acid;45A35;30A;2B;720;720;0.5",
@@ -482,15 +488,15 @@ Public Class Form1
 
     'DN, inch,OD, wall1, wall2, wall3,...
     Public Shared pipe_ss() As String =
-   {"DN100;4 inch; 114.3;  6.3;7.1;8;10;12.5;16",
-    "DN125;5 inch; 139.7;  6.3;7.1;8;10;12.5;16",
-    "DN150;6 inch; 168.3;  6.3;7.1;8;10;12.5;16",
-    "DN200;8 inch; 219.1;  6.3;7.1;8;10;12.5;16",
-    "DN250;10 inch; 273;   6.3;7.1;8;10;12.5;16",
-    "DN300;12 inch; 323.9; 6.3;7.1;8;10;12.5;16",
-    "DN350;14 inch; 355.6; 6.3;7.1;8;10;12.5;16",
-    "DN400;16 inch; 406.4; 6.3;7.1;8;10;12.5;16",
-    "DN500;20 inch; 508;   6.3;7.1;8;10;12.5;16"}
+   {"DN100;4 inch; 114.3;  6.3;7.1;8;10;12.7;16.0",
+    "DN125;5 inch; 139.7;  6.3;7.1;8;10;12.7;16.0",
+    "DN150;6 inch; 168.3;  6.3;7.1;8;10;12.7;16.0",
+    "DN200;8 inch; 219.1;  6.3;7.1;8;10;12.7;16.0",
+    "DN250;10 inch; 273;   6.3;7.1;8;10;12.7;16.0",
+    "DN300;12 inch; 323.9; 6.3;7.1;8;10;12.7;16.0",
+    "DN350;14 inch; 355.6; 6.3;7.1;8;10;12.7;16.0",
+    "DN400;16 inch; 406.4; 6.3;7.1;8;10;12.7;16.0",
+    "DN500;20 inch; 508;   6.3;7.1;8;10;12.7;16.0"}
 
     Public Shared pipe() As String =
    {"DN100;4 inch; 114.3;  6.02;  8.56; -;   0",
@@ -664,17 +670,14 @@ Public Class Form1
                                        "110 ; 1500", "132; 1500", "160; 1500", "200; 1500"}
 
 
-    '----------- directory's-----------
-    Dim dirpath_Eng As String = "N:\Engineering\VBasic\Fan_sizing_input\"
-    Dim dirpath_Rap As String = "N:\Engineering\VBasic\Fan_rapport_copy\"
-    Dim dirpath_Home As String = "C:\Temp\"
+
 
     Public Shared _diam_flight As Double                         '[m]
     Public Shared _pipe_OD, _pipe_ID, _pipe_wall As Double
     Public Shared pipe_Ix, pipe_Wx, pipe_Wp As Double            'Lineair en polair weerstand moment
     Public Shared pitch As Double
     Public Shared installed_power As Double
-    Public Shared sigma02, sigma_fatique, Elast As Double
+    Public Shared sigma02, sigma_fatique, Young As Double
     Public Shared inlet_length, conv_length, product_density As Double
     Public Shared _angle As Double
     Public Shared speed As Double
@@ -804,7 +807,7 @@ Public Class Form1
 
     End Sub
 
-    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+    Private Sub Button3_Click(sender As Object, e As EventArgs)
         Save_to_disk()
     End Sub
 
@@ -941,13 +944,13 @@ Public Class Form1
             '---- Worst case material assumed sitting lowest point of the trough---
 
             Q_load_1 = (weight_m + flight_gewicht) * 9.81           'Total EVEN distributed load
-            TextBox22.Text = Round(Q_load_1, 0).ToString            'Belasting [kg/m]
+            TextBox22.Text = Round(Q_load_1, 0).ToString            'BYounging [kg/m]
 
             '----------- Axial load caused by transport of product
             Radius_transport = (_diam_flight + _pipe_OD) / 4                  'Acc Jos (D+d)/4
             F_tangent = P_torque / Radius_transport
             Q_load_2 = F_tangent / conv_length                              'Transport kracht geeft doorbuiging pijp
-            Q_load_3 = _pipe_OD * kolom_height * product_density * 9.91      'gelijkmatige belasting op de pijp door materiaal kolom
+            Q_load_3 = _pipe_OD * kolom_height * product_density * 9.91      'gelijkmatige bYounging op de pijp door materiaal kolom
             TextBox17.Text = Round(Q_load_3, 0).ToString                    '[N/m]
 
             '============================================ Traditionele VTK berekening ===========================================================
@@ -1024,12 +1027,11 @@ Public Class Form1
                 TextBox21.BackColor = Color.LightGreen
             End If
 
-            '---------------- Max doorbuiging gelijkmatige belasting f= 5.Q.L^4/(384 .E.I) --------------------
+            '---------------- Max doorbuiging gelijkmatige bYounging f= 5.Q.L^4/(384 .E.I) --------------------
             '---------------- materiaal kolom is niet meegenomen ----------------------------------------------
-            'Elast = 210 * 1000 ^ 2                                   '[N/mm2]  ??????
-            Elast = NumericUpDown1.Value * 1000 '[N/mm2]
-            Q_Deflect_max = (5 * Q_load_comb / 1000 * conv_length ^ 4) / (384 * Elast * pipe_Ix)
-            TextBox20.Text = Round(Q_Deflect_max, 1).ToString     '[mm]
+            Young = NumericUpDown1.Value * 1000 '[N/mm2]
+            Q_Deflect_max = (5 * Q_load_comb / 1000 * conv_length ^ 4) / (384 * Young * pipe_Ix)
+            TextBox20.Text = Round(Q_Deflect_max, 1).ToString("0.0")     '[mm]
 
             Select Case True
                 Case (RadioButton1.Checked)
@@ -1424,6 +1426,125 @@ Public Class Form1
         Calculate()
     End Sub
 
+    Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
+        If TextBox65.Text.Trim.Length > 0 And TextBox66.Text.Trim.Length > 0 And TextBox66.Text.Trim.Length > 0 Then
+            Save_tofile()
+        Else
+            MessageBox.Show("Complete Project number, name and item number")
+        End If
+    End Sub
+    'Save control settings and case_x_conditions to file
+    Private Sub Save_tofile()
+        Dim temp_string, user As String
+
+        user = Trim(Environment.UserName)         'User name on the screen
+        Dim filename As String
+        Dim all_num, all_combo, all_check, all_radio As New List(Of Control)
+        Dim i As Integer
+
+        filename = "Conveyor_select_" & TextBox66.Text & "_" & TextBox65.Text & "_" & TextBox67.Text & DateTime.Now.ToString("_yyyy_MM_dd_") & user & ".vtks"
+
+        temp_string = TextBox66.Text & ";" & TextBox65.Text & ";" & TextBox67.Text & ";"
+        temp_string &= vbCrLf & "BREAK" & vbCrLf & ";"
+
+        '-------- find all checkbox controls and save
+        FindControlRecursive(all_check, Me, GetType(System.Windows.Forms.CheckBox))      'Find the control
+        all_check = all_check.OrderBy(Function(x) x.Name).ToList()  'Alphabetical order
+        For i = 0 To all_check.Count - 1
+            Dim grbx As System.Windows.Forms.CheckBox = CType(all_check(i), System.Windows.Forms.CheckBox)
+            temp_string &= grbx.Checked.ToString & ";"
+        Next
+        temp_string &= vbCrLf & "BREAK" & vbCrLf & ";"
+
+        Try
+            Check_directories()  'Are the directories present
+            If CInt(temp_string.Length.ToString) > 5 Then      'String may be empty
+                If Directory.Exists(dirpath_Eng) Then
+                    File.WriteAllText(dirpath_Eng & filename, temp_string, Encoding.ASCII)      'used at VTK
+                Else
+                    File.WriteAllText(dirpath_Home_GP & filename, temp_string, Encoding.ASCII)     'used at home
+                End If
+            End If
+        Catch ex As Exception
+            MessageBox.Show("Line 5062, " & ex.Message)  ' Show the exception's message.
+        End Try
+    End Sub
+    Private Sub Check_directories()
+        '---- if path not exist then create one----------
+        Try
+            If (Not System.IO.Directory.Exists(dirpath_Home_GP)) Then System.IO.Directory.CreateDirectory(dirpath_Home_GP)
+            If (Not System.IO.Directory.Exists(dirpath_Eng)) Then System.IO.Directory.CreateDirectory(dirpath_Eng)
+            If (Not System.IO.Directory.Exists(dirpath_Rap)) Then System.IO.Directory.CreateDirectory(dirpath_Rap)
+        Catch ex As Exception
+        End Try
+    End Sub
+
+    '----------- Find all controls on form1------
+    'Nota Bene, sequence of found control may be differen, List sort is required
+    Public Shared Function FindControlRecursive(ByVal list As List(Of Control), ByVal parent As Control, ByVal ctrlType As System.Type) As List(Of Control)
+        If parent Is Nothing Then Return list
+
+        If parent.GetType Is ctrlType Then
+            list.Add(parent)
+        End If
+        For Each child As Control In parent.Controls
+            FindControlRecursive(list, child, ctrlType)
+        Next
+        Return list
+    End Function
+
+    Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
+        Read_file()
+    End Sub
+    'Retrieve control settings and case_x_conditions from file
+    'Split the file string into 5 separate strings
+    'Each string represents a control type (combobox, checkbox,..)
+    'Then split up the secton string into part to read into the parameters
+    Private Sub Read_file()
+        Dim control_words(), words() As String
+        Dim i As Integer
+        Dim k As Integer = 0
+        Dim all_num, all_combo, all_check, all_radio As New List(Of Control)
+        Dim separators() As String = {";"}
+        Dim separators1() As String = {"BREAK"}
+
+        OpenFileDialog1.FileName = "Conveyor_select_"
+
+        If Directory.Exists(dirpath_Eng) Then
+            OpenFileDialog1.InitialDirectory = dirpath_Eng  'used at VTK
+        Else
+            OpenFileDialog1.InitialDirectory = dirpath_Home_GP  'used at home
+        End If
+
+        OpenFileDialog1.Title = "Open a VTKS File"
+        OpenFileDialog1.Filter = "VTKQ Files|*.vtks|VTKQ file|*.vtks"
+        If OpenFileDialog1.ShowDialog() = System.Windows.Forms.DialogResult.OK Then
+            Dim readText As String = File.ReadAllText(OpenFileDialog1.FileName, Encoding.ASCII)
+
+            control_words = readText.Split(separators1, StringSplitOptions.None) 'Split the read file content
+
+            '----- retrieve case condition-----
+            words = control_words(0).Split(separators, StringSplitOptions.None) 'Split the read file content
+            TextBox66.Text = words(0)                  'Project number
+            TextBox65.Text = words(1)                  'Project name
+            TextBox67.Text = words(2)                  'Item no
+
+            '---------- terugzetten checkbox controls -----------------
+            FindControlRecursive(all_check, Me, GetType(System.Windows.Forms.CheckBox))      'Find the control
+            all_check = all_check.OrderBy(Function(x) x.Name).ToList()                  'Alphabetical order
+            words = control_words(1).Split(separators, StringSplitOptions.None) 'Split the read file content
+            For i = 0 To all_check.Count - 1
+                Dim grbx As System.Windows.Forms.CheckBox = CType(all_check(i), System.Windows.Forms.CheckBox)
+                '--- dit deel voorkomt problemen bij het uitbreiden van het aantal checkboxes--
+                If (i < words.Length - 1) Then
+                    Boolean.TryParse(words(i + 1), grbx.Checked)
+                Else
+                    MessageBox.Show("Warning last checkbox not found in file")
+                End If
+            Next
+        End If
+    End Sub
+
     Private Sub Astap_combo()
         Dim words() As String
 
@@ -1446,7 +1567,6 @@ Public Class Form1
         Next hh
         ComboBox11.SelectedIndex = 2
     End Sub
-
     Private Sub Paint_combo()
         Dim words() As String
 
@@ -1472,25 +1592,25 @@ Public Class Form1
 
     'Save data and line chart to file
     Private Sub Save_to_disk()
-        Dim bmp_tab_page1 As New Bitmap(TabPage1.Width, TabPage1.Height)
-        Dim bmp_tab_page2 As New Bitmap(TabPage2.Width, TabPage2.Height)
-        Dim str_file2, str_file3 As String
+        'Dim bmp_tab_page1 As New Bitmap(TabPage1.Width, TabPage1.Height)
+        'Dim bmp_tab_page2 As New Bitmap(TabPage2.Width, TabPage2.Height)
+        'Dim str_file2, str_file3 As String
 
-        Dim text As String
-        text = Now.ToString("yyyy_MM_dd_HH_mm_ss_")
+        'Dim text As String
+        'text = Now.ToString("yyyy_MM_dd_HH_mm_ss_")
 
-        str_file2 = "c:\temp\" & text & "Conveyor selection data.png"
-        str_file3 = "c:\temp\" & text & "Conveyor stress waaier.png"
+        'str_file2 = "c:\temp\" & text & "Conveyor selection data.png"
+        'str_file3 = "c:\temp\" & text & "Conveyor stress waaier.png"
 
-        '---- save tab page 1---------------
-        TabPage2.Show()
-        TabPage1.DrawToBitmap(bmp_tab_page1, DisplayRectangle)
-        bmp_tab_page1.Save(str_file2, Imaging.ImageFormat.Png)
+        ''---- save tab page 1---------------
+        'TabPage2.Show()
+        'TabPage1.DrawToBitmap(bmp_tab_page1, DisplayRectangle)
+        'bmp_tab_page1.Save(str_file2, Imaging.ImageFormat.Png)
 
-        '---- save tab page 2---------------
-        TabPage2.Show()
-        TabPage2.DrawToBitmap(bmp_tab_page2, DisplayRectangle)
-        bmp_tab_page2.Save(str_file3, Imaging.ImageFormat.Png)
+        ''---- save tab page 2---------------
+        'TabPage2.Show()
+        'TabPage2.DrawToBitmap(bmp_tab_page2, DisplayRectangle)
+        'bmp_tab_page2.Save(str_file3, Imaging.ImageFormat.Png)
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
@@ -1513,6 +1633,11 @@ Public Class Form1
             oWord = CType(CreateObject("Word.Application"), Word.Application)
             oWord.Visible = True
             oDoc = oWord.Documents.Add
+            oDoc.PageSetup.TopMargin = 35
+            oDoc.PageSetup.BottomMargin = 20
+            oDoc.PageSetup.RightMargin = 20
+            oDoc.PageSetup.Orientation = Word.WdOrientation.wdOrientPortrait
+            oDoc.PageSetup.PaperSize = Word.WdPaperSize.wdPaperA4
 
             'Insert a paragraph at the beginning of the document. 
             oPara1 = oDoc.Content.Paragraphs.Add
@@ -1538,12 +1663,12 @@ Public Class Form1
             oTable.Range.Font.Bold = CInt(False)
             oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
 
-            row = 1
-            oTable.Cell(row, 1).Range.Text = "Project Name"
-            oTable.Cell(row, 2).Range.Text = TextBox65.Text
             row += 1
             oTable.Cell(row, 1).Range.Text = "Project number "
             oTable.Cell(row, 2).Range.Text = TextBox66.Text
+            row = 1
+            oTable.Cell(row, 1).Range.Text = "Project Name"
+            oTable.Cell(row, 2).Range.Text = TextBox65.Text
             row += 1
             oTable.Cell(row, 1).Range.Text = "Machine Id "
             oTable.Cell(row, 2).Range.Text = TextBox67.Text
@@ -1732,7 +1857,7 @@ Public Class Form1
             If Directory.Exists(dirpath_Rap) Then
                 ufilename = dirpath_Rap & ufilename
             Else
-                ufilename = dirpath_Home & ufilename
+                ufilename = dirpath_Home_GP & ufilename
             End If
             oWord.ActiveDocument.SaveAs(ufilename.ToString)
 
