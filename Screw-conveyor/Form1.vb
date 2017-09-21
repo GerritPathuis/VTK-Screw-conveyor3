@@ -498,28 +498,28 @@ Public Class Form1
     "DN400;16 inch; 406.4; 6.3;7.1;8;10;12.7;16.0",
     "DN500;20 inch; 508;   6.3;7.1;8;10;12.7;16.0"}
 
-    Public Shared pipe() As String =
-   {"DN100;4 inch; 114.3;  6.02;  8.56; -;   0",
-    "DN125;5 inch; 141.3;  6.55;  9.53; -;   0",
-    "DN150;6 inch; 168.3;  7.11; 10.97; -;   0",
+    Public Shared pipe_steel() As String =
+   {"DN100;4 inch; 114.3;  6.02;  8.56; 0;   0",
+    "DN125;5 inch; 141.3;  6.55;  9.53; 0;   0",
+    "DN150;6 inch; 168.3;  7.11; 10.97; 0;   0",
     "DN200;8 inch; 219.1;  6.35;  8.18; 12.7;0",
     "DN250;10 inch; 273;   6.35;  9.27; 12.7;0",
     "DN300;12 inch; 323.9; 6.35;  9.27; 12.7;0",
-    "DN350;14 inch; 355.6; 7.92;  9.53; -;   0",
-    "DN400;16 inch; 406.4; 7.92;  9.53; -;   0"}
+    "DN350;14 inch; 355.6; 7.92;  9.53; 0;   0",
+    "DN400;16 inch; 406.4; 7.92;  9.53; 0;   0"}
 
 
     Public Shared motorred() As String =
      {"Description; Speed; power;cost;shaftdia",
      "0.18 Kw,R27DR63M4;69.5;0.18;253.51;25",
-     "3 Kw,Bauer BG60-11/DHE11XAC-TF;49.5;3;1132;50",
+     "3 Kw, Bauer BG60-11/DHE11XAC-TF;49.5;3;1132;50",
      "3 Kw, 20rpmR107;20;3;1908.74;70",
      "3 Kw, R77DRM100L4;29.12;3;896.25;40",
      "3 Kw, R137R77/II2GD EDRE100LC4;6.2;3;3851.01;90",
      "1.1 Kw, R77/II2GD EDRE90M4;27;1.1;814.50;40",
      "0.75 Kw, R87DRE90L6;940;0.75;1003.71;50",
      "2.2 Kw, R47DRE100M4;14.56;2.2;471.18;30",
-      "1.1 Kw,R97DRN90S4;186;1.1;1340.06;60",
+      "1.1 Kw, R97DRN90S4;186;1.1;1340.06;60",
       "2.2 Kw 15.1023;55;2.2;0;0",
       "1.5 Kw, 1440 rpm;1440;1.5;0;0",
       "2.2 Kw, 1440 rpm;1440;2.2;0;0",
@@ -670,8 +670,6 @@ Public Class Form1
                                        "110 ; 1500", "132; 1500", "160; 1500", "200; 1500"}
 
 
-
-
     Public Shared _diam_flight As Double                         '[m]
     Public Shared _pipe_OD, _pipe_ID, _pipe_wall As Double
     Public Shared pipe_Ix, pipe_Wx, pipe_Wp As Double            'Lineair en polair weerstand moment
@@ -716,7 +714,7 @@ Public Class Form1
 
         Screw_combo_init()
         Pipe_dia_combo_init()
-        Pipe_wall_combo_init()
+        'Pipe_wall_combo_init()
         Motorreductor()
         Coupling_combo()
         Lager_combo()
@@ -893,7 +891,7 @@ Public Class Form1
         End If
 
         If ComboBox3.SelectedIndex > -1 Then
-            words = pipe(ComboBox3.SelectedIndex).Split(CType(";", Char()))
+            words = pipe_steel(ComboBox3.SelectedIndex).Split(CType(";", Char()))
 
             Double.TryParse(words(2), _pipe_OD)
             _pipe_OD /= 1000                             'Outside Diameter [m]
@@ -1050,7 +1048,7 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click, NumericUpDown11.ValueChanged, ComboBox2.SelectedIndexChanged, NumericUpDown13.ValueChanged, TabPage2.Enter, NumericUpDown17.ValueChanged, NumericUpDown16.ValueChanged, ComboBox5.SelectedIndexChanged, ComboBox6.SelectedIndexChanged, RadioButton3.CheckedChanged, RadioButton2.CheckedChanged, RadioButton1.CheckedChanged, CheckBox1.CheckedChanged, ComboBox3.SelectedIndexChanged
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click, NumericUpDown11.ValueChanged, ComboBox2.SelectedIndexChanged, NumericUpDown13.ValueChanged, TabPage2.Enter, NumericUpDown17.ValueChanged, NumericUpDown16.ValueChanged, ComboBox5.SelectedIndexChanged, RadioButton3.CheckedChanged, RadioButton2.CheckedChanged, RadioButton1.CheckedChanged, CheckBox1.CheckedChanged
         Calulate_stress_1()
     End Sub
     Private Sub Screw_dia_combo()
@@ -1070,34 +1068,37 @@ Public Class Form1
         Dim words() As String
 
         ComboBox3.Items.Clear()
+        ComboBox9.Items.Clear()
 
         '-------Fill combobox3, Pipe selection------------------
-        For hh = 0 To (UBound(pipe) - 1)                'Fill combobox 3 with pipe data
-            words = pipe(hh).Split(CType(";", Char()))
+        For hh = 0 To (UBound(pipe_steel) - 1)                'Fill combobox 3 with pipe data
+            words = pipe_steel(hh).Split(CType(";", Char()))
             ComboBox3.Items.Add(Trim(words(2)))
             ComboBox9.Items.Add(Trim(words(2)))
         Next hh
         ComboBox3.SelectedIndex = 2
         ComboBox9.SelectedIndex = 2
 
-        words = pipe(ComboBox3.SelectedIndex).Split(CType(";", Char()))
+        words = pipe_steel(ComboBox3.SelectedIndex).Split(CType(";", Char()))
         Double.TryParse(words(2), _pipe_OD)
-        _pipe_OD /= 1000                                         'Outside Diameter [m]
+        _pipe_OD /= 1000                                         'Outside Diameter [mm]
         TextBox16.Text = Round(_pipe_OD * 1000, 1).ToString      'Diameter [mm]
     End Sub
     Private Sub Pipe_wall_combo_init()
         Dim words() As String
         Dim temp As Double
 
-        ComboBox6.Items.Clear()
-        '-------Fill combobox6, pipe wall selection------------------
-        words = pipe(ComboBox3.SelectedIndex).Split(CType(";", Char()))  'Fill combobox 6 pipe wall data
-        For hh = 3 To 5
-            If Double.TryParse(words(hh), temp) Then
-                ComboBox6.Items.Add(Trim(words(hh)))
-            End If
-        Next
-        ComboBox6.SelectedIndex = 1
+        If ComboBox3.Items.Count > 0 Then 'Prevent exceptions
+            ComboBox6.Items.Clear()
+            '-------Fill combobox6, pipe wall selection------------------
+            words = pipe_steel(ComboBox3.SelectedIndex).Split(CType(";", Char()))  'Fill combobox 6 pipe wall data
+            For hh = 3 To 6
+                Double.TryParse(words(hh), temp)
+                If temp > 0 Then ComboBox6.Items.Add(Trim(words(hh)))
+            Next
+            ComboBox6.SelectedIndex = 0
+            Calulate_stress_1()
+        End If
     End Sub
     Private Sub Motorreductor()
         Dim words() As String
@@ -1543,6 +1544,13 @@ Public Class Form1
                 End If
             Next
         End If
+    End Sub
+    Private Sub ComboBox3_SelectedValueChanged(sender As Object, e As EventArgs) Handles ComboBox3.SelectedValueChanged
+        Pipe_wall_combo_init()
+    End Sub
+
+    Private Sub ComboBox6_SelectedValueChanged(sender As Object, e As EventArgs) Handles ComboBox6.SelectedValueChanged
+        Calulate_stress_1()
     End Sub
 
     Private Sub Astap_combo()

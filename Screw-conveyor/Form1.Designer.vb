@@ -1773,7 +1773,6 @@ Partial Class Form1
         Me.Button2.TabIndex = 3
         Me.Button2.Text = "Calc"
         Me.Button2.UseVisualStyleBackColor = True
-        Me.Button2.Visible = False
         '
         'GroupBox3
         '
