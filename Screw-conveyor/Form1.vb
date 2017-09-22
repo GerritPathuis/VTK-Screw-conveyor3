@@ -675,6 +675,8 @@ Public Class Form1
     Public Shared pipe_Ix, pipe_Wx, pipe_Wp As Double            'Lineair en polair weerstand moment
     Public Shared pitch As Double
     Public Shared installed_power As Double
+    Public Shared service_factor As Double
+    Public Shared actual_power As Double
     Public Shared sigma02, sigma_fatique, Young As Double
     Public Shared inlet_length, conv_length, product_density As Double
     Public Shared _angle As Double
@@ -828,7 +830,7 @@ Public Class Form1
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click, TabPage5.Enter, NumericUpDown34.ValueChanged, NumericUpDown33.ValueChanged, NumericUpDown30.ValueChanged, NumericUpDown27.ValueChanged
         Costing_material()
     End Sub
-    'Please note complete calculation in [m] nit [mm]
+    'Please note complete calculation in [m] not [mm]
     Private Sub Calulate_stress_1()
         Dim qq As Double
         Dim Q_load_1, Q_load_2, Q_load_comb, Q_load_3, Q_Deflect_max, Q_max_bend, pos_x As Double
@@ -855,6 +857,8 @@ Public Class Form1
         If (ComboBox5.SelectedIndex > -1) Then      'Prevent exceptions
             words = emotor(ComboBox5.SelectedIndex).Split(CType(";", Char()))
             Double.TryParse(words(0), installed_power)
+            service_factor = NumericUpDown18.Value
+            actual_power = installed_power * service_factor
         End If
 
         If (ComboBox2.SelectedIndex > -1) Then      'Prevent exceptions
@@ -934,7 +938,7 @@ Public Class Form1
             TextBox5.Text = Round(fligh_dik * 1000, 1).ToString                                 'Flight dikte [mm]
 
             '------------- aandrijving torsie @ drive ---------------------------------------------------------------------------------
-            P_torque = installed_power * 1000 / (2 * PI * NumericUpDown7.Value / 60)
+            P_torque = actual_power * 1000 / (2 * PI * NumericUpDown7.Value / 60)
             TextBox29.Text = Round(P_torque, 0).ToString                                        'Torque from drive [N.m]
 
 
@@ -1017,7 +1021,7 @@ Public Class Form1
 
             '------------ Hubert en hencky @ maximale doorbuiging--------------------
             combined_stress = Sqrt((sigma_eg) ^ 2 + 3 * (Tou_torque_M) ^ 2)
-            TextBox21.Text = Round(combined_stress, 1).ToString
+            TextBox21.Text = Round(combined_stress, 1).ToString("0.0")
 
             If combined_stress > sigma_fatique Then
                 TextBox21.BackColor = Color.Red
@@ -1048,7 +1052,7 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click, NumericUpDown11.ValueChanged, ComboBox2.SelectedIndexChanged, NumericUpDown13.ValueChanged, TabPage2.Enter, NumericUpDown17.ValueChanged, NumericUpDown16.ValueChanged, ComboBox5.SelectedIndexChanged, RadioButton3.CheckedChanged, RadioButton2.CheckedChanged, RadioButton1.CheckedChanged, CheckBox1.CheckedChanged
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click, NumericUpDown11.ValueChanged, ComboBox2.SelectedIndexChanged, NumericUpDown13.ValueChanged, TabPage2.Enter, NumericUpDown17.ValueChanged, NumericUpDown16.ValueChanged, ComboBox5.SelectedIndexChanged, RadioButton3.CheckedChanged, RadioButton2.CheckedChanged, RadioButton1.CheckedChanged, CheckBox1.CheckedChanged, NumericUpDown18.ValueChanged
         Calulate_stress_1()
     End Sub
     Private Sub Screw_dia_combo()
@@ -1238,6 +1242,10 @@ Public Class Form1
         oTable.Cell(row, 1).Range.Text = "Installed Power"
         oTable.Cell(row, 3).Range.Text = CType(ComboBox5.SelectedItem, String)
         oTable.Cell(row, 2).Range.Text = "[kW]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Service factor"
+        oTable.Cell(row, 3).Range.Text = CType(NumericUpDown18.Value, String)
+        oTable.Cell(row, 2).Range.Text = "[-]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Conveyor length"
         oTable.Cell(row, 3).Range.Text = CType(NumericUpDown3.Value, String)
@@ -1448,11 +1456,38 @@ Public Class Form1
         temp_string = TextBox66.Text & ";" & TextBox65.Text & ";" & TextBox67.Text & ";"
         temp_string &= vbCrLf & "BREAK" & vbCrLf & ";"
 
+        '-------- find all numeric controls -----------------
+        FindControlRecursive(all_num, Me, GetType(NumericUpDown))   'Find the control
+        all_num = all_num.OrderBy(Function(x) x.Name).ToList()      'Alphabetical order
+        For i = 0 To all_num.Count - 1
+            Dim grbx As NumericUpDown = CType(all_num(i), NumericUpDown)
+            temp_string &= grbx.Value.ToString & ";"
+        Next
+        temp_string &= vbCrLf & "BREAK" & vbCrLf & ";"
+
+        '-------- find all combobox controls and save
+        FindControlRecursive(all_combo, Me, GetType(ComboBox))      'Find the control
+        all_combo = all_combo.OrderBy(Function(x) x.Name).ToList()   'Alphabetical order
+        For i = 0 To all_combo.Count - 1
+            Dim grbx As ComboBox = CType(all_combo(i), ComboBox)
+            temp_string &= grbx.SelectedItem.ToString & ";"
+        Next
+        temp_string &= vbCrLf & "BREAK" & vbCrLf & ";"
+
         '-------- find all checkbox controls and save
         FindControlRecursive(all_check, Me, GetType(System.Windows.Forms.CheckBox))      'Find the control
         all_check = all_check.OrderBy(Function(x) x.Name).ToList()  'Alphabetical order
         For i = 0 To all_check.Count - 1
             Dim grbx As System.Windows.Forms.CheckBox = CType(all_check(i), System.Windows.Forms.CheckBox)
+            temp_string &= grbx.Checked.ToString & ";"
+        Next
+        temp_string &= vbCrLf & "BREAK" & vbCrLf & ";"
+
+        '-------- find all radio controls and save
+        FindControlRecursive(all_radio, Me, GetType(RadioButton))   'Find the control
+        all_radio = all_radio.OrderBy(Function(x) x.Name).ToList()  'Alphabetical order
+        For i = 0 To all_radio.Count - 1
+            Dim grbx As RadioButton = CType(all_radio(i), RadioButton)
             temp_string &= grbx.Checked.ToString & ";"
         Next
         temp_string &= vbCrLf & "BREAK" & vbCrLf & ";"
@@ -1505,6 +1540,7 @@ Public Class Form1
         Dim control_words(), words() As String
         Dim i As Integer
         Dim k As Integer = 0
+        Dim ttt As Double
         Dim all_num, all_combo, all_check, all_radio As New List(Of Control)
         Dim separators() As String = {";"}
         Dim separators1() As String = {"BREAK"}
@@ -1530,10 +1566,45 @@ Public Class Form1
             TextBox65.Text = words(1)                  'Project name
             TextBox67.Text = words(2)                  'Item no
 
+
+            '---------- terugzetten Numeric controls -----------------
+            FindControlRecursive(all_num, Me, GetType(NumericUpDown))
+            all_num = all_num.OrderBy(Function(x) x.Name).ToList()                  'Alphabetical order
+            words = control_words(1).Split(separators, StringSplitOptions.None)     'Split the read file content
+            For i = 0 To all_num.Count - 1
+                Dim grbx As NumericUpDown = CType(all_num(i), NumericUpDown)
+                '--- dit deel voorkomt problemen bij het uitbreiden van het aantal checkboxes--
+                If (i < words.Length - 1) Then
+                    If Not (Double.TryParse(words(i + 1), ttt)) Then MessageBox.Show("Numeric controls conversion problem occured")
+                    If ttt <= grbx.Maximum And ttt >= grbx.Minimum Then
+                        grbx.Value = CDec(ttt)          'OK
+                    Else
+                        grbx.Value = grbx.Minimum       'NOK
+                        MessageBox.Show("Numeric controls value out of min-max range, Minimum value is used")
+                    End If
+                Else
+                    MessageBox.Show("Warning last Numeric-Updown-controls not found in file")  'NOK
+                End If
+            Next
+
+            '---------- terugzetten combobox controls -----------------
+            FindControlRecursive(all_combo, Me, GetType(ComboBox))
+            all_combo = all_combo.OrderBy(Function(x) x.Name).ToList()          'Alphabetical order
+            words = control_words(2).Split(separators, StringSplitOptions.None) 'Split the read file content
+            For i = 0 To all_combo.Count - 1
+                Dim grbx As ComboBox = CType(all_combo(i), ComboBox)
+                '--- dit deel voorkomt problemen bij het uitbreiden van het aantal checkboxes--
+                If (i < words.Length - 1) Then
+                    grbx.SelectedItem = words(i + 1)
+                Else
+                    MessageBox.Show("Warning last combobox not found in file")
+                End If
+            Next
+
             '---------- terugzetten checkbox controls -----------------
             FindControlRecursive(all_check, Me, GetType(System.Windows.Forms.CheckBox))      'Find the control
             all_check = all_check.OrderBy(Function(x) x.Name).ToList()                  'Alphabetical order
-            words = control_words(1).Split(separators, StringSplitOptions.None) 'Split the read file content
+            words = control_words(3).Split(separators, StringSplitOptions.None) 'Split the read file content
             For i = 0 To all_check.Count - 1
                 Dim grbx As System.Windows.Forms.CheckBox = CType(all_check(i), System.Windows.Forms.CheckBox)
                 '--- dit deel voorkomt problemen bij het uitbreiden van het aantal checkboxes--
@@ -1543,6 +1614,21 @@ Public Class Form1
                     MessageBox.Show("Warning last checkbox not found in file")
                 End If
             Next
+
+            '---------- terugzetten radiobuttons controls -----------------
+            FindControlRecursive(all_radio, Me, GetType(RadioButton))
+            all_radio = all_radio.OrderBy(Function(x) x.Name).ToList()                  'Alphabetical order
+            words = control_words(4).Split(separators, StringSplitOptions.None) 'Split the read file content
+            For i = 0 To all_radio.Count - 1
+                Dim grbx As RadioButton = CType(all_radio(i), RadioButton)
+                '--- dit deel voorkomt problemen bij het uitbreiden van het aantal radiobuttons--
+                If (i < words.Length - 1) Then
+                    Boolean.TryParse(words(i + 1), grbx.Checked)
+                Else
+                    MessageBox.Show("Warning last radiobutton not found in file")
+                End If
+            Next
+
         End If
     End Sub
     Private Sub ComboBox3_SelectedValueChanged(sender As Object, e As EventArgs) Handles ComboBox3.SelectedValueChanged
@@ -1791,7 +1877,7 @@ Public Class Form1
             oTable.Cell(row, 2).Range.Text = TextBox9.Text
             oTable.Cell(row, 3).Range.Text = "[N/mm^2]"
             row += 1
-            oTable.Cell(row, 1).Range.Text = "Torque Stress"
+            oTable.Cell(row, 1).Range.Text = "Max. Torque Stress"
             oTable.Cell(row, 2).Range.Text = TextBox12.Text
             oTable.Cell(row, 3).Range.Text = "[N/mm^2]"
             row += 1
