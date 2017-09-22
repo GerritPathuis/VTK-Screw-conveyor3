@@ -1757,10 +1757,10 @@ Public Class Form1
             oTable.Range.Font.Bold = CInt(False)
             oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
 
-            row += 1
+            row = 1
             oTable.Cell(row, 1).Range.Text = "Project number "
             oTable.Cell(row, 2).Range.Text = TextBox66.Text
-            row = 1
+            row += 1
             oTable.Cell(row, 1).Range.Text = "Project Name"
             oTable.Cell(row, 2).Range.Text = TextBox65.Text
             row += 1
@@ -1889,15 +1889,15 @@ Public Class Form1
             oTable.Cell(row, 2).Range.Text = ComboBox2.Text
             oTable.Cell(row, 3).Range.Text = "[-]"
             row += 1
-            oTable.Cell(row, 1).Range.Text = "Max. Fatique stress"
+            oTable.Cell(row, 1).Range.Text = "Max. allowed Fatique stress"
             oTable.Cell(row, 2).Range.Text = TextBox8.Text
             oTable.Cell(row, 3).Range.Text = "[N/mm2]"
             row += 1
-            oTable.Cell(row, 1).Range.Text = "Center pipe load (weight only)"
+            oTable.Cell(row, 1).Range.Text = "Q1, pipe load (weight only)"
             oTable.Cell(row, 2).Range.Text = TextBox22.Text
             oTable.Cell(row, 3).Range.Text = "[N/m]"
             row += 1
-            oTable.Cell(row, 1).Range.Text = "Max Flex"
+            oTable.Cell(row, 1).Range.Text = "Max. Flex"
             oTable.Cell(row, 2).Range.Text = TextBox20.Text
             oTable.Cell(row, 3).Range.Text = "[mm]"
             row += 1
