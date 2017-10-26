@@ -781,7 +781,7 @@ Public Class Form1
 
         If filling_perc > 100 Then filling_perc = 100
 
-        TextBox1.BackColor = CType(IIf(filling_perc > 40, Color.Red, Color.LightGreen), Color)
+        TextBox01.BackColor = CType(IIf(filling_perc > 40, Color.Red, Color.LightGreen), Color)
 
 
         '--------------- ISO 7119 -----------------
@@ -800,9 +800,9 @@ Public Class Form1
         r_time = conv_length / (speed / 60 * pitch)                     '[sec]
 
         '--------------- present results------------
-        TextBox1.Text = filling_perc.ToString
-        TextBox3.Text = iso_power.ToString
-        TextBox4.Text = mekog.ToString
+        TextBox01.Text = filling_perc.ToString
+        TextBox03.Text = iso_power.ToString
+        TextBox04.Text = mekog.ToString
         TextBox110.Text = Round(r_time, 0).ToString
 
     End Sub
@@ -833,9 +833,12 @@ Public Class Form1
     'Please note complete calculation in [m] not [mm]
     Private Sub Calulate_stress_1()
         Dim qq As Double
-        Dim Q_load_1, Q_load_2, Q_load_comb, Q_load_3, Q_Deflect_max, Q_max_bend, pos_x As Double
+        Dim Q_load_1, Q_load_2, Q_load_comb, Q_load_3 As Double
+        Dim Force_1, chute_distance_1 As Double
+        Dim Force_2, chute_distance_2 As Double
+        Dim Q_Deflect_max, Q_max_bend, pos_x As Double
         Dim F_tangent, Radius_transport As Double
-        Dim weight_m As Double
+        Dim pipe_weight_m As Double
         Dim pipe_OR, pipe_IR As Double
         Dim sigma_eg As Double                      'Sigma eigen gewicht
         Dim flight_hoogte, flight_gewicht, flight_lengte_buiten, flight_lengte_binnen, flight_lengte_gem, fligh_dik As Double
@@ -848,11 +851,17 @@ Public Class Form1
         Dim max_sag As Double                       'maximale doorzakking pijp
 
         NumericUpDown13.Value = NumericUpDown7.Value
+        Force_1 = NumericUpDown19.Value * 10 ^ 3            '[N]
+        Force_2 = NumericUpDown22.Value * 10 ^ 3            '[N]
+        chute_distance_1 = NumericUpDown16.Value            '[m]
+        chute_distance_2 = NumericUpDown24.Value            '[m]
+
 
         '---------- materiaal gewicht inlaat kolom op pipe--------------------------
         inlet_length = NumericUpDown16.Value                'inlet chute [m]
         kolom_height = NumericUpDown17.Value                'inlet chute material kolom [m]
         product_density = NumericUpDown6.Value              'product density [kg/m3]
+
 
         If (ComboBox5.SelectedIndex > -1) Then      'Prevent exceptions
             words = emotor(ComboBox5.SelectedIndex).Split(CType(";", Char()))
@@ -863,7 +872,7 @@ Public Class Form1
 
         If (ComboBox2.SelectedIndex > -1) Then      'Prevent exceptions
             words = steel(ComboBox2.SelectedIndex).Split(CType(";", Char()))
-            TextBox6.Text = words(6)     'Density steel
+            TextBox06.Text = words(6)     'Density steel
 
             '--------------- select the strength @ temperature
             qq = NumericUpDown11.Value
@@ -889,9 +898,9 @@ Public Class Form1
                 Case (qq > 350 AndAlso qq <= 400)
                     Double.TryParse(words(17), sigma02)    'Sigma 0.2 [N/mm]
             End Select
-            TextBox7.Text = CType(sigma02, String)
+            TextBox07.Text = CType(sigma02, String)
             sigma_fatique = sigma02 * 0.35                   'Fatique stress uitgelegd op oneindige levensduur
-            TextBox8.Text = Round(sigma_fatique, 0).ToString
+            TextBox08.Text = Round(sigma_fatique, 0).ToString
         End If
 
         If ComboBox3.SelectedIndex > -1 Then
@@ -905,9 +914,9 @@ Public Class Form1
             _pipe_ID = (_pipe_OD - 2 * _pipe_wall)         'Inside diameter [mm]
             pipe_IR = _pipe_ID / 2                       'Inside radius [mm]
 
-            weight_m = PI / 4 * (_pipe_OD ^ 2 - _pipe_ID ^ 2) * 7850          'Weight per meter [kg/m]
+            pipe_weight_m = PI / 4 * (_pipe_OD ^ 2 - _pipe_ID ^ 2) * 7850        'Weight per meter [kg/m]
 
-            TextBox13.Text = Round(weight_m, 1).ToString                    'gewicht per meter
+            TextBox13.Text = Round(pipe_weight_m, 1).ToString                    'gewicht per meter
             TextBox16.Text = Round(_pipe_OD * 1000, 1).ToString              'Diameter [m]
 
             '---------------- Traagheids moment Ix= PI/64.(D^4-d^4)---------------------
@@ -922,11 +931,10 @@ Public Class Form1
             pipe_Wp = PI / 16 * (_pipe_OD ^ 4 - _pipe_ID ^ 4) / _pipe_OD       '[m3]
             TextBox15.Text = Round(pipe_Wp * 1000 ^ 3, 0).ToString
 
+            '============= calc load ========================================
+            '================================================================
 
-            '============================================calc load ==============================================================================
-            '====================================================================================================================================
-
-            '---------------- gewicht flight---mm dik----------------------------------
+            '---------------- gewicht flight [mm] dik----------------------------------
             flight_hoogte = (_diam_flight - _pipe_OD / 1000) / 2                                  '[m]
             flight_lengte_buiten = Sqrt((PI * _diam_flight) ^ 2 + (pitch) ^ 2)
 
@@ -934,51 +942,57 @@ Public Class Form1
             flight_lengte_gem = (flight_lengte_buiten + flight_lengte_binnen) / 2
             fligh_dik = NumericUpDown8.Value / 1000                                             '[m]
             flight_gewicht = (flight_hoogte * flight_lengte_gem * fligh_dik * 7850) / pitch     'Flight Gewicht per meter
-            TextBox2.Text = Round(flight_gewicht, 1).ToString                                   'Flight Gewicht per meter
-            TextBox5.Text = Round(fligh_dik * 1000, 1).ToString                                 'Flight dikte [mm]
+            TextBox02.Text = Round(flight_gewicht, 1).ToString                                   'Flight Gewicht per meter
+            TextBox05.Text = Round(fligh_dik * 1000, 1).ToString                                 'Flight dikte [mm]
 
-            '------------- aandrijving torsie @ drive ---------------------------------------------------------------------------------
+            '------------- aandrijving torsie @ drive ----------------------------
             P_torque = actual_power * 1000 / (2 * PI * NumericUpDown7.Value / 60)
             TextBox29.Text = Round(P_torque, 0).ToString                                        'Torque from drive [N.m]
-
 
             '----------- Weight (pipe+flight) + transport force combined ------
             '---- Worst case material assumed sitting lowest point of the trough---
 
-            Q_load_1 = (weight_m + flight_gewicht) * 9.81           'Total EVEN distributed load
-            TextBox22.Text = Round(Q_load_1, 0).ToString            'BYounging [kg/m]
+            Q_load_1 = (pipe_weight_m + flight_gewicht) * 9.81          '[N/m] Uniform distributed weight
+            TextBox22.Text = Round(Q_load_1, 0).ToString                'Buiging [N/m]
 
             '----------- Axial load caused by transport of product
-            Radius_transport = (_diam_flight + _pipe_OD) / 4                  'Acc Jos (D+d)/4
+            Radius_transport = (_diam_flight + _pipe_OD) / 4                'Acc Jos (D+d)/4
             F_tangent = P_torque / Radius_transport
             Q_load_2 = F_tangent / conv_length                              'Transport kracht geeft doorbuiging pijp
-            Q_load_3 = _pipe_OD * kolom_height * product_density * 9.91      'gelijkmatige bYounging op de pijp door materiaal kolom
+            Q_load_3 = _pipe_OD * kolom_height * product_density * 9.81     '[N/m] gelijkmatige belasting op de pijp door materiaal kolom
             TextBox17.Text = Round(Q_load_3, 0).ToString                    '[N/m]
 
-            '============================================ Traditionele VTK berekening ===========================================================
-            '============================================ verwaarloosd Q_load2 =======================================================================
+            '============= Traditionele VTK berekening ==========================
+            '============= verwaarloosd Q_load2 =================================
             If CheckBox1.Checked Then
                 Q_load_2 = 0
             End If
             TextBox28.Text = Round(Q_load_2, 0).ToString                    '[N]
-            '============================================ Reactie krachten ======================================================================
-            '====================================================================================================================================
 
-            Q_load_comb = Sqrt(Q_load_1 ^ 2 + Q_load_2 ^ 2)     'Radiale en tangentiele kracht gecombineerd
+            '============= Reactie krachten ======================================
+            '=====================================================================
+            Q_load_comb = Sqrt(Q_load_1 ^ 2 + Q_load_2 ^ 2)     '[N/m] Radiale en tangentiele kracht gecombineerd
 
-
-            R_total = Q_load_comb * conv_length + Q_load_3 * inlet_length    'Total force (Ra+Rb)
+            R_total = Q_load_comb * conv_length             'Steel weight
+            R_total += Q_load_3 * inlet_length              'Material weight
+            R_total += Force_1                              'Material falling on the pipe
+            R_total += Force_2
 
             'Momenten evenwicht om punt Ra
-            Rb = (Q_load_comb * conv_length ^ 2 * 0.5 + Q_load_3 * inlet_length ^ 2 * 0.5) / conv_length
+            Rb = Q_load_comb * conv_length ^ 2 * 0.5
+            Rb += Q_load_3 * inlet_length ^ 2 * 0.5
+            Rb += Force_1 * chute_distance_1
+            Rb += Force_2 * chute_distance_2
+
+            Rb /= conv_length
             Ra = R_total - Rb
 
             TextBox24.Text = Round(Ra, 0).ToString          'Reactie kracht Ra
             TextBox36.Text = Round(Rb, 0).ToString          'Reactie kracht Rb
             TextBox39.Text = Round(R_total, 0).ToString     'Reactie kracht Ra+Rb
 
-            '============================================ Maximaal moment positie ===============================================================
-            '=============================================  Maximaal moment (oppervlak dwarskrachtenlijn) =======================================
+            '==================== Maximaal moment positie ============================
+            '==================== Maximaal moment (oppervlak dwarskrachtenlijn) ======
             pos_x = Ra / (Q_load_comb + Q_load_3)
             Q_max_bend = 0.5 ^ 2 * (Q_load_comb + Q_load_3) * pos_x
 
@@ -990,47 +1004,29 @@ Public Class Form1
             TextBox38.Text = Round(pos_x, 2).ToString           'Positie max moment tov A [m]
             TextBox37.Text = Round(Q_max_bend, 0).ToString      'Max moment [Nm]          
 
-            '============================================calc torsie ============================================================================
-            '====================================================================================================================================
+            '================== calc torsie ========================================
+            '=======================================================================
             Tou_torque = P_torque / (pipe_Wp * 1000 ^ 2)            '[N/mm2]
             TextBox12.Text = Round(Tou_torque, 1).ToString          'Stress from drive [N.m]
-            If Tou_torque > sigma_fatique Then
-                TextBox12.BackColor = Color.Red
-            Else
-                TextBox12.BackColor = Color.LightGreen
-            End If
 
             '-------------------------- @ max bend------------------------
             P_torque_M = (P_torque * pos_x / conv_length)
             Tou_torque_M = P_torque_M / (pipe_Wp * 1000 ^ 2)            '[N/mm2]
             TextBox10.Text = Round(Tou_torque_M, 1).ToString
 
-
-            '============================================calc stress ============================================================================
-            '====================================================================================================================================
+            '==================calc stress ===========================================
+            '=========================================================================
 
             '----------- bending stress--------------------
             sigma_eg = Q_max_bend / (pipe_Wx * 1000 ^ 2)                   '[N/mm2]
-            TextBox9.Text = Round(sigma_eg, 1).ToString                    '[N/mm2]
-
-            If sigma_eg > sigma_fatique Then
-                TextBox9.BackColor = Color.Red
-            Else
-                TextBox9.BackColor = Color.LightGreen
-            End If
+            TextBox09.Text = Round(sigma_eg, 1).ToString                    '[N/mm2]
 
             '------------ Hubert en hencky @ maximale doorbuiging--------------------
             combined_stress = Sqrt((sigma_eg) ^ 2 + 3 * (Tou_torque_M) ^ 2)
             TextBox21.Text = Round(combined_stress, 1).ToString("0.0")
 
-            If combined_stress > sigma_fatique Then
-                TextBox21.BackColor = Color.Red
-            Else
-                TextBox21.BackColor = Color.LightGreen
-            End If
-
-            '---------------- Max doorbuiging gelijkmatige bYounging f= 5.Q.L^4/(384 .E.I) --------------------
-            '---------------- materiaal kolom is niet meegenomen ----------------------------------------------
+            '---------- Max doorbuiging gelijkmatige belasting f= 5.Q.L^4/(384 .E.I) --------------------
+            '----------- materiaal kolom is niet meegenomen ----------------------------------------------
             Young = NumericUpDown1.Value * 1000 '[N/mm2]
             Q_Deflect_max = (5 * Q_load_comb / 1000 * conv_length ^ 4) / (384 * Young * pipe_Ix)
             TextBox20.Text = Round(Q_Deflect_max, 1).ToString("0.0")     '[mm]
@@ -1044,15 +1040,18 @@ Public Class Form1
                     max_sag = 1000
             End Select
 
-            If Q_Deflect_max > conv_length * 1000 / max_sag Then
-                TextBox20.BackColor = Color.Red
-            Else
-                TextBox20.BackColor = Color.LightGreen
-            End If
         End If
+        TextBox49.Text = product_density.ToString("0")
+
+        '---------- checks---------
+        TextBox20.BackColor = CType(IIf(Q_Deflect_max > conv_length * 1000 / max_sag, Color.Red, Color.LightGreen), Color)
+        TextBox09.BackColor = CType(IIf(sigma_eg > sigma_fatique, Color.Red, Color.LightGreen), Color)
+        TextBox21.BackColor = CType(IIf(combined_stress > sigma_fatique, Color.Red, Color.LightGreen), Color)
+        TextBox12.BackColor = CType(IIf(Tou_torque > sigma_fatique, Color.Red, Color.LightGreen), Color)
+
     End Sub
 
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click, NumericUpDown11.ValueChanged, ComboBox2.SelectedIndexChanged, NumericUpDown13.ValueChanged, TabPage2.Enter, NumericUpDown17.ValueChanged, NumericUpDown16.ValueChanged, ComboBox5.SelectedIndexChanged, RadioButton3.CheckedChanged, RadioButton2.CheckedChanged, RadioButton1.CheckedChanged, CheckBox1.CheckedChanged, NumericUpDown18.ValueChanged
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click, NumericUpDown11.ValueChanged, ComboBox2.SelectedIndexChanged, NumericUpDown13.ValueChanged, TabPage2.Enter, NumericUpDown17.ValueChanged, NumericUpDown16.ValueChanged, ComboBox5.SelectedIndexChanged, RadioButton3.CheckedChanged, RadioButton2.CheckedChanged, RadioButton1.CheckedChanged, CheckBox1.CheckedChanged, NumericUpDown18.ValueChanged, NumericUpDown19.ValueChanged, NumericUpDown24.ValueChanged, NumericUpDown22.ValueChanged
         Calulate_stress_1()
     End Sub
     Private Sub Screw_dia_combo()
@@ -1823,15 +1822,15 @@ Public Class Form1
             oTable.Cell(row, 3).Range.Text = "[m/s]"
             row += 1
             oTable.Cell(row, 1).Range.Text = "Filling "
-            oTable.Cell(row, 2).Range.Text = TextBox1.Text
+            oTable.Cell(row, 2).Range.Text = TextBox01.Text
             oTable.Cell(row, 3).Range.Text = "[%]"
             row += 1
             oTable.Cell(row, 1).Range.Text = "Power ISO 7119"
-            oTable.Cell(row, 2).Range.Text = TextBox3.Text
+            oTable.Cell(row, 2).Range.Text = TextBox03.Text
             oTable.Cell(row, 3).Range.Text = "[kW]"
             row += 1
             oTable.Cell(row, 1).Range.Text = "Power MEKOG"
-            oTable.Cell(row, 2).Range.Text = TextBox4.Text
+            oTable.Cell(row, 2).Range.Text = TextBox04.Text
             oTable.Cell(row, 3).Range.Text = "[kW]"
             row += 1
             oTable.Cell(row, 1).Range.Text = "Power Installed"
@@ -1874,7 +1873,7 @@ Public Class Form1
             oTable.Cell(row, 1).Range.Text = "Calculation Results"
             row += 1
             oTable.Cell(row, 1).Range.Text = "Bending Stress"
-            oTable.Cell(row, 2).Range.Text = TextBox9.Text
+            oTable.Cell(row, 2).Range.Text = TextBox09.Text
             oTable.Cell(row, 3).Range.Text = "[N/mm^2]"
             row += 1
             oTable.Cell(row, 1).Range.Text = "Max. Torque Stress"
@@ -1890,7 +1889,7 @@ Public Class Form1
             oTable.Cell(row, 3).Range.Text = "[-]"
             row += 1
             oTable.Cell(row, 1).Range.Text = "Max. allowed Fatique stress"
-            oTable.Cell(row, 2).Range.Text = TextBox8.Text
+            oTable.Cell(row, 2).Range.Text = TextBox08.Text
             oTable.Cell(row, 3).Range.Text = "[N/mm2]"
             row += 1
             oTable.Cell(row, 1).Range.Text = "Q1, pipe load (weight only)"
@@ -1929,7 +1928,7 @@ Public Class Form1
                 oTable.Cell(row, 1).Range.Text = "OK, Rotational speed"
             End If
             row += 1
-            If TextBox1.BackColor = Color.Red Then
+            If TextBox01.BackColor = Color.Red Then
                 oTable.Cell(row, 1).Range.Text = "NOK, Filling percentage > 40%"
             Else
                 oTable.Cell(row, 1).Range.Text = "OK, Filling percentage"
