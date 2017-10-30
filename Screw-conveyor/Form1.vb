@@ -1035,50 +1035,66 @@ Public Class Form1
             TextBox91.Text = fx(4).ToString("0")
 
             'MessageBox.Show("0=" & fx(0).ToString & ", 1= " & fx(1).ToString & ", 2=" & fx(2).ToString & ", 3= " & fx(3).ToString & ", 4= " & fx(4).ToString)
-            '======== bepaal nulpunt dwarskarchtenlijn
+            '======== bepaal nulpunt dwarskrachtenlijn
             Select Case True
-                    Case (fx(0) > 0 And fx(1) < 0)
-                        xnul = x(0) + (x(1) - x(0)) * Abs(fx(1)) / (Abs(fx(0)) + Abs(fx(1)))
-                    Case (fx(1) > 0 And fx(2) < 0)
-                        xnul = x(1) + (x(2) - x(1)) * Abs(fx(2)) / (Abs(fx(1)) + Abs(fx(2)))
-                    Case (fx(2) > 0 And fx(3) < 0)
-                        xnul = x(2) + (x(3) - x(2)) * Abs(fx(3)) / (Abs(fx(2)) + Abs(fx(3)))
-                    Case (fx(3) > 0 And fx(4) < 0)
-                        xnul = x(3) + (x(4) - x(3)) * Abs(fx(4)) / (Abs(fx(3)) + Abs(fx(4)))
-                End Select
-                TextBox38.Text = xnul.ToString("0.00")           'Positie max moment tov A [m]
+                Case (fx(0) > 0 And fx(1) < 0)
+                    xnul = x(0) + (x(1) - x(0)) * Abs(fx(1)) / (Abs(fx(0)) + Abs(fx(1)))
+                Case (fx(1) > 0 And fx(2) < 0)
+                    xnul = x(1) + (x(2) - x(1)) * Abs(fx(2)) / (Abs(fx(1)) + Abs(fx(2)))
+                Case (fx(2) > 0 And fx(3) < 0)
+                    xnul = x(2) + (x(3) - x(2)) * Abs(fx(3)) / (Abs(fx(2)) + Abs(fx(3)))
+                Case (fx(3) > 0 And fx(4) < 0)
+                    xnul = x(3) + (x(4) - x(3)) * Abs(fx(4)) / (Abs(fx(3)) + Abs(fx(4)))
+            End Select
+            TextBox38.Text = xnul.ToString("0.00")           'Positie max moment tov A [m]
 
             '=========== momentenlijn (bending moment )====================
-            mx(0) = 0                                           'inlaatschot
-            If fx(1) >= 0 Then
-                mx(1) = mx(0) + (fx(0) + fx(1)) / 2 * (x(1) - x(0)) 'Inlaat #1
+            Dim ΔL As Double
+            'inlaatschot------------------------------
+            mx(0) = 0
+
+            'Inlaat #1--------------------------------
+
+            If x(1) <= xnul Then
+                ΔL = x(1) - x(0)
+                mx(1) = mx(0) + (fx(0) + (fx(0) - q * ΔL)) * 0.5 * ΔL
             Else
-                mx(1) = mx(0) + (fx(0) + 0) / 2 * (x(1) - xnul) 'Inlaat #1
+                ΔL = xnul - x(0)
+                mx(1) = mx(0) + (fx(0) + (fx(0) - q * ΔL)) * 0.5 * ΔL
             End If
+
+
+            'Inlaat #2--------------------------------
 
             If fx(2) >= 0 Then
-                mx(2) = mx(1) + (fx(1) + fx(2)) / 2 * (x(2) - x(1)) 'Inlaat #2
+                ΔL = x(2) - x(1)
+                mx(2) = mx(1) + (fx(1) + (fx(1) - q * ΔL)) * 0.5 * ΔL
             Else
-                mx(2) = mx(1) + (fx(1) + 0) / 2 * (x(2) - xnul) 'Inlaat #2
+                ΔL = xnul - x(1)
+                mx(2) = mx(1) + (fx(1) + (fx(1) - q * ΔL)) * 0.5 * ΔL
             End If
 
+            'Inlaat #3--------------------------------
             If fx(3) >= 0 Then
-                mx(3) = mx(2) + (fx(2) + fx(3)) / 2 * (x(3) - x(2)) 'Inlaat #3
+                ΔL = x(3) - x(2)
+                mx(3) = mx(2) + (fx(2) + (fx(2) - q * ΔL)) * 0.5 * ΔL
             Else
-                mx(3) = mx(2) + (fx(2) + 0) / 2 * (x(3) - xnul) 'Inlaat #3
+                ΔL = xnul - x(2)
+                mx(3) = mx(2) + (fx(2) + (fx(2) - q * ΔL)) * 0.5 * ΔL
             End If
 
-            mx(4) = Rb                                          'Eindschot
+            'Eindschot---------------------------------
+            mx(4) = 0
 
             Label156.Text = fx(0).ToString & ",  " & fx(1).ToString
 
             TextBox1.Text = mx(1).ToString("0")
-                TextBox2.Text = mx(2).ToString("0")
-                TextBox3.Text = mx(3).ToString("0")
+            TextBox2.Text = mx(2).ToString("0")
+            TextBox3.Text = mx(3).ToString("0")
 
-                '==================== Maximaal moment positie ============================
-                '==================== Maximaal moment (oppervlak dwarskrachtenlijn) ======
-                pos_x = Ra / (q_load_comb + q_load_3)
+            '==================== Maximaal moment positie ============================
+            '==================== Maximaal moment (oppervlak dwarskrachtenlijn) ======
+            pos_x = Ra / (q_load_comb + q_load_3)
                 Q_max_bend = 0.5 ^ 2 * (q_load_comb + q_load_3) * pos_x
 
                 If pos_x > inlet_length Then
