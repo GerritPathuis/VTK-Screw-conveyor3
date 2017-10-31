@@ -108,6 +108,8 @@ Partial Class Form1
         Me.Label25 = New System.Windows.Forms.Label()
         Me.TextBox09 = New System.Windows.Forms.TextBox()
         Me.GroupBox11 = New System.Windows.Forms.GroupBox()
+        Me.TextBox91 = New System.Windows.Forms.TextBox()
+        Me.TextBox90 = New System.Windows.Forms.TextBox()
         Me.Label156 = New System.Windows.Forms.Label()
         Me.Label152 = New System.Windows.Forms.Label()
         Me.Label153 = New System.Windows.Forms.Label()
@@ -143,6 +145,7 @@ Partial Class Form1
         Me.TextBox24 = New System.Windows.Forms.TextBox()
         Me.Label50 = New System.Windows.Forms.Label()
         Me.GroupBox10 = New System.Windows.Forms.GroupBox()
+        Me.CheckBox10 = New System.Windows.Forms.CheckBox()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
         Me.TextBox29 = New System.Windows.Forms.TextBox()
         Me.Label49 = New System.Windows.Forms.Label()
@@ -400,9 +403,7 @@ Partial Class Form1
         Me.Label130 = New System.Windows.Forms.Label()
         Me.Label131 = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.CheckBox10 = New System.Windows.Forms.CheckBox()
-        Me.TextBox90 = New System.Windows.Forms.TextBox()
-        Me.TextBox91 = New System.Windows.Forms.TextBox()
+        Me.NumericUpDown29 = New System.Windows.Forms.NumericUpDown()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox17.SuspendLayout()
@@ -464,6 +465,7 @@ Partial Class Form1
         CType(Me.NumericUpDown34, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown33, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown30, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.NumericUpDown29, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TabControl1
@@ -1237,15 +1239,15 @@ Partial Class Form1
         'NumericUpDown19
         '
         Me.NumericUpDown19.BackColor = System.Drawing.Color.Yellow
-        Me.NumericUpDown19.DecimalPlaces = 1
-        Me.NumericUpDown19.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.NumericUpDown19.DecimalPlaces = 2
+        Me.NumericUpDown19.Increment = New Decimal(New Integer() {1, 0, 0, 131072})
         Me.NumericUpDown19.Location = New System.Drawing.Point(234, 15)
         Me.NumericUpDown19.Maximum = New Decimal(New Integer() {10, 0, 0, 0})
         Me.NumericUpDown19.Name = "NumericUpDown19"
         Me.NumericUpDown19.Size = New System.Drawing.Size(60, 20)
         Me.NumericUpDown19.TabIndex = 19
         Me.NumericUpDown19.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.NumericUpDown19.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NumericUpDown19.Value = New Decimal(New Integer() {1, 0, 0, 65536})
         '
         'NumericUpDown16
         '
@@ -1460,6 +1462,24 @@ Partial Class Form1
         Me.GroupBox11.TabIndex = 11
         Me.GroupBox11.TabStop = False
         Me.GroupBox11.Text = "Lager krachten"
+        '
+        'TextBox91
+        '
+        Me.TextBox91.Enabled = False
+        Me.TextBox91.Location = New System.Drawing.Point(211, 156)
+        Me.TextBox91.Name = "TextBox91"
+        Me.TextBox91.Size = New System.Drawing.Size(46, 20)
+        Me.TextBox91.TabIndex = 47
+        Me.TextBox91.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'TextBox90
+        '
+        Me.TextBox90.Enabled = False
+        Me.TextBox90.Location = New System.Drawing.Point(210, 52)
+        Me.TextBox90.Name = "TextBox90"
+        Me.TextBox90.Size = New System.Drawing.Size(46, 20)
+        Me.TextBox90.TabIndex = 46
+        Me.TextBox90.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label156
         '
@@ -1786,6 +1806,7 @@ Partial Class Form1
         '
         'GroupBox10
         '
+        Me.GroupBox10.Controls.Add(Me.NumericUpDown29)
         Me.GroupBox10.Controls.Add(Me.CheckBox10)
         Me.GroupBox10.Controls.Add(Me.CheckBox1)
         Me.GroupBox10.Controls.Add(Me.TextBox29)
@@ -1802,6 +1823,18 @@ Partial Class Form1
         Me.GroupBox10.TabIndex = 10
         Me.GroupBox10.TabStop = False
         Me.GroupBox10.Text = "Uniform Pipe load Full length"
+        '
+        'CheckBox10
+        '
+        Me.CheckBox10.AutoSize = True
+        Me.CheckBox10.Checked = True
+        Me.CheckBox10.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox10.Location = New System.Drawing.Point(15, 137)
+        Me.CheckBox10.Name = "CheckBox10"
+        Me.CheckBox10.Size = New System.Drawing.Size(110, 17)
+        Me.CheckBox10.TabIndex = 27
+        Me.CheckBox10.Text = "Q1 variabel [N/m]"
+        Me.CheckBox10.UseVisualStyleBackColor = True
         '
         'CheckBox1
         '
@@ -4545,35 +4578,16 @@ Partial Class Form1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'CheckBox10
+        'NumericUpDown29
         '
-        Me.CheckBox10.AutoSize = True
-        Me.CheckBox10.Checked = True
-        Me.CheckBox10.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox10.Location = New System.Drawing.Point(15, 137)
-        Me.CheckBox10.Name = "CheckBox10"
-        Me.CheckBox10.Size = New System.Drawing.Size(153, 17)
-        Me.CheckBox10.TabIndex = 27
-        Me.CheckBox10.Text = "Verwaarloos eigen gewicht"
-        Me.CheckBox10.UseVisualStyleBackColor = True
-        '
-        'TextBox90
-        '
-        Me.TextBox90.Enabled = False
-        Me.TextBox90.Location = New System.Drawing.Point(210, 52)
-        Me.TextBox90.Name = "TextBox90"
-        Me.TextBox90.Size = New System.Drawing.Size(46, 20)
-        Me.TextBox90.TabIndex = 46
-        Me.TextBox90.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'TextBox91
-        '
-        Me.TextBox91.Enabled = False
-        Me.TextBox91.Location = New System.Drawing.Point(211, 156)
-        Me.TextBox91.Name = "TextBox91"
-        Me.TextBox91.Size = New System.Drawing.Size(46, 20)
-        Me.TextBox91.TabIndex = 47
-        Me.TextBox91.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.NumericUpDown29.BackColor = System.Drawing.Color.Yellow
+        Me.NumericUpDown29.Location = New System.Drawing.Point(174, 134)
+        Me.NumericUpDown29.Maximum = New Decimal(New Integer() {5000, 0, 0, 0})
+        Me.NumericUpDown29.Name = "NumericUpDown29"
+        Me.NumericUpDown29.Size = New System.Drawing.Size(79, 20)
+        Me.NumericUpDown29.TabIndex = 21
+        Me.NumericUpDown29.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.NumericUpDown29.Value = New Decimal(New Integer() {20, 0, 0, 0})
         '
         'Form1
         '
@@ -4668,6 +4682,7 @@ Partial Class Form1
         CType(Me.NumericUpDown34, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NumericUpDown33, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NumericUpDown30, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NumericUpDown29, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -5052,4 +5067,5 @@ Partial Class Form1
     Friend WithEvents CheckBox10 As CheckBox
     Friend WithEvents TextBox91 As TextBox
     Friend WithEvents TextBox90 As TextBox
+    Friend WithEvents NumericUpDown29 As NumericUpDown
 End Class

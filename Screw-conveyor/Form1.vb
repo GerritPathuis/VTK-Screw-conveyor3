@@ -854,6 +854,7 @@ Public Class Form1
         Dim fx(5) As Double                         'dwarskrachten lijn
         Dim mx(5) As Double                         'momenten lijn
         Dim xnul As Double                          'nul positie in dwarskrachtenlijm
+        Dim ΔL As Double
 
         NumericUpDown13.Value = NumericUpDown7.Value
         force_1 = NumericUpDown19.Value * 10 ^ 3            '[N]
@@ -960,73 +961,73 @@ Public Class Form1
             '---- Worst case material assumed sitting lowest point of the trough---
 
             q_load_1 = (pipe_weight_m + flight_gewicht) * 9.81          '[N/m] Uniform distributed weight
-            If CheckBox10.Checked Then q_load_1 = 0
+            If CheckBox10.Checked Then q_load_1 = NumericUpDown29.Value 'Test
             TextBox22.Text = Round(q_load_1, 0).ToString                '[N/m] Uniform distributed weight
 
-                '----------- Axial load caused by transport of product
-                Radius_transport = (_diam_flight + _pipe_OD) / 4            'Acc Jos (D+d)/4
-                F_tangent = P_torque / Radius_transport
-                q_load_2 = F_tangent / conv_length                          'Transport kracht geeft doorbuiging pijp
-                q_load_3 = Uniform_mat_load * 1000                          '[N/m] Uniform distributed material weight
-                TextBox17.Text = Round(q_load_3, 0).ToString                '[N/m]
+            '----------- Axial load caused by transport of product
+            Radius_transport = (_diam_flight + _pipe_OD) / 4            'Acc Jos (D+d)/4
+            F_tangent = P_torque / Radius_transport
+            q_load_2 = F_tangent / conv_length                          'Transport kracht geeft doorbuiging pijp
+            q_load_3 = Uniform_mat_load * 1000                          '[N/m] Uniform distributed material weight
+            TextBox17.Text = Round(q_load_3, 0).ToString                '[N/m]
 
-                '============= Traditionele VTK berekening ==========================
-                '============= verwaarloosd Q_load2 =================================
-                If CheckBox1.Checked Then
-                    q_load_2 = 0
-                End If
-                TextBox28.Text = Round(q_load_2, 0).ToString                '[N]
+            '============= Traditionele VTK berekening ==========================
+            '============= verwaarloosd Q_load2 =================================
+            If CheckBox1.Checked Then
+                q_load_2 = 0
+            End If
+            TextBox28.Text = Round(q_load_2, 0).ToString                '[N]
 
-                '============= Reactie krachten ======================================
-                '=====================================================================
-                q_load_comb = Sqrt(q_load_1 ^ 2 + q_load_2 ^ 2)     '[N/m] Radiale en tangentiele kracht gecombineerd
+            '============= Reactie krachten ======================================
+            '=====================================================================
+            q_load_comb = Sqrt(q_load_1 ^ 2 + q_load_2 ^ 2)     '[N/m] Radiale en tangentiele kracht gecombineerd
 
-                R_total = q_load_1 * conv_length                'Steel weight
-                R_total += q_load_3 * conv_length               'Material weight
-                R_total += force_1                              'Material falling on the pipe
-                R_total += force_2
-                R_total += force_3
+            R_total = q_load_1 * conv_length                'Steel weight
+            R_total += q_load_3 * conv_length               'Material weight
+            R_total += force_1                              'Material falling on the pipe
+            R_total += force_2
+            R_total += force_3
 
-                'Momenten evenwicht om punt Ra
-                Rb = q_load_1 * conv_length ^ 2 * 0.5
-                Rb += q_load_3 * inlet_length ^ 2 * 0.5
-                Rb += force_1 * chute_distance_1
-                Rb += force_2 * chute_distance_2
-                Rb += force_3 * chute_distance_3
+            'Momenten evenwicht om punt Ra
+            Rb = q_load_1 * conv_length ^ 2 * 0.5
+            Rb += q_load_3 * inlet_length ^ 2 * 0.5
+            Rb += force_1 * chute_distance_1
+            Rb += force_2 * chute_distance_2
+            Rb += force_3 * chute_distance_3
 
-                Rb /= conv_length
-                Ra = R_total - Rb
+            Rb /= conv_length
+            Ra = R_total - Rb
 
-                TextBox24.Text = Round(Ra, 0).ToString          'Reactie kracht Ra
-                TextBox36.Text = Round(Rb, 0).ToString          'Reactie kracht Rb
+            TextBox24.Text = Round(Ra, 0).ToString          'Reactie kracht Ra
+            TextBox36.Text = Round(Rb, 0).ToString          'Reactie kracht Rb
                 TextBox39.Text = Round(R_total, 0).ToString     'Reactie kracht Ra+Rb
 
-                'Gebaseerd op http://beamguru.com/online/beam-calculator/
-                '============ Krachten zijn
-                TextBox86.Text = force_1.ToString("0")
-                TextBox87.Text = force_2.ToString("0")
-                TextBox89.Text = force_3.ToString("0")
+            'Gebaseerd op http://beamguru.com/online/beam-calculator/
+            '============ Krachten zijn
+            TextBox86.Text = force_1.ToString("0")
+            TextBox87.Text = force_2.ToString("0")
+            TextBox89.Text = force_3.ToString("0")
 
-                '=========== x posities gemeten vanaf de inlaatschot=============
-                x(0) = 0                    '[m] inlaatschot
-                x(1) = chute_distance_1     '[m] Inlaat #1
-                x(2) = chute_distance_2     '[m] Inlaat #2
-                x(3) = chute_distance_3     '[m] Inlaat #3
-                x(4) = conv_length          '[m] Eindschot
+            '=========== x posities gemeten vanaf de inlaatschot=============
+            x(0) = 0                    '[m] inlaatschot
+            x(1) = chute_distance_1     '[m] Inlaat #1
+            x(2) = chute_distance_2     '[m] Inlaat #2
+            x(3) = chute_distance_3     '[m] Inlaat #3
+            x(4) = conv_length          '[m] Eindschot
 
-                TextBox7.Text = x(1).ToString("0.0")
-                TextBox8.Text = x(2).ToString("0.0")
-                TextBox9.Text = x(3).ToString("0.0")
+            TextBox7.Text = x(1).ToString("0.0")
+            TextBox8.Text = x(2).ToString("0.0")
+            TextBox9.Text = x(3).ToString("0.0")
 
-                'MessageBox.Show("0=" & x(0).ToString & ", 1= " & x(1).ToString & ", 2=" & x(2).ToString & ", 3= " & x(3).ToString & ", 4= " & x(4).ToString)
+            'MessageBox.Show("0=" & x(0).ToString & ", 1= " & x(1).ToString & ", 2=" & x(2).ToString & ", 3= " & x(3).ToString & ", 4= " & x(4).ToString)
 
-                '=========== dwarskrachtenlijn (shear force) ====================
-                q = q_load_1 + q_load_3
-                fx(0) = Ra                                      'inlaatschot
-                fx(1) = fx(0) - (q * (x(1) - x(0))) - force_1   'Inlaat #1
-                fx(2) = fx(1) - (q * (x(2) - x(1))) - force_2   'Inlaat #2
-                fx(3) = fx(2) - (q * (x(3) - x(2))) - force_3   'Inlaat #3
-                fx(4) = fx(3) - (q * (x(4) - x(3)))             'Eindschot
+            '=========== dwarskrachtenlijn (shear force) ====================
+            q = q_load_1 + q_load_3
+            fx(0) = Ra                                      'inlaatschot
+            fx(1) = fx(0) - (q * (x(1) - x(0))) - force_1   'Inlaat #1
+            fx(2) = fx(1) - (q * (x(2) - x(1))) - force_2   'Inlaat #2
+            fx(3) = fx(2) - (q * (x(3) - x(2))) - force_3   'Inlaat #3
+            fx(4) = fx(3) - (q * (x(4) - x(3)))             'Eindschot
 
             TextBox90.Text = fx(0).ToString("0")
             TextBox4.Text = fx(1).ToString("0")
@@ -1036,25 +1037,64 @@ Public Class Form1
 
             'MessageBox.Show("0=" & fx(0).ToString & ", 1= " & fx(1).ToString & ", 2=" & fx(2).ToString & ", 3= " & fx(3).ToString & ", 4= " & fx(4).ToString)
             '======== bepaal nulpunt dwarskrachtenlijn
+            'Select Case True
+            '    Case (fx(0) > 0 And fx(1) < 0)
+            '        xnul = x(0) + (x(1) - x(0)) * Abs(fx(1)) / (Abs(fx(0)) + Abs(fx(1)))
+            '    Case (fx(1) > 0 And fx(2) < 0)
+            '        xnul = x(1) + (x(2) - x(1)) * Abs(fx(2)) / (Abs(fx(1)) + Abs(fx(2)))
+            '    Case (fx(2) > 0 And fx(3) < 0)
+            '        xnul = x(2) + (x(3) - x(2)) * Abs(fx(3)) / (Abs(fx(2)) + Abs(fx(3)))
+            '    Case (fx(3) > 0 And fx(4) < 0)
+            '        xnul = x(3) + (x(4) - x(3)) * Abs(fx(4)) / (Abs(fx(3)) + Abs(fx(4)))
+            'End Select
+
             Select Case True
                 Case (fx(0) > 0 And fx(1) < 0)
-                    xnul = x(0) + (x(1) - x(0)) * Abs(fx(1)) / (Abs(fx(0)) + Abs(fx(1)))
+                    ΔL = x(1) - x(0)            '[m]
+                    If (Ra - ΔL * q > 0) Then  'Force positive or negative
+                        xnul = x(1)             'Plaats Inlet #1
+                        Label156.Text = "case 1, if"
+                    Else
+                        Label156.Text = "case 1, else"
+                        xnul = x(0) + (x(1) - x(0)) * Abs(fx(1)) / (Abs(fx(0)) + Abs(fx(1)))
+                    End If
                 Case (fx(1) > 0 And fx(2) < 0)
-                    xnul = x(1) + (x(2) - x(1)) * Abs(fx(2)) / (Abs(fx(1)) + Abs(fx(2)))
+                    ΔL = x(2) - x(1)
+                    If fx(1) - ΔL * q > 0 Then
+                        xnul = x(2)              'Plaats Inlet #2
+                        Label156.Text = "case 2, if"
+                    Else
+                        Label156.Text = "case 2, else"
+                        xnul = x(1) + (x(2) - x(1)) * Abs(fx(2)) / (Abs(fx(1)) + Abs(fx(2)))
+                    End If
                 Case (fx(2) > 0 And fx(3) < 0)
-                    xnul = x(2) + (x(3) - x(2)) * Abs(fx(3)) / (Abs(fx(2)) + Abs(fx(3)))
+                    ΔL = x(3) - x(2)
+                    If fx(2) - ΔL * q > 0 Then
+                        xnul = x(3)             'Plaats Inlet #3
+                        Label156.Text = "case 3, if"
+                    Else
+                        Label156.Text = "case 3, else"
+                        xnul = x(2) + (x(3) - x(2)) * Abs(fx(3)) / (Abs(fx(2)) + Abs(fx(3)))
+                    End If
                 Case (fx(3) > 0 And fx(4) < 0)
-                    xnul = x(3) + (x(4) - x(3)) * Abs(fx(4)) / (Abs(fx(3)) + Abs(fx(4)))
+                    ΔL = x(4) - x(3)
+                    If fx(2) - ΔL * q > 0 Then
+                        xnul = x(4)
+                        Label156.Text = "case 4, if"
+                    Else
+                        Label156.Text = "case 4, else"
+                        xnul = x(3) + (x(4) - x(3)) * Abs(fx(4)) / (Abs(fx(3)) + Abs(fx(4)))
+                    End If
             End Select
-            TextBox38.Text = xnul.ToString("0.00")           'Positie max moment tov A [m]
+
+            TextBox38.Text = xnul.ToString("0.0000")           'Positie max moment tov A [m]
 
             '=========== momentenlijn (bending moment )====================
-            Dim ΔL As Double
+
             'inlaatschot------------------------------
             mx(0) = 0
 
             'Inlaat #1--------------------------------
-
             If x(1) <= xnul Then
                 ΔL = x(1) - x(0)
                 mx(1) = mx(0) + (fx(0) + (fx(0) - q * ΔL)) * 0.5 * ΔL
@@ -1063,9 +1103,7 @@ Public Class Form1
                 mx(1) = mx(0) + (fx(0) + (fx(0) - q * ΔL)) * 0.5 * ΔL
             End If
 
-
             'Inlaat #2--------------------------------
-
             If fx(2) >= 0 Then
                 ΔL = x(2) - x(1)
                 mx(2) = mx(1) + (fx(1) + (fx(1) - q * ΔL)) * 0.5 * ΔL
@@ -1086,7 +1124,7 @@ Public Class Form1
             'Eindschot---------------------------------
             mx(4) = 0
 
-            Label156.Text = fx(0).ToString & ",  " & fx(1).ToString
+            'Label156.Text = fx(0).ToString & ",  " & fx(1).ToString
 
             TextBox1.Text = mx(1).ToString("0")
             TextBox2.Text = mx(2).ToString("0")
@@ -1095,53 +1133,52 @@ Public Class Form1
             '==================== Maximaal moment positie ============================
             '==================== Maximaal moment (oppervlak dwarskrachtenlijn) ======
             pos_x = Ra / (q_load_comb + q_load_3)
-                Q_max_bend = 0.5 ^ 2 * (q_load_comb + q_load_3) * pos_x
+            Q_max_bend = 0.5 ^ 2 * (q_load_comb + q_load_3) * pos_x
 
-                If pos_x > inlet_length Then
-                    pos_x = conv_length - Rb / q_load_comb
-                    Q_max_bend = 0.5 ^ 2 * q_load_comb * (conv_length - pos_x)
-                End If
-
-                'TextBox38.Text = Round(pos_x, 2).ToString           'Positie max moment tov A [m]
-                TextBox37.Text = Round(Q_max_bend, 0).ToString      'Max moment [Nm]          
-
-                '================== calc torsie ========================================
-                '=======================================================================
-                Tou_torque = P_torque / (pipe_Wp * 1000 ^ 2)            '[N/mm2]
-                TextBox12.Text = Round(Tou_torque, 1).ToString          'Stress from drive [N.m]
-
-                '-------------------------- @ max bend------------------------
-                P_torque_M = (P_torque * pos_x / conv_length)
-                Tou_torque_M = P_torque_M / (pipe_Wp * 1000 ^ 2)            '[N/mm2]
-                TextBox10.Text = Round(Tou_torque_M, 1).ToString
-
-                '==================calc stress ===========================================
-                '=========================================================================
-
-                '----------- bending stress--------------------
-                sigma_eg = Q_max_bend / (pipe_Wx * 1000 ^ 2)                   '[N/mm2]
-                TextBox09.Text = Round(sigma_eg, 1).ToString                    '[N/mm2]
-
-                '------------ Hubert en hencky @ maximale doorbuiging--------------------
-                combined_stress = Sqrt((sigma_eg) ^ 2 + 3 * (Tou_torque_M) ^ 2)
-                TextBox21.Text = Round(combined_stress, 1).ToString("0.0")
-
-                '---------- Max doorbuiging gelijkmatige belasting f= 5.Q.L^4/(384 .E.I) --------------------
-                '----------- materiaal kolom is niet meegenomen ----------------------------------------------
-                Young = NumericUpDown1.Value * 1000 '[N/mm2]
-                Q_Deflect_max = (5 * q_load_comb / 1000 * conv_length ^ 4) / (384 * Young * pipe_Ix)
-                TextBox20.Text = Round(Q_Deflect_max, 1).ToString("0.0")     '[mm]
-
-                Select Case True
-                    Case (RadioButton1.Checked)
-                        max_sag = 500
-                    Case (RadioButton2.Checked)
-                        max_sag = 800
-                    Case (RadioButton3.Checked)
-                        max_sag = 1000
-                End Select
-
+            If pos_x > inlet_length Then
+                pos_x = conv_length - Rb / q_load_comb
+                Q_max_bend = 0.5 ^ 2 * q_load_comb * (conv_length - pos_x)
             End If
+
+            TextBox37.Text = Round(Q_max_bend, 0).ToString      'Max moment [Nm]          
+
+            '================== calc torsie ========================================
+            '=======================================================================
+            Tou_torque = P_torque / (pipe_Wp * 1000 ^ 2)            '[N/mm2]
+            TextBox12.Text = Round(Tou_torque, 1).ToString          'Stress from drive [N.m]
+
+            '-------------------------- @ max bend------------------------
+            P_torque_M = (P_torque * pos_x / conv_length)
+            Tou_torque_M = P_torque_M / (pipe_Wp * 1000 ^ 2)            '[N/mm2]
+            TextBox10.Text = Round(Tou_torque_M, 1).ToString
+
+            '==================calc stress ===========================================
+            '=========================================================================
+
+            '----------- bending stress--------------------
+            sigma_eg = Q_max_bend / (pipe_Wx * 1000 ^ 2)                   '[N/mm2]
+            TextBox09.Text = Round(sigma_eg, 1).ToString                    '[N/mm2]
+
+            '------------ Hubert en hencky @ maximale doorbuiging--------------------
+            combined_stress = Sqrt((sigma_eg) ^ 2 + 3 * (Tou_torque_M) ^ 2)
+            TextBox21.Text = Round(combined_stress, 1).ToString("0.0")
+
+            '---------- Max doorbuiging gelijkmatige belasting f= 5.Q.L^4/(384 .E.I) --------------------
+            '----------- materiaal kolom is niet meegenomen ----------------------------------------------
+            Young = NumericUpDown1.Value * 1000 '[N/mm2]
+            Q_Deflect_max = (5 * q_load_comb / 1000 * conv_length ^ 4) / (384 * Young * pipe_Ix)
+            TextBox20.Text = Round(Q_Deflect_max, 1).ToString("0.0")     '[mm]
+
+            Select Case True
+                Case (RadioButton1.Checked)
+                    max_sag = 500
+                Case (RadioButton2.Checked)
+                    max_sag = 800
+                Case (RadioButton3.Checked)
+                    max_sag = 1000
+            End Select
+
+        End If
             TextBox49.Text = product_density.ToString("0")
 
         '---------- checks---------
@@ -1152,7 +1189,7 @@ Public Class Form1
 
     End Sub
 
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click, NumericUpDown11.ValueChanged, ComboBox2.SelectedIndexChanged, NumericUpDown13.ValueChanged, TabPage2.Enter, NumericUpDown17.ValueChanged, NumericUpDown16.ValueChanged, ComboBox5.SelectedIndexChanged, RadioButton3.CheckedChanged, RadioButton2.CheckedChanged, RadioButton1.CheckedChanged, CheckBox1.CheckedChanged, NumericUpDown18.ValueChanged, NumericUpDown19.ValueChanged, NumericUpDown24.ValueChanged, NumericUpDown22.ValueChanged, NumericUpDown28.ValueChanged, NumericUpDown26.ValueChanged, CheckBox10.CheckedChanged
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click, NumericUpDown11.ValueChanged, ComboBox2.SelectedIndexChanged, NumericUpDown13.ValueChanged, TabPage2.Enter, NumericUpDown17.ValueChanged, NumericUpDown16.ValueChanged, ComboBox5.SelectedIndexChanged, RadioButton3.CheckedChanged, RadioButton2.CheckedChanged, RadioButton1.CheckedChanged, CheckBox1.CheckedChanged, NumericUpDown18.ValueChanged, NumericUpDown19.ValueChanged, NumericUpDown24.ValueChanged, NumericUpDown22.ValueChanged, NumericUpDown28.ValueChanged, NumericUpDown26.ValueChanged, CheckBox10.CheckedChanged, NumericUpDown29.ValueChanged
         Calulate_stress_1()
     End Sub
     Private Sub Screw_dia_combo()
