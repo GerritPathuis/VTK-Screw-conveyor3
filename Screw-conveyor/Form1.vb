@@ -854,7 +854,6 @@ Public Class Form1
         Dim fx(5) As Double                         'dwarskrachten lijn
         Dim mx(5) As Double                         'momenten lijn
         Dim xnul As Double                          'nul positie in dwarskrachtenlijm
-        Dim ΔL As Double
 
         NumericUpDown13.Value = NumericUpDown7.Value
         force_1 = NumericUpDown19.Value * 10 ^ 3            '[N]
@@ -865,11 +864,9 @@ Public Class Form1
         chute_distance_2 = NumericUpDown24.Value            '[m]
         chute_distance_3 = NumericUpDown28.Value            '[m]
 
-
         '---------- materiaal gewicht inlaat kolom op pipe--------------------------
         Uniform_mat_load = NumericUpDown17.Value            'Uniform material load [m]
         product_density = NumericUpDown6.Value              'product density [kg/m3]
-
 
         If (ComboBox5.SelectedIndex > -1) Then      'Prevent exceptions
             words = emotor(ComboBox5.SelectedIndex).Split(CType(";", Char()))
@@ -1000,7 +997,7 @@ Public Class Form1
 
             TextBox24.Text = Round(Ra, 0).ToString          'Reactie kracht Ra
             TextBox36.Text = Round(Rb, 0).ToString          'Reactie kracht Rb
-                TextBox39.Text = Round(R_total, 0).ToString     'Reactie kracht Ra+Rb
+            TextBox39.Text = Round(R_total, 0).ToString 'Reactie kracht Ra+Rb
 
             'Gebaseerd op http://beamguru.com/online/beam-calculator/
             '============ Krachten zijn
@@ -1019,128 +1016,72 @@ Public Class Form1
             TextBox8.Text = x(2).ToString("0.0")
             TextBox9.Text = x(3).ToString("0.0")
 
-            'MessageBox.Show("0=" & x(0).ToString & ", 1= " & x(1).ToString & ", 2=" & x(2).ToString & ", 3= " & x(3).ToString & ", 4= " & x(4).ToString)
+            '=========== Distance gemeten vanaf de inlaatschot=============
+            Dim d(100) As Double    '[m] Distance to drive plate
+            Dim s(100) As Double    '[N] Shear force @ distance to drive plate
+            Dim m(100) As Double    '[Nm] Moment  @ distance to drive plate
+            Dim imax_count, i_chute_1, i_chute_2, i_chute_3 As Integer
 
-            '=========== dwarskrachtenlijn (shear force) ====================
+            For i = 0 To d.Length - 1
+                d(i) = i / 100 * conv_length    'Chop conveyor in 100 pieces
+            Next
+
+            '=========== Shear Force vanaf de inlaatschot=============
+            '=========== dwarskrachtenlijn (shear force) =============
             q = q_load_1 + q_load_3
-            fx(0) = Ra                                      'inlaatschot
-            fx(1) = fx(0) - (q * (x(1) - x(0))) - force_1   'Inlaat #1
-            fx(2) = fx(1) - (q * (x(2) - x(1))) - force_2   'Inlaat #2
-            fx(3) = fx(2) - (q * (x(3) - x(2))) - force_3   'Inlaat #3
-            fx(4) = fx(3) - (q * (x(4) - x(3)))             'Eindschot
+            s(0) = Ra
+            For i = 1 To d.Length - 1
+                s(i) = s(i - 1) - q * (conv_length / 100)
+                If d(i) = chute_distance_1 Then
+                    s(i) -= force_1
+                    i_chute_1 = i
+                End If
+                If d(i) = chute_distance_2 Then
+                    s(i) -= force_2
+                    i_chute_2 = i
+                End If
+                If d(i) = chute_distance_3 Then
+                    s(i) -= force_3
+                    i_chute_3 = i
+                End If
+            Next
 
-            TextBox90.Text = fx(0).ToString("0")
-            TextBox4.Text = fx(1).ToString("0")
-            TextBox5.Text = fx(2).ToString("0")
-            TextBox6.Text = fx(3).ToString("0")
-            TextBox91.Text = fx(4).ToString("0")
-
-            'MessageBox.Show("0=" & fx(0).ToString & ", 1= " & fx(1).ToString & ", 2=" & fx(2).ToString & ", 3= " & fx(3).ToString & ", 4= " & fx(4).ToString)
-            '======== bepaal nulpunt dwarskrachtenlijn
-            'Select Case True
-            '    Case (fx(0) > 0 And fx(1) < 0)
-            '        xnul = x(0) + (x(1) - x(0)) * Abs(fx(1)) / (Abs(fx(0)) + Abs(fx(1)))
-            '    Case (fx(1) > 0 And fx(2) < 0)
-            '        xnul = x(1) + (x(2) - x(1)) * Abs(fx(2)) / (Abs(fx(1)) + Abs(fx(2)))
-            '    Case (fx(2) > 0 And fx(3) < 0)
-            '        xnul = x(2) + (x(3) - x(2)) * Abs(fx(3)) / (Abs(fx(2)) + Abs(fx(3)))
-            '    Case (fx(3) > 0 And fx(4) < 0)
-            '        xnul = x(3) + (x(4) - x(3)) * Abs(fx(4)) / (Abs(fx(3)) + Abs(fx(4)))
-            'End Select
-
-            Select Case True
-                Case (fx(0) > 0 And fx(1) < 0)
-                    ΔL = x(1) - x(0)            '[m]
-                    If (Ra - ΔL * q > 0) Then  'Force positive or negative
-                        xnul = x(1)             'Plaats Inlet #1
-                        Label156.Text = "case 1, if"
-                    Else
-                        Label156.Text = "case 1, else"
-                        xnul = x(0) + (x(1) - x(0)) * Abs(fx(1)) / (Abs(fx(0)) + Abs(fx(1)))
-                    End If
-                Case (fx(1) > 0 And fx(2) < 0)
-                    ΔL = x(2) - x(1)
-                    If fx(1) - ΔL * q > 0 Then
-                        xnul = x(2)              'Plaats Inlet #2
-                        Label156.Text = "case 2, if"
-                    Else
-                        Label156.Text = "case 2, else"
-                        xnul = x(1) + (x(2) - x(1)) * Abs(fx(2)) / (Abs(fx(1)) + Abs(fx(2)))
-                    End If
-                Case (fx(2) > 0 And fx(3) < 0)
-                    ΔL = x(3) - x(2)
-                    If fx(2) - ΔL * q > 0 Then
-                        xnul = x(3)             'Plaats Inlet #3
-                        Label156.Text = "case 3, if"
-                    Else
-                        Label156.Text = "case 3, else"
-                        xnul = x(2) + (x(3) - x(2)) * Abs(fx(3)) / (Abs(fx(2)) + Abs(fx(3)))
-                    End If
-                Case (fx(3) > 0 And fx(4) < 0)
-                    ΔL = x(4) - x(3)
-                    If fx(2) - ΔL * q > 0 Then
-                        xnul = x(4)
-                        Label156.Text = "case 4, if"
-                    Else
-                        Label156.Text = "case 4, else"
-                        xnul = x(3) + (x(4) - x(3)) * Abs(fx(4)) / (Abs(fx(3)) + Abs(fx(4)))
-                    End If
-            End Select
-
-            TextBox38.Text = xnul.ToString("0.0000")           'Positie max moment tov A [m]
+            '=========== Bepaal nulpunt shear force===================
+            For i = 0 To d.Length - 1
+                If s(i) <= 30 And s(i) > -30 Then
+                    xnul = d(i)
+                    imax_count = i
+                End If
+            Next
+            TextBox38.Text = xnul.ToString("0.00")           'Positie max moment [m]
+            TextBox38.BackColor = CType(IIf(xnul = 0, Color.Red, Color.LightGreen), Color)
 
             '=========== momentenlijn (bending moment )====================
+            m(0) = 1
+            For i = 1 To d.Length - 1
+                m(i) = m(i - 1) + s(i) * (conv_length / 100)
+            Next
 
-            'inlaatschot------------------------------
-            mx(0) = 0
+            '=========== Maximaal moment ===================
+            Q_max_bend = m(imax_count)
 
-            'Inlaat #1--------------------------------
-            If x(1) <= xnul Then
-                ΔL = x(1) - x(0)
-                mx(1) = mx(0) + (fx(0) + (fx(0) - q * ΔL)) * 0.5 * ΔL
-            Else
-                ΔL = xnul - x(0)
-                mx(1) = mx(0) + (fx(0) + (fx(0) - q * ΔL)) * 0.5 * ΔL
-            End If
+            '======= present ==========
+            TextBox90.Text = s(0).ToString("0")         'Shear force
+            TextBox4.Text = s(i_chute_1).ToString("0")  'Shear force
+            TextBox5.Text = s(i_chute_2).ToString("0")  'Shear force
+            TextBox6.Text = s(i_chute_3).ToString("0")  'Shear force
+            TextBox91.Text = s(100).ToString("0")       'Shear force
 
-            'Inlaat #2--------------------------------
-            If fx(2) >= 0 Then
-                ΔL = x(2) - x(1)
-                mx(2) = mx(1) + (fx(1) + (fx(1) - q * ΔL)) * 0.5 * ΔL
-            Else
-                ΔL = xnul - x(1)
-                mx(2) = mx(1) + (fx(1) + (fx(1) - q * ΔL)) * 0.5 * ΔL
-            End If
+            TextBox1.Text = m(i_chute_1).ToString("0")      'Moment chute #1
+            TextBox2.Text = m(i_chute_2).ToString("0")      'Moment chute #2
+            TextBox3.Text = m(i_chute_3).ToString("0")      'Moment chute #3
+            TextBox37.Text = Round(Q_max_bend, 0).ToString  'Max moment [Nm]   
 
-            'Inlaat #3--------------------------------
-            If fx(3) >= 0 Then
-                ΔL = x(3) - x(2)
-                mx(3) = mx(2) + (fx(2) + (fx(2) - q * ΔL)) * 0.5 * ΔL
-            Else
-                ΔL = xnul - x(2)
-                mx(3) = mx(2) + (fx(2) + (fx(2) - q * ΔL)) * 0.5 * ΔL
-            End If
-
-            'Eindschot---------------------------------
-            mx(4) = 0
-
-            'Label156.Text = fx(0).ToString & ",  " & fx(1).ToString
-
-            TextBox1.Text = mx(1).ToString("0")
-            TextBox2.Text = mx(2).ToString("0")
-            TextBox3.Text = mx(3).ToString("0")
-
-            '==================== Maximaal moment positie ============================
-            '==================== Maximaal moment (oppervlak dwarskrachtenlijn) ======
-            pos_x = Ra / (q_load_comb + q_load_3)
-            Q_max_bend = 0.5 ^ 2 * (q_load_comb + q_load_3) * pos_x
-
-            If pos_x > inlet_length Then
-                pos_x = conv_length - Rb / q_load_comb
-                Q_max_bend = 0.5 ^ 2 * q_load_comb * (conv_length - pos_x)
-            End If
-
-            TextBox37.Text = Round(Q_max_bend, 0).ToString      'Max moment [Nm]          
+            TextBox114.Clear()
+            For i = 0 To d.Length - 1   'Write results to text box
+                TextBox114.Text &= "Dist=" & d(i).ToString("0.00") & vbTab & vbTab & "Shear=" & s(i).ToString("000") & vbTab
+                TextBox114.Text &= "Moment=" & m(i).ToString("000") & vbCrLf
+            Next
 
             '================== calc torsie ========================================
             '=======================================================================
@@ -1154,7 +1095,6 @@ Public Class Form1
 
             '==================calc stress ===========================================
             '=========================================================================
-
             '----------- bending stress--------------------
             sigma_eg = Q_max_bend / (pipe_Wx * 1000 ^ 2)                   '[N/mm2]
             TextBox09.Text = Round(sigma_eg, 1).ToString                    '[N/mm2]
@@ -1186,7 +1126,9 @@ Public Class Form1
         TextBox09.BackColor = CType(IIf(sigma_eg > sigma_fatique, Color.Red, Color.LightGreen), Color)
         TextBox21.BackColor = CType(IIf(combined_stress > sigma_fatique, Color.Red, Color.LightGreen), Color)
         TextBox12.BackColor = CType(IIf(Tou_torque > sigma_fatique, Color.Red, Color.LightGreen), Color)
-
+        NumericUpDown28.BackColor = CType(IIf(chute_distance_3 > conv_length, Color.Red, Color.Yellow), Color) 'Inlet #3
+        NumericUpDown24.BackColor = CType(IIf(chute_distance_2 > chute_distance_3, Color.Red, Color.Yellow), Color) 'Inlet #2
+        NumericUpDown16.BackColor = CType(IIf(chute_distance_1 > chute_distance_2, Color.Red, Color.Yellow), Color) 'Inlet #1
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click, NumericUpDown11.ValueChanged, ComboBox2.SelectedIndexChanged, NumericUpDown13.ValueChanged, TabPage2.Enter, NumericUpDown17.ValueChanged, NumericUpDown16.ValueChanged, ComboBox5.SelectedIndexChanged, RadioButton3.CheckedChanged, RadioButton2.CheckedChanged, RadioButton1.CheckedChanged, CheckBox1.CheckedChanged, NumericUpDown18.ValueChanged, NumericUpDown19.ValueChanged, NumericUpDown24.ValueChanged, NumericUpDown22.ValueChanged, NumericUpDown28.ValueChanged, NumericUpDown26.ValueChanged, CheckBox10.CheckedChanged, NumericUpDown29.ValueChanged
