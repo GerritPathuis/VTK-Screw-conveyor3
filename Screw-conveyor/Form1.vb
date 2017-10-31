@@ -705,7 +705,7 @@ Public Class Form1
             words = steel(hh).Split(CType(";", Char()))
             ComboBox2.Items.Add(words(0))
         Next hh
-        ComboBox2.SelectedIndex = 8                     'rvs 304
+        ComboBox2.SelectedIndex = 7                     'S355
 
 
         '-------Fill combobox5, emotor selection------------------
@@ -717,7 +717,6 @@ Public Class Form1
 
         Screw_combo_init()
         Pipe_dia_combo_init()
-        'Pipe_wall_combo_init()
         Motorreductor()
         Coupling_combo()
         Lager_combo()
@@ -838,7 +837,7 @@ Public Class Form1
         Dim force_1, chute_distance_1 As Double
         Dim force_2, chute_distance_2 As Double
         Dim force_3, chute_distance_3 As Double
-        Dim Q_Deflect_max, Q_max_bend, pos_x As Double
+        Dim Q_Deflect_max, Q_max_bend As Double
         Dim F_tangent, Radius_transport As Double
         Dim pipe_weight_m As Double
         Dim pipe_OR, pipe_IR As Double
@@ -855,7 +854,7 @@ Public Class Form1
         Dim fx(5) As Double                         'dwarskrachten lijn
         Dim mx(5) As Double                         'momenten lijn
         Dim xnul As Double                          'nul positie in dwarskrachtenlijm
-        Dim steps As Integer = 200                  'Calculation steps
+        Dim steps As Integer = 100                  'Calculation steps
 
         NumericUpDown13.Value = NumericUpDown7.Value
         force_1 = NumericUpDown19.Value * 10 ^ 3            '[N]
@@ -1048,18 +1047,6 @@ Public Class Form1
                 End If
             Next
 
-            '=========== Bepaal nulpunt shear force===================
-            Dim temp As Double
-            temp = s(0)
-            For i = 0 To steps
-                If Abs(s(i)) < Abs(temp) Then
-                    temp = s(i)
-                    imax_count = i
-                End If
-            Next
-            xnul = d(imax_count)
-            TextBox38.Text = xnul.ToString("0.00")       'Positie max moment [m]
-
             '=========== momentenlijn (bending moment )====================
             m(0) = 1
             For i = 1 To steps
@@ -1067,14 +1054,24 @@ Public Class Form1
             Next
 
             '=========== Maximaal moment ===================
+            Dim temp As Double
+            temp = m(0)
+            For i = 0 To steps
+                If m(i) > temp Then
+                    temp = m(i)
+                    imax_count = i
+                End If
+            Next
+            xnul = d(imax_count)
             Q_max_bend = m(imax_count)
+            TextBox38.Text = xnul.ToString("0.00")          'Positie max moment [m]
 
             '======= present ==========
-            TextBox90.Text = s(0).ToString("0")         'Shear force
-            TextBox4.Text = s(i_chute_1).ToString("0")  'Shear force
-            TextBox5.Text = s(i_chute_2).ToString("0")  'Shear force
-            TextBox6.Text = s(i_chute_3).ToString("0")  'Shear force
-            TextBox91.Text = s(steps).ToString("0")       'Shear force
+            TextBox90.Text = s(0).ToString("0")             'Shear force
+            TextBox4.Text = s(i_chute_1).ToString("0")      'Shear force
+            TextBox5.Text = s(i_chute_2).ToString("0")      'Shear force
+            TextBox6.Text = s(i_chute_3).ToString("0")      'Shear force
+            TextBox91.Text = s(steps).ToString("0")         'Shear force
 
             TextBox1.Text = m(i_chute_1).ToString("0")      'Moment chute #1
             TextBox2.Text = m(i_chute_2).ToString("0")      'Moment chute #2
@@ -1086,6 +1083,7 @@ Public Class Form1
                 TextBox114.Text &= "Dist=" & d(i).ToString("0.00") & vbTab & vbTab & "Shear=" & s(i).ToString("000") & vbTab
                 TextBox114.Text &= "Moment=" & m(i).ToString("000") & vbCrLf
             Next
+            TextBox114.Text &= "Maximum bend moment " & m(imax_count).ToString("0.0") & " [Nm] @ " & xnul.ToString & " [m]"
 
             '================== calc torsie ========================================
             '=======================================================================
@@ -1093,8 +1091,8 @@ Public Class Form1
             TextBox12.Text = Round(Tou_torque, 1).ToString          'Stress from drive [N.m]
 
             '-------------------------- @ max bend------------------------
-            P_torque_M = (P_torque * pos_x / conv_length)
-            Tou_torque_M = P_torque_M / (pipe_Wp * 1000 ^ 2)            '[N/mm2]
+            P_torque_M = (P_torque * xnul / conv_length)
+            Tou_torque_M = P_torque_M / (pipe_Wp * 1000 ^ 2)        '[N/mm2]
             TextBox10.Text = Round(Tou_torque_M, 1).ToString
 
             '==================calc stress ===========================================
@@ -1163,7 +1161,7 @@ Public Class Form1
             ComboBox3.Items.Add(Trim(words(2)))
             ComboBox9.Items.Add(Trim(words(2)))
         Next hh
-        ComboBox3.SelectedIndex = 2
+        ComboBox3.SelectedIndex = 5
         ComboBox9.SelectedIndex = 2
 
         words = pipe_steel(ComboBox3.SelectedIndex).Split(CType(";", Char()))
