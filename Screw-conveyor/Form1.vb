@@ -503,6 +503,7 @@ Public Class Form1
     "DN125;5 inch; 141.3;  6.55;  9.53; 0;   0",
     "DN150;6 inch; 168.3;  7.11; 10.97; 0;   0",
     "DN200;8 inch; 219.1;  6.35;  8.18; 12.7;0",
+    "Specl;.. inch; 229.0;  20.00;  20.00; 20.00;0",
     "DN250;10 inch; 273;   6.35;  9.27; 12.7;0",
     "DN300;12 inch; 323.9; 6.35;  9.27; 12.7;0",
     "DN350;14 inch; 355.6; 7.92;  9.53; 0;   0",
@@ -854,6 +855,7 @@ Public Class Form1
         Dim fx(5) As Double                         'dwarskrachten lijn
         Dim mx(5) As Double                         'momenten lijn
         Dim xnul As Double                          'nul positie in dwarskrachtenlijm
+        Dim steps As Integer = 100                  'Calculation steps
 
         NumericUpDown13.Value = NumericUpDown7.Value
         force_1 = NumericUpDown19.Value * 10 ^ 3            '[N]
@@ -904,7 +906,7 @@ Public Class Form1
                     Double.TryParse(words(17), sigma02)    'Sigma 0.2 [N/mm]
             End Select
             TextBox07.Text = CType(sigma02, String)
-            sigma_fatique = sigma02 * 0.35                   'Fatique stress uitgelegd op oneindige levensduur
+            sigma_fatique = sigma02 * 0.2                   'Fatique stress uitgelegd op oneindige levensduur
             TextBox08.Text = Round(sigma_fatique, 0).ToString
         End If
 
@@ -1017,20 +1019,20 @@ Public Class Form1
             TextBox9.Text = x(3).ToString("0.0")
 
             '=========== Distance gemeten vanaf de inlaatschot=============
-            Dim d(100) As Double    '[m] Distance to drive plate
-            Dim s(100) As Double    '[N] Shear force @ distance to drive plate
-            Dim m(100) As Double    '[Nm] Moment  @ distance to drive plate
+            Dim d(steps) As Double    '[m] Distance to drive plate
+            Dim s(steps) As Double    '[N] Shear force @ distance to drive plate
+            Dim m(steps) As Double    '[Nm] Moment  @ distance to drive plate
             Dim imax_count, i_chute_1, i_chute_2, i_chute_3 As Integer
 
             For i = 0 To d.Length - 1
-                d(i) = i / 100 * conv_length    'Chop conveyor in 100 pieces
+                d(i) = i / steps * conv_length    'Chop conveyor in 100 pieces
             Next
 
             '=========== Shear Force vanaf de inlaatschot=============
             '=========== dwarskrachtenlijn (shear force) =============
             q = q_load_1 + q_load_3
             s(0) = Ra
-            For i = 1 To d.Length - 1
+            For i = 1 To steps - 1
                 s(i) = s(i - 1) - q * (conv_length / 100)
                 If d(i) = chute_distance_1 Then
                     s(i) -= force_1
@@ -1047,8 +1049,8 @@ Public Class Form1
             Next
 
             '=========== Bepaal nulpunt shear force===================
-            For i = 0 To d.Length - 1
-                If s(i) <= 30 And s(i) > -30 Then
+            For i = 0 To steps - 1
+                If s(i) <= 40 And s(i) > -40 Then
                     xnul = d(i)
                     imax_count = i
                 End If
@@ -1058,7 +1060,7 @@ Public Class Form1
 
             '=========== momentenlijn (bending moment )====================
             m(0) = 1
-            For i = 1 To d.Length - 1
+            For i = 1 To steps - 1
                 m(i) = m(i - 1) + s(i) * (conv_length / 100)
             Next
 
@@ -1070,7 +1072,7 @@ Public Class Form1
             TextBox4.Text = s(i_chute_1).ToString("0")  'Shear force
             TextBox5.Text = s(i_chute_2).ToString("0")  'Shear force
             TextBox6.Text = s(i_chute_3).ToString("0")  'Shear force
-            TextBox91.Text = s(100).ToString("0")       'Shear force
+            TextBox91.Text = s(steps).ToString("0")       'Shear force
 
             TextBox1.Text = m(i_chute_1).ToString("0")      'Moment chute #1
             TextBox2.Text = m(i_chute_2).ToString("0")      'Moment chute #2
@@ -1078,7 +1080,7 @@ Public Class Form1
             TextBox37.Text = Round(Q_max_bend, 0).ToString  'Max moment [Nm]   
 
             TextBox114.Clear()
-            For i = 0 To d.Length - 1   'Write results to text box
+            For i = 0 To steps - 1   'Write results to text box
                 TextBox114.Text &= "Dist=" & d(i).ToString("0.00") & vbTab & vbTab & "Shear=" & s(i).ToString("000") & vbTab
                 TextBox114.Text &= "Moment=" & m(i).ToString("000") & vbCrLf
             Next
