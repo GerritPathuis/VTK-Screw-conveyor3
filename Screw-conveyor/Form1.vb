@@ -855,7 +855,7 @@ Public Class Form1
         Dim fx(5) As Double                         'dwarskrachten lijn
         Dim mx(5) As Double                         'momenten lijn
         Dim xnul As Double                          'nul positie in dwarskrachtenlijm
-        Dim steps As Integer = 100                  'Calculation steps
+        Dim steps As Integer = 200                  'Calculation steps
 
         NumericUpDown13.Value = NumericUpDown7.Value
         force_1 = NumericUpDown19.Value * 10 ^ 3            '[N]
@@ -1024,7 +1024,7 @@ Public Class Form1
             Dim m(steps) As Double    '[Nm] Moment  @ distance to drive plate
             Dim imax_count, i_chute_1, i_chute_2, i_chute_3 As Integer
 
-            For i = 0 To d.Length - 1
+            For i = 0 To steps
                 d(i) = i / steps * conv_length    'Chop conveyor in 100 pieces
             Next
 
@@ -1032,8 +1032,8 @@ Public Class Form1
             '=========== dwarskrachtenlijn (shear force) =============
             q = q_load_1 + q_load_3
             s(0) = Ra
-            For i = 1 To steps - 1
-                s(i) = s(i - 1) - q * (conv_length / 100)
+            For i = 1 To steps
+                s(i) = s(i - 1) - q * (conv_length / steps)
                 If d(i) = chute_distance_1 Then
                     s(i) -= force_1
                     i_chute_1 = i
@@ -1049,19 +1049,21 @@ Public Class Form1
             Next
 
             '=========== Bepaal nulpunt shear force===================
-            For i = 0 To steps - 1
-                If s(i) <= 40 And s(i) > -40 Then
-                    xnul = d(i)
+            Dim temp As Double
+            temp = s(0)
+            For i = 0 To steps
+                If Abs(s(i)) < Abs(temp) Then
+                    temp = s(i)
                     imax_count = i
                 End If
             Next
-            TextBox38.Text = xnul.ToString("0.00")           'Positie max moment [m]
-            TextBox38.BackColor = CType(IIf(xnul = 0, Color.Red, Color.LightGreen), Color)
+            xnul = d(imax_count)
+            TextBox38.Text = xnul.ToString("0.00")       'Positie max moment [m]
 
             '=========== momentenlijn (bending moment )====================
             m(0) = 1
-            For i = 1 To steps - 1
-                m(i) = m(i - 1) + s(i) * (conv_length / 100)
+            For i = 1 To steps
+                m(i) = m(i - 1) + s(i) * (conv_length / steps)
             Next
 
             '=========== Maximaal moment ===================
@@ -1080,7 +1082,7 @@ Public Class Form1
             TextBox37.Text = Round(Q_max_bend, 0).ToString  'Max moment [Nm]   
 
             TextBox114.Clear()
-            For i = 0 To steps - 1   'Write results to text box
+            For i = 0 To steps    'Write results to text box
                 TextBox114.Text &= "Dist=" & d(i).ToString("0.00") & vbTab & vbTab & "Shear=" & s(i).ToString("000") & vbTab
                 TextBox114.Text &= "Moment=" & m(i).ToString("000") & vbCrLf
             Next
