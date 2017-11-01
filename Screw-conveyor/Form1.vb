@@ -855,19 +855,12 @@ Public Class Form1
         Dim mx(5) As Double                         'momenten lijn
         Dim xnul As Double                          'nul positie in dwarskrachtenlijm
         Dim steps As Integer = 100                  'Calculation steps
+        Dim Column_h(4) As Double                   'Material column height
+        Dim Column_l(4) As Double                   'Inlet chute horizontal length 
+        Dim Column_a(4) As Double                   'Inlet chute pipe area
 
         NumericUpDown13.Value = NumericUpDown7.Value
-        force_1 = NumericUpDown19.Value * 10 ^ 3            '[N]
-        force_2 = NumericUpDown22.Value * 10 ^ 3            '[N]
-        force_3 = NumericUpDown26.Value * 10 ^ 3            '[N]
 
-        chute_distance_1 = NumericUpDown16.Value            '[m]
-        chute_distance_2 = NumericUpDown24.Value            '[m]
-        chute_distance_3 = NumericUpDown28.Value            '[m]
-
-        '---------- materiaal gewicht inlaat kolom op pipe--------------------------
-        Uniform_mat_load = NumericUpDown17.Value            'Uniform material load [m]
-        product_density = NumericUpDown6.Value              'product density [kg/m3]
 
         If (ComboBox5.SelectedIndex > -1) Then      'Prevent exceptions
             words = emotor(ComboBox5.SelectedIndex).Split(CType(";", Char()))
@@ -937,6 +930,44 @@ Public Class Form1
             pipe_Wp = PI / 16 * (_pipe_OD ^ 4 - _pipe_ID ^ 4) / _pipe_OD       '[m3]
             TextBox15.Text = Round(pipe_Wp * 1000 ^ 3, 0).ToString
 
+            '---------------------------------------------------------------------------
+            '---------- materiaal gewicht inlaat kolom op pipe--------------------------
+            product_density = NumericUpDown6.Value              'product density [kg/m3]
+            Column_h(0) = NumericUpDown17.Value                 'Material height on top of pipe
+            Column_l(0) = 1                                     '[m] exposed pipe length
+            Column_a(0) = _pipe_OD * Column_l(0)               '[m2] pipe area
+
+
+            '-------- Inlet opening #1------
+            Column_h(1) = NumericUpDown19.Value                '[m] column height
+            Column_l(1) = NumericUpDown31.Value                '[m] exposed pipe length
+            Column_a(1) = _pipe_OD * Column_l(1)               '[m2] pipe area
+
+            '-------- Inlet opening #2------
+            Column_h(2) = NumericUpDown36.Value                '[m] column height
+            Column_l(2) = NumericUpDown32.Value                '[m] exposed pipe length
+            Column_a(2) = _pipe_OD * Column_l(2)               '[m2] pipe area
+
+            '-------- Inlet opening #3------
+            Column_h(3) = NumericUpDown37.Value                '[m] column height
+            Column_l(3) = NumericUpDown22.Value                '[m] exposed pipe length
+            Column_a(3) = _pipe_OD * Column_l(3)               '[m2] pipe area
+
+            Uniform_mat_load = Column_a(0) * Column_h(0) * product_density * 9.81         '[N/m]
+            force_1 = Column_a(1) * Column_h(1) * product_density * 9.81    '[N]
+            force_2 = Column_a(2) * Column_h(2) * product_density * 9.81    '[N]
+            force_3 = Column_a(3) * Column_h(3) * product_density * 9.81    '[N]
+
+
+            TextBox115.Text = force_1.ToString("0")             'Material inlet force
+            TextBox116.Text = force_2.ToString("0")             'Material inlet force
+            TextBox117.Text = force_3.ToString("0")             'Material inlet force
+            TextBox118.Text = Uniform_mat_load.ToString("0")
+
+            chute_distance_1 = NumericUpDown16.Value            '[m] to end plate
+            chute_distance_2 = NumericUpDown24.Value            '[m] to end plate
+            chute_distance_3 = NumericUpDown28.Value            '[m] to end plate
+
             '============= calc load ========================================
             '================================================================
 
@@ -966,7 +997,7 @@ Public Class Form1
             Radius_transport = (_diam_flight + _pipe_OD) / 4            'Acc Jos (D+d)/4
             F_tangent = P_torque / Radius_transport
             q_load_2 = F_tangent / conv_length                          'Transport kracht geeft doorbuiging pijp
-            q_load_3 = Uniform_mat_load * 1000                          '[N/m] Uniform distributed material weight
+            q_load_3 = Uniform_mat_load                                 '[N/m] Uniform distributed material weight
             TextBox17.Text = Round(q_load_3, 0).ToString                '[N/m]
 
             '============= Traditionele VTK berekening ==========================
@@ -1133,7 +1164,7 @@ Public Class Form1
         NumericUpDown16.BackColor = CType(IIf(chute_distance_1 > chute_distance_2, Color.Red, Color.Yellow), Color) 'Inlet #1
     End Sub
 
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click, NumericUpDown11.ValueChanged, ComboBox2.SelectedIndexChanged, NumericUpDown13.ValueChanged, TabPage2.Enter, NumericUpDown17.ValueChanged, NumericUpDown16.ValueChanged, ComboBox5.SelectedIndexChanged, RadioButton3.CheckedChanged, RadioButton2.CheckedChanged, RadioButton1.CheckedChanged, CheckBox1.CheckedChanged, NumericUpDown18.ValueChanged, NumericUpDown19.ValueChanged, NumericUpDown24.ValueChanged, NumericUpDown22.ValueChanged, NumericUpDown28.ValueChanged, NumericUpDown26.ValueChanged, CheckBox10.CheckedChanged, NumericUpDown29.ValueChanged
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click, NumericUpDown11.ValueChanged, ComboBox2.SelectedIndexChanged, NumericUpDown13.ValueChanged, TabPage2.Enter, NumericUpDown17.ValueChanged, NumericUpDown16.ValueChanged, ComboBox5.SelectedIndexChanged, RadioButton3.CheckedChanged, RadioButton2.CheckedChanged, RadioButton1.CheckedChanged, CheckBox1.CheckedChanged, NumericUpDown18.ValueChanged, NumericUpDown19.ValueChanged, NumericUpDown24.ValueChanged, NumericUpDown28.ValueChanged, CheckBox10.CheckedChanged, NumericUpDown29.ValueChanged, NumericUpDown37.ValueChanged, NumericUpDown36.ValueChanged, NumericUpDown32.ValueChanged, NumericUpDown31.ValueChanged, NumericUpDown22.ValueChanged
         Calulate_stress_1()
     End Sub
     Private Sub Screw_dia_combo()
@@ -1943,9 +1974,49 @@ Public Class Form1
             oTable.Columns(3).Width = oWord.InchesToPoints(1.5)
             oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
 
+            '-------------Loads-------------------------------
+            'Insert a table, fill it with data and change the column widths.
+            oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 6, 3)
+            oTable.Range.ParagraphFormat.SpaceAfter = 1
+            oTable.Range.Font.Size = font_sizze
+            oTable.Range.Font.Bold = CInt(False)
+            oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+
+            row = 1
+            oTable.Cell(row, 1).Range.Text = "Loads"
+            oTable.Cell(row, 2).Range.Text = ""
+            oTable.Cell(row, 3).Range.Text = ""
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Inlet chute #1 Force"
+            oTable.Cell(row, 2).Range.Text = TextBox115.Text
+            oTable.Cell(row, 3).Range.Text = "[N]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Inlet chute #2 Force"
+            oTable.Cell(row, 2).Range.Text = TextBox116.Text
+            oTable.Cell(row, 3).Range.Text = "[N]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Inlet chute #3 Force"
+            oTable.Cell(row, 2).Range.Text = TextBox117.Text
+            oTable.Cell(row, 3).Range.Text = "[N]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Uniform load"
+            oTable.Cell(row, 2).Range.Text = TextBox118.Text
+            oTable.Cell(row, 3).Range.Text = "[N/m]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Pipe and flight weight only"
+            oTable.Cell(row, 2).Range.Text = TextBox22.Text
+            oTable.Cell(row, 3).Range.Text = "[N/m]"
+
+            oTable.Columns(1).Width = oWord.InchesToPoints(2.0)
+            oTable.Columns(2).Width = oWord.InchesToPoints(1.8)
+            oTable.Columns(3).Width = oWord.InchesToPoints(1.5)
+
+            oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+            oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+
             '------------- Results----------------------
             'Insert a 5 x 3 table, fill it with data and change the column widths.
-            oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 8, 3)
+            oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 7, 3)
             oTable.Range.ParagraphFormat.SpaceAfter = 1
             oTable.Range.Font.Size = font_sizze
             oTable.Range.Font.Bold = CInt(False)
@@ -1973,10 +2044,6 @@ Public Class Form1
             oTable.Cell(row, 1).Range.Text = "Max. allowed Fatique stress"
             oTable.Cell(row, 2).Range.Text = TextBox08.Text
             oTable.Cell(row, 3).Range.Text = "[N/mm2]"
-            row += 1
-            oTable.Cell(row, 1).Range.Text = "Q1, pipe load (weight only)"
-            oTable.Cell(row, 2).Range.Text = TextBox22.Text
-            oTable.Cell(row, 3).Range.Text = "[N/m]"
             row += 1
             oTable.Cell(row, 1).Range.Text = "Max. Flex"
             oTable.Cell(row, 2).Range.Text = TextBox20.Text
