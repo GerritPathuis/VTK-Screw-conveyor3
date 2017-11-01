@@ -4,6 +4,7 @@ Imports System.Text
 Imports System.Globalization
 Imports System.Threading
 Imports Word = Microsoft.Office.Interop.Word
+Imports System.Windows.Forms.DataVisualization.Charting
 
 Public Class Form1
 
@@ -11,6 +12,11 @@ Public Class Form1
     Dim dirpath_Eng As String = "N:\Engineering\VBasic\Conveyor_sizing_input\"
     Dim dirpath_Rap As String = "N:\Engineering\VBasic\Conveyor_rapport_copy\"
     Dim dirpath_Home_GP As String = "C:\Temp\"
+
+    Dim steps As Integer = 100  'Calculation steps
+    Dim d(steps) As Double      '[m] Distance to drive plate
+    Dim s(steps) As Double      '[N] Shear force @ distance to drive plate
+    Dim m(steps) As Double      '[Nm] Moment  @ distance to drive plate
 
     'Materials name; CEMA Material code; Conveyor loading; Component group, density min, Density max, HP Material
     Public Shared _inputs() As String = {
@@ -772,15 +778,11 @@ Public Class Form1
         progress_resistance = NumericUpDown9.Value      '[-]
 
         '--------------- now calc-----------------
-
         cap_hr = PI / 4 * (_diam_flight ^ 2 - _pipe_OD ^ 2) * pitch * speed * 60          ' [m]
         cap_hr = cap_hr * (100 - _angle * 2) / 100                                         ' capacity loss due to inclination (2% per degree)
-
         cap_act = flow_hr / density
         filling_perc = Round(cap_act / cap_hr * 100, 1)
-
         If filling_perc > 100 Then filling_perc = 100
-
         TextBox01.BackColor = CType(IIf(filling_perc > 40, Color.Red, Color.LightGreen), Color)
 
 
@@ -790,7 +792,6 @@ Public Class Form1
         iso_forward = flow_hr * conv_length * 9.91 * progress_resistance / (3600 * 1000)    'Forwards [kW]
         iso_incline = flow_hr * height * 9.81 / (3600 * 1000)                               'Uphill [kW]
         iso_no_product = _diam_flight * conv_length / 20                                     'Power for seals 0. + bearings [kW]
-
         iso_power = Round(iso_forward + iso_incline + iso_no_product, 1)
 
         '--------------- MEKOG -----------------
@@ -805,10 +806,6 @@ Public Class Form1
         TextBox04.Text = mekog.ToString
         TextBox110.Text = Round(r_time, 0).ToString
 
-    End Sub
-
-    Private Sub Button3_Click(sender As Object, e As EventArgs)
-        Save_to_disk()
     End Sub
 
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown12.ValueChanged, NumericUpDown10.ValueChanged, NumericUpDown25.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox4.SelectedIndexChanged, ComboBox13.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox8.CheckedChanged, CheckBox5.CheckedChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, CheckBox4.CheckedChanged, CheckBox7.CheckedChanged, CheckBox6.CheckedChanged, CheckBox9.CheckedChanged, TabPage4.Enter
@@ -854,13 +851,12 @@ Public Class Form1
         Dim fx(5) As Double                         'dwarskrachten lijn
         Dim mx(5) As Double                         'momenten lijn
         Dim xnul As Double                          'nul positie in dwarskrachtenlijm
-        Dim steps As Integer = 100                  'Calculation steps
+        'Dim steps As Integer = 100                  'Calculation steps
         Dim Column_h(4) As Double                   'Material column height
         Dim Column_l(4) As Double                   'Inlet chute horizontal length 
         Dim Column_a(4) As Double                   'Inlet chute pipe area
 
         NumericUpDown13.Value = NumericUpDown7.Value
-
 
         If (ComboBox5.SelectedIndex > -1) Then      'Prevent exceptions
             words = emotor(ComboBox5.SelectedIndex).Split(CType(";", Char()))
@@ -906,12 +902,12 @@ Public Class Form1
             words = pipe_steel(ComboBox3.SelectedIndex).Split(CType(";", Char()))
 
             Double.TryParse(words(2), _pipe_OD)
-            _pipe_OD /= 1000                             'Outside Diameter [m]
-            pipe_OR = _pipe_OD / 2                       'Radius [mm]
+            _pipe_OD /= 1000                            'Outside Diameter [m]
+            pipe_OR = _pipe_OD / 2                      'Radius [mm]
             _pipe_wall = CDbl(ComboBox6.SelectedItem)   'Wall thickness [mm]
             _pipe_wall /= 1000
-            _pipe_ID = (_pipe_OD - 2 * _pipe_wall)         'Inside diameter [mm]
-            pipe_IR = _pipe_ID / 2                       'Inside radius [mm]
+            _pipe_ID = (_pipe_OD - 2 * _pipe_wall)      'Inside diameter [mm]
+            pipe_IR = _pipe_ID / 2                      'Inside radius [mm]
 
             pipe_weight_m = PI / 4 * (_pipe_OD ^ 2 - _pipe_ID ^ 2) * 7850   'Weight per meter [kg/m]
 
@@ -937,7 +933,6 @@ Public Class Form1
             Column_l(0) = 1                                     '[m] exposed pipe length
             Column_a(0) = _pipe_OD * Column_l(0)               '[m2] pipe area
 
-
             '-------- Inlet opening #1------
             Column_h(1) = NumericUpDown19.Value                '[m] column height
             Column_l(1) = NumericUpDown31.Value                '[m] exposed pipe length
@@ -957,7 +952,6 @@ Public Class Form1
             force_1 = Column_a(1) * Column_h(1) * product_density * 9.81    '[N]
             force_2 = Column_a(2) * Column_h(2) * product_density * 9.81    '[N]
             force_3 = Column_a(3) * Column_h(3) * product_density * 9.81    '[N]
-
 
             TextBox115.Text = force_1.ToString("0")             'Material inlet force
             TextBox116.Text = force_2.ToString("0")             'Material inlet force
@@ -1009,7 +1003,7 @@ Public Class Form1
 
             '============= Reactie krachten ======================================
             '=====================================================================
-            q_load_comb = Sqrt(q_load_1 ^ 2 + q_load_2 ^ 2)     '[N/m] Radiale en tangentiele kracht gecombineerd
+            q_load_comb = Sqrt((q_load_1 + q_load_3) ^ 2 + q_load_2 ^ 2)     '[N/m] Radiale en tangentiele kracht gecombineerd
 
             R_total = q_load_1 * conv_length                'Steel weight
             R_total += q_load_3 * conv_length               'Material weight
@@ -1018,11 +1012,11 @@ Public Class Form1
             R_total += force_3
 
             'Momenten evenwicht om punt Ra
-            Rb = q_load_1 * conv_length ^ 2 * 0.5
-            Rb += q_load_3 * inlet_length ^ 2 * 0.5
-            Rb += force_1 * chute_distance_1
-            Rb += force_2 * chute_distance_2
-            Rb += force_3 * chute_distance_3
+            Rb = q_load_1 * conv_length ^ 2 * 0.5   'Pipe weight
+            Rb += q_load_3 * conv_length ^ 2 * 0.5  'Uniform load
+            Rb += force_1 * chute_distance_1        'Inlet force #1
+            Rb += force_2 * chute_distance_2        'Inlet force #2
+            Rb += force_3 * chute_distance_3        'Inlet force #3
 
             Rb /= conv_length
             Ra = R_total - Rb
@@ -1049,9 +1043,9 @@ Public Class Form1
             TextBox9.Text = x(3).ToString("0.0")
 
             '=========== Distance gemeten vanaf de inlaatschot=============
-            Dim d(steps) As Double    '[m] Distance to drive plate
-            Dim s(steps) As Double    '[N] Shear force @ distance to drive plate
-            Dim m(steps) As Double    '[Nm] Moment  @ distance to drive plate
+            'Dim d(steps) As Double    '[m] Distance to drive plate
+            'Dim s(steps) As Double    '[N] Shear force @ distance to drive plate
+            'Dim m(steps) As Double    '[Nm] Moment  @ distance to drive plate
             Dim imax_count, i_chute_1, i_chute_2, i_chute_3 As Integer
 
             For i = 0 To steps
@@ -1751,6 +1745,10 @@ Public Class Form1
         Calulate_stress_1()
     End Sub
 
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles TabPage6.Enter, Button3.Click
+        Draw_chart1()
+    End Sub
+
     Private Sub Astap_combo()
         Dim words() As String
 
@@ -1762,6 +1760,7 @@ Public Class Form1
         Next hh
         ComboBox13.SelectedIndex = 1
     End Sub
+
     Private Sub Screw_combo_init()
         Dim words() As String
 
@@ -1794,29 +1793,6 @@ Public Class Form1
             ComboBox10.Items.Add(words(0))
         Next hh
         ComboBox10.SelectedIndex = 3
-    End Sub
-
-    'Save data and line chart to file
-    Private Sub Save_to_disk()
-        'Dim bmp_tab_page1 As New Bitmap(TabPage1.Width, TabPage1.Height)
-        'Dim bmp_tab_page2 As New Bitmap(TabPage2.Width, TabPage2.Height)
-        'Dim str_file2, str_file3 As String
-
-        'Dim text As String
-        'text = Now.ToString("yyyy_MM_dd_HH_mm_ss_")
-
-        'str_file2 = "c:\temp\" & text & "Conveyor selection data.png"
-        'str_file3 = "c:\temp\" & text & "Conveyor stress waaier.png"
-
-        ''---- save tab page 1---------------
-        'TabPage2.Show()
-        'TabPage1.DrawToBitmap(bmp_tab_page1, DisplayRectangle)
-        'bmp_tab_page1.Save(str_file2, Imaging.ImageFormat.Png)
-
-        ''---- save tab page 2---------------
-        'TabPage2.Show()
-        'TabPage2.DrawToBitmap(bmp_tab_page2, DisplayRectangle)
-        'bmp_tab_page2.Save(str_file3, Imaging.ImageFormat.Png)
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
@@ -2389,6 +2365,40 @@ Public Class Form1
         TextBox74.Text = Round(dekking, 0).ToString
         TextBox99.Text = Round(marge_cost, 0).ToString
         TextBox75.Text = Round(verkoopprijs, 0).ToString
+    End Sub
+    Private Sub Draw_chart1()
+        Dim hh As Integer
 
+        Try
+            Chart1.Series.Clear()
+            Chart1.ChartAreas.Clear()
+            Chart1.Titles.Clear()
+
+            For hh = 0 To 3
+                Chart1.Series.Add("s" & hh.ToString)
+                Chart1.Series(hh).ChartType = SeriesChartType.Line
+                Chart1.Series(hh).IsVisibleInLegend = False
+                Chart1.Series(hh).Color = Color.Black
+            Next
+
+            Chart1.ChartAreas.Add("ChartArea0")
+            Chart1.Series(0).ChartArea = "ChartArea0"
+            Chart1.Titles.Add("Simple supported")
+            Chart1.Titles(0).Font = New Font("Arial", 12, System.Drawing.FontStyle.Bold)
+
+            '--------------- Legends and titles ---------------
+            Chart1.ChartAreas("ChartArea0").AxisY.Title = "Shear force [N]"
+            Chart1.ChartAreas("ChartArea0").AxisX.Title = "Shaft length"
+            Chart1.ChartAreas("ChartArea0").AxisY.RoundAxisValues()
+            Chart1.ChartAreas("ChartArea0").AxisX.RoundAxisValues()
+
+            For hh = 1 To steps                                  'Array size
+                Chart1.Series(1).Points.AddXY(d(hh), s(hh))
+                Chart1.Series(2).Points.AddXY(d(hh), m(hh))
+            Next
+
+        Catch ex As Exception
+            'MessageBox.Show("nnnnnn")
+        End Try
     End Sub
 End Class
