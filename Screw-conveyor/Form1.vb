@@ -851,7 +851,6 @@ Public Class Form1
         Dim fx(5) As Double                         'dwarskrachten lijn
         Dim mx(5) As Double                         'momenten lijn
         Dim xnul As Double                          'nul positie in dwarskrachtenlijm
-        'Dim steps As Integer = 100                  'Calculation steps
         Dim Column_h(4) As Double                   'Material column height
         Dim Column_l(4) As Double                   'Inlet chute horizontal length 
         Dim Column_a(4) As Double                   'Inlet chute pipe area
@@ -1043,12 +1042,9 @@ Public Class Form1
             TextBox9.Text = x(3).ToString("0.0")
 
             '=========== Distance gemeten vanaf de inlaatschot=============
-            'Dim d(steps) As Double    '[m] Distance to drive plate
-            'Dim s(steps) As Double    '[N] Shear force @ distance to drive plate
-            'Dim m(steps) As Double    '[Nm] Moment  @ distance to drive plate
             Dim imax_count, i_chute_1, i_chute_2, i_chute_3 As Integer
 
-            For i = 0 To steps
+            For i = 1 To steps
                 d(i) = i / steps * conv_length    'Chop conveyor in 100 pieces
             Next
 
@@ -1075,7 +1071,8 @@ Public Class Form1
             '=========== momentenlijn (bending moment )====================
             m(0) = 1
             For i = 1 To steps
-                m(i) = m(i - 1) + s(i) * (conv_length / steps)
+                m(i) = m(i - 1) + (s(i) + s(i - 1)) / 2 * (conv_length / steps)
+                If m(i) < 0 Then m(i) = 0   'Onnauwkerigheid wordt verdoezeld
             Next
 
             '=========== Maximaal moment ===================
@@ -2376,14 +2373,14 @@ Public Class Form1
 
             For hh = 0 To 3
                 Chart1.Series.Add("s" & hh.ToString)
-                Chart1.Series(hh).ChartType = SeriesChartType.Line
+                Chart1.Series(hh).ChartType = SeriesChartType.FastLine
                 Chart1.Series(hh).IsVisibleInLegend = False
                 Chart1.Series(hh).Color = Color.Black
             Next
 
             Chart1.ChartAreas.Add("ChartArea0")
             Chart1.Series(0).ChartArea = "ChartArea0"
-            Chart1.Titles.Add("Simple supported")
+            Chart1.Titles.Add("Simply supported Screw conveyor")
             Chart1.Titles(0).Font = New Font("Arial", 12, System.Drawing.FontStyle.Bold)
 
             '--------------- Legends and titles ---------------
@@ -2391,10 +2388,12 @@ Public Class Form1
             Chart1.ChartAreas("ChartArea0").AxisX.Title = "Shaft length"
             Chart1.ChartAreas("ChartArea0").AxisY.RoundAxisValues()
             Chart1.ChartAreas("ChartArea0").AxisX.RoundAxisValues()
+            Chart1.ChartAreas("ChartArea0").AxisX.Minimum = 0
+            Chart1.ChartAreas("ChartArea0").AxisX.Maximum = d(steps)
 
-            For hh = 1 To steps                                  'Array size
-                Chart1.Series(1).Points.AddXY(d(hh), s(hh))
-                Chart1.Series(2).Points.AddXY(d(hh), m(hh))
+            For hh = 0 To steps
+                Chart1.Series(1).Points.AddXY(d(hh), s(hh)) 'Shear force line
+                Chart1.Series(2).Points.AddXY(d(hh), -m(hh)) 'Moment line
             Next
 
         Catch ex As Exception
