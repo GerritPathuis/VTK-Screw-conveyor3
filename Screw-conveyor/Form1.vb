@@ -1746,6 +1746,24 @@ Public Class Form1
         Draw_chart1()
     End Sub
 
+    Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click, TabPage7.Enter, NumericUpDown38.ValueChanged, NumericUpDown26.ValueChanged
+        Dim height, weight, speed, time, force, acc As Double
+
+        weight = NumericUpDown38.Value
+        height = NumericUpDown26.Value
+
+        time = Sqrt(2 * height / 9.81)
+        speed = Sqrt(2 * 9.81 * height)
+        acc = speed / 0.01
+        force = weight * acc
+
+
+        TextBox119.Text = time.ToString("0.0")
+        TextBox120.Text = speed.ToString("0.0")
+        TextBox121.Text = acc.ToString("0.0")
+        TextBox122.Text = force.ToString("0")
+    End Sub
+
     Private Sub Astap_combo()
         Dim words() As String
 
@@ -1800,7 +1818,7 @@ Public Class Form1
         Dim oWord As Word.Application ' = Nothing
         Dim oDoc As Word.Document
         Dim oTable As Word.Table
-        Dim oPara1, oPara2 As Word.Paragraph
+        Dim oPara1, oPara2, opara3 As Word.Paragraph
         Dim row, font_sizze As Integer
         Dim ufilename, str As String
 
@@ -1808,7 +1826,7 @@ Public Class Form1
             oWord = New Word.Application()
 
             'Start Word and open the document template. 
-            font_sizze = 9
+            font_sizze = 8
             oWord = CType(CreateObject("Word.Application"), Word.Application)
             oWord.Visible = True
             oDoc = oWord.Documents.Add
@@ -1817,6 +1835,8 @@ Public Class Form1
             oDoc.PageSetup.RightMargin = 20
             oDoc.PageSetup.Orientation = Word.WdOrientation.wdOrientPortrait
             oDoc.PageSetup.PaperSize = Word.WdPaperSize.wdPaperA4
+
+
 
             'Insert a paragraph at the beginning of the document. 
             oPara1 = oDoc.Content.Paragraphs.Add
@@ -1837,7 +1857,7 @@ Public Class Form1
             '----------------------------------------------
             'Insert a table, fill it with data and change the column widths.
             oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 5, 2)
-            oTable.Range.ParagraphFormat.SpaceAfter = 1
+            oTable.Range.ParagraphFormat.SpaceAfter = 0
             oTable.Range.Font.Size = font_sizze
             oTable.Range.Font.Bold = CInt(False)
             oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
@@ -1866,7 +1886,7 @@ Public Class Form1
 
             '----------------------------------------------
             'Insert a 16 x 3 table, fill it with data and change the column widths.
-            oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 18, 3)
+            oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 17, 3)
             oTable.Range.ParagraphFormat.SpaceAfter = 1
             oTable.Range.Font.Size = font_sizze
             oTable.Range.Font.Bold = CInt(False)
@@ -1989,7 +2009,7 @@ Public Class Form1
 
             '------------- Results----------------------
             'Insert a 5 x 3 table, fill it with data and change the column widths.
-            oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 7, 3)
+            oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 8, 3)
             oTable.Range.ParagraphFormat.SpaceAfter = 1
             oTable.Range.Font.Size = font_sizze
             oTable.Range.Font.Bold = CInt(False)
@@ -2018,14 +2038,28 @@ Public Class Form1
             oTable.Cell(row, 2).Range.Text = TextBox08.Text
             oTable.Cell(row, 3).Range.Text = "[N/mm2]"
             row += 1
-            oTable.Cell(row, 1).Range.Text = "Max. Flex"
+            oTable.Cell(row, 1).Range.Text = "Maximum Flex"
             oTable.Cell(row, 2).Range.Text = TextBox20.Text
             oTable.Cell(row, 3).Range.Text = "[mm]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Maximum Flex @"
+            oTable.Cell(row, 2).Range.Text = TextBox38.Text
+            oTable.Cell(row, 3).Range.Text = "[m]"
             row += 1
             oTable.Columns(1).Width = oWord.InchesToPoints(2.0)
             oTable.Columns(2).Width = oWord.InchesToPoints(1.8)
             oTable.Columns(3).Width = oWord.InchesToPoints(1.5)
             oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+
+            '------------------save picture ---------------- 
+            Draw_chart1()
+            Chart1.SaveImage(dirpath_Home_GP & "ShearChart.gif", System.Drawing.Imaging.ImageFormat.Gif)
+            opara3 = oDoc.Content.Paragraphs.Add
+            opara3.Alignment = Word.WdParagraphAlignment.wdAlignParagraphThaiJustify
+            opara3.Range.InlineShapes.AddPicture(dirpath_Home_GP & "ShearChart.gif")
+            opara3.Range.InlineShapes.Item(1).LockAspectRatio = CType(True, Microsoft.Office.Core.MsoTriState)
+            opara3.Range.InlineShapes.Item(1).ScaleWidth = 30       'Size
+            opara3.Range.InsertParagraphAfter()
 
             ''-------------- Checks-------
             'Insert a 5 x 1 table, fill it with data and change the column widths.
@@ -2063,6 +2097,8 @@ Public Class Form1
             End If
             oTable.Columns(1).Width = oWord.InchesToPoints(4.0)
             oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+
+
 
             '--------------Save file word file------------------
             'See https://msdn.microsoft.com/en-us/library/63w57f4b.aspx
