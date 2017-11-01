@@ -682,7 +682,7 @@ Public Class Form1
     Public Shared pipe_Ix, pipe_Wx, pipe_Wp As Double            'Lineair en polair weerstand moment
     Public Shared pitch As Double
     Public Shared installed_power As Double
-    Public Shared service_factor As Double
+    Public Shared Start_factor As Double
     Public Shared actual_power As Double
     Public Shared sigma02, sigma_fatique, Young As Double
     Public Shared inlet_length, conv_length, product_density As Double
@@ -860,8 +860,8 @@ Public Class Form1
         If (ComboBox5.SelectedIndex > -1) Then      'Prevent exceptions
             words = emotor(ComboBox5.SelectedIndex).Split(CType(";", Char()))
             Double.TryParse(words(0), installed_power)
-            service_factor = NumericUpDown18.Value
-            actual_power = installed_power * service_factor
+            Start_factor = NumericUpDown18.Value
+            actual_power = installed_power * Start_factor
         End If
 
         If (ComboBox2.SelectedIndex > -1) Then      'Prevent exceptions
@@ -893,7 +893,7 @@ Public Class Form1
                     Double.TryParse(words(17), sigma02)    'Sigma 0.2 [N/mm]
             End Select
             TextBox07.Text = CType(sigma02, String)
-            sigma_fatique = sigma02 * 0.2                   'Fatique stress uitgelegd op oneindige levensduur
+            sigma_fatique = sigma02 * 0.3                   'Fatique stress uitgelegd op oneindige levensduur
             TextBox08.Text = Round(sigma_fatique, 0).ToString
         End If
 
@@ -999,11 +999,10 @@ Public Class Form1
                 q_load_2 = 0
             End If
             TextBox28.Text = Round(q_load_2, 0).ToString                '[N]
-
-            '============= Reactie krachten ======================================
-            '=====================================================================
             q_load_comb = Sqrt((q_load_1 + q_load_3) ^ 2 + q_load_2 ^ 2)     '[N/m] Radiale en tangentiele kracht gecombineerd
 
+            '============= Reactie krachten Bearings==============================
+            '=====================================================================
             R_total = q_load_1 * conv_length                'Steel weight
             R_total += q_load_3 * conv_length               'Material weight
             R_total += force_1                              'Material falling on the pipe
@@ -1115,7 +1114,7 @@ Public Class Form1
             '-------------------------- @ max bend------------------------
             P_torque_M = (P_torque * xnul / conv_length)
             Tou_torque_M = P_torque_M / (pipe_Wp * 1000 ^ 2)        '[N/mm2]
-            TextBox10.Text = Round(Tou_torque_M, 1).ToString
+            TextBox10.Text = Round(Tou_torque_M, 1).ToString("0.0")
 
             '==================calc stress ===========================================
             '=========================================================================
@@ -2420,8 +2419,8 @@ Public Class Form1
             Chart1.Titles(0).Font = New Font("Arial", 12, System.Drawing.FontStyle.Bold)
 
             '--------------- Legends and titles ---------------
-            Chart1.ChartAreas("ChartArea0").AxisY.Title = "Shear force [N]"
-            Chart1.ChartAreas("ChartArea0").AxisX.Title = "Shaft length"
+            Chart1.ChartAreas("ChartArea0").AxisY.Title = "Shear force [N] and Bending Moment [N.m]"
+            Chart1.ChartAreas("ChartArea0").AxisX.Title = "Shaft length [m]"
             Chart1.ChartAreas("ChartArea0").AxisY.RoundAxisValues()
             Chart1.ChartAreas("ChartArea0").AxisX.RoundAxisValues()
             Chart1.ChartAreas("ChartArea0").AxisX.Minimum = 0
