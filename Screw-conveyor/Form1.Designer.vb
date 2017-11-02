@@ -1262,7 +1262,7 @@ Partial Class Form1
         'NumericUpDown28
         '
         Me.NumericUpDown28.BackColor = System.Drawing.Color.Yellow
-        Me.NumericUpDown28.DecimalPlaces = 1
+        Me.NumericUpDown28.DecimalPlaces = 2
         Me.NumericUpDown28.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
         Me.NumericUpDown28.Location = New System.Drawing.Point(231, 76)
         Me.NumericUpDown28.Maximum = New Decimal(New Integer() {15, 0, 0, 0})
@@ -1367,7 +1367,7 @@ Partial Class Form1
         'NumericUpDown24
         '
         Me.NumericUpDown24.BackColor = System.Drawing.Color.Yellow
-        Me.NumericUpDown24.DecimalPlaces = 1
+        Me.NumericUpDown24.DecimalPlaces = 2
         Me.NumericUpDown24.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
         Me.NumericUpDown24.Location = New System.Drawing.Point(231, 81)
         Me.NumericUpDown24.Maximum = New Decimal(New Integer() {15, 0, 0, 0})
@@ -1472,8 +1472,8 @@ Partial Class Form1
         'NumericUpDown16
         '
         Me.NumericUpDown16.BackColor = System.Drawing.Color.Yellow
-        Me.NumericUpDown16.DecimalPlaces = 1
-        Me.NumericUpDown16.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.NumericUpDown16.DecimalPlaces = 2
+        Me.NumericUpDown16.Increment = New Decimal(New Integer() {1, 0, 0, 131072})
         Me.NumericUpDown16.Location = New System.Drawing.Point(229, 81)
         Me.NumericUpDown16.Maximum = New Decimal(New Integer() {15, 0, 0, 0})
         Me.NumericUpDown16.Name = "NumericUpDown16"

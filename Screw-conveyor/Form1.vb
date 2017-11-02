@@ -13,10 +13,12 @@ Public Class Form1
     Dim dirpath_Rap As String = "N:\Engineering\VBasic\Conveyor_rapport_copy\"
     Dim dirpath_Home_GP As String = "C:\Temp\"
 
-    Dim steps As Integer = 100  'Calculation steps
+    Dim steps As Integer = 100   'Calculation steps
     Dim _d(steps) As Double      '[m] Distance to drive plate
     Dim _s(steps) As Double      '[N] Shear force @ distance to drive plate
     Dim _m(steps) As Double      '[Nm] Moment  @ distance to drive plate
+    Dim _α(steps) As Double      '[rad] Deflection angle @ distance to drive plate
+    Dim _αv(steps) As Double     '[rad] Deflection @ distance to drive plate
 
     'Materials name; CEMA Material code; Conveyor loading; Component group, density min, Density max, HP Material
     Public Shared _inputs() As String = {
@@ -961,7 +963,7 @@ Public Class Form1
             '================================================================
 
             '---------------- gewicht flight [mm] dik----------------------------------
-            flight_hoogte = (_diam_flight - _pipe_OD / 1000) / 2                                  '[m]
+            flight_hoogte = (_diam_flight - _pipe_OD / 1000) / 2                                '[m]
             flight_lengte_buiten = Sqrt((PI * _diam_flight) ^ 2 + (pitch) ^ 2)
 
             flight_lengte_binnen = Sqrt((PI * _pipe_OD / 1000) ^ 2 + (pitch) ^ 2)
@@ -1036,8 +1038,10 @@ Public Class Form1
             TextBox8.Text = vx(2).ToString("0.0")
             TextBox9.Text = vx(3).ToString("0.0")
 
+            'https://en.wikipedia.org/wiki/Direct_integration_of_a_beam#Sample_calculations
             '=========== Distance gemeten vanaf de inlaatschot=============
             Dim imax_count, i_chute_1, i_chute_2, i_chute_3 As Integer
+            Dim ΔL As Double
 
             For i = 1 To steps
                 _d(i) = i / steps * conv_length    'Chop conveyor in 100 pieces
@@ -1047,24 +1051,25 @@ Public Class Form1
             '=========== dwarskrachtenlijn (shear force) =============
             q = q_load_1 + q_load_3
             _s(0) = Ra
+            ΔL = conv_length / steps
             For i = 1 To steps
-                _s(i) = _s(i - 1) - q * (conv_length / steps)
-                If _d(i) = chute_distance_1 Then
+                _s(i) = _s(i - 1) - q * ΔL
+                If _d(i) >= chute_distance_1 - ΔL / 2 And _d(i) < chute_distance_1 + ΔL / 2 Then
                     _s(i) -= force_1
                     i_chute_1 = i
                 End If
-                If _d(i) = chute_distance_2 Then
+                If _d(i) >= chute_distance_2 - ΔL / 2 And _d(i) < chute_distance_2 + ΔL / 2 Then
                     _s(i) -= force_2
                     i_chute_2 = i
                 End If
-                If _d(i) = chute_distance_3 Then
+                If _d(i) >= chute_distance_3 - ΔL / 2 And _d(i) < chute_distance_3 + ΔL / 2 Then
                     _s(i) -= force_3
                     i_chute_3 = i
                 End If
             Next
 
             '=========== momentenlijn (bending moment )====================
-            _m(0) = 1
+            _m(0) = 0   'Simply supported
             For i = 1 To steps
                 _m(i) = _m(i - 1) + (_s(i) + _s(i - 1)) / 2 * (conv_length / steps)
                 If _m(i) < 0 Then _m(i) = 0   'Onnauwkerigheid wordt verdoezeld
@@ -1079,6 +1084,15 @@ Public Class Form1
                     imax_count = i
                 End If
             Next
+
+            '=========== Deflection angle ===================
+            _α(0) = 0
+            For i = 1 To steps
+                _α(i) = _m(i) * (steps / 1000) / (Young * pipe_Ix)  'Angle [rad]
+                _αv(i) = _α(i) * (steps / 1000)                         'Deflection
+            Next
+
+
             xnul = _d(imax_count)
             Q_max_bend = _m(imax_count)
             TextBox38.Text = xnul.ToString("0.00")          'Positie max moment [m]
@@ -1097,8 +1111,10 @@ Public Class Form1
 
             TextBox114.Clear()
             For i = 0 To steps    'Write results to text box
-                TextBox114.Text &= "Dist=" & _d(i).ToString("0.00") & vbTab & vbTab & "Shear=" & _s(i).ToString("000") & vbTab
-                TextBox114.Text &= "Moment=" & _m(i).ToString("000") & vbCrLf
+                TextBox114.Text &= "Dist=" & _d(i).ToString("0.000") & "   "
+                TextBox114.Text &= "Shear=" & _s(i).ToString("0000") & "   "
+                TextBox114.Text &= "Moment=" & _m(i).ToString("0000") & "   "
+                TextBox114.Text &= "Sag=" & _αv(i).ToString("0.000") & vbCrLf
             Next
             TextBox114.Text &= "Maximum bend moment " & _m(imax_count).ToString("0.0") & " [Nm] @ " & xnul.ToString & " [m]"
 
@@ -2396,7 +2412,7 @@ Public Class Form1
             Chart1.ChartAreas.Clear()
             Chart1.Titles.Clear()
 
-            For hh = 0 To 3
+            For hh = 0 To 4
                 Chart1.Series.Add("s" & hh.ToString)
                 Chart1.Series(hh).ChartType = SeriesChartType.FastLine
                 Chart1.Series(hh).IsVisibleInLegend = False
@@ -2419,6 +2435,7 @@ Public Class Form1
             For hh = 0 To steps
                 Chart1.Series(1).Points.AddXY(_d(hh), _s(hh)) 'Shear force line
                 Chart1.Series(2).Points.AddXY(_d(hh), -_m(hh)) 'Moment line
+                ' Chart1.Series(3).Points.AddXY(_d(hh), _αv(hh)) 'Deflection
             Next
 
         Catch ex As Exception
