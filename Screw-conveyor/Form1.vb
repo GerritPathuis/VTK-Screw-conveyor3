@@ -5,6 +5,7 @@ Imports System.Globalization
 Imports System.Threading
 Imports Word = Microsoft.Office.Interop.Word
 Imports System.Windows.Forms.DataVisualization.Charting
+Imports System.Windows.Forms
 
 Public Class Form1
 
@@ -13,12 +14,12 @@ Public Class Form1
     Dim dirpath_Rap As String = "N:\Engineering\VBasic\Conveyor_rapport_copy\"
     Dim dirpath_Home_GP As String = "C:\Temp\"
 
-    Dim steps As Integer = 100   'Calculation steps
-    Dim _d(steps) As Double      '[m] Distance to drive plate
-    Dim _s(steps) As Double      '[N] Shear force @ distance to drive plate
-    Dim _m(steps) As Double      '[Nm] Moment  @ distance to drive plate
-    Dim _α(steps) As Double      '[rad] Deflection angle @ distance to drive plate
-    Dim _αv(steps) As Double     '[rad] Deflection @ distance to drive plate
+    Public steps As Integer = 100   'Calculation steps
+    Public _d(steps) As Double      '[m] Distance to drive plate
+    Public _s(steps) As Double      '[N] Shear force @ distance to drive plate
+    Public _m(steps) As Double      '[Nm] Moment  @ distance to drive plate
+    Public _α(steps) As Double      '[rad] Deflection angle @ distance to drive plate
+    Public _αv(steps) As Double     '[rad] Deflection @ distance to drive plate
 
     'Materials name; CEMA Material code; Conveyor loading; Component group, density min, Density max, HP Material
     Public Shared _inputs() As String = {
@@ -686,7 +687,9 @@ Public Class Form1
     Public Shared installed_power As Double
     Public Shared Start_factor As Double
     Public Shared actual_power As Double
-    Public Shared sigma02, sigma_fatique, Young As Double
+    Public Shared sigma02, sigma_fatique As Double
+    Public Young As Double = 210000
+
     Public Shared inlet_length, conv_length, product_density As Double
     Public Shared _angle As Double
     Public Shared speed As Double
@@ -1071,11 +1074,11 @@ Public Class Form1
             '=========== momentenlijn (bending moment )====================
             _m(0) = 0   'Simply supported
             For i = 1 To steps
-                _m(i) = _m(i - 1) + (_s(i) + _s(i - 1)) / 2 * (conv_length / steps)
+                _m(i) = _m(i - 1) + (_s(i) + _s(i - 1)) / 2 * ΔL
                 If _m(i) < 0 Then _m(i) = 0   'Onnauwkerigheid wordt verdoezeld
             Next
 
-            '=========== Maximaal moment ===================
+            '=========== Maximaal moment @ imax_count ===============
             Dim temp As Double
             temp = _m(0)
             For i = 0 To steps
@@ -1085,12 +1088,27 @@ Public Class Form1
                 End If
             Next
 
-            '=========== Deflection angle ===================
-            For i = 0 To steps
-                _α(i) = _m(i) * (steps / 10 ^ 6) / (2 * Young * pipe_Ix)  'Angle [rad]
-                _αv(i) = _α(i) * (steps) / 2                     'Deflection
+            Debug.WriteLine(_d(imax_count).ToString)
+
+            '=========== Deflection angle, Left hand side ===============
+            _α(imax_count) = 0
+            For i = imax_count - 1 To 0 Step -1
+                _α(i) = _α(i + 1) + _m(i) * ΔL / (2 * Young * pipe_Ix * 10 ^ 6) 'Angle [rad]
+                Debug.WriteLine("Left part i= " & i.ToString & ",  _α(i)= " & _α(i).ToString)
             Next
 
+            '=========== Deflection angle. Right hand side ===============
+            _α(imax_count) = 0
+            For i = imax_count + 1 To steps
+                _α(i) = _α(i - 1) - _m(i) * ΔL / (2 * Young * pipe_Ix * 10 ^ 6) 'Angle [rad]
+                Debug.WriteLine("Right part i= " & i.ToString & ",  _α(i)= " & _α(i).ToString)
+            Next
+
+            '=========== Deflection /sag ==================
+            _αv(0) = 0                  'support sag = 0
+            For i = 1 To steps
+                _αv(i) = _αv(i - 1) + _α(i) * ΔL * 10 ^ 3 * 2   'Deflection [mm]
+            Next
 
             xnul = _d(imax_count)
             Q_max_bend = _m(imax_count)
@@ -1113,11 +1131,12 @@ Public Class Form1
                 TextBox114.Text &= "Dist=" & _d(i).ToString("0.000") & "   "
                 TextBox114.Text &= "Shear=" & _s(i).ToString("0000") & "   "
                 TextBox114.Text &= "Moment=" & _m(i).ToString("0000") & "   "
-                TextBox114.Text &= "Angle=" & _α(i).ToString("00.000") & "   "
+                TextBox114.Text &= "Angle=" & (_α(i) * 1000).ToString("0.00") & "   "
                 TextBox114.Text &= "Sag=" & _αv(i).ToString("0.000") & vbCrLf
             Next
             TextBox114.Text &= "Maximum bend moment " & _m(imax_count).ToString("0.0") & " [Nm] @ " & xnul.ToString & " [m]" & vbCrLf
             TextBox114.Text &= "Maximum sag " & _αv(imax_count).ToString("0.00") & " [mm] "
+
 
             '================== calc torsie ========================================
             '=======================================================================
@@ -1753,6 +1772,7 @@ Public Class Form1
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles TabPage6.Enter, Button3.Click
         Draw_chart1()
         Draw_chart2()
+        Draw_chart3()
     End Sub
 
     Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click, TabPage7.Enter, NumericUpDown38.ValueChanged, NumericUpDown26.ValueChanged
@@ -2423,7 +2443,7 @@ Public Class Form1
 
             Chart1.ChartAreas.Add("ChartArea0")
             Chart1.Series(0).ChartArea = "ChartArea0"
-            Chart1.Titles.Add("Simply supported Screw conveyor")
+            Chart1.Titles.Add("Simply supported Screw conveyor" & vbCrLf & "Shear force and Bending Moment")
             Chart1.Titles(0).Font = New Font("Arial", 12, System.Drawing.FontStyle.Bold)
 
             '--------------- Legends and titles ---------------
@@ -2451,7 +2471,7 @@ Public Class Form1
             Chart2.ChartAreas.Clear()
             Chart2.Titles.Clear()
 
-            For hh = 0 To 4
+            For hh = 0 To 3
                 Chart2.Series.Add("s" & hh.ToString)
                 Chart2.Series(hh).ChartType = SeriesChartType.FastLine
                 Chart2.Series(hh).IsVisibleInLegend = False
@@ -2460,11 +2480,11 @@ Public Class Form1
 
             Chart2.ChartAreas.Add("ChartArea0")
             Chart2.Series(0).ChartArea = "ChartArea0"
-            Chart2.Titles.Add("Simply supported Screw conveyor")
+            Chart2.Titles.Add("Deflection angle")
             Chart2.Titles(0).Font = New Font("Arial", 12, System.Drawing.FontStyle.Bold)
 
             '--------------- Legends and titles ---------------
-            Chart2.ChartAreas("ChartArea0").AxisY.Title = "Deflection [mm] and Deflection angle [rad]"
+            Chart2.ChartAreas("ChartArea0").AxisY.Title = "Deflection angle [rad]"
             Chart2.ChartAreas("ChartArea0").AxisX.Title = "Shaft length [m]"
             Chart2.ChartAreas("ChartArea0").AxisY.RoundAxisValues()
             Chart2.ChartAreas("ChartArea0").AxisX.RoundAxisValues()
@@ -2473,7 +2493,42 @@ Public Class Form1
 
             For hh = 0 To steps
                 Chart2.Series(1).Points.AddXY(_d(hh), _α(hh))   'Angle
-                Chart2.Series(2).Points.AddXY(_d(hh), _αv(hh))  'Deflection
+            Next
+
+        Catch ex As Exception
+            'MessageBox.Show("nnnnnn")
+        End Try
+    End Sub
+    Private Sub Draw_chart3()
+        Dim hh As Integer
+
+        Try
+            Chart3.Series.Clear()
+            Chart3.ChartAreas.Clear()
+            Chart3.Titles.Clear()
+
+            For hh = 0 To 3
+                Chart3.Series.Add("s" & hh.ToString)
+                Chart3.Series(hh).ChartType = SeriesChartType.FastLine
+                Chart3.Series(hh).IsVisibleInLegend = False
+                Chart3.Series(hh).Color = Color.Black
+            Next
+
+            Chart3.ChartAreas.Add("ChartArea0")
+            Chart3.Series(0).ChartArea = "ChartArea0"
+            Chart3.Titles.Add("Deflection")
+            Chart3.Titles(0).Font = New Font("Arial", 12, System.Drawing.FontStyle.Bold)
+
+            '--------------- Legends and titles ---------------
+            Chart3.ChartAreas("ChartArea0").AxisY.Title = "Deflection [rad]"
+            Chart3.ChartAreas("ChartArea0").AxisX.Title = "Shaft length [m]"
+            Chart3.ChartAreas("ChartArea0").AxisY.RoundAxisValues()
+            Chart3.ChartAreas("ChartArea0").AxisX.RoundAxisValues()
+            Chart3.ChartAreas("ChartArea0").AxisX.Minimum = 0
+            Chart3.ChartAreas("ChartArea0").AxisX.Maximum = _d(steps)
+
+            For hh = 0 To steps
+                Chart3.Series(2).Points.AddXY(_d(hh), _αv(hh))  'Deflection
             Next
 
         Catch ex As Exception
