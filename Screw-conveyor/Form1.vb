@@ -14,9 +14,9 @@ Public Class Form1
     Dim dirpath_Home_GP As String = "C:\Temp\"
 
     Dim steps As Integer = 100  'Calculation steps
-    Dim d(steps) As Double      '[m] Distance to drive plate
-    Dim s(steps) As Double      '[N] Shear force @ distance to drive plate
-    Dim m(steps) As Double      '[Nm] Moment  @ distance to drive plate
+    Dim _d(steps) As Double      '[m] Distance to drive plate
+    Dim _s(steps) As Double      '[N] Shear force @ distance to drive plate
+    Dim _m(steps) As Double      '[Nm] Moment  @ distance to drive plate
 
     'Materials name; CEMA Material code; Conveyor loading; Component group, density min, Density max, HP Material
     Public Shared _inputs() As String = {
@@ -785,7 +785,6 @@ Public Class Form1
         If filling_perc > 100 Then filling_perc = 100
         TextBox01.BackColor = CType(IIf(filling_perc > 40, Color.Red, Color.LightGreen), Color)
 
-
         '--------------- ISO 7119 -----------------
         height = conv_length * Sin(_angle / 360 * 2 * PI)
 
@@ -805,7 +804,6 @@ Public Class Form1
         TextBox03.Text = iso_power.ToString
         TextBox04.Text = mekog.ToString
         TextBox110.Text = Round(r_time, 0).ToString
-
     End Sub
 
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown12.ValueChanged, NumericUpDown10.ValueChanged, NumericUpDown25.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox4.SelectedIndexChanged, ComboBox13.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox8.CheckedChanged, CheckBox5.CheckedChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, CheckBox4.CheckedChanged, CheckBox7.CheckedChanged, CheckBox6.CheckedChanged, CheckBox9.CheckedChanged, TabPage4.Enter
@@ -847,9 +845,7 @@ Public Class Form1
         Dim Uniform_mat_load As Double
         Dim combined_stress As Double
         Dim max_sag As Double                       'maximale doorzakking pijp
-        Dim x(5) As Double                          '[mm] x gemeten van af inlaat schot
-        Dim fx(5) As Double                         'dwarskrachten lijn
-        Dim mx(5) As Double                         'momenten lijn
+        Dim vx(5) As Double                          '[mm] x gemeten van af inlaat schot
         Dim xnul As Double                          'nul positie in dwarskrachtenlijm
         Dim Column_h(4) As Double                   'Material column height
         Dim Column_l(4) As Double                   'Inlet chute horizontal length 
@@ -1030,81 +1026,81 @@ Public Class Form1
             TextBox89.Text = force_3.ToString("0")
 
             '=========== x posities gemeten vanaf de inlaatschot=============
-            x(0) = 0                    '[m] inlaatschot
-            x(1) = chute_distance_1     '[m] Inlaat #1
-            x(2) = chute_distance_2     '[m] Inlaat #2
-            x(3) = chute_distance_3     '[m] Inlaat #3
-            x(4) = conv_length          '[m] Eindschot
+            vx(0) = 0                    '[m] inlaatschot
+            vx(1) = chute_distance_1     '[m] Inlaat #1
+            vx(2) = chute_distance_2     '[m] Inlaat #2
+            vx(3) = chute_distance_3     '[m] Inlaat #3
+            vx(4) = conv_length          '[m] Eindschot
 
-            TextBox7.Text = x(1).ToString("0.0")
-            TextBox8.Text = x(2).ToString("0.0")
-            TextBox9.Text = x(3).ToString("0.0")
+            TextBox7.Text = vx(1).ToString("0.0")
+            TextBox8.Text = vx(2).ToString("0.0")
+            TextBox9.Text = vx(3).ToString("0.0")
 
             '=========== Distance gemeten vanaf de inlaatschot=============
             Dim imax_count, i_chute_1, i_chute_2, i_chute_3 As Integer
 
             For i = 1 To steps
-                d(i) = i / steps * conv_length    'Chop conveyor in 100 pieces
+                _d(i) = i / steps * conv_length    'Chop conveyor in 100 pieces
             Next
 
             '=========== Shear Force vanaf de inlaatschot=============
             '=========== dwarskrachtenlijn (shear force) =============
             q = q_load_1 + q_load_3
-            s(0) = Ra
+            _s(0) = Ra
             For i = 1 To steps
-                s(i) = s(i - 1) - q * (conv_length / steps)
-                If d(i) = chute_distance_1 Then
-                    s(i) -= force_1
+                _s(i) = _s(i - 1) - q * (conv_length / steps)
+                If _d(i) = chute_distance_1 Then
+                    _s(i) -= force_1
                     i_chute_1 = i
                 End If
-                If d(i) = chute_distance_2 Then
-                    s(i) -= force_2
+                If _d(i) = chute_distance_2 Then
+                    _s(i) -= force_2
                     i_chute_2 = i
                 End If
-                If d(i) = chute_distance_3 Then
-                    s(i) -= force_3
+                If _d(i) = chute_distance_3 Then
+                    _s(i) -= force_3
                     i_chute_3 = i
                 End If
             Next
 
             '=========== momentenlijn (bending moment )====================
-            m(0) = 1
+            _m(0) = 1
             For i = 1 To steps
-                m(i) = m(i - 1) + (s(i) + s(i - 1)) / 2 * (conv_length / steps)
-                If m(i) < 0 Then m(i) = 0   'Onnauwkerigheid wordt verdoezeld
+                _m(i) = _m(i - 1) + (_s(i) + _s(i - 1)) / 2 * (conv_length / steps)
+                If _m(i) < 0 Then _m(i) = 0   'Onnauwkerigheid wordt verdoezeld
             Next
 
             '=========== Maximaal moment ===================
             Dim temp As Double
-            temp = m(0)
+            temp = _m(0)
             For i = 0 To steps
-                If m(i) > temp Then
-                    temp = m(i)
+                If _m(i) > temp Then
+                    temp = _m(i)
                     imax_count = i
                 End If
             Next
-            xnul = d(imax_count)
-            Q_max_bend = m(imax_count)
+            xnul = _d(imax_count)
+            Q_max_bend = _m(imax_count)
             TextBox38.Text = xnul.ToString("0.00")          'Positie max moment [m]
 
             '======= present ==========
-            TextBox90.Text = s(0).ToString("0")             'Shear force
-            TextBox4.Text = s(i_chute_1).ToString("0")      'Shear force
-            TextBox5.Text = s(i_chute_2).ToString("0")      'Shear force
-            TextBox6.Text = s(i_chute_3).ToString("0")      'Shear force
-            TextBox91.Text = s(steps).ToString("0")         'Shear force
+            TextBox90.Text = _s(0).ToString("0")             'Shear force
+            TextBox4.Text = _s(i_chute_1).ToString("0")      'Shear force
+            TextBox5.Text = _s(i_chute_2).ToString("0")      'Shear force
+            TextBox6.Text = _s(i_chute_3).ToString("0")      'Shear force
+            TextBox91.Text = _s(steps).ToString("0")         'Shear force
 
-            TextBox1.Text = m(i_chute_1).ToString("0")      'Moment chute #1
-            TextBox2.Text = m(i_chute_2).ToString("0")      'Moment chute #2
-            TextBox3.Text = m(i_chute_3).ToString("0")      'Moment chute #3
+            TextBox1.Text = _m(i_chute_1).ToString("0")      'Moment chute #1
+            TextBox2.Text = _m(i_chute_2).ToString("0")      'Moment chute #2
+            TextBox3.Text = _m(i_chute_3).ToString("0")      'Moment chute #3
             TextBox37.Text = Round(Q_max_bend, 0).ToString  'Max moment [Nm]   
 
             TextBox114.Clear()
             For i = 0 To steps    'Write results to text box
-                TextBox114.Text &= "Dist=" & d(i).ToString("0.00") & vbTab & vbTab & "Shear=" & s(i).ToString("000") & vbTab
-                TextBox114.Text &= "Moment=" & m(i).ToString("000") & vbCrLf
+                TextBox114.Text &= "Dist=" & _d(i).ToString("0.00") & vbTab & vbTab & "Shear=" & _s(i).ToString("000") & vbTab
+                TextBox114.Text &= "Moment=" & _m(i).ToString("000") & vbCrLf
             Next
-            TextBox114.Text &= "Maximum bend moment " & m(imax_count).ToString("0.0") & " [Nm] @ " & xnul.ToString & " [m]"
+            TextBox114.Text &= "Maximum bend moment " & _m(imax_count).ToString("0.0") & " [Nm] @ " & xnul.ToString & " [m]"
 
             '================== calc torsie ========================================
             '=======================================================================
@@ -1142,7 +1138,7 @@ Public Class Form1
             End Select
 
         End If
-            TextBox49.Text = product_density.ToString("0")
+        TextBox49.Text = product_density.ToString("0")
 
         '---------- checks---------
         TextBox20.BackColor = CType(IIf(Q_Deflect_max > conv_length * 1000 / max_sag, Color.Red, Color.LightGreen), Color)
@@ -1239,8 +1235,6 @@ Public Class Form1
         Next hh
         ComboBox8.SelectedIndex = 1
     End Sub
-
-
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
         Dim oWord As Word.Application
         Dim oDoc As Word.Document
@@ -1373,7 +1367,6 @@ Public Class Form1
         oTable.Cell(row, 1).Range.Text = "Capacity"
         oTable.Cell(row, 3).Range.Text = CType(NumericUpDown5.Value, String)
         oTable.Cell(row, 2).Range.Text = "[ton/hr]"
-
 
         oTable.Columns.Item(1).Width = oWord.InchesToPoints(2.4)   'Change width of columns 1 & 2.
         oTable.Columns.Item(2).Width = oWord.InchesToPoints(0.6)
@@ -1668,7 +1661,6 @@ Public Class Form1
             TextBox65.Text = words(1)                  'Project name
             TextBox67.Text = words(2)                  'Item no
 
-
             '---------- terugzetten Numeric controls -----------------
             FindControlRecursive(all_num, Me, GetType(NumericUpDown))
             all_num = all_num.OrderBy(Function(x) x.Name).ToList()                  'Alphabetical order
@@ -1834,8 +1826,6 @@ Public Class Form1
             oDoc.PageSetup.RightMargin = 20
             oDoc.PageSetup.Orientation = Word.WdOrientation.wdOrientPortrait
             oDoc.PageSetup.PaperSize = Word.WdPaperSize.wdPaperA4
-
-
 
             'Insert a paragraph at the beginning of the document. 
             oPara1 = oDoc.Content.Paragraphs.Add
@@ -2424,11 +2414,11 @@ Public Class Form1
             Chart1.ChartAreas("ChartArea0").AxisY.RoundAxisValues()
             Chart1.ChartAreas("ChartArea0").AxisX.RoundAxisValues()
             Chart1.ChartAreas("ChartArea0").AxisX.Minimum = 0
-            Chart1.ChartAreas("ChartArea0").AxisX.Maximum = d(steps)
+            Chart1.ChartAreas("ChartArea0").AxisX.Maximum = _d(steps)
 
             For hh = 0 To steps
-                Chart1.Series(1).Points.AddXY(d(hh), s(hh)) 'Shear force line
-                Chart1.Series(2).Points.AddXY(d(hh), -m(hh)) 'Moment line
+                Chart1.Series(1).Points.AddXY(_d(hh), _s(hh)) 'Shear force line
+                Chart1.Series(2).Points.AddXY(_d(hh), -_m(hh)) 'Moment line
             Next
 
         Catch ex As Exception
