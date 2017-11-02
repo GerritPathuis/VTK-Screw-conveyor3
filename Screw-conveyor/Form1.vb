@@ -1086,10 +1086,9 @@ Public Class Form1
             Next
 
             '=========== Deflection angle ===================
-            _α(0) = 0
-            For i = 1 To steps
-                _α(i) = _m(i) * (steps / 1000) / (Young * pipe_Ix)  'Angle [rad]
-                _αv(i) = _α(i) * (steps / 1000)                         'Deflection
+            For i = 0 To steps
+                _α(i) = _m(i) * (steps / 10 ^ 6) / (2 * Young * pipe_Ix)  'Angle [rad]
+                _αv(i) = _α(i) * (steps) / 2                     'Deflection
             Next
 
 
@@ -1114,9 +1113,11 @@ Public Class Form1
                 TextBox114.Text &= "Dist=" & _d(i).ToString("0.000") & "   "
                 TextBox114.Text &= "Shear=" & _s(i).ToString("0000") & "   "
                 TextBox114.Text &= "Moment=" & _m(i).ToString("0000") & "   "
+                TextBox114.Text &= "Angle=" & _α(i).ToString("00.000") & "   "
                 TextBox114.Text &= "Sag=" & _αv(i).ToString("0.000") & vbCrLf
             Next
-            TextBox114.Text &= "Maximum bend moment " & _m(imax_count).ToString("0.0") & " [Nm] @ " & xnul.ToString & " [m]"
+            TextBox114.Text &= "Maximum bend moment " & _m(imax_count).ToString("0.0") & " [Nm] @ " & xnul.ToString & " [m]" & vbCrLf
+            TextBox114.Text &= "Maximum sag " & _αv(imax_count).ToString("0.00") & " [mm] "
 
             '================== calc torsie ========================================
             '=======================================================================
@@ -1751,6 +1752,7 @@ Public Class Form1
 
     Private Sub Button3_Click(sender As Object, e As EventArgs) Handles TabPage6.Enter, Button3.Click
         Draw_chart1()
+        Draw_chart2()
     End Sub
 
     Private Sub Button10_Click(sender As Object, e As EventArgs) Handles Button10.Click, TabPage7.Enter, NumericUpDown38.ValueChanged, NumericUpDown26.ValueChanged
@@ -2435,7 +2437,43 @@ Public Class Form1
             For hh = 0 To steps
                 Chart1.Series(1).Points.AddXY(_d(hh), _s(hh)) 'Shear force line
                 Chart1.Series(2).Points.AddXY(_d(hh), -_m(hh)) 'Moment line
-                ' Chart1.Series(3).Points.AddXY(_d(hh), _αv(hh)) 'Deflection
+            Next
+
+        Catch ex As Exception
+            'MessageBox.Show("nnnnnn")
+        End Try
+    End Sub
+    Private Sub Draw_chart2()
+        Dim hh As Integer
+
+        Try
+            Chart2.Series.Clear()
+            Chart2.ChartAreas.Clear()
+            Chart2.Titles.Clear()
+
+            For hh = 0 To 4
+                Chart2.Series.Add("s" & hh.ToString)
+                Chart2.Series(hh).ChartType = SeriesChartType.FastLine
+                Chart2.Series(hh).IsVisibleInLegend = False
+                Chart2.Series(hh).Color = Color.Black
+            Next
+
+            Chart2.ChartAreas.Add("ChartArea0")
+            Chart2.Series(0).ChartArea = "ChartArea0"
+            Chart2.Titles.Add("Simply supported Screw conveyor")
+            Chart2.Titles(0).Font = New Font("Arial", 12, System.Drawing.FontStyle.Bold)
+
+            '--------------- Legends and titles ---------------
+            Chart2.ChartAreas("ChartArea0").AxisY.Title = "Deflection [mm] and Deflection angle [rad]"
+            Chart2.ChartAreas("ChartArea0").AxisX.Title = "Shaft length [m]"
+            Chart2.ChartAreas("ChartArea0").AxisY.RoundAxisValues()
+            Chart2.ChartAreas("ChartArea0").AxisX.RoundAxisValues()
+            Chart2.ChartAreas("ChartArea0").AxisX.Minimum = 0
+            Chart2.ChartAreas("ChartArea0").AxisX.Maximum = _d(steps)
+
+            For hh = 0 To steps
+                Chart2.Series(1).Points.AddXY(_d(hh), _α(hh))   'Angle
+                Chart2.Series(2).Points.AddXY(_d(hh), _αv(hh))  'Deflection
             Next
 
         Catch ex As Exception
