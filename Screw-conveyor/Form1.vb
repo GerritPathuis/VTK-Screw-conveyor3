@@ -2434,9 +2434,10 @@ Public Class Form1
                 Chart1.Series.Add("s" & hh.ToString)
                 Chart1.Series(hh).ChartType = SeriesChartType.FastLine
                 Chart1.Series(hh).IsVisibleInLegend = False
-                Chart1.Series(hh).Color = Color.Black
-                Chart1.Series(hh).BorderWidth = 2
+                Chart1.Series(hh).BorderWidth = 3
             Next
+            Chart1.Series(0).Color = Color.Black
+            Chart1.Series(1).Color = Color.Red
 
             Chart1.ChartAreas.Add("ChartArea0")
             Chart1.Series(0).ChartArea = "ChartArea0"
