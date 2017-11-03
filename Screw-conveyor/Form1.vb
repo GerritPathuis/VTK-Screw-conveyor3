@@ -964,7 +964,7 @@ Public Class Form1
 
             '============= calc load ========================================
             '================================================================
-
+            Young = NumericUpDown1.Value * 1000 '[N/mm2]
             '---------------- gewicht flight [mm] dik----------------------------------
             flight_hoogte = (_diam_flight - _pipe_OD / 1000) / 2                                '[m]
             flight_lengte_buiten = Sqrt((PI * _diam_flight) ^ 2 + (pitch) ^ 2)
@@ -1113,6 +1113,7 @@ Public Class Form1
             xnul = _d(imax_count)
             Q_max_bend = _m(imax_count)
             TextBox38.Text = xnul.ToString("0.00")          'Positie max moment [m]
+            TextBox20.Text = _αv(imax_count).ToString("0.0")
 
             '======= present ==========
             TextBox90.Text = _s(0).ToString("0")             'Shear force
@@ -1143,7 +1144,7 @@ Public Class Form1
             Tou_torque = P_torque / (pipe_Wp * 1000 ^ 2)            '[N/mm2]
             TextBox12.Text = Round(Tou_torque, 1).ToString          'Stress from drive [N.m]
 
-            '-------------------------- @ max bend------------------------
+            '-------------------------- @ drive max bend------------------------
             P_torque_M = (P_torque * xnul / conv_length)
             Tou_torque_M = P_torque_M / (pipe_Wp * 1000 ^ 2)        '[N/mm2]
             TextBox10.Text = Round(Tou_torque_M, 1).ToString("0.0")
@@ -1158,12 +1159,7 @@ Public Class Form1
             combined_stress = Sqrt((sigma_eg) ^ 2 + 3 * (Tou_torque_M) ^ 2)
             TextBox21.Text = Round(combined_stress, 1).ToString("0.0")
 
-            '---------- Max doorbuiging gelijkmatige belasting f= 5.Q.L^4/(384 .E.I) --------------------
-            '----------- materiaal kolom is niet meegenomen ----------------------------------------------
-            Young = NumericUpDown1.Value * 1000 '[N/mm2]
-            Q_Deflect_max = (5 * q_load_comb / 1000 * conv_length ^ 4) / (384 * Young * pipe_Ix)
-            TextBox20.Text = Round(Q_Deflect_max, 1).ToString("0.0")     '[mm]
-
+            '---------- allowed sag --------------
             Select Case True
                 Case (RadioButton1.Checked)
                     max_sag = 500
@@ -2434,11 +2430,12 @@ Public Class Form1
             Chart1.ChartAreas.Clear()
             Chart1.Titles.Clear()
 
-            For hh = 0 To 4
+            For hh = 0 To 2
                 Chart1.Series.Add("s" & hh.ToString)
                 Chart1.Series(hh).ChartType = SeriesChartType.FastLine
                 Chart1.Series(hh).IsVisibleInLegend = False
                 Chart1.Series(hh).Color = Color.Black
+                Chart1.Series(hh).BorderWidth = 2
             Next
 
             Chart1.ChartAreas.Add("ChartArea0")
@@ -2455,8 +2452,8 @@ Public Class Form1
             Chart1.ChartAreas("ChartArea0").AxisX.Maximum = _d(steps)
 
             For hh = 0 To steps
-                Chart1.Series(1).Points.AddXY(_d(hh), _s(hh)) 'Shear force line
-                Chart1.Series(2).Points.AddXY(_d(hh), -_m(hh)) 'Moment line
+                Chart1.Series(0).Points.AddXY(_d(hh), _s(hh)) 'Shear force line
+                Chart1.Series(1).Points.AddXY(_d(hh), -_m(hh)) 'Moment line
             Next
 
         Catch ex As Exception
@@ -2471,11 +2468,12 @@ Public Class Form1
             Chart2.ChartAreas.Clear()
             Chart2.Titles.Clear()
 
-            For hh = 0 To 3
+            For hh = 0 To 1
                 Chart2.Series.Add("s" & hh.ToString)
                 Chart2.Series(hh).ChartType = SeriesChartType.FastLine
                 Chart2.Series(hh).IsVisibleInLegend = False
                 Chart2.Series(hh).Color = Color.Black
+                Chart2.Series(hh).BorderWidth = 2
             Next
 
             Chart2.ChartAreas.Add("ChartArea0")
@@ -2492,7 +2490,7 @@ Public Class Form1
             Chart2.ChartAreas("ChartArea0").AxisX.Maximum = _d(steps)
 
             For hh = 0 To steps
-                Chart2.Series(1).Points.AddXY(_d(hh), _α(hh))   'Angle
+                Chart2.Series(0).Points.AddXY(_d(hh), _α(hh))   'Angle
             Next
 
         Catch ex As Exception
@@ -2507,11 +2505,12 @@ Public Class Form1
             Chart3.ChartAreas.Clear()
             Chart3.Titles.Clear()
 
-            For hh = 0 To 3
+            For hh = 0 To 1
                 Chart3.Series.Add("s" & hh.ToString)
                 Chart3.Series(hh).ChartType = SeriesChartType.FastLine
                 Chart3.Series(hh).IsVisibleInLegend = False
                 Chart3.Series(hh).Color = Color.Black
+                Chart3.Series(hh).BorderWidth = 2
             Next
 
             Chart3.ChartAreas.Add("ChartArea0")
@@ -2528,7 +2527,7 @@ Public Class Form1
             Chart3.ChartAreas("ChartArea0").AxisX.Maximum = _d(steps)
 
             For hh = 0 To steps
-                Chart3.Series(2).Points.AddXY(_d(hh), _αv(hh))  'Deflection
+                Chart3.Series(0).Points.AddXY(_d(hh), _αv(hh))  'Deflection
             Next
 
         Catch ex As Exception
