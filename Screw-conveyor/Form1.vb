@@ -9,6 +9,7 @@ Imports System.Windows.Forms
 
 Public Class Form1
 
+
     '----------- directory's-----------
     Dim dirpath_Eng As String = "N:\Engineering\VBasic\Conveyor_sizing_input\"
     Dim dirpath_Rap As String = "N:\Engineering\VBasic\Conveyor_rapport_copy\"
@@ -56,14 +57,14 @@ Public Class Form1
 
     'Materials name; CEMA Material code; Conveyor loading; Component group, density min, Density max, HP Material
     Public Shared _inputs() As String = {
-"Adipic Acid;45A35;30A;2B;720;720;0.5",
+"Adipic-Acid;45A35;30A;2B;720;720;0.5",
 "Alfalfa Meal;18B45WY;30A;2D;220;350;0.6",
 "Alfalfa Pellets;42C25;45;2D;660;690;0.5",
 "Alfalfa Seed;13B15N;45;1A,1B,1C;160;240;0.4",
-"Almonds, Broken;29C35Q;30A;2D;430;480;0.9",
-"Almonds, Whole Shelled;29C35Q;30A;2D;450;480;0.9",
-"Alum, Fine;48B35U;30A;3D;720;800;0.6",
-"Alum, Lumps;55B25;45;2A,2B;800;960;1.4",
+"Almonds Broken;29C35Q;30A;2D;430;480;0.9",
+"Almonds Whole Shelled;29C35Q;30A;2D;450;480;0.9",
+"Alum Fine;48B35U;30A;3D;720;800;0.6",
+"Alum, Lumps;55B25;45;2A,2B;800;960;1.4",
 "Alumina;58B27MY;15;3D;880;1040;1.8",
 "Alumina Fines;35A27MY;15;3D;560;560;1.6",
 "Alumina Sized or Briquette;65D37;15;3D;1040;1040;2",
@@ -83,58 +84,58 @@ Public Class Form1
 "Asbestos-Rock (Ore);81D37R;15;3D;1300;1300;2",
 "Asbestos-Shredded;30E46XY;30B;2D;320;640;1",
 "Ash, Black Ground;105B35;30A;1A,1B,1C;1680;1680;2.5",
-"Ashes, Coal, dry, 1⁄2 inch;40C46TY;30B;3D;560;720;3",
+"Ashes, Coal, dry, 1/2 inch;40C46TY;30B;3D;560;720;3",
 "Ashes, Coal, dry, 3 inch;38D46T;30B;3D;560;640;2.5",
-"Ashes, Coal, Wet, 1⁄2 inch;48C46T;30B;3D;720;800;3",
+"Ashes, Coal, Wet, 1/2 inch;48C46T;30B;3D;720;800;3",
 "Ashes, Coal, Wet, 3 inch;48D46T;30B;3D;720;800;4",
 "Ashes, Fly (Fly Ash);38A36M;30B;3D;480;720;2",
 "Aspartic Acid;42A35XPLO;30A;1A,1B,1C;530;820;1.5",
-"Asphalt, Crushed, 1⁄2 inch;45C45;30A;1A,1B,1C;720;720;2",
+"Asphalt, Crushed, 1/2 inch;45C45;30A;1A,1B,1C;720;720;2",
 "Bagasse;9E45RVXY;30A;2A,2B,2C;110;160;1.5",
 "Bakelite, Fine;38B25;45;1A,1B,1C;480;720;1.4",
 "Baking Powder;48A35;30A;1B;640;880;0.6",
 "Baking Soda (Sodium Bicarbonate);48A25;45;1B;640;880;0.6",
-"Barite (Barium Sulfate), 1⁄2 to 3 inch;150D36;30B;3D;1920;2880;2.6",
+"Barite (Barium Sulfate), 1/2 to 3 inch;150D36;30B;3D;1920;2880;2.6",
 "Barite, Powder;150A35X;30A;2D;1920;2880;2",
 "Barium Carbonate;72A45R;30A;2D;1150;1150;1.6",
-"Bark, Wood, Refuse;15E45TVY;30A;3D;160;320;2",
-"Barley, Fine, Ground;31B35;30A;1A,1B,1C;380;610;0.4",
-"Barley, Malted;31C35;30A;1A,1B,1C;500;500;0.4",
-"Barley, Meal;28C35;30A;1A,1B,1C;450;450;0.4",
-"Barley, Whole;42B25N;45;1A,1B,1C;580;770;0.5",
+"Bark Wood, Refuse;15E45TVY;30A;3D;160;320;2",
+"Barley Fine, Ground;31B35;30A;1A,1B,1C;380;610;0.4",
+"Barley Malted;31C35;30A;1A,1B,1C;500;500;0.4",
+"Barley Meal;28C35;30A;1A,1B,1C;450;450;0.4",
+"Barley Whole;42B25N;45;1A,1B,1C;580;770;0.5",
 "Basalt;93B27;15;3D;1280;1680;1.8",
 "Bauxite, Crushed, 3 inch (Aluminum Ore);80D36;30B;3D;1200;1360;2.5",
-"Bauxite, Dry, Ground(Aluminum Ore);68B25;45;2D;1090;1090;1.8",
-"Beans, Castor, Meal;38B35W;30A;1A,1B,1C;560;640;0.8",
-"Beans, Castor, Whole Shelled;36C15W;45;1A,1B,1C;580;580;0.5",
-"Beans, Navy, Dry;48C15;45;1A,1B,1C;770;770;0.5",
-"Beans, Navy, Steeped;60C25;45;1A,1B,1C;960;960;0.8",
-"Bentonite, 100 Mesh;55A25MXY;45;2D;800;960;0.7",
-"Bentonite, Crude;37D45X;30A;2D;540;640;1.2",
+"Bauxite Dry, Ground(Aluminum Ore);68B25;45;2D;1090;1090;1.8",
+"Beans Castor, Meal;38B35W;30A;1A,1B,1C;560;640;0.8",
+"Beans Castor, Whole Shelled;36C15W;45;1A,1B,1C;580;580;0.5",
+"Beans Navy, Dry;48C15;45;1A,1B,1C;770;770;0.5",
+"Beans Navy, Steeped;60C25;45;1A,1B,1C;960;960;0.8",
+"Bentonite 100 Mesh;55A25MXY;45;2D;800;960;0.7",
+"Bentonite Crude;37D45X;30A;2D;540;640;1.2",
 "Benzene Hexachloride;56A45R;30A;1A,1B,1C;900;900;0.6",
 "Bicarbonate of Soda (Baking Soda);48A25;45;1B;640;880;0.6",
-"Blood, Dried;40D45U;30A;2D;560;720;2",
-"Blood, Ground, Dried;30A35U;30A;1A,1B;480;480;1",
+"Blood Dried;40D45U;30A;2D;560;720;2",
+"Blood Ground, Dried;30A35U;30A;1A,1B;480;480;1",
 "Bone Ash (Tricalcium Phosphate);45A45;30A;1A,1B;640;800;1.6",
 "Boneblack;23A25Y;45;1A,1B;320;400;1.5",
 "Bonechar;34B35;30A;1A,1B;430;640;1.6",
 "Bonemeal;55B35;30A;2D;800;960;1.7",
-"Bones, Crushed;43D45;30A;2D;560;800;2",
-"Bones, Ground;50B35;30A;2D;800;800;1.7",
-"Bones, Whole**;43E45V;30A;2D;560;800;3",
+"Bones Crushed;43D45;30A;2D;560;800;2",
+"Bones Ground;50B35;30A;2D;800;800;1.7",
+"Bones Whole**;43E45V;30A;2D;560;800;3",
 "Borate of Lime;60A35;30A;1A,1B,1C;960;960;0.6",
-"Borax Screening, 1⁄2 inch;58C35;30A;2D;880;960;1.5",
-"Borax, 1-1⁄2  to 2 inch Lump;58D35;30A;2D;880;960;1.8",
-"Borax, 2 to 3 inch Lump;65D35;30A;2D;960;1120;2",
-"Borax, Fine;50B25T;45;3D;720;880;0.7",
+"Borax Screening, 1/2 inch;58C35;30A;2D;880;960;1.5",
+"Borax 1-1/2  to 2 inch Lump;58D35;30A;2D;880;960;1.8",
+"Borax 2 to 3 inch Lump;65D35;30A;2D;960;1120;2",
+"Borax Fine;50B25T;45;3D;720;880;0.7",
 "Boric Acid, Fine;55B25T;45;3D;880;880;0.8",
 "Boron;75A37;15;2D;1200;1200;1",
 "Bran, Rice-Rye-Wheat;18B355NY;30A;1A,1B,1C;260;320;0.5",
 "Braunite (Manganese Oxide);120A36;30B;2D;1920;1920;2",
 "Bread Crumbs;23B35PQ;30A;1A,1B,1C;320;400;0.6",
 "Brewer's Grain, spent, dry;22C45;30A;1A,1B,1C;220;480;0.5",
-"Brewer’s Grain, spent, wet;58C45T;30A;2A,2B;880;960;0.8",
-"Brick, Ground, 1⁄8 inch;110B37;15;3D;1600;1920;2.2",
+"Brewer€™s Grain, spent, wet;58C45T;30A;2A,2B;880;960;0.8",
+"Brick, Ground, 1/8 inch;110B37;15;3D;1600;1920;2.2",
 "Bronze Chips;40B45;30A;2D;480;800;2",
 "Buckwheat;40B25N;45;1A,1B,1C;590;670;0.4",
 "Calcine, Flour;80A35;30A;1A,1B,1C;1200;1360;0.7",
@@ -174,7 +175,7 @@ Public Class Form1
 "Clinker, Cement (Cement Clinker);85D36;30B;3D;1200;1520;1.8",
 "Clover Seed;47B25N;45;1A,1B,1C;720;770;0.4",
 "Coal, Anthracite (River & Culm);58B35TY;30A;2A,2B;880;980;1",
-"Coal, Anthracite, Sized, 1⁄2 inch;55C25;45;2A,2B;780;980;1",
+"Coal, Anthracite, Sized, 1/2 inch;55C25;45;2A,2B;780;980;1",
 "Coal, Bituminous, Mined;50D35LNYX;30A;1A,1B;640;960;1",
 "Coal, Bituminous, Mined, Sized;48D35QV;30A;1A,1B;720;800;1",
 "Coal, Bituminous, Mined, Slack;47C45T;30A;2A,2B;690;800;0.9",
@@ -236,9 +237,9 @@ Public Class Form1
 "Diatomaceous Earth (Filter Aid, Precoat);14A36Y;30B;3D;180;270;1.6",
 "Dicalcium Phosphate;45A35;30A;1A,1B,1C;640;800;1.6",
 "Disodium Phosphate;28A35;30A;3D;400;500;0.5",
-"Distiller’s Grain, Spent Wet;50C45V;30A;3A,3B;640;960;0.8",
-"Distiller’s Grain, Spent Wet w/Syrup;56C45VXOH;30A;3A,3B;690;1090;1.2",
-"Distiller’s Grain-Spent Dry;30B35;30A;2D;480;480;0.5",
+"Distiller€™s Grain, Spent Wet;50C45V;30A;3A,3B;640;960;0.8",
+"Distiller€™s Grain, Spent Wet w/Syrup;56C45VXOH;30A;3A,3B;690;1090;1.2",
+"Distiller€™s Grain-Spent Dry;30B35;30A;2D;480;480;0.5",
 "Dolomite, Crushed;90C36;30B;2D;1280;1600;2",
 "Dolomite, Lumpy;95D36;30B;2D;1440;1600;2",
 "Earth, Loam, Dry, Loose;76C36;30B;2D;1220;1220;1.2",
@@ -249,7 +250,7 @@ Public Class Form1
 "Feldspar, Lumps;95D37;15;2D;1440;1600;2",
 "Feldspar, Powder;100A36;30B;2D;1600;1600;2",
 "Felspar, Screenings;78C37;15;2D;1200;1280;2",
-"Ferrous Sulfide, 1⁄2 inch (Iron Sulfide, Pyrites);128C26;30B;1A,1B,1C;1920;2160;2",
+"Ferrous Sulfide, 1/2 inch (Iron Sulfide, Pyrites);128C26;30B;1A,1B,1C;1920;2160;2",
 "Ferrous Sulfide, 100M (Iron Sulfide, Pyrites);113A36;30B;1A,1B,1C;1680;1920;2",
 "Ferrous Sulphate (Iron Sulphate, Copperas);63C35U;30A;2D;800;1200;1",
 "Filter-Aid (Diatomaceous Earth, Precoat);14A36Y;30B;3D;180;270;1.6",
@@ -266,9 +267,9 @@ Public Class Form1
 "Fluorspar, Lumps;100D36;30B;2D;1440;1760;2",
 "Flyash;38A36M;30B;3D;480;720;2",
 "Foundry Sand, Dry (Sand);95D37Z;15;3D;1440;1600;2.6",
-"Fuller’s Earth, Calcined;40A25;45;3D;640;640;2",
-"Fuller’s Earth, Dry, Raw (Bleach Clay);35A25;45;2D;480;640;2",
-"Fuller’s Earth, Oily, Spent (Spent Bleach Clay);63C45OW;30A;3D;960;1040;2",
+"Fuller€™s Earth, Calcined;40A25;45;3D;640;640;2",
+"Fuller€™s Earth, Dry, Raw (Bleach Clay);35A25;45;2D;480;640;2",
+"Fuller€™s Earth, Oily, Spent (Spent Bleach Clay);63C45OW;30A;3D;960;1040;2",
 "Galena (Lead Sulfide);250A35R;30A;2D;3840;4160;5",
 "Gelatine, Granulated;32B35PU;30A;1B;510;510;0.8",
 "Gilsonite;37C35;30A;3D;590;590;1.5",
@@ -310,8 +311,8 @@ Public Class Form1
 "Lactose;32A35PU;30A;1B;510;510;0.6",
 "Lead Arsenate;72A35R;30A;1A,1B,1C;1150;1150;1.4",
 "Lead Carbonate (Cerrusite);250A35R;30A;2D;3840;4160;1",
-"Lead Ore, 1⁄2 inch;205C36;30B;3D;2880;3680;1.4",
-"Lead Ore, 1⁄8 inch;235B35;30A;3D;3200;4320;1.4",
+"Lead Ore, 1/2 inch;205C36;30B;3D;2880;3680;1.4",
+"Lead Ore, 1/8 inch;235B35;30A;3D;3200;4320;1.4",
 "Lead Oxide (Red Lead, Litharge) 100 Mesh;90A35P;30A;2D;480;2400;1.2",
 "Lead Oxide (Red Lead, Litharge) 200 Mesh;105A35LP;30A;2D;480;2880;1.2",
 "Lignite (Coal Lignite);41D35T;30A;2D;590;720;1",
@@ -364,12 +365,11 @@ Public Class Form1
 "Oats, Rolled;22C35NY;30A;1A,1B,1C;300;380;0.6",
 "Oleo (Margarine);59E45HKPWX;30A;2A,2B;950;950;0.4",
 "Orange Peel, Dry;1.5E+46;30A;2A,2B;240;240;1.5",
-"Oxalic Acid Crystals – Ethane Diacid Crystals;60B35QS;30A;1A,1B;960;960;1",
 "Oyster Shells, Ground;55C36T;30B;3D;800;960;1.8",
 "Oyster Shells, Whole;80D36TV;30B;3D;1280;1280;2.3",
-"Paper Pulp (4% or less);6.2E+46;30A;2A,2B;990;990;1.5",
+"Paper Pulp (4% Or less);6.2E+46;30A;2A,2B;990;990;1.5",
 "Paper Pulp (6% to 15%);6.2E+46;30A;2A,2B;960;990;1.5",
-"Paraffin Cake, 1⁄2 inch;45C45K;30A;1A,1B;720;720;0.6",
+"Paraffin Cake, 1/2 inch;45C45K;30A;1A,1B;720;720;0.6",
 "Peanut Meal;30B35P;30A;1B;480;480;0.6",
 "Peanuts, Clean, in shell;18D35Q;30A;2A,2B;240;320;0.6",
 "Peanuts, Raw (Uncleaned, Unshelled);18D36Q;30B;3D;240;320;0.7",
@@ -388,15 +388,15 @@ Public Class Form1
 "Potash (Muriate) Dry;70B37;15;3D;1120;1120;2",
 "Potash (Muriate) Mine Run;75D37;15;3D;1200;1200;2.2",
 "Potassium Carbonate;51B36;30B;2D;820;820;1",
-"Potassium Nitrate, 1⁄2 inch (Saltpeter);76C16NT;30B;3D;1220;1220;1.2",
-"Potassium Nitrate, 1⁄8 inch (Saltpeter);80B26NT;30B;3D;1280;1280;1.2",
+"Potassium Nitrate, 1/2 inch (Saltpeter);76C16NT;30B;3D;1220;1220;1.2",
+"Potassium Nitrate, 1/8 inch (Saltpeter);80B26NT;30B;3D;1280;1280;1.2",
 "Potassium Sulfate;45B46X;30B;2D;670;770;1",
 "Potassium-Chloride Pellets;125C25TU;45;3D;1920;2080;1.6",
 "Potato Flour;48A35MNP;30A;1A,1B;770;770;0.5",
 "PTA Crystal Slurry;VTK;--;--,--;--;1100;2.0",             'Toegevoegd 18-02-2016
-"Pumice, 1⁄8 inch;45B46;30B;3D;670;770;1.6",
+"Pumice, 1/8 inch;45B46;30B;3D;670;770;1.6",
 "Pyrite, Pellets;125C26;30B;3D;1920;2080;2",
-"Quartz, 1⁄2 inch (Silicon Dioxide);85C27;15;3D;1280;1440;2",
+"Quartz, 1/2 inch (Silicon Dioxide);85C27;15;3D;1280;1440;2",
 "Quartz,100 Mesh (Silicon Dioxide);75A27;15;3D;1120;1280;1.7",
 "Rape Seed Meal (Canola);38;?;?;540;660;0.8",
 "Rice, Bran;20B35NY;30A;1A,1B,1C;320;320;0.4",
@@ -405,7 +405,7 @@ Public Class Form1
 "Rice, Hulls;21B35NY;30A;1A,1B,1C;320;340;0.4",
 "Rice, Polished;30C15P;45;1A,1B,1C;480;480;0.4",
 "Rice, Rough;34C35N;30A;1A,1B,1C;510;580;0.6",
-"Rosin, 1⁄2 inch;67C45Q;30A;1A,1B,1C;1040;1090;1.5",
+"Rosin, 1/2 inch;67C45Q;30A;1A,1B,1C;1040;1090;1.5",
 "Rubber, Pelleted;53D45;30A;2A,2B,2C;800;880;1.5",
 "Rubber, Reclaimed Ground;37C45;30A;1A,1B,1C;370;800;0.8",
 "Rye;45B15N;45;1A,1B,1C;670;770;0.4",
@@ -434,12 +434,12 @@ Public Class Form1
 "Sesame Seed;34B26;30B;2D;430;660;0.6",
 "Shale, Crushed;88C36;30B;2D;1360;1440;2",
 "Shellac, Powdered or Granulated;31B35P;30A;1B;500;500;0.6",
-"Silica Gel, 1⁄2 to 3 inch;45D37HKQU;15;3D;720;720;2",
+"Silica Gel, 1/2 to 3 inch;45D37HKQU;15;3D;720;720;2",
 "Silica, Flour;80A46;30B;2D;1280;1280;1.5",
 "Slag, Blast Furnace Crushed;155D37Y;15;3D;2080;2880;2.4",
 "Slag, Furnace Granular, Dry;63C37;15;3D;960;1040;2.2",
-"Slate, Crushed, 1⁄2 inch;85C36;30B;2D;1280;1440;2",
-"Slate, Ground, 1⁄8 inch;84B36;30B;2D;1310;1360;1.6",
+"Slate, Crushed, 1/2 inch;85C36;30B;2D;1280;1440;2",
+"Slate, Ground, 1/8 inch;84B36;30B;2D;1310;1360;1.6",
 "Sludge, Sewage, Dried;45E47TW;15;3D;640;800;0.8",
 "Sludge, Sewage, Dry Ground;50B46S;30B;2D;720;880;0.8",
 "Soap Detergent;33B35FQ;30A;1A,1B,1C;240;800;0.8",
@@ -472,14 +472,14 @@ Public Class Form1
 "Sugar, Raw;60B35PX;30A;1B;880;1040;1.5",
 "Sugar, Refined, Granulated Dry;53B35PU;30A;1B;800;880;1.2",
 "Sugar, Refined, Granulated Wet;60C35P;30A;1B;880;1040;2",
-"Sulphur, Crushed, 1⁄2 inch;55C35N;30A;1A,1B;800;960;0.8",
+"Sulphur, Crushed, 1/2 inch;55C35N;30A;1A,1B;800;960;0.8",
 "Sulphur, Lumpy, 3 inch;83D35N;30A;2A,2B;1280;1360;0.8",
 "Sulphur, Powdered;55A35MN;30A;1A,1B;800;960;0.6",
 "Sunflower Seed;29C15;45;1A,1B,1C;300;610;0.5",
 "Sunflower Seed Flakes;28C35;30A;1A,1B,1C;430;450;0.8",
 "Swee Bran Feed (proprietary to Cargill);29B45P;30A;1A,1B,1C;340;590;0.6",
 "Talcum Powder;55A36M;30B;2D;800;960;0.8",
-"Talcum, 1⁄2 ich;85C36;30B;2D;1280;1440;0.9",
+"Talcum, 1/2 ich;85C36;30B;2D;1280;1440;0.9",
 "Tanbark, Ground**;55B45;30A;1A,1B,1C;880;880;0.7",
 "Timothy Seed;36B35NY;30A;1A,1B,1C;580;580;0.6",
 "Titanium Dioxide based pigments (powder);42C36FLO;15;3D;540;800;2",
@@ -508,6 +508,7 @@ Public Class Form1
 "Zinc Oxide, Heavy;33A45X;30A;1A,1B;480;560;1",
 "Zinc Oxide, Light;13A45XY;30A;1A,1B;160;240;1",
 "Zinc, Concentrate Residue;78B37;15;3D;1200;1280;1"}
+
 
     '--- "Oude benaming;Norm:;EN10027-1;Werkstof;[mm/m1/100°C];Poisson ;kg/m3;E [Gpa];Rm (20c);Rp0.2(0c);Rp0.2(20c);Rp(50c);Rp(100c);Rp(150c);Rp(200c);Rp(250c);Rp(300c);Rp(350c);Rp(400c);Equiv-ASTM;Opmerking",
     Public Shared steel() As String =
@@ -735,7 +736,6 @@ Public Class Form1
         Next hh
         ComboBox2.SelectedIndex = 7                     'S355
 
-
         '-------Fill combobox5, emotor selection------------------
         For hh = 0 To (UBound(emotor) - 1)               'Fill combobox 5 emotor data
             words = emotor(hh).Split(CType(";", Char()))
@@ -769,7 +769,7 @@ Public Class Form1
         Dim height As Double            'Height difference due to inclination 
         Dim mekog As Double             'Mekog installed power
         Dim flight_speed As Double      'Flight speed
-        Dim r_time As Double            'Flight speed
+        Dim r_time As Double
 
         '-------------- get data----------
         Double.TryParse(CType(ComboBox11.SelectedItem, String), _diam_flight)
@@ -1184,7 +1184,7 @@ Public Class Form1
         TextBox49.Text = product_density.ToString("0")
 
         '---------- checks---------
-        TextBox20.BackColor = CType(IIf(Q_Deflect_max > _λ6 * 1000 / max_sag, Color.Red, Color.LightGreen), Color)
+        TextBox20.BackColor = CType(IIf(Q_Deflect_max > (_λ7 / max_sag), Color.Red, Color.LightGreen), Color)
         TextBox09.BackColor = CType(IIf(sigma_eg > sigma_fatique, Color.Red, Color.LightGreen), Color)
         TextBox21.BackColor = CType(IIf(combined_stress > sigma_fatique, Color.Red, Color.LightGreen), Color)
         TextBox12.BackColor = CType(IIf(Tou_torque > sigma_fatique, Color.Red, Color.LightGreen), Color)
@@ -1604,10 +1604,10 @@ Public Class Form1
         temp_string &= vbCrLf & "BREAK" & vbCrLf & ";"
 
         '-------- find all combobox controls and save
-        FindControlRecursive(all_combo, Me, GetType(ComboBox))      'Find the control
+        FindControlRecursive(all_combo, Me, GetType(System.Windows.Forms.ComboBox))      'Find the control
         all_combo = all_combo.OrderBy(Function(x) x.Name).ToList()   'Alphabetical order
         For i = 0 To all_combo.Count - 1
-            Dim grbx As ComboBox = CType(all_combo(i), ComboBox)
+            Dim grbx As System.Windows.Forms.ComboBox = CType(all_combo(i), System.Windows.Forms.ComboBox)
             temp_string &= grbx.SelectedItem.ToString & ";"
         Next
         temp_string &= vbCrLf & "BREAK" & vbCrLf & ";"
@@ -1669,6 +1669,7 @@ Public Class Form1
 
     Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
         Read_file()
+        Calculate()
     End Sub
     'Retrieve control settings and case_x_conditions from file
     'Split the file string into 5 separate strings
@@ -1705,11 +1706,11 @@ Public Class Form1
             TextBox67.Text = words(2)                  'Item no
 
             '---------- terugzetten Numeric controls -----------------
-            FindControlRecursive(all_num, Me, GetType(NumericUpDown))
+            FindControlRecursive(all_num, Me, GetType(System.Windows.Forms.NumericUpDown))
             all_num = all_num.OrderBy(Function(x) x.Name).ToList()                  'Alphabetical order
             words = control_words(1).Split(separators, StringSplitOptions.None)     'Split the read file content
             For i = 0 To all_num.Count - 1
-                Dim grbx As NumericUpDown = CType(all_num(i), NumericUpDown)
+                Dim grbx As System.Windows.Forms.NumericUpDown = CType(all_num(i), System.Windows.Forms.NumericUpDown)
                 '--- dit deel voorkomt problemen bij het uitbreiden van het aantal checkboxes--
                 If (i < words.Length - 1) Then
                     If Not (Double.TryParse(words(i + 1), ttt)) Then MessageBox.Show("Numeric controls conversion problem occured")
@@ -1725,11 +1726,11 @@ Public Class Form1
             Next
 
             '---------- terugzetten combobox controls -----------------
-            FindControlRecursive(all_combo, Me, GetType(ComboBox))
+            FindControlRecursive(all_combo, Me, GetType(System.Windows.Forms.ComboBox))
             all_combo = all_combo.OrderBy(Function(x) x.Name).ToList()          'Alphabetical order
             words = control_words(2).Split(separators, StringSplitOptions.None) 'Split the read file content
             For i = 0 To all_combo.Count - 1
-                Dim grbx As ComboBox = CType(all_combo(i), ComboBox)
+                Dim grbx As System.Windows.Forms.ComboBox = CType(all_combo(i), System.Windows.Forms.ComboBox)
                 '--- dit deel voorkomt problemen bij het uitbreiden van het aantal checkboxes--
                 If (i < words.Length - 1) Then
                     grbx.SelectedItem = words(i + 1)
@@ -1753,11 +1754,11 @@ Public Class Form1
             Next
 
             '---------- terugzetten radiobuttons controls -----------------
-            FindControlRecursive(all_radio, Me, GetType(RadioButton))
+            FindControlRecursive(all_radio, Me, GetType(System.Windows.Forms.RadioButton))
             all_radio = all_radio.OrderBy(Function(x) x.Name).ToList()                  'Alphabetical order
             words = control_words(4).Split(separators, StringSplitOptions.None) 'Split the read file content
             For i = 0 To all_radio.Count - 1
-                Dim grbx As RadioButton = CType(all_radio(i), RadioButton)
+                Dim grbx As System.Windows.Forms.RadioButton = CType(all_radio(i), System.Windows.Forms.RadioButton)
                 '--- dit deel voorkomt problemen bij het uitbreiden van het aantal radiobuttons--
                 If (i < words.Length - 1) Then
                     Boolean.TryParse(words(i + 1), grbx.Checked)
@@ -1857,6 +1858,7 @@ Public Class Form1
         Dim oPara1, oPara2, opara3 As Word.Paragraph
         Dim row, font_sizze As Integer
         Dim ufilename, str As String
+        Dim speed As Double
 
         Try
             oWord = New Word.Application()
@@ -1929,7 +1931,7 @@ Public Class Form1
             row = 1
             oTable.Cell(row, 1).Range.Text = "Conveyor Data"
             row += 1
-            oTable.Cell(row, 1).Range.Text = "Diameter trough"
+            oTable.Cell(row, 1).Range.Text = "Diameter flight"
             oTable.Cell(row, 2).Range.Text = ComboBox11.Text
             oTable.Cell(row, 3).Range.Text = "[mm]"
             row += 1
@@ -1994,7 +1996,7 @@ Public Class Form1
             row += 1
             oTable.Cell(row, 1).Range.Text = "Forward resistance"
             oTable.Cell(row, 2).Range.Text = CType(NumericUpDown9.Value, String)
-            oTable.Cell(row, 3).Range.Text = "[kg/m3]"
+            oTable.Cell(row, 3).Range.Text = "[-]"
 
             oTable.Columns(1).Width = oWord.InchesToPoints(2.0)
             oTable.Columns(2).Width = oWord.InchesToPoints(1.8)
@@ -2054,15 +2056,15 @@ Public Class Form1
             row += 1
             oTable.Cell(row, 1).Range.Text = "Bending Stress"
             oTable.Cell(row, 2).Range.Text = TextBox09.Text
-            oTable.Cell(row, 3).Range.Text = "[N/mm^2]"
+            oTable.Cell(row, 3).Range.Text = "[N/mm2]"
             row += 1
             oTable.Cell(row, 1).Range.Text = "Max. Torque Stress"
             oTable.Cell(row, 2).Range.Text = TextBox12.Text
-            oTable.Cell(row, 3).Range.Text = "[N/mm^2]"
+            oTable.Cell(row, 3).Range.Text = "[N/mm2]"
             row += 1
             oTable.Cell(row, 1).Range.Text = "Combined Stress"
             oTable.Cell(row, 2).Range.Text = TextBox21.Text
-            oTable.Cell(row, 3).Range.Text = "[N/mm^2]"
+            oTable.Cell(row, 3).Range.Text = "[N/mm2]"
             row += 1
             oTable.Cell(row, 1).Range.Text = "Selected steel"
             oTable.Cell(row, 2).Range.Text = ComboBox2.Text
@@ -2106,7 +2108,9 @@ Public Class Form1
             row = 1
             oTable.Cell(row, 1).Range.Text = "Checks "
             row += 1
-            If (TextBox11.BackColor = Color.Red) Then
+
+            Double.TryParse(TextBox11.Text, speed)
+            If (speed > 1.0) Then
                 oTable.Cell(row, 1).Range.Text = "NOK, for ATEX, Flight speed > 1 m/s"
             Else
                 oTable.Cell(row, 1).Range.Text = "OK, Flight speed for ATEX applications"
@@ -2131,8 +2135,6 @@ Public Class Form1
             End If
             oTable.Columns(1).Width = oWord.InchesToPoints(4.0)
             oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
-
-
 
             '--------------Save file word file------------------
             'See https://msdn.microsoft.com/en-us/library/63w57f4b.aspx
@@ -2528,7 +2530,7 @@ Public Class Form1
             Chart3.Titles(0).Font = New Font("Arial", 12, System.Drawing.FontStyle.Bold)
 
             '--------------- Legends and titles ---------------
-            Chart3.ChartAreas("ChartArea0").AxisY.Title = "Deflection [rad]"
+            Chart3.ChartAreas("ChartArea0").AxisY.Title = "Deflection [mm]"
             Chart3.ChartAreas("ChartArea0").AxisX.Title = "Shaft length [m]"
             Chart3.ChartAreas("ChartArea0").AxisY.RoundAxisValues()
             Chart3.ChartAreas("ChartArea0").AxisX.RoundAxisValues()
