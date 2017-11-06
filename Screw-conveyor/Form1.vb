@@ -21,6 +21,39 @@ Public Class Form1
     Public _α(steps) As Double      '[rad] Deflection angle @ distance to drive plate
     Public _αv(steps) As Double     '[rad] Deflection @ distance to drive plate
 
+    '-------- inlet chute dimensions ---
+    Public _κ1 As Double     '[m] exposed pipe length force 1
+    Public _κ2 As Double     '[m] exposed pipe length force 2
+    Public _κ3 As Double     '[m] exposed pipe length force 3
+
+    '-------- conveyor dimensions--------
+    Public _λ1 As Double     '[m] drive shaft length   
+    Public _λ2 As Double     '[m] center inlet chute #1   
+    Public _λ3 As Double     '[m] center inlet chute #2   
+    Public _λ4 As Double     '[m] center inlet chute #3     
+    Public _λ5 As Double     '[m] tail shaft length   
+    Public _λ6 As Double     '[m] flight/trough length
+    Public _λ7 As Double     '[m] bearing-bearing length
+
+    Public Shared _diam_flight As Double                         '[m]
+    Public Shared _pipe_OD, _pipe_ID, _pipe_wall As Double
+    Public Shared pipe_Ix, pipe_Wx, pipe_Wp As Double            'Lineair en polair weerstand moment
+    Public Shared pitch As Double
+    Public Shared installed_power As Double
+    Public Shared Start_factor As Double
+    Public Shared actual_power As Double
+    Public Shared sigma02, sigma_fatique As Double
+    Public Young As Double = 210000
+
+    Public Shared inlet_length, product_density As Double
+
+    Public Shared _angle As Double
+    Public Shared speed As Double
+    Public Shared flow_hr As Double
+    Public Shared density As Double
+    Public Shared filling_perc As Double
+    Public Shared progress_resistance As Double    'Friction from product to steel
+
     'Materials name; CEMA Material code; Conveyor loading; Component group, density min, Density max, HP Material
     Public Shared _inputs() As String = {
 "Adipic Acid;45A35;30A;2B;720;720;0.5",
@@ -680,23 +713,7 @@ Public Class Form1
                                        "110 ; 1500", "132; 1500", "160; 1500", "200; 1500"}
 
 
-    Public Shared _diam_flight As Double                         '[m]
-    Public Shared _pipe_OD, _pipe_ID, _pipe_wall As Double
-    Public Shared pipe_Ix, pipe_Wx, pipe_Wp As Double            'Lineair en polair weerstand moment
-    Public Shared pitch As Double
-    Public Shared installed_power As Double
-    Public Shared Start_factor As Double
-    Public Shared actual_power As Double
-    Public Shared sigma02, sigma_fatique As Double
-    Public Young As Double = 210000
 
-    Public Shared inlet_length, conv_length, product_density As Double
-    Public Shared _angle As Double
-    Public Shared speed As Double
-    Public Shared flow_hr As Double
-    Public Shared density As Double
-    Public Shared filling_perc As Double
-    Public Shared progress_resistance As Double                   'Friction from product to steel
 
     Public Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim words() As String
@@ -757,27 +774,10 @@ Public Class Form1
         '-------------- get data----------
         Double.TryParse(CType(ComboBox11.SelectedItem, String), _diam_flight)
         _diam_flight /= 1000                                    '[m] -> [mm]
-        TextBox18.Text = CType(_diam_flight * CDbl(1000.ToString), String)
-        TextBox16.Text = CType(_pipe_OD * CDbl(1000.ToString), String)                'Pipe diameter [m]
-
         pitch = _diam_flight * NumericUpDown2.Value              '[-]
-        conv_length = NumericUpDown3.Value                       'Conveyor length [m]
-        TextBox19.Text = conv_length.ToString
-
         _angle = NumericUpDown4.Value                            '[degree]
         speed = NumericUpDown7.Value                             '[rpm]
-
         flight_speed = speed / 60 * PI * _diam_flight
-        TextBox11.Text = Round(flight_speed, 2).ToString 'Flight speed [m/s]
-
-        Label135.Visible = CBool(IIf(flight_speed > 1.0, True, False))
-
-        If speed > 45 Then
-            NumericUpDown7.BackColor = Color.Red
-        Else
-            NumericUpDown7.BackColor = Color.Yellow
-        End If
-
         flow_hr = NumericUpDown5.Value * 1000           '[kg/hr]
         density = NumericUpDown6.Value                  '[kg/m3]
         progress_resistance = NumericUpDown9.Value      '[-]
@@ -791,24 +791,32 @@ Public Class Form1
         TextBox01.BackColor = CType(IIf(filling_perc > 40, Color.Red, Color.LightGreen), Color)
 
         '--------------- ISO 7119 -----------------
-        height = conv_length * Sin(_angle / 360 * 2 * PI)
+        height = _λ6 * Sin(_angle / 360 * 2 * PI)
 
-        iso_forward = flow_hr * conv_length * 9.91 * progress_resistance / (3600 * 1000)    'Forwards [kW]
+        iso_forward = flow_hr * _λ6 * 9.91 * progress_resistance / (3600 * 1000)    'Forwards [kW]
         iso_incline = flow_hr * height * 9.81 / (3600 * 1000)                               'Uphill [kW]
-        iso_no_product = _diam_flight * conv_length / 20                                     'Power for seals 0. + bearings [kW]
+        iso_no_product = _diam_flight * _λ6 / 20                                     'Power for seals 0. + bearings [kW]
         iso_power = Round(iso_forward + iso_incline + iso_no_product, 1)
 
         '--------------- MEKOG -----------------
-        mekog = Round(flow_hr * conv_length / (40 * 1.36 * 1000), 1)    '[kW]
+        mekog = Round(flow_hr * _λ6 / (40 * 1.36 * 1000), 1)    '[kW]
 
         '-------------- Retention time --------------------
-        r_time = conv_length / (speed / 60 * pitch)                     '[sec]
+        r_time = _λ6 / (speed / 60 * pitch)                     '[sec]
 
         '--------------- present results------------
+        TextBox19.Text = _λ6.ToString
+        TextBox11.Text = Round(flight_speed, 2).ToString 'Flight speed [m/s]
+        TextBox18.Text = CType(_diam_flight * CDbl(1000.ToString), String)
+        TextBox16.Text = CType(_pipe_OD * CDbl(1000.ToString), String)                'Pipe diameter [m]
         TextBox01.Text = filling_perc.ToString
         TextBox03.Text = iso_power.ToString
         TextBox04.Text = mekog.ToString
         TextBox110.Text = Round(r_time, 0).ToString
+
+        '--------------- checks ---------------------
+        NumericUpDown7.BackColor = CType(IIf(speed > 45, Color.Red, Color.Yellow), Color)
+        Label135.Visible = CBool(IIf(flight_speed > 1.0, True, False))
     End Sub
 
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown12.ValueChanged, NumericUpDown10.ValueChanged, NumericUpDown25.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox4.SelectedIndexChanged, ComboBox13.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox8.CheckedChanged, CheckBox5.CheckedChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, CheckBox4.CheckedChanged, CheckBox7.CheckedChanged, CheckBox6.CheckedChanged, CheckBox9.CheckedChanged, TabPage4.Enter
@@ -834,9 +842,9 @@ Public Class Form1
     Private Sub Calulate_stress_1()
         Dim qq As Double
         Dim q_load_1, q_load_2, q_load_comb, q_load_3, q As Double
-        Dim force_1, chute_distance_1 As Double
-        Dim force_2, chute_distance_2 As Double
-        Dim force_3, chute_distance_3 As Double
+        Dim force_1 As Double
+        Dim force_2 As Double
+        Dim force_3 As Double
         Dim Q_Deflect_max, Q_max_bend As Double
         Dim F_tangent, Radius_transport As Double
         Dim pipe_weight_m As Double
@@ -850,10 +858,9 @@ Public Class Form1
         Dim Uniform_mat_load As Double
         Dim combined_stress As Double
         Dim max_sag As Double                       'maximale doorzakking pijp
-        Dim vx(5) As Double                          '[mm] x gemeten van af inlaat schot
+        Dim vx(5) As Double                         '[mm] x gemeten van af inlaat schot
         Dim xnul As Double                          'nul positie in dwarskrachtenlijm
         Dim Column_h(4) As Double                   'Material column height
-        Dim Column_l(4) As Double                   'Inlet chute horizontal length 
         Dim Column_a(4) As Double                   'Inlet chute pipe area
 
         NumericUpDown13.Value = NumericUpDown7.Value
@@ -926,27 +933,27 @@ Public Class Form1
             pipe_Wp = PI / 16 * (_pipe_OD ^ 4 - _pipe_ID ^ 4) / _pipe_OD       '[m3]
             TextBox15.Text = Round(pipe_Wp * 1000 ^ 3, 0).ToString
 
-            '---------------------------------------------------------------------------
+            '----------dimensions-----------------------------------------------------------------
+            _κ1 = NumericUpDown31.Value                '[m] exposed pipe length force 1
+            _κ2 = NumericUpDown32.Value                '[m] exposed pipe length force 2
+            _κ3 = NumericUpDown22.Value                '[m] exposed pipe length force 3
+
             '---------- materiaal gewicht inlaat kolom op pipe--------------------------
-            product_density = NumericUpDown6.Value              'product density [kg/m3]
-            Column_h(0) = NumericUpDown17.Value                 'Material height on top of pipe
-            Column_l(0) = 1                                     '[m] exposed pipe length
-            Column_a(0) = _pipe_OD * Column_l(0)               '[m2] pipe area
+            product_density = NumericUpDown6.Value      'product density [kg/m3]
+            Column_h(0) = NumericUpDown17.Value         'Material height on top of pipe
+            Column_a(0) = _pipe_OD * 1.0                '[m2] pipe area
 
             '-------- Inlet opening #1------
-            Column_h(1) = NumericUpDown19.Value                '[m] column height
-            Column_l(1) = NumericUpDown31.Value                '[m] exposed pipe length
-            Column_a(1) = _pipe_OD * Column_l(1)               '[m2] pipe area
+            Column_h(1) = NumericUpDown19.Value         '[m] column height
+            Column_a(1) = _pipe_OD * _κ1                '[m2] pipe area
 
             '-------- Inlet opening #2------
-            Column_h(2) = NumericUpDown36.Value                '[m] column height
-            Column_l(2) = NumericUpDown32.Value                '[m] exposed pipe length
-            Column_a(2) = _pipe_OD * Column_l(2)               '[m2] pipe area
+            Column_h(2) = NumericUpDown36.Value         '[m] column height
+            Column_a(2) = _pipe_OD * _κ2                '[m2] pipe area
 
             '-------- Inlet opening #3------
-            Column_h(3) = NumericUpDown37.Value                '[m] column height
-            Column_l(3) = NumericUpDown22.Value                '[m] exposed pipe length
-            Column_a(3) = _pipe_OD * Column_l(3)               '[m2] pipe area
+            Column_h(3) = NumericUpDown37.Value         '[m] column height
+            Column_a(3) = _pipe_OD * _κ3               '[m2] pipe area
 
             Uniform_mat_load = Column_a(0) * Column_h(0) * product_density * 9.81         '[N/m]
             force_1 = Column_a(1) * Column_h(1) * product_density * 9.81    '[N]
@@ -958,9 +965,13 @@ Public Class Form1
             TextBox117.Text = force_3.ToString("0")             'Material inlet force
             TextBox118.Text = Uniform_mat_load.ToString("0")
 
-            chute_distance_1 = NumericUpDown16.Value            '[m] to end plate
-            chute_distance_2 = NumericUpDown24.Value            '[m] to end plate
-            chute_distance_3 = NumericUpDown28.Value            '[m] to end plate
+            _λ1 = 0.5                              '[m] length drive shaft
+            _λ2 = NumericUpDown16.Value            '[m] inlet chute #1 to plate
+            _λ3 = NumericUpDown24.Value            '[m] inlet chute #2 to plate
+            _λ4 = NumericUpDown28.Value            '[m] inlet chute #3 to plate
+            _λ5 = 0.5                              '[m] length tail shaft
+            _λ6 = NumericUpDown3.Value             '[m] lengte van de trog 
+            _λ7 = _λ1 + _λ6 + _λ5                  '[m] bearing-bearing
 
             '============= calc load ========================================
             '================================================================
@@ -990,7 +1001,7 @@ Public Class Form1
             '----------- Axial load caused by transport of product
             Radius_transport = (_diam_flight + _pipe_OD) / 4            'Acc Jos (D+d)/4
             F_tangent = P_torque / Radius_transport
-            q_load_2 = F_tangent / conv_length                          'Transport kracht geeft doorbuiging pijp
+            q_load_2 = F_tangent / _λ6                         'Transport kracht geeft doorbuiging pijp
             q_load_3 = Uniform_mat_load                                 '[N/m] Uniform distributed material weight
             TextBox17.Text = Round(q_load_3, 0).ToString                '[N/m]
 
@@ -1004,20 +1015,20 @@ Public Class Form1
 
             '============= Reactie krachten Bearings==============================
             '=====================================================================
-            R_total = q_load_1 * conv_length                'Steel weight
-            R_total += q_load_3 * conv_length               'Material weight
-            R_total += force_1                              'Material falling on the pipe
+            R_total = q_load_1 * _λ6               'Steel weight
+            R_total += q_load_3 * _λ6              'Material weight
+            R_total += force_1                     'Material falling on the pipe
             R_total += force_2
             R_total += force_3
 
             'Momenten evenwicht om punt Ra
-            Rb = q_load_1 * conv_length ^ 2 * 0.5   'Pipe weight
-            Rb += q_load_3 * conv_length ^ 2 * 0.5  'Uniform load
-            Rb += force_1 * chute_distance_1        'Inlet force #1
-            Rb += force_2 * chute_distance_2        'Inlet force #2
-            Rb += force_3 * chute_distance_3        'Inlet force #3
+            Rb = q_load_1 * _λ6 ^ 2 * 0.5   'Pipe weight
+            Rb += q_load_3 * _λ6 ^ 2 * 0.5  'Uniform load
+            Rb += force_1 * _λ2        'Inlet force #1
+            Rb += force_2 * _λ3        'Inlet force #2
+            Rb += force_3 * _λ4        'Inlet force #3
 
-            Rb /= conv_length
+            Rb /= _λ6
             Ra = R_total - Rb
 
             TextBox24.Text = Round(Ra, 0).ToString          'Reactie kracht Ra
@@ -1031,11 +1042,11 @@ Public Class Form1
             TextBox89.Text = force_3.ToString("0")
 
             '=========== x posities gemeten vanaf de inlaatschot=============
-            vx(0) = 0                    '[m] inlaatschot
-            vx(1) = chute_distance_1     '[m] Inlaat #1
-            vx(2) = chute_distance_2     '[m] Inlaat #2
-            vx(3) = chute_distance_3     '[m] Inlaat #3
-            vx(4) = conv_length          '[m] Eindschot
+            vx(0) = 0           '[m] inlaatschot
+            vx(1) = _λ2         '[m] Inlaat #1
+            vx(2) = _λ3         '[m] Inlaat #2
+            vx(3) = _λ4         '[m] Inlaat #3
+            vx(4) = _λ6         '[m] Eindschot (trog lengte)
 
             TextBox7.Text = vx(1).ToString("0.0")
             TextBox8.Text = vx(2).ToString("0.0")
@@ -1047,25 +1058,25 @@ Public Class Form1
             Dim ΔL As Double
 
             For i = 1 To steps
-                _d(i) = i / steps * conv_length    'Chop conveyor in 100 pieces
+                _d(i) = i / steps * _λ6   'Chop conveyor in 100 pieces
             Next
 
             '=========== Shear Force vanaf de inlaatschot=============
             '=========== dwarskrachtenlijn (shear force) =============
             q = q_load_1 + q_load_3
             _s(0) = Ra
-            ΔL = conv_length / steps
+            ΔL = _λ6 / steps
             For i = 1 To steps
                 _s(i) = _s(i - 1) - q * ΔL
-                If _d(i) >= chute_distance_1 - ΔL / 2 And _d(i) < chute_distance_1 + ΔL / 2 Then
+                If _d(i) >= _λ2 - ΔL / 2 And _d(i) < _λ2 + ΔL / 2 Then
                     _s(i) -= force_1
                     i_chute_1 = i
                 End If
-                If _d(i) >= chute_distance_2 - ΔL / 2 And _d(i) < chute_distance_2 + ΔL / 2 Then
+                If _d(i) >= _λ3 - ΔL / 2 And _d(i) < _λ3 + ΔL / 2 Then
                     _s(i) -= force_2
                     i_chute_2 = i
                 End If
-                If _d(i) >= chute_distance_3 - ΔL / 2 And _d(i) < chute_distance_3 + ΔL / 2 Then
+                If _d(i) >= _λ4 - ΔL / 2 And _d(i) < _λ4 + ΔL / 2 Then
                     _s(i) -= force_3
                     i_chute_3 = i
                 End If
@@ -1145,7 +1156,7 @@ Public Class Form1
             TextBox12.Text = Round(Tou_torque, 1).ToString          'Stress from drive [N.m]
 
             '-------------------------- @ drive max bend------------------------
-            P_torque_M = (P_torque * xnul / conv_length)
+            P_torque_M = (P_torque * xnul / _λ6)
             Tou_torque_M = P_torque_M / (pipe_Wp * 1000 ^ 2)        '[N/mm2]
             TextBox10.Text = Round(Tou_torque_M, 1).ToString("0.0")
 
@@ -1173,13 +1184,13 @@ Public Class Form1
         TextBox49.Text = product_density.ToString("0")
 
         '---------- checks---------
-        TextBox20.BackColor = CType(IIf(Q_Deflect_max > conv_length * 1000 / max_sag, Color.Red, Color.LightGreen), Color)
+        TextBox20.BackColor = CType(IIf(Q_Deflect_max > _λ6 * 1000 / max_sag, Color.Red, Color.LightGreen), Color)
         TextBox09.BackColor = CType(IIf(sigma_eg > sigma_fatique, Color.Red, Color.LightGreen), Color)
         TextBox21.BackColor = CType(IIf(combined_stress > sigma_fatique, Color.Red, Color.LightGreen), Color)
         TextBox12.BackColor = CType(IIf(Tou_torque > sigma_fatique, Color.Red, Color.LightGreen), Color)
-        NumericUpDown28.BackColor = CType(IIf(chute_distance_3 > conv_length, Color.Red, Color.Yellow), Color) 'Inlet #3
-        NumericUpDown24.BackColor = CType(IIf(chute_distance_2 > chute_distance_3, Color.Red, Color.Yellow), Color) 'Inlet #2
-        NumericUpDown16.BackColor = CType(IIf(chute_distance_1 > chute_distance_2, Color.Red, Color.Yellow), Color) 'Inlet #1
+        NumericUpDown28.BackColor = CType(IIf(_λ4 > _λ6, Color.Red, Color.Yellow), Color) 'Inlet #3
+        NumericUpDown24.BackColor = CType(IIf(_λ3 > _λ4, Color.Red, Color.Yellow), Color) 'Inlet #2
+        NumericUpDown16.BackColor = CType(IIf(_λ2 > _λ3, Color.Red, Color.Yellow), Color) 'Inlet #1
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click, NumericUpDown11.ValueChanged, ComboBox2.SelectedIndexChanged, NumericUpDown13.ValueChanged, TabPage2.Enter, NumericUpDown17.ValueChanged, NumericUpDown16.ValueChanged, ComboBox5.SelectedIndexChanged, RadioButton3.CheckedChanged, RadioButton2.CheckedChanged, RadioButton1.CheckedChanged, CheckBox1.CheckedChanged, NumericUpDown18.ValueChanged, NumericUpDown19.ValueChanged, NumericUpDown24.ValueChanged, NumericUpDown28.ValueChanged, CheckBox10.CheckedChanged, NumericUpDown29.ValueChanged, NumericUpDown37.ValueChanged, NumericUpDown36.ValueChanged, NumericUpDown32.ValueChanged, NumericUpDown31.ValueChanged, NumericUpDown22.ValueChanged
@@ -2141,7 +2152,7 @@ Public Class Form1
     End Sub
 
     Private Sub Costing_material()
-        Dim rho_materiaal, rho_kunststof, conv_length As Double
+        Dim rho_materiaal, rho_kunststof As Double
         Dim dikte_trog, opp_trog, kopstaartplaat, weight_kopstaartplaat, kg_trog As Double
         Dim weight_pipe, dikte_deksel, speling_trog, diam_schroef As Double
         Dim kg_inlaat, kg_uitlaat, kg_lining, dikte_lining As Double
@@ -2165,7 +2176,6 @@ Public Class Form1
         Dim prijs_engineering, prijs_project, prijs_fabriek As Double
         Dim tot_prijsarbeid, geheel_totprijs, dekking, marge_cost, verkoopprijs, perc_mater, perc_arbeid As Double
 
-        conv_length = NumericUpDown3.Value             'lengte van de trog [m]
         TextBox40.Text = ComboBox2.Text                'materiaalsoort staal
         TextBox41.Text = (_pipe_OD * 1000).ToString    'diameter pijp
         TextBox51.Text = CType(NumericUpDown3.Value, String)          'lengte trog
@@ -2250,16 +2260,16 @@ Public Class Form1
         weight_kopstaartplaat = kopstaartplaat * (NumericUpDown10.Value / 1000) * rho_materiaal
         oppb_kopstaartplaat = 2 * kopstaartplaat
 
-        kg_trog = 2 * weight_kopstaartplaat + opp_trog * conv_length * rho_materiaal
-        oppb_trog = 2 * kopstaartplaat + 2 * opp_trog * conv_length / dikte_trog                'kuip zowel uitwendig als inwendig
+        kg_trog = 2 * weight_kopstaartplaat + opp_trog * _λ6 * rho_materiaal
+        oppb_trog = 2 * kopstaartplaat + 2 * opp_trog * _λ6 / dikte_trog                'kuip zowel uitwendig als inwendig
 
         Double.TryParse(CType(ComboBox9.SelectedItem, String), _pipe_OD)         ' ComboBox3 = ComboBox9
         _pipe_OD = _pipe_OD / 1000
         _pipe_wall = CDbl(ComboBox6.SelectedItem)
         _pipe_wall /= 1000
         _pipe_ID = (_pipe_OD - 2 * _pipe_wall)
-        weight_pipe = rho_materiaal * PI / 4 * (_pipe_OD ^ 2 - _pipe_ID ^ 2) * conv_length
-        oppb_pipe = _pipe_OD * PI * conv_length
+        weight_pipe = rho_materiaal * PI / 4 * (_pipe_OD ^ 2 - _pipe_ID ^ 2) * _λ6
+        oppb_pipe = _pipe_OD * PI * _λ6
 
         If _diam_flight > 0.3015 Then                          'in [m], radiale speling schroef in kuip: tot diam 0.3m 7.5 mm, daarboven 10mm
             speling_trog = 0.01
@@ -2269,14 +2279,12 @@ Public Class Form1
         diam_schroef = _diam_flight - 2 * speling_trog
 
         dikte_deksel = NumericUpDown15.Value / 1000
-        kg_deksel = conv_length * dikte_deksel * (_diam_flight + 0.075) * rho_materiaal     '50mm voor de horizontale flens en 25mm voor het stukje naar beneden
-        oppb_deksel = 2 * conv_length * (_diam_flight + 0.075)                              'zowel inwendig als uitwendig
-
-
+        kg_deksel = _λ6 * dikte_deksel * (_diam_flight + 0.075) * rho_materiaal     '50mm voor de horizontale flens en 25mm voor het stukje naar beneden
+        oppb_deksel = 2 * _λ6 * (_diam_flight + 0.075)                              'zowel inwendig als uitwendig
 
         NumericUpDown12.Value = NumericUpDown8.Value                    'Dikte schroefblad bij tab1 opgegeven
         spoed = diam_schroef * NumericUpDown2.Value
-        nr_flights = conv_length / spoed
+        nr_flights = _λ6 / spoed
         hoek_spoed = Atan(spoed / (PI * diam_schroef))                  '[rad]    
 
         kg_schroefblad = PI * rho_materiaal * (NumericUpDown12.Value / 1000) * 0.25 * nr_flights * (diam_schroef ^ 2 - _pipe_OD ^ 2) / Cos(hoek_spoed)         ' DIT IS DE ECHTE FORMULE!!!!!
@@ -2290,7 +2298,7 @@ Public Class Form1
 
         rho_kunststof = 970                                             '[kg/m3] dichtheid HDPE
         dikte_lining = NumericUpDown25.Value / 1000
-        kg_lining = rho_kunststof * (PI * _diam_flight + 0.5 * (0.045 + _diam_flight / 2)) * dikte_lining * conv_length
+        kg_lining = rho_kunststof * (PI * _diam_flight + 0.5 * (0.045 + _diam_flight / 2)) * dikte_lining * _λ6
 
         '---------- estimated weights---------------
         kg_inlaat = 10              '[kg] inlaat chute

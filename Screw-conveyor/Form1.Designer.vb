@@ -22,15 +22,15 @@ Partial Class Form1
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim ChartArea3 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend3 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series3 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea2 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend2 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series2 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
         Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
         Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea2 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend2 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series2 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea3 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend3 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series3 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
@@ -427,7 +427,9 @@ Partial Class Form1
         Me.Label130 = New System.Windows.Forms.Label()
         Me.Label131 = New System.Windows.Forms.Label()
         Me.TabPage6 = New System.Windows.Forms.TabPage()
+        Me.Chart3 = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.Button3 = New System.Windows.Forms.Button()
+        Me.Chart2 = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.Chart1 = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.TextBox114 = New System.Windows.Forms.TextBox()
         Me.TabPage7 = New System.Windows.Forms.TabPage()
@@ -447,8 +449,6 @@ Partial Class Form1
         Me.NumericUpDown38 = New System.Windows.Forms.NumericUpDown()
         Me.Label166 = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.Chart2 = New System.Windows.Forms.DataVisualization.Charting.Chart()
-        Me.Chart3 = New System.Windows.Forms.DataVisualization.Charting.Chart()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox17.SuspendLayout()
@@ -516,13 +516,13 @@ Partial Class Form1
         CType(Me.NumericUpDown33, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown30, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage6.SuspendLayout()
+        CType(Me.Chart3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.Chart2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Chart1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabPage7.SuspendLayout()
         Me.GroupBox24.SuspendLayout()
         CType(Me.NumericUpDown26, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown38, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Chart2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.Chart3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TabControl1
@@ -1081,7 +1081,7 @@ Partial Class Form1
         '
         Me.Label6.AutoSize = True
         Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label6.Location = New System.Drawing.Point(14, 152)
+        Me.Label6.Location = New System.Drawing.Point(14, 153)
         Me.Label6.Name = "Label6"
         Me.Label6.Size = New System.Drawing.Size(140, 16)
         Me.Label6.TabIndex = 6
@@ -1091,11 +1091,11 @@ Partial Class Form1
         '
         Me.Label3.AutoSize = True
         Me.Label3.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(13, 121)
+        Me.Label3.Location = New System.Drawing.Point(13, 123)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(70, 16)
+        Me.Label3.Size = New System.Drawing.Size(88, 16)
         Me.Label3.TabIndex = 3
-        Me.Label3.Text = "Length [m]"
+        Me.Label3.Text = "Length λ9 [m]"
         '
         'NumericUpDown3
         '
@@ -1242,9 +1242,9 @@ Partial Class Form1
         Me.Label160.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label160.Location = New System.Drawing.Point(17, 35)
         Me.Label160.Name = "Label160"
-        Me.Label160.Size = New System.Drawing.Size(170, 18)
+        Me.Label160.Size = New System.Drawing.Size(190, 18)
         Me.Label160.TabIndex = 32
-        Me.Label160.Text = "Exposed shaft length [m]"
+        Me.Label160.Text = "Exposed shaft length κ3 [m]"
         '
         'Label161
         '
@@ -1288,9 +1288,9 @@ Partial Class Form1
         Me.Label144.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label144.Location = New System.Drawing.Point(17, 75)
         Me.Label144.Name = "Label144"
-        Me.Label144.Size = New System.Drawing.Size(194, 18)
+        Me.Label144.Size = New System.Drawing.Size(214, 18)
         Me.Label144.TabIndex = 14
-        Me.Label144.Text = "Inlet chute-plate distance [m]"
+        Me.Label144.Text = "Inlet chute-plate distance λ4 [m]"
         '
         'GroupBox21
         '
@@ -1347,9 +1347,9 @@ Partial Class Form1
         Me.Label158.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label158.Location = New System.Drawing.Point(13, 37)
         Me.Label158.Name = "Label158"
-        Me.Label158.Size = New System.Drawing.Size(170, 18)
+        Me.Label158.Size = New System.Drawing.Size(190, 18)
         Me.Label158.TabIndex = 28
-        Me.Label158.Text = "Exposed shaft length [m]"
+        Me.Label158.Text = "Exposed shaft length κ2 [m]"
         '
         'Label159
         '
@@ -1393,9 +1393,9 @@ Partial Class Form1
         Me.Label142.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label142.Location = New System.Drawing.Point(13, 79)
         Me.Label142.Name = "Label142"
-        Me.Label142.Size = New System.Drawing.Size(194, 18)
+        Me.Label142.Size = New System.Drawing.Size(214, 18)
         Me.Label142.TabIndex = 14
-        Me.Label142.Text = "Inlet chute-plate distance [m]"
+        Me.Label142.Text = "Inlet chute-plate distance λ3 [m]"
         '
         'GroupBox20
         '
@@ -1442,9 +1442,9 @@ Partial Class Form1
         Me.Label157.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label157.Location = New System.Drawing.Point(15, 39)
         Me.Label157.Name = "Label157"
-        Me.Label157.Size = New System.Drawing.Size(170, 18)
+        Me.Label157.Size = New System.Drawing.Size(190, 18)
         Me.Label157.TabIndex = 22
-        Me.Label157.Text = "Exposed shaft length [m]"
+        Me.Label157.Text = "Exposed shaft length κ1 [m]"
         '
         'Label156
         '
@@ -1498,9 +1498,9 @@ Partial Class Form1
         Me.Label21.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label21.Location = New System.Drawing.Point(15, 81)
         Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(194, 18)
+        Me.Label21.Size = New System.Drawing.Size(214, 18)
         Me.Label21.TabIndex = 14
-        Me.Label21.Text = "Inlet chute-plate distance [m]"
+        Me.Label21.Text = "Inlet chute-plate distance λ2 [m]"
         '
         'Button4
         '
@@ -2525,9 +2525,9 @@ Partial Class Form1
         Me.Label20.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label20.Location = New System.Drawing.Point(14, 38)
         Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(172, 18)
+        Me.Label20.Size = New System.Drawing.Size(192, 18)
         Me.Label20.TabIndex = 13
-        Me.Label20.Text = "Lengte conveyor trog [m]"
+        Me.Label20.Text = "Lengte conveyor trog λ9 [m]"
         '
         'Label19
         '
@@ -4826,6 +4826,23 @@ Partial Class Form1
         Me.TabPage6.Text = "Shear and Moment line"
         Me.TabPage6.UseVisualStyleBackColor = True
         '
+        'Chart3
+        '
+        ChartArea1.Name = "ChartArea1"
+        Me.Chart3.ChartAreas.Add(ChartArea1)
+        Me.Chart3.Dock = System.Windows.Forms.DockStyle.Top
+        Legend1.Name = "Legend1"
+        Me.Chart3.Legends.Add(Legend1)
+        Me.Chart3.Location = New System.Drawing.Point(176, 401)
+        Me.Chart3.Name = "Chart3"
+        Series1.ChartArea = "ChartArea1"
+        Series1.Legend = "Legend1"
+        Series1.Name = "Series1"
+        Me.Chart3.Series.Add(Series1)
+        Me.Chart3.Size = New System.Drawing.Size(808, 199)
+        Me.Chart3.TabIndex = 4
+        Me.Chart3.Text = "Chart3"
+        '
         'Button3
         '
         Me.Button3.Location = New System.Drawing.Point(904, 604)
@@ -4835,6 +4852,23 @@ Partial Class Form1
         Me.Button3.Text = "Button3"
         Me.Button3.UseVisualStyleBackColor = True
         Me.Button3.Visible = False
+        '
+        'Chart2
+        '
+        ChartArea2.Name = "ChartArea1"
+        Me.Chart2.ChartAreas.Add(ChartArea2)
+        Me.Chart2.Dock = System.Windows.Forms.DockStyle.Top
+        Legend2.Name = "Legend1"
+        Me.Chart2.Legends.Add(Legend2)
+        Me.Chart2.Location = New System.Drawing.Point(176, 202)
+        Me.Chart2.Name = "Chart2"
+        Series2.ChartArea = "ChartArea1"
+        Series2.Legend = "Legend1"
+        Series2.Name = "Series1"
+        Me.Chart2.Series.Add(Series2)
+        Me.Chart2.Size = New System.Drawing.Size(808, 199)
+        Me.Chart2.TabIndex = 3
+        Me.Chart2.Text = "Chart2"
         '
         'Chart1
         '
@@ -5045,40 +5079,6 @@ Partial Class Form1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'Chart2
-        '
-        ChartArea2.Name = "ChartArea1"
-        Me.Chart2.ChartAreas.Add(ChartArea2)
-        Me.Chart2.Dock = System.Windows.Forms.DockStyle.Top
-        Legend2.Name = "Legend1"
-        Me.Chart2.Legends.Add(Legend2)
-        Me.Chart2.Location = New System.Drawing.Point(176, 202)
-        Me.Chart2.Name = "Chart2"
-        Series2.ChartArea = "ChartArea1"
-        Series2.Legend = "Legend1"
-        Series2.Name = "Series1"
-        Me.Chart2.Series.Add(Series2)
-        Me.Chart2.Size = New System.Drawing.Size(808, 199)
-        Me.Chart2.TabIndex = 3
-        Me.Chart2.Text = "Chart2"
-        '
-        'Chart3
-        '
-        ChartArea1.Name = "ChartArea1"
-        Me.Chart3.ChartAreas.Add(ChartArea1)
-        Me.Chart3.Dock = System.Windows.Forms.DockStyle.Top
-        Legend1.Name = "Legend1"
-        Me.Chart3.Legends.Add(Legend1)
-        Me.Chart3.Location = New System.Drawing.Point(176, 401)
-        Me.Chart3.Name = "Chart3"
-        Series1.ChartArea = "ChartArea1"
-        Series1.Legend = "Legend1"
-        Series1.Name = "Series1"
-        Me.Chart3.Series.Add(Series1)
-        Me.Chart3.Size = New System.Drawing.Size(808, 199)
-        Me.Chart3.TabIndex = 4
-        Me.Chart3.Text = "Chart3"
-        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -5180,14 +5180,14 @@ Partial Class Form1
         CType(Me.NumericUpDown30, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage6.ResumeLayout(False)
         Me.TabPage6.PerformLayout()
+        CType(Me.Chart3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.Chart2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Chart1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabPage7.ResumeLayout(False)
         Me.GroupBox24.ResumeLayout(False)
         Me.GroupBox24.PerformLayout()
         CType(Me.NumericUpDown26, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NumericUpDown38, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Chart2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.Chart3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
