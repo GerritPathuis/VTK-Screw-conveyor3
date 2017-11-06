@@ -14,12 +14,12 @@ Public Class Form1
     Dim dirpath_Rap As String = "N:\Engineering\VBasic\Conveyor_rapport_copy\"
     Dim dirpath_Home_GP As String = "C:\Temp\"
 
-    Public steps As Integer = 100   'Calculation steps
-    Public _d(steps) As Double      '[m] Distance to drive plate
-    Public _s(steps) As Double      '[N] Shear force @ distance to drive plate
-    Public _m(steps) As Double      '[Nm] Moment  @ distance to drive plate
-    Public _α(steps) As Double      '[rad] Deflection angle @ distance to drive plate
-    Public _αv(steps) As Double     '[rad] Deflection @ distance to drive plate
+    Public _steps As Integer = 150   'Calculation _steps
+    Public _d(_steps) As Double      '[m] Distance to drive plate
+    Public _s(_steps) As Double      '[N] Shear force @ distance to drive plate
+    Public _m(_steps) As Double      '[Nm] Moment  @ distance to drive plate
+    Public _α(_steps) As Double      '[rad] Deflection angle @ distance to drive plate
+    Public _αv(_steps) As Double     '[rad] Deflection @ distance to drive plate
 
     '-------- inlet chute dimensions ---
     Public _κ1 As Double     '[m] exposed pipe length force 1
@@ -858,7 +858,6 @@ Public Class Form1
         Dim Uniform_mat_load As Double
         Dim combined_stress As Double
         Dim max_sag As Double                       'maximale doorzakking pijp
-        Dim vx(5) As Double                         '[mm] x gemeten van af inlaat schot
         Dim xnul As Double                          'nul positie in dwarskrachtenlijm
         Dim Column_h(4) As Double                   'Material column height
         Dim Column_a(4) As Double                   'Inlet chute pipe area
@@ -965,12 +964,12 @@ Public Class Form1
             TextBox117.Text = force_3.ToString("0")             'Material inlet force
             TextBox118.Text = Uniform_mat_load.ToString("0")
 
-            _λ1 = 0.5                              '[m] length drive shaft
-            _λ2 = NumericUpDown16.Value            '[m] inlet chute #1 to plate
-            _λ3 = NumericUpDown24.Value            '[m] inlet chute #2 to plate
-            _λ4 = NumericUpDown28.Value            '[m] inlet chute #3 to plate
-            _λ5 = 0.5                              '[m] length tail shaft
-            _λ6 = NumericUpDown3.Value             '[m] lengte van de trog 
+            _λ1 = 0.25                             '[m] length drive shaft
+            _λ2 = NumericUpDown16.Value            '[m] CL inlet chute #1 to bearing
+            _λ3 = NumericUpDown24.Value            '[m] CL inlet chute #2 to bearing
+            _λ4 = NumericUpDown28.Value            '[m] CL inlet chute #3 to bearing
+            _λ5 = 0.25                             '[m] length tail shaft
+            _λ6 = NumericUpDown3.Value             '[m] lengte van de trog/schroef 
             _λ7 = _λ1 + _λ6 + _λ5                  '[m] bearing-bearing
 
             '============= calc load ========================================
@@ -1015,20 +1014,22 @@ Public Class Form1
 
             '============= Reactie krachten Bearings==============================
             '=====================================================================
-            R_total = q_load_1 * _λ6               'Steel weight
-            R_total += q_load_3 * _λ6              'Material weight
-            R_total += force_1                     'Material falling on the pipe
-            R_total += force_2
-            R_total += force_3
+            R_total = q_load_1 * _λ6        '[N] Steel weight (stub ends + pipe+flight)
+            R_total += q_load_3 * _λ6       '[N] Material weight
+            R_total += force_1              '[N] Material falling on the pipe chute #1
+            R_total += force_2              '[N] Material falling on the pipe
+            R_total += force_3              '[N] Material falling on the pipe
 
-            'Momenten evenwicht om punt Ra
-            Rb = q_load_1 * _λ6 ^ 2 * 0.5   'Pipe weight
-            Rb += q_load_3 * _λ6 ^ 2 * 0.5  'Uniform load
-            Rb += force_1 * _λ2        'Inlet force #1
-            Rb += force_2 * _λ3        'Inlet force #2
-            Rb += force_3 * _λ4        'Inlet force #3
+            'Momenten evenwicht om punt Ra, 
+            'Moment= Kracht x arm
+            'Gelijkmatigebelasting, Moment= Kracht * arm (arm= halve lengte) 
+            Rb = (q_load_1 * _λ6) * (_λ1 + _λ6 * 0.5)  'Pipe weight
+            Rb += (q_load_3 * _λ6) * (_λ1 + _λ6 * 0.5) 'Uniform load
+            Rb += force_1 * _λ2             'Inlet force #1
+            Rb += force_2 * _λ3             'Inlet force #2
+            Rb += force_3 * _λ4             'Inlet force #3
 
-            Rb /= _λ6
+            Rb /= _λ7
             Ra = R_total - Rb
 
             TextBox24.Text = Round(Ra, 0).ToString          'Reactie kracht Ra
@@ -1041,58 +1042,57 @@ Public Class Form1
             TextBox87.Text = force_2.ToString("0")
             TextBox89.Text = force_3.ToString("0")
 
-            '=========== x posities gemeten vanaf de inlaatschot=============
-            vx(0) = 0           '[m] inlaatschot
-            vx(1) = _λ2         '[m] Inlaat #1
-            vx(2) = _λ3         '[m] Inlaat #2
-            vx(3) = _λ4         '[m] Inlaat #3
-            vx(4) = _λ6         '[m] Eindschot (trog lengte)
-
-            TextBox7.Text = vx(1).ToString("0.0")
-            TextBox8.Text = vx(2).ToString("0.0")
-            TextBox9.Text = vx(3).ToString("0.0")
+            '=========== x posities gemeten vanaf de drive bearing=============
+            TextBox7.Text = _λ2.ToString("0.0")   '[m] CL Inlaat #1-drive bearing
+            TextBox8.Text = _λ3.ToString("0.0")   '[m] CL Inlaat #2-drive bearing
+            TextBox9.Text = _λ4.ToString("0.0")   '[m] CL Inlaat #3-drive bearing
 
             'https://en.wikipedia.org/wiki/Direct_integration_of_a_beam#Sample_calculations
             '=========== Distance gemeten vanaf de inlaatschot=============
             Dim imax_count, i_chute_1, i_chute_2, i_chute_3 As Integer
             Dim ΔL As Double
 
-            For i = 1 To steps
-                _d(i) = i / steps * _λ6   'Chop conveyor in 100 pieces
+            For i = 1 To _steps
+                _d(i) = i / _steps * _λ7   'Chop conveyor in 100 pieces
             Next
 
             '=========== Shear Force vanaf de inlaatschot=============
             '=========== dwarskrachtenlijn (shear force) =============
             q = q_load_1 + q_load_3
             _s(0) = Ra
-            ΔL = _λ6 / steps
-            For i = 1 To steps
-                _s(i) = _s(i - 1) - q * ΔL
-                If _d(i) >= _λ2 - ΔL / 2 And _d(i) < _λ2 + ΔL / 2 Then
-                    _s(i) -= force_1
-                    i_chute_1 = i
+            ΔL = _λ7 / _steps
+
+            For i = 1 To _steps
+                If _d(i) > _λ1 And _d(i) < (_λ7 - _λ1) Then
+                    _s(i) = _s(i - 1) - q * ΔL
+                Else
+                    _s(i) = _s(i - 1)
                 End If
-                If _d(i) >= _λ3 - ΔL / 2 And _d(i) < _λ3 + ΔL / 2 Then
-                    _s(i) -= force_2
+                If _d(i) > _λ2 - ΔL / 2 And _d(i) < _λ2 + ΔL / 2 Then
+                    _s(i) -= force_1    '[N] shear force #1
+                    i_chute_1 = i       'locatie
+                End If
+                If _d(i) > _λ3 - ΔL / 2 And _d(i) < _λ3 + ΔL / 2 Then
+                    _s(i) -= force_2    '[N] shear force #2
                     i_chute_2 = i
                 End If
-                If _d(i) >= _λ4 - ΔL / 2 And _d(i) < _λ4 + ΔL / 2 Then
-                    _s(i) -= force_3
+                If _d(i) > _λ4 - ΔL / 2 And _d(i) < _λ4 + ΔL / 2 Then
+                    _s(i) -= force_3    '[N] shear force #
                     i_chute_3 = i
                 End If
             Next
 
             '=========== momentenlijn (bending moment )====================
             _m(0) = 0   'Simply supported
-            For i = 1 To steps
+            For i = 1 To _steps
                 _m(i) = _m(i - 1) + (_s(i) + _s(i - 1)) / 2 * ΔL
-                If _m(i) < 0 Then _m(i) = 0   'Onnauwkerigheid wordt verdoezeld
+                ' If _m(i) < 0 Then _m(i) = 0   'Onnauwkerigheid wordt verdoezeld
             Next
 
             '=========== Maximaal moment @ imax_count ===============
             Dim temp As Double
             temp = _m(0)
-            For i = 0 To steps
+            For i = 0 To _steps
                 If _m(i) > temp Then
                     temp = _m(i)
                     imax_count = i
@@ -1110,14 +1110,14 @@ Public Class Form1
 
             '=========== Deflection angle. Right hand side ===============
             _α(imax_count) = 0
-            For i = imax_count + 1 To steps
+            For i = imax_count + 1 To _steps
                 _α(i) = _α(i - 1) - _m(i) * ΔL / (2 * Young * pipe_Ix * 10 ^ 6) 'Angle [rad]
                 Debug.WriteLine("Right part i= " & i.ToString & ",  _α(i)= " & _α(i).ToString)
             Next
 
             '=========== Deflection /sag ==================
             _αv(0) = 0                  'support sag = 0
-            For i = 1 To steps
+            For i = 1 To _steps
                 _αv(i) = _αv(i - 1) + _α(i) * ΔL * 10 ^ 3 * 2   'Deflection [mm]
             Next
 
@@ -1131,7 +1131,7 @@ Public Class Form1
             TextBox4.Text = _s(i_chute_1).ToString("0")      'Shear force
             TextBox5.Text = _s(i_chute_2).ToString("0")      'Shear force
             TextBox6.Text = _s(i_chute_3).ToString("0")      'Shear force
-            TextBox91.Text = _s(steps).ToString("0")         'Shear force
+            TextBox91.Text = _s(_steps).ToString("0")         'Shear force
 
             TextBox1.Text = _m(i_chute_1).ToString("0")      'Moment chute #1
             TextBox2.Text = _m(i_chute_2).ToString("0")      'Moment chute #2
@@ -1139,7 +1139,7 @@ Public Class Form1
             TextBox37.Text = Round(Q_max_bend, 0).ToString  'Max moment [Nm]   
 
             TextBox114.Clear()
-            For i = 0 To steps    'Write results to text box
+            For i = 0 To _steps    'Write results to text box
                 TextBox114.Text &= "Dist=" & _d(i).ToString("0.000") & "   "
                 TextBox114.Text &= "Shear=" & _s(i).ToString("0000") & "   "
                 TextBox114.Text &= "Moment=" & _m(i).ToString("0000") & "   "
@@ -2458,9 +2458,9 @@ Public Class Form1
             Chart1.ChartAreas("ChartArea0").AxisY.RoundAxisValues()
             Chart1.ChartAreas("ChartArea0").AxisX.RoundAxisValues()
             Chart1.ChartAreas("ChartArea0").AxisX.Minimum = 0
-            Chart1.ChartAreas("ChartArea0").AxisX.Maximum = _d(steps)
+            Chart1.ChartAreas("ChartArea0").AxisX.Maximum = _d(_steps)
 
-            For hh = 0 To steps
+            For hh = 0 To _steps
                 Chart1.Series(0).Points.AddXY(_d(hh), _s(hh)) 'Shear force line
                 Chart1.Series(1).Points.AddXY(_d(hh), -_m(hh)) 'Moment line
             Next
@@ -2496,9 +2496,9 @@ Public Class Form1
             Chart2.ChartAreas("ChartArea0").AxisY.RoundAxisValues()
             Chart2.ChartAreas("ChartArea0").AxisX.RoundAxisValues()
             Chart2.ChartAreas("ChartArea0").AxisX.Minimum = 0
-            Chart2.ChartAreas("ChartArea0").AxisX.Maximum = _d(steps)
+            Chart2.ChartAreas("ChartArea0").AxisX.Maximum = _d(_steps)
 
-            For hh = 0 To steps
+            For hh = 0 To _steps
                 Chart2.Series(0).Points.AddXY(_d(hh), _α(hh))   'Angle
             Next
 
@@ -2533,9 +2533,9 @@ Public Class Form1
             Chart3.ChartAreas("ChartArea0").AxisY.RoundAxisValues()
             Chart3.ChartAreas("ChartArea0").AxisX.RoundAxisValues()
             Chart3.ChartAreas("ChartArea0").AxisX.Minimum = 0
-            Chart3.ChartAreas("ChartArea0").AxisX.Maximum = _d(steps)
+            Chart3.ChartAreas("ChartArea0").AxisX.Maximum = _d(_steps)
 
-            For hh = 0 To steps
+            For hh = 0 To _steps
                 Chart3.Series(0).Points.AddXY(_d(hh), _αv(hh))  'Deflection
             Next
 

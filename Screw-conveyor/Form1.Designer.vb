@@ -1280,7 +1280,7 @@ Partial Class Form1
         Me.NumericUpDown28.Size = New System.Drawing.Size(60, 20)
         Me.NumericUpDown28.TabIndex = 18
         Me.NumericUpDown28.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.NumericUpDown28.Value = New Decimal(New Integer() {2, 0, 0, 0})
+        Me.NumericUpDown28.Value = New Decimal(New Integer() {3, 0, 0, 0})
         '
         'Label144
         '
@@ -1288,9 +1288,9 @@ Partial Class Form1
         Me.Label144.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label144.Location = New System.Drawing.Point(17, 75)
         Me.Label144.Name = "Label144"
-        Me.Label144.Size = New System.Drawing.Size(214, 18)
+        Me.Label144.Size = New System.Drawing.Size(195, 18)
         Me.Label144.TabIndex = 14
-        Me.Label144.Text = "Inlet chute-plate distance λ4 [m]"
+        Me.Label144.Text = "CL inlet chute-bearing λ4 [m]"
         '
         'GroupBox21
         '
@@ -1385,7 +1385,7 @@ Partial Class Form1
         Me.NumericUpDown24.Size = New System.Drawing.Size(60, 20)
         Me.NumericUpDown24.TabIndex = 18
         Me.NumericUpDown24.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.NumericUpDown24.Value = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NumericUpDown24.Value = New Decimal(New Integer() {2, 0, 0, 0})
         '
         'Label142
         '
@@ -1393,9 +1393,9 @@ Partial Class Form1
         Me.Label142.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label142.Location = New System.Drawing.Point(13, 79)
         Me.Label142.Name = "Label142"
-        Me.Label142.Size = New System.Drawing.Size(214, 18)
+        Me.Label142.Size = New System.Drawing.Size(195, 18)
         Me.Label142.TabIndex = 14
-        Me.Label142.Text = "Inlet chute-plate distance λ3 [m]"
+        Me.Label142.Text = "CL inlet chute-bearing λ3 [m]"
         '
         'GroupBox20
         '
@@ -1490,7 +1490,7 @@ Partial Class Form1
         Me.NumericUpDown16.Size = New System.Drawing.Size(60, 20)
         Me.NumericUpDown16.TabIndex = 18
         Me.NumericUpDown16.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.NumericUpDown16.Value = New Decimal(New Integer() {5, 0, 0, 65536})
+        Me.NumericUpDown16.Value = New Decimal(New Integer() {1, 0, 0, 0})
         '
         'Label21
         '
@@ -1498,9 +1498,9 @@ Partial Class Form1
         Me.Label21.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label21.Location = New System.Drawing.Point(15, 81)
         Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(214, 18)
+        Me.Label21.Size = New System.Drawing.Size(195, 18)
         Me.Label21.TabIndex = 14
-        Me.Label21.Text = "Inlet chute-plate distance λ2 [m]"
+        Me.Label21.Text = "CL inlet chute-bearing λ2 [m]"
         '
         'Button4
         '
