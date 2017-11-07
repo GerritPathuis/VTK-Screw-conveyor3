@@ -449,6 +449,10 @@ Partial Class Form1
         Me.NumericUpDown38 = New System.Windows.Forms.NumericUpDown()
         Me.Label166 = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.NumericUpDown39 = New System.Windows.Forms.NumericUpDown()
+        Me.Label170 = New System.Windows.Forms.Label()
+        Me.NumericUpDown40 = New System.Windows.Forms.NumericUpDown()
+        Me.Label171 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox17.SuspendLayout()
@@ -523,6 +527,8 @@ Partial Class Form1
         Me.GroupBox24.SuspendLayout()
         CType(Me.NumericUpDown26, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown38, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.NumericUpDown39, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.NumericUpDown40, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TabControl1
@@ -843,6 +849,10 @@ Partial Class Form1
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.NumericUpDown40)
+        Me.GroupBox1.Controls.Add(Me.Label171)
+        Me.GroupBox1.Controls.Add(Me.NumericUpDown39)
+        Me.GroupBox1.Controls.Add(Me.Label170)
         Me.GroupBox1.Controls.Add(Me.Label135)
         Me.GroupBox1.Controls.Add(Me.ComboBox11)
         Me.GroupBox1.Controls.Add(Me.TextBox110)
@@ -870,7 +880,7 @@ Partial Class Form1
         Me.GroupBox1.Controls.Add(Me.Label1)
         Me.GroupBox1.Location = New System.Drawing.Point(8, 193)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(370, 351)
+        Me.GroupBox1.Size = New System.Drawing.Size(370, 424)
         Me.GroupBox1.TabIndex = 11
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Conveyor data"
@@ -5079,6 +5089,52 @@ Partial Class Form1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'NumericUpDown39
+        '
+        Me.NumericUpDown39.BackColor = System.Drawing.Color.Yellow
+        Me.NumericUpDown39.DecimalPlaces = 2
+        Me.NumericUpDown39.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.NumericUpDown39.Location = New System.Drawing.Point(203, 334)
+        Me.NumericUpDown39.Maximum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NumericUpDown39.Name = "NumericUpDown39"
+        Me.NumericUpDown39.Size = New System.Drawing.Size(65, 20)
+        Me.NumericUpDown39.TabIndex = 32
+        Me.NumericUpDown39.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.NumericUpDown39.Value = New Decimal(New Integer() {40, 0, 0, 131072})
+        '
+        'Label170
+        '
+        Me.Label170.AutoSize = True
+        Me.Label170.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label170.Location = New System.Drawing.Point(17, 336)
+        Me.Label170.Name = "Label170"
+        Me.Label170.Size = New System.Drawing.Size(173, 16)
+        Me.Label170.TabIndex = 31
+        Me.Label170.Text = "CL Bearing drive plate [mm]"
+        '
+        'NumericUpDown40
+        '
+        Me.NumericUpDown40.BackColor = System.Drawing.Color.Yellow
+        Me.NumericUpDown40.DecimalPlaces = 2
+        Me.NumericUpDown40.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.NumericUpDown40.Location = New System.Drawing.Point(203, 360)
+        Me.NumericUpDown40.Maximum = New Decimal(New Integer() {1, 0, 0, 0})
+        Me.NumericUpDown40.Name = "NumericUpDown40"
+        Me.NumericUpDown40.Size = New System.Drawing.Size(65, 20)
+        Me.NumericUpDown40.TabIndex = 34
+        Me.NumericUpDown40.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.NumericUpDown40.Value = New Decimal(New Integer() {3, 0, 0, 65536})
+        '
+        'Label171
+        '
+        Me.Label171.AutoSize = True
+        Me.Label171.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label171.Location = New System.Drawing.Point(17, 362)
+        Me.Label171.Name = "Label171"
+        Me.Label171.Size = New System.Drawing.Size(160, 16)
+        Me.Label171.TabIndex = 33
+        Me.Label171.Text = "CL Bearing tail plate [mm]"
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -5188,6 +5244,8 @@ Partial Class Form1
         Me.GroupBox24.PerformLayout()
         CType(Me.NumericUpDown26, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NumericUpDown38, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NumericUpDown39, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NumericUpDown40, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -5609,4 +5667,8 @@ Partial Class Form1
     Friend WithEvents Label169 As Label
     Friend WithEvents Chart3 As DataVisualization.Charting.Chart
     Friend WithEvents Chart2 As DataVisualization.Charting.Chart
+    Friend WithEvents NumericUpDown40 As NumericUpDown
+    Friend WithEvents Label171 As Label
+    Friend WithEvents NumericUpDown39 As NumericUpDown
+    Friend WithEvents Label170 As Label
 End Class

@@ -133,8 +133,8 @@ Public Class Form1
 "Bran, Rice-Rye-Wheat;18B355NY;30A;1A,1B,1C;260;320;0.5",
 "Braunite (Manganese Oxide);120A36;30B;2D;1920;1920;2",
 "Bread Crumbs;23B35PQ;30A;1A,1B,1C;320;400;0.6",
-"Brewer's Grain, spent, dry;22C45;30A;1A,1B,1C;220;480;0.5",
-"Brewer€™s Grain, spent, wet;58C45T;30A;2A,2B;880;960;0.8",
+"Brewers Grain, spent, dry;22C45;30A;1A,1B,1C;220;480;0.5",
+"Brewers Grain, spent, wet;58C45T;30A;2A,2B;880;960;0.8",
 "Brick, Ground, 1/8 inch;110B37;15;3D;1600;1920;2.2",
 "Bronze Chips;40B45;30A;2D;480;800;2",
 "Buckwheat;40B25N;45;1A,1B,1C;590;670;0.4",
@@ -237,9 +237,9 @@ Public Class Form1
 "Diatomaceous Earth (Filter Aid, Precoat);14A36Y;30B;3D;180;270;1.6",
 "Dicalcium Phosphate;45A35;30A;1A,1B,1C;640;800;1.6",
 "Disodium Phosphate;28A35;30A;3D;400;500;0.5",
-"Distiller€™s Grain, Spent Wet;50C45V;30A;3A,3B;640;960;0.8",
-"Distiller€™s Grain, Spent Wet w/Syrup;56C45VXOH;30A;3A,3B;690;1090;1.2",
-"Distiller€™s Grain-Spent Dry;30B35;30A;2D;480;480;0.5",
+"Distillers Grain, Spent Wet;50C45V;30A;3A,3B;640;960;0.8",
+"Distillers Grain, Spent Wet w/Syrup;56C45VXOH;30A;3A,3B;690;1090;1.2",
+"Distillers Grain-Spent Dry;30B35;30A;2D;480;480;0.5",
 "Dolomite, Crushed;90C36;30B;2D;1280;1600;2",
 "Dolomite, Lumpy;95D36;30B;2D;1440;1600;2",
 "Earth, Loam, Dry, Loose;76C36;30B;2D;1220;1220;1.2",
@@ -267,14 +267,13 @@ Public Class Form1
 "Fluorspar, Lumps;100D36;30B;2D;1440;1760;2",
 "Flyash;38A36M;30B;3D;480;720;2",
 "Foundry Sand, Dry (Sand);95D37Z;15;3D;1440;1600;2.6",
-"Fuller€™s Earth, Calcined;40A25;45;3D;640;640;2",
-"Fuller€™s Earth, Dry, Raw (Bleach Clay);35A25;45;2D;480;640;2",
-"Fuller€™s Earth, Oily, Spent (Spent Bleach Clay);63C45OW;30A;3D;960;1040;2",
+"Fuller™s Earth, Calcined;40A25;45;3D;640;640;2",
+"Fuller™s Earth, Dry, Raw (Bleach Clay);35A25;45;2D;480;640;2",
+"Fuller™s Earth, Oily, Spent (Spent Bleach Clay);63C45OW;30A;3D;960;1040;2",
 "Galena (Lead Sulfide);250A35R;30A;2D;3840;4160;5",
 "Gelatine, Granulated;32B35PU;30A;1B;510;510;0.8",
 "Gilsonite;37C35;30A;3D;590;590;1.5",
-"Glass, Batch;90C37;15;3D;1280;1600;2.5",
-"Glue, Ground;40B45U;30A;2D;640;640;1.7",
+"Glass, Batch;90C37;15;3D;1280;1600;2.5", "Glue, Ground;40B45U;30A;2D;640;640;1.7",
 "Glue, Pearl;40C35U;30A;1A,1B,1C;640;640;0.5",
 "Glue, Veg. Powdered;40A45U;30A;1A,1B,1C;640;640;0.6",
 "Gluten, Meal (Dry Corn Gluten);40B35P;30A;1B;640;640;0.6",
@@ -477,7 +476,7 @@ Public Class Form1
 "Sulphur, Powdered;55A35MN;30A;1A,1B;800;960;0.6",
 "Sunflower Seed;29C15;45;1A,1B,1C;300;610;0.5",
 "Sunflower Seed Flakes;28C35;30A;1A,1B,1C;430;450;0.8",
-"Swee Bran Feed (proprietary to Cargill);29B45P;30A;1A,1B,1C;340;590;0.6",
+"Swee Bran Feed;29B45P;30A;1A,1B,1C;340;590;0.6",
 "Talcum Powder;55A36M;30B;2D;800;960;0.8",
 "Talcum, 1/2 ich;85C36;30B;2D;1280;1440;0.9",
 "Tanbark, Ground**;55B45;30A;1A,1B,1C;880;880;0.7",
@@ -497,7 +496,7 @@ Public Class Form1
 "Vermiculite, Ore;80D36;30B;2D;1280;1280;1",
 "Vetch;48B16N;30B;1A,1B,1C;770;770;0.4",
 "Walnut Shells, Crushed;40B36;30B;2D;560;720;1",
-"Wheat;47C25N;45;1A,1B,1C;720;770;0.4",
+"Wheat; 47C25N;45;1A,1B,1C;720;770;0.4",
 "Wheat Flour;37A45LP;45;1B;530;640;0.6",
 "Wheat, Cracked;43B25N;45;1A,1B,1C;640;720;0.4",
 "Wheat, Germ;23B25;45;1A,1B,1C;290;450;0.4",
@@ -964,11 +963,11 @@ Public Class Form1
             TextBox117.Text = force_3.ToString("0")             'Material inlet force
             TextBox118.Text = Uniform_mat_load.ToString("0")
 
-            _λ1 = 0.25                             '[m] length drive shaft
+            _λ1 = NumericUpDown39.Value            '[m] CL Bearing to drive plate
             _λ2 = NumericUpDown16.Value            '[m] CL inlet chute #1 to bearing
             _λ3 = NumericUpDown24.Value            '[m] CL inlet chute #2 to bearing
             _λ4 = NumericUpDown28.Value            '[m] CL inlet chute #3 to bearing
-            _λ5 = 0.25                             '[m] length tail shaft
+            _λ5 = NumericUpDown40.Value            '[m] CL Bearing to tail plate
             _λ6 = NumericUpDown3.Value             '[m] lengte van de trog/schroef 
             _λ7 = _λ1 + _λ6 + _λ5                  '[m] bearing-bearing
 
@@ -1542,7 +1541,6 @@ Public Class Form1
         oTable.Cell(row, 7).Range.Text = "[%]"
 
         row += 1
-
         oTable.Cell(row, 1).Range.Text = "Total cost price"
         oTable.Cell(row, 5).Range.Text = TextBox73.Text
         oTable.Cell(row, 4).Range.Text = "[€]"
