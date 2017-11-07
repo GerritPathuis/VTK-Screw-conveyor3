@@ -787,7 +787,7 @@ Public Class Form1
         cap_act = flow_hr / density
         filling_perc = Round(cap_act / cap_hr * 100, 1)
         If filling_perc > 100 Then filling_perc = 100
-        TextBox01.BackColor = CType(IIf(filling_perc > 40, Color.Red, Color.LightGreen), Color)
+        TextBox01.BackColor = CType(IIf(filling_perc > 45, Color.Red, Color.LightGreen), Color)
 
         '--------------- ISO 7119 -----------------
         height = _λ6 * Sin(_angle / 360 * 2 * PI)
@@ -1944,7 +1944,7 @@ Public Class Form1
             oTable.Cell(row, 2).Range.Text = CType(NumericUpDown2.Value, String)
             oTable.Cell(row, 3).Range.Text = "[-]"
             row += 1
-            oTable.Cell(row, 1).Range.Text = "Blade thicknes"
+            oTable.Cell(row, 1).Range.Text = "Blade thickness"
             oTable.Cell(row, 2).Range.Text = CType(NumericUpDown8.Value, String)
             oTable.Cell(row, 3).Range.Text = "[mm]"
             row += 1
@@ -2135,7 +2135,7 @@ Public Class Form1
             oTable.Columns(3).Width = oWord.InchesToPoints(1.5)
             oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
 
-            '------------------save picture ---------------- 
+            '------------------save picture #1---------------- 
             Draw_chart1()
             Chart1.SaveImage(dirpath_Home_GP & "ShearChart.gif", System.Drawing.Imaging.ImageFormat.Gif)
             opara3 = oDoc.Content.Paragraphs.Add
@@ -2145,9 +2145,29 @@ Public Class Form1
             opara3.Range.InlineShapes.Item(1).ScaleWidth = 30       'Size
             opara3.Range.InsertParagraphAfter()
 
+            '------------------save picture #2 ---------------- 
+            Draw_chart2()
+            Chart2.SaveImage(dirpath_Home_GP & "DeflectionradChart.gif", System.Drawing.Imaging.ImageFormat.Gif)
+            opara3 = oDoc.Content.Paragraphs.Add
+            opara3.Alignment = Word.WdParagraphAlignment.wdAlignParagraphThaiJustify
+            opara3.Range.InlineShapes.AddPicture(dirpath_Home_GP & "DeflectionradChart.gif")
+            opara3.Range.InlineShapes.Item(1).LockAspectRatio = CType(True, Microsoft.Office.Core.MsoTriState)
+            opara3.Range.InlineShapes.Item(1).ScaleWidth = 30       'Size
+            opara3.Range.InsertParagraphAfter()
+
+            '------------------save picture #3 ---------------- 
+            Draw_chart3()
+            Chart3.SaveImage(dirpath_Home_GP & "DeflectionmmChart.gif", System.Drawing.Imaging.ImageFormat.Gif)
+            opara3 = oDoc.Content.Paragraphs.Add
+            opara3.Alignment = Word.WdParagraphAlignment.wdAlignParagraphThaiJustify
+            opara3.Range.InlineShapes.AddPicture(dirpath_Home_GP & "DeflectionmmChart.gif")
+            opara3.Range.InlineShapes.Item(1).LockAspectRatio = CType(True, Microsoft.Office.Core.MsoTriState)
+            opara3.Range.InlineShapes.Item(1).ScaleWidth = 30       'Size
+            opara3.Range.InsertParagraphAfter()
+
             ''-------------- Checks-------
             'Insert a 5 x 1 table, fill it with data and change the column widths.
-            oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 5, 1)
+            oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 6, 1)
             oTable.Range.ParagraphFormat.SpaceAfter = 1
             oTable.Range.Font.Size = font_sizze
             oTable.Range.Font.Bold = CInt(False)
@@ -2171,7 +2191,7 @@ Public Class Form1
             End If
             row += 1
             If TextBox01.BackColor = Color.Red Then
-                oTable.Cell(row, 1).Range.Text = "NOK, Filling percentage > 40%"
+                oTable.Cell(row, 1).Range.Text = "NOK, Filling percentage > 45%"
             Else
                 oTable.Cell(row, 1).Range.Text = "OK, Filling percentage"
             End If
@@ -2180,6 +2200,12 @@ Public Class Form1
                 oTable.Cell(row, 1).Range.Text = "NOK, Combined pipe stress too high"
             Else
                 oTable.Cell(row, 1).Range.Text = "OK, Combined pipe stress"
+            End If
+            row += 1
+            If TextBox20.BackColor = Color.Red Then
+                oTable.Cell(row, 1).Range.Text = "NOK, Deflection pipe too high"
+            Else
+                oTable.Cell(row, 1).Range.Text = "OK, Deflection pipe stress"
             End If
             oTable.Columns(1).Width = oWord.InchesToPoints(4.0)
             oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
@@ -2574,7 +2600,7 @@ Public Class Form1
 
             Chart3.ChartAreas.Add("ChartArea0")
             Chart3.Series(0).ChartArea = "ChartArea0"
-            Chart3.Titles.Add("Deflection")
+            Chart3.Titles.Add("Deflection in [mm]")
             Chart3.Titles(0).Font = New Font("Arial", 12, System.Drawing.FontStyle.Bold)
 
             '--------------- Legends and titles ---------------
