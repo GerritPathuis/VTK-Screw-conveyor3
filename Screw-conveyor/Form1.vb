@@ -844,7 +844,7 @@ Public Class Form1
         Dim force_1 As Double
         Dim force_2 As Double
         Dim force_3 As Double
-        Dim Q_Deflect_max, Q_max_bend As Double
+        Dim Q_max_bend As Double
         Dim F_tangent, Radius_transport As Double
         Dim pipe_weight_m As Double
         Dim pipe_OR, pipe_IR As Double
@@ -1098,20 +1098,20 @@ Public Class Form1
                 End If
             Next
 
-            Debug.WriteLine(_d(imax_count).ToString)
+            'Debug.WriteLine(_d(imax_count).ToString)
 
             '=========== Deflection angle, Left hand side ===============
             _α(imax_count) = 0
             For i = imax_count - 1 To 0 Step -1
                 _α(i) = _α(i + 1) + _m(i) * ΔL / (2 * Young * pipe_Ix * 10 ^ 6) 'Angle [rad]
-                Debug.WriteLine("Left part i= " & i.ToString & ",  _α(i)= " & _α(i).ToString)
+                'Debug.WriteLine("Left part i= " & i.ToString & ",  _α(i)= " & _α(i).ToString)
             Next
 
             '=========== Deflection angle. Right hand side ===============
             _α(imax_count) = 0
             For i = imax_count + 1 To _steps
                 _α(i) = _α(i - 1) - _m(i) * ΔL / (2 * Young * pipe_Ix * 10 ^ 6) 'Angle [rad]
-                Debug.WriteLine("Right part i= " & i.ToString & ",  _α(i)= " & _α(i).ToString)
+                'Debug.WriteLine("Right part i= " & i.ToString & ",  _α(i)= " & _α(i).ToString)
             Next
 
             '=========== Deflection /sag ==================
@@ -1179,17 +1179,20 @@ Public Class Form1
                     max_sag = 1000
             End Select
 
-        End If
-        TextBox49.Text = product_density.ToString("0")
 
-        '---------- checks---------
-        TextBox20.BackColor = CType(IIf(Q_Deflect_max > (_λ7 / max_sag), Color.Red, Color.LightGreen), Color)
-        TextBox09.BackColor = CType(IIf(sigma_eg > sigma_fatique, Color.Red, Color.LightGreen), Color)
-        TextBox21.BackColor = CType(IIf(combined_stress > sigma_fatique, Color.Red, Color.LightGreen), Color)
-        TextBox12.BackColor = CType(IIf(Tou_torque > sigma_fatique, Color.Red, Color.LightGreen), Color)
-        NumericUpDown28.BackColor = CType(IIf(_λ4 > _λ6, Color.Red, Color.Yellow), Color) 'Inlet #3
-        NumericUpDown24.BackColor = CType(IIf(_λ3 > _λ4, Color.Red, Color.Yellow), Color) 'Inlet #2
-        NumericUpDown16.BackColor = CType(IIf(_λ2 > _λ3, Color.Red, Color.Yellow), Color) 'Inlet #1
+            TextBox49.Text = product_density.ToString("0")
+
+            ' Debug.WriteLine(_αv(imax_count).ToString & " " & (_λ7 * 1000 / max_sag).ToString)
+            '---------- checks---------
+            TextBox20.BackColor = CType(IIf(_αv(imax_count) > (_λ7 * 1000 / max_sag), Color.Red, Color.LightGreen), Color)
+            TextBox09.BackColor = CType(IIf(sigma_eg > sigma_fatique, Color.Red, Color.LightGreen), Color)
+            TextBox21.BackColor = CType(IIf(combined_stress > sigma_fatique, Color.Red, Color.LightGreen), Color)
+            TextBox12.BackColor = CType(IIf(Tou_torque > sigma_fatique, Color.Red, Color.LightGreen), Color)
+            NumericUpDown28.BackColor = CType(IIf(_λ4 > _λ6, Color.Red, Color.Yellow), Color) 'Inlet #3
+            NumericUpDown24.BackColor = CType(IIf(_λ3 > _λ4, Color.Red, Color.Yellow), Color) 'Inlet #2
+            NumericUpDown16.BackColor = CType(IIf(_λ2 > _λ3, Color.Red, Color.Yellow), Color) 'Inlet #1
+        End If
+
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click, NumericUpDown11.ValueChanged, ComboBox2.SelectedIndexChanged, NumericUpDown13.ValueChanged, TabPage2.Enter, NumericUpDown17.ValueChanged, NumericUpDown16.ValueChanged, ComboBox5.SelectedIndexChanged, RadioButton3.CheckedChanged, RadioButton2.CheckedChanged, RadioButton1.CheckedChanged, CheckBox1.CheckedChanged, NumericUpDown18.ValueChanged, NumericUpDown19.ValueChanged, NumericUpDown24.ValueChanged, NumericUpDown28.ValueChanged, CheckBox10.CheckedChanged, NumericUpDown29.ValueChanged, NumericUpDown37.ValueChanged, NumericUpDown36.ValueChanged, NumericUpDown32.ValueChanged, NumericUpDown31.ValueChanged, NumericUpDown22.ValueChanged
@@ -2001,32 +2004,79 @@ Public Class Form1
             oTable.Columns(3).Width = oWord.InchesToPoints(1.5)
             oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
 
-            '-------------Loads-------------------------------
+            '-------------Dimensions inlets-------------------------------
             'Insert a table, fill it with data and change the column widths.
-            oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 6, 3)
+            oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 4, 3)
             oTable.Range.ParagraphFormat.SpaceAfter = 1
             oTable.Range.Font.Size = font_sizze
             oTable.Range.Font.Bold = CInt(False)
             oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
 
             row = 1
-            oTable.Cell(row, 1).Range.Text = "Loads"
+            oTable.Cell(row, 1).Range.Text = "Inlets chutes"
             oTable.Cell(row, 2).Range.Text = ""
             oTable.Cell(row, 3).Range.Text = ""
             row += 1
-            oTable.Cell(row, 1).Range.Text = "Inlet chute #1 Force"
+            oTable.Cell(row, 1).Range.Text = "Chute #1 size and location"
+            oTable.Cell(row, 2).Range.Text = ComboBox11.Text & " x " & (NumericUpDown31.Value * 1000).ToString("0") & " @ " & (NumericUpDown16.Value * 1000).ToString
+            oTable.Cell(row, 3).Range.Text = "[mm]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Chute #2 size and location"
+            oTable.Cell(row, 2).Range.Text = ComboBox11.Text & " x " & (NumericUpDown32.Value * 1000).ToString("0") & " @ " & (NumericUpDown24.Value * 1000).ToString
+            oTable.Cell(row, 3).Range.Text = "[mm]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Chute #3 size and location"
+            oTable.Cell(row, 2).Range.Text = ComboBox11.Text & " x " & (NumericUpDown22.Value * 1000).ToString("0") & " @ " & (NumericUpDown28.Value * 1000).ToString
+            oTable.Cell(row, 3).Range.Text = "[mm]"
+
+            oTable.Columns(1).Width = oWord.InchesToPoints(2.0)
+            oTable.Columns(2).Width = oWord.InchesToPoints(1.8)
+            oTable.Columns(3).Width = oWord.InchesToPoints(1.5)
+
+            oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+            oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+            '-------------Loads-------------------------------
+            'Insert a table, fill it with data and change the column widths.
+            oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 9, 3)
+            oTable.Range.ParagraphFormat.SpaceAfter = 1
+            oTable.Range.Font.Size = font_sizze
+            oTable.Range.Font.Bold = CInt(False)
+            oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+
+            row = 1
+            oTable.Cell(row, 1).Range.Text = "Chute loads"
+            oTable.Cell(row, 2).Range.Text = ""
+            oTable.Cell(row, 3).Range.Text = ""
+
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Chute #1 material column"
+            oTable.Cell(row, 2).Range.Text = NumericUpDown19.Value.ToString
+            oTable.Cell(row, 3).Range.Text = "[m]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Chute #1 Force"
             oTable.Cell(row, 2).Range.Text = TextBox115.Text
             oTable.Cell(row, 3).Range.Text = "[N]"
+
             row += 1
-            oTable.Cell(row, 1).Range.Text = "Inlet chute #2 Force"
+            oTable.Cell(row, 1).Range.Text = "Chute #2 material column"
+            oTable.Cell(row, 2).Range.Text = NumericUpDown36.Value.ToString
+            oTable.Cell(row, 3).Range.Text = "[m]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Chute #2 Force"
             oTable.Cell(row, 2).Range.Text = TextBox116.Text
             oTable.Cell(row, 3).Range.Text = "[N]"
+
             row += 1
-            oTable.Cell(row, 1).Range.Text = "Inlet chute #3 Force"
+            oTable.Cell(row, 1).Range.Text = "Chute #3 material column"
+            oTable.Cell(row, 2).Range.Text = NumericUpDown37.Value.ToString
+            oTable.Cell(row, 3).Range.Text = "[m]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Chute #3 Force"
             oTable.Cell(row, 2).Range.Text = TextBox117.Text
             oTable.Cell(row, 3).Range.Text = "[N]"
+
             row += 1
-            oTable.Cell(row, 1).Range.Text = "Uniform load"
+            oTable.Cell(row, 1).Range.Text = "Uniform material load"
             oTable.Cell(row, 2).Range.Text = TextBox118.Text
             oTable.Cell(row, 3).Range.Text = "[N/m]"
             row += 1
@@ -2341,7 +2391,7 @@ Public Class Form1
             If Not CheckBox8.Checked Then cost_stopbus = 0
 
             cost_hang = NumericUpDown35.Value * 500
-            cost_transport = 800                                '€ intern transport
+            cost_transport = 400                                '€ intern transport
             If Not CheckBox7.Checked Then cost_transport = 0
 
             totalplate_cost = 2 * cost_kopstaartplaat + cost_trog + cost_pipe + cost_inlaat + cost_uitlaat + cost_voet
