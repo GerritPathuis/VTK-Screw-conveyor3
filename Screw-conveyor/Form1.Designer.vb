@@ -581,21 +581,23 @@ Partial Class Form1
         '
         'Button9
         '
+        Me.Button9.BackColor = System.Drawing.Color.LightSteelBlue
         Me.Button9.Location = New System.Drawing.Point(175, 116)
         Me.Button9.Name = "Button9"
         Me.Button9.Size = New System.Drawing.Size(172, 23)
         Me.Button9.TabIndex = 76
         Me.Button9.Text = "Retrieve input"
-        Me.Button9.UseVisualStyleBackColor = True
+        Me.Button9.UseVisualStyleBackColor = False
         '
         'Button8
         '
+        Me.Button8.BackColor = System.Drawing.Color.LightSteelBlue
         Me.Button8.Location = New System.Drawing.Point(13, 116)
         Me.Button8.Name = "Button8"
         Me.Button8.Size = New System.Drawing.Size(143, 23)
         Me.Button8.TabIndex = 75
         Me.Button8.Text = "Save Input "
-        Me.Button8.UseVisualStyleBackColor = True
+        Me.Button8.UseVisualStyleBackColor = False
         '
         'TextBox65
         '
