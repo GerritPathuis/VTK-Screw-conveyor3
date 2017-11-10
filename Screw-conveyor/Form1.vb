@@ -1848,6 +1848,10 @@ Public Class Form1
         ComboBox10.SelectedIndex = 3
     End Sub
 
+    Private Sub Label117_Click(sender As Object, e As EventArgs) Handles Label117.Click
+
+    End Sub
+
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
         Print_word()
     End Sub
