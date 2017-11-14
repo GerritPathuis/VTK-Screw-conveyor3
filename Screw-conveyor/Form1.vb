@@ -1446,32 +1446,32 @@ Public Class Form1
         oTable.Cell(row, 3).Range.Text = CType(NumericUpDown27.Value, String)
         oTable.Cell(row, 2).Range.Text = "[-]"
         row += 1
-        oTable.Cell(row, 1).Range.Text = "Dikte kop-en staartplaat"
+        oTable.Cell(row, 1).Range.Text = "Gewicht kop-en staartplaat"
         oTable.Cell(row, 3).Range.Text = CType(NumericUpDown10.Value, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
         oTable.Cell(row, 5).Range.Text = TextBox42.Text
         oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
-        oTable.Cell(row, 1).Range.Text = "Dikte schroefblad"
+        oTable.Cell(row, 1).Range.Text = "Gewicht schroefblad"
         oTable.Cell(row, 3).Range.Text = CType(NumericUpDown8.Value, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
         oTable.Cell(row, 5).Range.Text = TextBox46.Text
         oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
-        oTable.Cell(row, 1).Range.Text = "Dikte trog"
+        oTable.Cell(row, 1).Range.Text = "Gewicht trog"
         oTable.Cell(row, 3).Range.Text = CType(NumericUpDown14.Value, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
         oTable.Cell(row, 5).Range.Text = TextBox47.Text
         oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
-        oTable.Cell(row, 1).Range.Text = "Dikte deksel"
+        oTable.Cell(row, 1).Range.Text = "Gewicht deksel"
         oTable.Cell(row, 3).Range.Text = CType(NumericUpDown15.Value, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
         oTable.Cell(row, 5).Range.Text = TextBox48.Text
         oTable.Cell(row, 4).Range.Text = "[kg]"
 
         row += 1
-        oTable.Cell(row, 1).Range.Text = "Astap diameter"
+        oTable.Cell(row, 1).Range.Text = "Gewicht Astap"
         oTable.Cell(row, 3).Range.Text = CType(ComboBox13.SelectedItem, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
         oTable.Cell(row, 5).Range.Text = TextBox54.Text
@@ -2232,10 +2232,11 @@ Public Class Form1
     End Sub
 
     Private Sub Costing_material()
-        Dim rho_materiaal, rho_kunststof As Double
-        Dim dikte_trog, opp_trog, kopstaartplaat, weight_kopstaartplaat, kg_trog As Double
-        Dim weight_pipe, dikte_deksel, speling_trog, diam_schroef As Double
-        Dim kg_inlaat, kg_uitlaat, kg_lining, dikte_lining As Double
+        Dim rho_staal, rho_kunststof As Double
+        Dim opp_trog, opp_kopstaartplaat, kg_kopstaartplaat, kg_trog As Double
+        Dim kg_pipe, speling_trog, diam_schroef As Double
+        Dim kopstaart_dikte, dikte_deksel, dikte_lining, dikte_trog As Double
+        Dim kg_inlaat, kg_uitlaat, kg_lining As Double
         Dim kg_deksel, kg_voet, kg_schroefblad, total_kg_plaat As Double
         Dim hoek_spoed As Double
         Dim nr_flights, spoed As Double
@@ -2247,7 +2248,7 @@ Public Class Form1
         Dim cost_kopstaartplaat, cost_trog, cost_pipe, cost_deksel, cost_inlaat, cost_uitlaat As Double
         Dim cost_voet, cost_schroefblad, cost_astap, cost_lining, cost_afschermkap As Double
         Dim cost_paint, cost_painting, cost_cutting As Double
-        Dim cost_motorreductor, cost_koppeling, cost_lagers, cost_stopbuspakking As Double
+        Dim cost_motorreductor, cost_koppeling, cost_lagers As Double
         Dim cost_pakking, cost_hang, cost_transport As Double
         Dim cost_stopbus As Double
         Dim certificate_cost, totalplate_cost, total_cost As Double
@@ -2270,7 +2271,7 @@ Public Class Form1
 
         Select Case True
             Case (RadioButton6.Checked)         'staal, s235JR
-                rho_materiaal = 7850
+                rho_staal = 7850
                 TextBox93.Text = "0.88"         'kop staart  [€/kg]
                 TextBox94.Text = "2.09"         'schroefpijp
                 TextBox95.Text = "3.03"         'schroefblad
@@ -2278,7 +2279,7 @@ Public Class Form1
                 TextBox97.Text = "0.78"         'deksel
                 TextBox92.Text = "2.09"         'astap ronde staf afm 60
             Case (RadioButton7.Checked)         'rvs304, warmgewalst
-                rho_materiaal = 8000
+                rho_staal = 8000
                 TextBox93.Text = "2.45"         'kop staart 
                 TextBox94.Text = "2.45"         'schroefpijp
                 TextBox95.Text = "2.45"         'schroefblad
@@ -2286,7 +2287,7 @@ Public Class Form1
                 TextBox97.Text = "2.45"         'deksel
                 TextBox92.Text = "1.52"         'astap [€/kg] materiaal is standaard van staal
             Case (RadioButton8.Checked)         'rvs316, warmgewalst(zie vtke-151401)
-                rho_materiaal = 7860
+                rho_staal = 7860
                 TextBox93.Text = "4.07"         'kop staart 
                 TextBox94.Text = "7.57"         'schroefpijp
                 TextBox95.Text = "6.07"         'schroefblad
@@ -2322,34 +2323,36 @@ Public Class Form1
             'MessageBox.Show(ex.Message & "Line 1778")  ' Show the exception's message.
         End Try
 
+        '---------------Plaat diktes---------------
+        dikte_trog = NumericUpDown14.Value / 1000
+        kopstaart_dikte = NumericUpDown10.Value / 1000  '[m]
+        dikte_deksel = NumericUpDown15.Value / 1000
+        dikte_lining = NumericUpDown25.Value / 1000
+
+        '--------------staal Oppervlaktes -------
+        opp_trog = PI * _diam_flight * _λ6
+        opp_kopstaartplaat = _diam_flight ^ 2
+
+        '--------------paint Oppervlaktes -------
+        oppb_kopstaartplaat = 2 * opp_kopstaartplaat
+        oppb_trog = 2 * opp_kopstaartplaat + 2 * opp_trog * _λ6 / dikte_trog                'kuip zowel uitwendig als inwendig
+        oppb_pipe = _pipe_OD * PI * _λ6
+
+        '-------------- plaat gewichten---------------
+        kg_kopstaartplaat = _diam_flight ^ 2 * kopstaart_dikte * rho_staal
+        kg_trog = _diam_flight * 4 * dikte_trog * _λ6 * rho_staal
+        kg_deksel = _diam_flight * 1.1 * dikte_deksel * _λ6 * rho_staal     '50mm voor de horizontale flens en 25mm voor het stukje naar beneden
+
+        '--------------- pipe gewicht-------------------
+        Double.TryParse(CType(ComboBox9.SelectedItem, String), _pipe_OD)         ' ComboBox3 = ComboBox9
+        _pipe_OD = _pipe_OD / 1000                  '[m]
+        _pipe_wall = CDbl(ComboBox6.SelectedItem)
+        _pipe_wall /= 1000                          '[m]
+        _pipe_ID = (_pipe_OD - 2 * _pipe_wall)
+        kg_pipe = rho_staal * PI / 4 * (_pipe_OD ^ 2 - _pipe_ID ^ 2) * _λ6
 
         '----------------------------------------WEIGHT + AREA CALCULATIONS-----------------------------------------
         '----------------------------------------------------------------------------------------------
-        dikte_trog = NumericUpDown14.Value / 1000
-
-
-        Select Case True                'Pijpschroef oppervlak
-            Case (RadioButton4.Checked)
-                opp_trog = 2 * PI * ((_diam_flight / 2) * dikte_trog)
-                kopstaartplaat = _diam_flight ^ 2
-            Case (RadioButton5.Checked) 'Trogschroef oppervlak
-                opp_trog = (PI * (_diam_flight / 2) * dikte_trog + 2 * dikte_trog * (0.045 + _diam_flight / 2) + 0.075 * dikte_trog)   'troghoogte=trogbreedte/2+45mm, flens= 0.05+0.025
-                kopstaartplaat = (_diam_flight * (_diam_flight + 0.045))
-        End Select
-
-        weight_kopstaartplaat = kopstaartplaat * (NumericUpDown10.Value / 1000) * rho_materiaal
-        oppb_kopstaartplaat = 2 * kopstaartplaat
-
-        kg_trog = 2 * weight_kopstaartplaat + opp_trog * _λ6 * rho_materiaal
-        oppb_trog = 2 * kopstaartplaat + 2 * opp_trog * _λ6 / dikte_trog                'kuip zowel uitwendig als inwendig
-
-        Double.TryParse(CType(ComboBox9.SelectedItem, String), _pipe_OD)         ' ComboBox3 = ComboBox9
-        _pipe_OD = _pipe_OD / 1000
-        _pipe_wall = CDbl(ComboBox6.SelectedItem)
-        _pipe_wall /= 1000
-        _pipe_ID = (_pipe_OD - 2 * _pipe_wall)
-        weight_pipe = rho_materiaal * PI / 4 * (_pipe_OD ^ 2 - _pipe_ID ^ 2) * _λ6
-        oppb_pipe = _pipe_OD * PI * _λ6
 
         If _diam_flight > 0.3015 Then                          'in [m], radiale speling schroef in kuip: tot diam 0.3m 7.5 mm, daarboven 10mm
             speling_trog = 0.01
@@ -2357,9 +2360,6 @@ Public Class Form1
             speling_trog = 0.0075
         End If
         diam_schroef = _diam_flight - 2 * speling_trog
-
-        dikte_deksel = NumericUpDown15.Value / 1000
-        kg_deksel = _λ6 * dikte_deksel * (_diam_flight + 0.075) * rho_materiaal     '50mm voor de horizontale flens en 25mm voor het stukje naar beneden
         oppb_deksel = 2 * _λ6 * (_diam_flight + 0.075)                              'zowel inwendig als uitwendig
 
         NumericUpDown12.Value = NumericUpDown8.Value                    'Dikte schroefblad bij tab1 opgegeven
@@ -2367,17 +2367,15 @@ Public Class Form1
         nr_flights = _λ6 / spoed
         hoek_spoed = Atan(spoed / (PI * diam_schroef))                  '[rad]    
 
-        kg_schroefblad = PI * rho_materiaal * (NumericUpDown12.Value / 1000) * 0.25 * nr_flights * (diam_schroef ^ 2 - _pipe_OD ^ 2) / Cos(hoek_spoed)         ' DIT IS DE ECHTE FORMULE!!!!!
-        oppb_schroefblad = 2 * (kg_schroefblad / (NumericUpDown12.Value * rho_materiaal / 1000))
+        kg_schroefblad = PI * rho_staal * (NumericUpDown12.Value / 1000) * 0.25 * nr_flights * (diam_schroef ^ 2 - _pipe_OD ^ 2) / Cos(hoek_spoed)         ' DIT IS DE ECHTE FORMULE!!!!!
+        oppb_schroefblad = 2 * (kg_schroefblad / (NumericUpDown12.Value * rho_staal / 1000))
 
         Double.TryParse(CType(ComboBox13.SelectedItem, String), dia_astap)             '[mm] 
         dia_astap = dia_astap / 1000                                    '[m]
         lengte_astap = 1.0                                              'lengte in meters average 1m
         kg_astap = 7850 * lengte_astap * PI * (dia_astap / 2) ^ 2       'het standaardmateriaal is staal, dit is het totale inkoopmateriaal, wat daarna nog wordt gefreesd/gedraaid
         oppb_astap = PI * dia_astap * lengte_astap
-
         rho_kunststof = 970                                             '[kg/m3] dichtheid HDPE
-        dikte_lining = NumericUpDown25.Value / 1000
         kg_lining = rho_kunststof * (PI * _diam_flight + 0.5 * (0.045 + _diam_flight / 2)) * dikte_lining * _λ6
 
         '---------- estimated weights---------------
@@ -2392,123 +2390,155 @@ Public Class Form1
         oppb_voet = 0.5             '[m2]
         oppb_afschermkap = 1        '[m2]
 
-        total_kg_plaat = 2 * weight_kopstaartplaat + kg_trog + kg_inlaat + kg_uitlaat + kg_voet + kg_afschermkap    'Onderdelen van plaat die gesneden worden
-        tot_opperv_paint = oppb_voet + oppb_uitlaat + oppb_inlaat + oppb_trog        'Buiten Oppervlak paint onderdelen 
 
+        '----------------------------------------COST CALCULATION-----------------------------------------------
+        '-------------------------------------------------------------------------------------------------------
+        Dim subtotalCost_Steel As Double
+        Dim subtotalCost_Components As Double
+        Dim subtotalCost_Options As Double
+        Dim subtotalCost_Misc As Double
 
-        '----------------------------------------COST CALCULATION-----------------------------------------
-        '----------------------------------------------------------------------------------------------
         Try
-            cost_painting = cost_paint * tot_opperv_paint
-            cost_kopstaartplaat = weight_kopstaartplaat * Double.Parse(TextBox93.Text)
-            cost_trog = kg_trog * Double.Parse(TextBox96.Text)
-            cost_pipe = weight_pipe * Double.Parse(TextBox94.Text)
-            cost_deksel = kg_deksel * Double.Parse(TextBox97.Text)
-            If Not CheckBox5.Checked Then cost_deksel = 0
+            'TABBLAD COSTING ---------------------------------------------------------------------------------------
+            'STEEL SUBGROUP ----------------------------------------------------------------------------------------
+            cost_kopstaartplaat = 2 * kg_kopstaartplaat * Double.Parse(TextBox93.Text)          'kopstaartplaat kg*prijs
+            cost_trog = kg_trog * Double.Parse(TextBox96.Text)              'trog kg*prijs
+            cost_deksel = kg_deksel * Double.Parse(TextBox97.Text)          'deksel kg*prijs
+            If Not CheckBox5.Checked Then cost_deksel = 0                   'Enable
 
-            cost_cutting = total_kg_plaat * Double.Parse(TextBox113.Text)
-            If Not CheckBox9.Checked Then cost_cutting = 0
+            total_kg_plaat = 2 * kg_kopstaartplaat + kg_trog + kg_inlaat + kg_uitlaat + kg_voet + kg_afschermkap    'Onderdelen van plaat die gesneden worden
+            tot_opperv_paint = oppb_voet + oppb_uitlaat + oppb_inlaat + oppb_trog        'Buiten Oppervlak paint onderdelen 
 
-            cost_inlaat *= NumericUpDown20.Value
-            cost_uitlaat *= NumericUpDown21.Value
-            cost_voet *= NumericUpDown23.Value
-            cost_schroefblad = kg_schroefblad * Double.Parse(TextBox95.Text)
-            cost_astap = kg_astap * Double.Parse(TextBox92.Text)
-            cost_lining = kg_lining * Double.Parse(TextBox84.Text)
-            If Not CheckBox4.Checked Then cost_lining = 0
-            cost_afschermkap = kg_afschermkap * Double.Parse(TextBox85.Text)
-            cost_stopbus = 500                                  '€, te ingewikkeld om precieze prijs te bepalen (2 stuks) 
-            If Not CheckBox8.Checked Then cost_stopbus = 0
+            cost_cutting = total_kg_plaat * Double.Parse(TextBox113.Text)         'snijkosten kg*prijs
 
-            cost_hang = NumericUpDown35.Value * 500
-            cost_transport = 400                                '€ intern transport
-            If Not CheckBox7.Checked Then cost_transport = 0
+            If Not CheckBox9.Checked Then cost_cutting = 0                  '-enable
+            cost_schroefblad = kg_schroefblad * Double.Parse(TextBox95.Text)    'schroefblad kg*prijs
+            cost_pipe = kg_pipe * Double.Parse(TextBox94.Text)              'pijp kg*prijs
+            cost_astap = kg_astap * Double.Parse(TextBox92.Text)                'astap kg*prijs
 
-            totalplate_cost = 2 * cost_kopstaartplaat + cost_trog + cost_pipe + cost_inlaat + cost_uitlaat + cost_voet
-            totalplate_cost += cost_schroefblad + cost_astap + cost_lining + cost_afschermkap + cost_stopbus + cost_hang + cost_deksel
+            'SubTotal calculation
+            subtotalCost_Steel = cost_kopstaartplaat + cost_trog + cost_deksel + cost_cutting + cost_schroefblad + cost_pipe + cost_astap
+
+            'COMPONENTS SUBGROUP -Motorreductor-Koppeling-Lagers--
+            cost_hang = NumericUpDown35.Value * 500                 'Hangende lagers
+            cost_stopbus = 500                                          'Asafdichtingen (2x) te ingewikkeld om precieze prijs te bepalen (2 stuks) 
+            If Not CheckBox8.Checked Then cost_stopbus = 0              '-enable
+
+            'Pakking 'SubTotal calculation
+            subtotalCost_Components = cost_motorreductor + cost_koppeling + cost_lagers + cost_hang + cost_stopbus + cost_pakking
+
+            'OPTIONS SUBGROUP ---------------------------------------------------------------------------------------
+            cost_inlaat *= NumericUpDown20.Value            'Inlaat Schatting
+            cost_uitlaat *= NumericUpDown21.Value            'Uitlaat Schatting
+            cost_voet *= NumericUpDown23.Value               'Voet Schatting
+            cost_afschermkap = kg_afschermkap * Double.Parse(TextBox85.Text)    'Afschermkap schatting
+
+            'SubTotal calculation
+            subtotalCost_Options = cost_inlaat + cost_uitlaat + cost_voet + cost_afschermkap
+
+            'MISC SUBGROUP ---------------------------------------------------------------------------------------
+            cost_lining = kg_lining * Double.Parse(TextBox84.Text)      'lining kg*prijs
+            If Not CheckBox4.Checked Then cost_lining = 0               '-enable
+
+            cost_painting = cost_paint * tot_opperv_paint               'verf m2*prijs
+
+            cost_transport = 400                                        'intern transport
+            If Not CheckBox7.Checked Then cost_transport = 0            '-enable
+
+            'SubTotal calculation
+            subtotalCost_Misc = cost_lining + cost_painting + cost_transport
+
+            'SUBTOTAL ---------------------------------------------------------------------------------------
+            total_cost = subtotalCost_Steel + subtotalCost_Components + subtotalCost_Options + subtotalCost_Misc
 
         Catch ex As Exception
             'MessageBox.Show(ex.Message & "Line 1904")  ' Show the exception's message.
         End Try
 
-        certificate_cost = 50 * NumericUpDown27.Value               'certificaat €50/stuk 
-        total_cost = totalplate_cost + cost_motorreductor + cost_koppeling + cost_lagers + cost_stopbuspakking
-        total_cost += cost_painting + certificate_cost + cost_pakking + cost_transport + cost_cutting
 
-        TextBox42.Text = Round(weight_kopstaartplaat, 1).ToString
-        TextBox47.Text = Round(kg_trog, 1).ToString
-        TextBox45.Text = Round(weight_pipe, 1).ToString
-        TextBox48.Text = Round(kg_deksel, 1).ToString
-        TextBox46.Text = Round(kg_schroefblad, 1).ToString
-        TextBox54.Text = Round(kg_astap, 1).ToString
-        TextBox77.Text = Round(kg_lining, 1).ToString
-        TextBox76.Text = Round(kg_afschermkap, 1).ToString
-        TextBox108.Text = Round(tot_opperv_paint, 1).ToString
+        'FILL TEXTBOXES STEEL SUBGROUP ----------------------------------------------------------------------------------------
+        TextBox42.Text = Round(2 * kg_kopstaartplaat, 1).ToString   'kopstaartplaat kg (twee kopplaten)
+        TextBox56.Text = Round(cost_kopstaartplaat, 2).ToString         'kopstaartplaat cost
 
-        TextBox63.Text = Round(cost_lagers, 2).ToString         'Lagers
-        TextBox57.Text = Round(cost_motorreductor, 2).ToString  'Drive
-        TextBox58.Text = Round(cost_koppeling, 2).ToString      'Coupling
-        TextBox107.Text = Round(cost_painting, 2).ToString      'Paint
-        TextBox104.Text = Round(cost_pakking, 2).ToString       'Seals
-        TextBox43.Text = Round(cost_cutting, 2).ToString        'Plate cutting
+        TextBox47.Text = Round(kg_trog, 1).ToString                 'trog kg
+        TextBox61.Text = Round(cost_trog, 2).ToString               'trog cost
+        TextBox48.Text = Round(kg_deksel, 1).ToString               'deksel kg
+        TextBox62.Text = Round(cost_deksel, 2).ToString             'deksel cost
+        TextBox43.Text = Round(cost_cutting, 2).ToString            'snijkosten
+        TextBox46.Text = Round(kg_schroefblad, 1).ToString          'schroefblad kg
+        TextBox60.Text = Round(cost_schroefblad, 2).ToString        'schroefblad cost
+        TextBox45.Text = Round(kg_pipe, 1).ToString             'pijp kg
+        TextBox59.Text = Round(cost_pipe, 2).ToString               'pijp cost
+        TextBox54.Text = Round(kg_astap, 1).ToString                'astap kg
+        TextBox78.Text = Round(cost_astap, 2).ToString              'astap kg
 
-        TextBox56.Text = Round(cost_kopstaartplaat, 1).ToString
-        TextBox61.Text = Round(cost_trog, 1).ToString
-        TextBox59.Text = Round(cost_pipe, 1).ToString
-        TextBox62.Text = Round(cost_deksel, 1).ToString
-        TextBox79.Text = Round(cost_inlaat, 1).ToString
-        TextBox80.Text = Round(cost_uitlaat, 1).ToString
-        TextBox81.Text = Round(cost_voet, 1).ToString
-        TextBox60.Text = Round(cost_schroefblad, 1).ToString
-        TextBox78.Text = Round(cost_astap, 1).ToString
-        TextBox83.Text = Round(cost_lining, 1).ToString
-        TextBox82.Text = Round(cost_afschermkap, 1).ToString
-        TextBox64.Text = Round(cost_stopbus, 1).ToString
-        TextBox88.Text = Round(certificate_cost, 1).ToString
-        TextBox102.Text = Round(cost_hang, 1).ToString
-        TextBox112.Text = Round(cost_transport, 1).ToString
+        'FILL TEXTBOXES COMPONENTS SUBGROUP ----------------------------------------------------------------------------------------
+        TextBox57.Text = Round(cost_motorreductor, 2).ToString      'Motorreductor
+        TextBox58.Text = Round(cost_koppeling, 2).ToString          'Koppeling
+        TextBox63.Text = Round(cost_lagers, 2).ToString             'Lagers
+        TextBox102.Text = Round(cost_hang, 1).ToString              'Hangende lagers
+        TextBox64.Text = Round(cost_stopbus, 1).ToString            'Asafdichting
+        TextBox104.Text = Round(cost_pakking, 2).ToString           'Seals
 
-        ''Tabblad sales price
+        'FILL TEXTBOXES OPTIONS SUBGROUP ---------------------------------------------------------------------------------------
+        TextBox79.Text = Round(cost_inlaat, 2).ToString             'Inlaat cost
+        TextBox80.Text = Round(cost_uitlaat, 2).ToString            'Uitlaat cost
+        TextBox81.Text = Round(cost_voet, 2).ToString               'Voet cost
+        TextBox76.Text = Round(kg_afschermkap, 1).ToString          'Afschermkap kg
+        TextBox82.Text = Round(cost_afschermkap, 2).ToString        'Afschermkap cost
 
+        'FILL TEXTBOXES MSIC SUBGROUP ----------------------------------------------------------------------------------------
+        TextBox77.Text = Round(kg_lining, 1).ToString               'Lining kg
+        TextBox83.Text = Round(cost_lining, 2).ToString             'Lining cost
+        TextBox108.Text = Round(tot_opperv_paint, 1).ToString       'Verf m2
+        TextBox107.Text = Round(cost_painting, 2).ToString          'Verf cost
+        TextBox112.Text = Round(cost_transport, 2).ToString         'Transport cost
+        'TABBLAD SALES PRICE ---------------------------------------------------------------------------------------
+
+        'CALCULATE ----------------------------------------------------------------------------------------
         uren_engineering = NumericUpDown30.Value
         uren_project = NumericUpDown33.Value
         uren_fabrieks = NumericUpDown34.Value
+
         engineering_prijs_uur = 80
         project_prijs_uur = 100
         fabriek_prijs_uur = 60
-        prijs_engineering = uren_engineering * engineering_prijs_uur
-        prijs_project = uren_project * project_prijs_uur
-        prijs_fabriek = uren_fabrieks * fabriek_prijs_uur
-        tot_uren = uren_engineering + uren_project + uren_fabrieks
 
-        tot_prijsarbeid = prijs_engineering + prijs_project + prijs_fabriek
-        geheel_totprijs = total_cost + tot_prijsarbeid
-        perc_mater = 100 * total_cost / geheel_totprijs
-        perc_arbeid = 100 * tot_prijsarbeid / geheel_totprijs
-        dekking = geheel_totprijs * 0.175
-        marge_cost = (geheel_totprijs + dekking) * 0.1
-        verkoopprijs = geheel_totprijs + dekking + marge_cost
+        certificate_cost = 50 * NumericUpDown27.Value                       'Certificaat cost
+        prijs_engineering = uren_engineering * engineering_prijs_uur        'Engineering cost
+        prijs_project = uren_project * project_prijs_uur                    'Project management cost
+        prijs_fabriek = uren_fabrieks * fabriek_prijs_uur                   'Fabriek cost
+        tot_uren = uren_engineering + uren_project + uren_fabrieks          'Totaal aantal uren
+        tot_prijsarbeid = prijs_engineering + prijs_project + prijs_fabriek 'Totale prijs arbeid
+        geheel_totprijs = total_cost + tot_prijsarbeid                      'Totaal prijs
+        perc_mater = 100 * total_cost / geheel_totprijs                     'Percentage materiaal
+        perc_arbeid = 100 * tot_prijsarbeid / geheel_totprijs               'Percentage arbeid
+        dekking = geheel_totprijs * 0.175                                   'Dekking
+        marge_cost = (geheel_totprijs + dekking) * 0.1                       'Marge
+        verkoopprijs = geheel_totprijs + dekking + marge_cost           'Verkoopprijs
 
-        TextBox109.Text = Round(total_kg_plaat, 0).ToString
-        TextBox68.Text = Round(totalplate_cost, 0).ToString
-        TextBox105.Text = Round(engineering_prijs_uur, 0).ToString
-        TextBox55.Text = Round(prijs_engineering, 1).ToString
-        TextBox69.Text = Round(project_prijs_uur, 0).ToString
-        TextBox70.Text = Round(prijs_project, 0).ToString
-        TextBox71.Text = Round(fabriek_prijs_uur, 0).ToString
-        TextBox72.Text = Round(prijs_fabriek, 0).ToString
-        TextBox106.Text = Round(tot_uren, 0).ToString
+        'FILL TEXTBOXES ----------------------------------------------------------------------------------------
+        TextBox88.Text = Round(certificate_cost, 2).ToString            'Certificaat cost
+        TextBox109.Text = total_kg_plaat.ToString("0")                   'Totaal gewicht plaat
+        'TextBox68.Text = Round(totalplate_cost, 0).ToString
+        TextBox68.Text = Round(cost_kopstaartplaat + cost_trog + cost_deksel + cost_cutting, 0).ToString     'Totaal prijs plaat
 
-        TextBox88.Text = Round(certificate_cost, 0).ToString
-        TextBox111.Text = Round(total_cost, 2).ToString
-        TextBox103.Text = Round(total_cost, 1).ToString
-        TextBox98.Text = Round(tot_prijsarbeid, 0).ToString
-        TextBox100.Text = Round(perc_mater, 0).ToString
-        TextBox101.Text = Round(perc_arbeid, 0).ToString
-        TextBox73.Text = Round(geheel_totprijs, 0).ToString
-        TextBox74.Text = Round(dekking, 0).ToString
-        TextBox99.Text = Round(marge_cost, 0).ToString
-        TextBox75.Text = Round(verkoopprijs, 0).ToString
+        TextBox105.Text = Round(engineering_prijs_uur, 0).ToString      'Engineering uren
+        TextBox55.Text = Round(prijs_engineering, 1).ToString           'Engineering cost
+        TextBox69.Text = Round(project_prijs_uur, 0).ToString           'Project management uren
+        TextBox70.Text = Round(prijs_project, 0).ToString               'Project management cost
+        TextBox71.Text = Round(fabriek_prijs_uur, 0).ToString           'Fabriek uren
+        TextBox72.Text = Round(prijs_fabriek, 0).ToString               'Fabriek cost
+        TextBox106.Text = Round(tot_uren, 0).ToString                   'Totaal aantal uren
+        TextBox111.Text = Round(total_cost, 0).ToString                 'Totale prijs materiaal
+        TextBox103.Text = Round(total_cost, 0).ToString                 'Totale prijs materiaal
+        TextBox100.Text = Round(perc_mater, 0).ToString                 'Totale percentage materiaal
+        TextBox98.Text = Round(tot_prijsarbeid, 0).ToString             'Totale prijs arbeid
+        TextBox101.Text = Round(perc_arbeid, 0).ToString                'Totale percentage arbeid
+        TextBox73.Text = Round(geheel_totprijs, 0).ToString             'Geheel totaalprijs
+        TextBox74.Text = Round(dekking, 0).ToString                     'Dekking
+        TextBox99.Text = Round(marge_cost, 0).ToString                  'Marge
+        TextBox75.Text = Round(verkoopprijs, 0).ToString                'Verkoopprijs
     End Sub
     Private Sub Draw_chart1()
         Dim hh As Integer
