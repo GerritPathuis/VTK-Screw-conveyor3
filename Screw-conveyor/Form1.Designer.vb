@@ -458,6 +458,9 @@ Partial Class Form1
         Me.NumericUpDown38 = New System.Windows.Forms.NumericUpDown()
         Me.Label166 = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.RadioButton9 = New System.Windows.Forms.RadioButton()
+        Me.RadioButton10 = New System.Windows.Forms.RadioButton()
+        Me.Label172 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox17.SuspendLayout()
@@ -665,6 +668,7 @@ Partial Class Form1
         '
         'GroupBox7
         '
+        Me.GroupBox7.Controls.Add(Me.Label172)
         Me.GroupBox7.Controls.Add(Me.Label39)
         Me.GroupBox7.Controls.Add(Me.Label44)
         Me.GroupBox7.Controls.Add(Me.Label40)
@@ -674,7 +678,7 @@ Partial Class Form1
         Me.GroupBox7.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.GroupBox7.Location = New System.Drawing.Point(400, 26)
         Me.GroupBox7.Name = "GroupBox7"
-        Me.GroupBox7.Size = New System.Drawing.Size(415, 157)
+        Me.GroupBox7.Size = New System.Drawing.Size(415, 182)
         Me.GroupBox7.TabIndex = 24
         Me.GroupBox7.TabStop = False
         Me.GroupBox7.Text = "NOTES"
@@ -759,7 +763,7 @@ Partial Class Form1
         Me.GroupBox2.Controls.Add(Me.NumericUpDown5)
         Me.GroupBox2.Controls.Add(Me.Label5)
         Me.GroupBox2.Controls.Add(Me.Label4)
-        Me.GroupBox2.Location = New System.Drawing.Point(400, 193)
+        Me.GroupBox2.Location = New System.Drawing.Point(400, 214)
         Me.GroupBox2.Name = "GroupBox2"
         Me.GroupBox2.Size = New System.Drawing.Size(415, 170)
         Me.GroupBox2.TabIndex = 12
@@ -861,6 +865,8 @@ Partial Class Form1
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.RadioButton10)
+        Me.GroupBox1.Controls.Add(Me.RadioButton9)
         Me.GroupBox1.Controls.Add(Me.NumericUpDown40)
         Me.GroupBox1.Controls.Add(Me.Label171)
         Me.GroupBox1.Controls.Add(Me.NumericUpDown39)
@@ -892,7 +898,7 @@ Partial Class Form1
         Me.GroupBox1.Controls.Add(Me.Label1)
         Me.GroupBox1.Location = New System.Drawing.Point(8, 193)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(370, 424)
+        Me.GroupBox1.Size = New System.Drawing.Size(370, 454)
         Me.GroupBox1.TabIndex = 11
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Conveyor data"
@@ -5199,6 +5205,39 @@ Partial Class Form1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'RadioButton9
+        '
+        Me.RadioButton9.AutoSize = True
+        Me.RadioButton9.Checked = True
+        Me.RadioButton9.Location = New System.Drawing.Point(39, 412)
+        Me.RadioButton9.Name = "RadioButton9"
+        Me.RadioButton9.Size = New System.Drawing.Size(70, 17)
+        Me.RadioButton9.TabIndex = 35
+        Me.RadioButton9.TabStop = True
+        Me.RadioButton9.Text = "Transport"
+        Me.RadioButton9.UseVisualStyleBackColor = True
+        '
+        'RadioButton10
+        '
+        Me.RadioButton10.AutoSize = True
+        Me.RadioButton10.Location = New System.Drawing.Point(135, 412)
+        Me.RadioButton10.Name = "RadioButton10"
+        Me.RadioButton10.Size = New System.Drawing.Size(66, 17)
+        Me.RadioButton10.TabIndex = 36
+        Me.RadioButton10.TabStop = True
+        Me.RadioButton10.Text = "Metering"
+        Me.RadioButton10.UseVisualStyleBackColor = True
+        '
+        'Label172
+        '
+        Me.Label172.AutoSize = True
+        Me.Label172.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label172.Location = New System.Drawing.Point(15, 142)
+        Me.Label172.Name = "Label172"
+        Me.Label172.Size = New System.Drawing.Size(150, 16)
+        Me.Label172.TabIndex = 24
+        Me.Label172.Text = "7) Metering screw ~70%"
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -5748,4 +5787,7 @@ Partial Class Form1
     Friend WithEvents GroupBox25 As GroupBox
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents GroupBox28 As GroupBox
+    Friend WithEvents Label172 As Label
+    Friend WithEvents RadioButton10 As RadioButton
+    Friend WithEvents RadioButton9 As RadioButton
 End Class

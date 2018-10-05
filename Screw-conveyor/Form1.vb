@@ -788,7 +788,13 @@ Public Class Form1
         cap_act = flow_hr / density
         filling_perc = Round(cap_act / cap_hr * 100, 1)
         If filling_perc > 100 Then filling_perc = 100
-        TextBox01.BackColor = CType(IIf(filling_perc > 45, Color.Red, Color.LightGreen), Color)
+
+        Select Case RadioButton9.Checked
+            Case True   'Transport screw
+                TextBox01.BackColor = CType(IIf(filling_perc > 45, Color.Red, Color.LightGreen), Color)
+            Case False  'Metering screw
+                TextBox01.BackColor = CType(IIf(filling_perc > 75, Color.Red, Color.LightGreen), Color)
+        End Select
 
         '--------------- ISO 7119 -----------------
         height = _λ6 * Sin(_angle / 360 * 2 * PI)
@@ -1848,9 +1854,9 @@ Public Class Form1
         Next hh
         ComboBox10.SelectedIndex = 3
     End Sub
-
-    Private Sub Label117_Click(sender As Object, e As EventArgs) Handles Label117.Click
-
+    Private Sub RadioButton9_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton9.CheckedChanged
+        Calculate()
+        Calulate_stress_1()
     End Sub
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
