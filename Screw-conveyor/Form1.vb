@@ -463,7 +463,8 @@ Public Class Form1
 "Soybean, Flake, Raw;22C35Y;30A;1A,1B,1C;290;400;0.8",
 "Soybean, Flour;29A35MN;30A;1A,1B,1C;430;480;0.8",
 "Soybeans, Whole;48C26NW;30B;3D;720;800;1",
-"Starch;38A15M;45;1A,1B,1C;400;800;1",
+"Starch dry;38A15M;45;1A,1B,1C;400;750;1",
+"Starch wet;38A15M;45;1A,1B,1C;400;1070;1",
 "Steel Turnings, Crushed;125D46WV;30B;3D;1600;2400;3",
 "Sugar Beet, Pulp, Dry;14C26;30B;2D;190;240;0.9",
 "Suga Beet, Pulp, Wet;35C35X;30A;1A,1B,1C;400;720;1.2",
@@ -2251,7 +2252,7 @@ Public Class Form1
         Dim cost_motorreductor, cost_koppeling, cost_lagers As Double
         Dim cost_pakking, cost_hang, cost_transport As Double
         Dim cost_stopbus As Double
-        Dim certificate_cost, totalplate_cost, total_cost As Double
+        Dim certificate_cost, total_cost As Double
         Dim uren_engineering, uren_project, uren_fabrieks, tot_uren As Double
         Dim engineering_prijs_uur, project_prijs_uur, fabriek_prijs_uur As Double
         Dim prijs_engineering, prijs_project, prijs_fabriek As Double
