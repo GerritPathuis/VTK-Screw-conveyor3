@@ -2341,9 +2341,9 @@ Public Class Form1
         opp_kopstaartplaat = _diam_flight ^ 2
 
         '--------------paint Oppervlaktes -------
-        oppb_kopstaartplaat = 2 * opp_kopstaartplaat
-        oppb_trog = 2 * opp_kopstaartplaat + 2 * opp_trog * _λ6 / dikte_trog                'kuip zowel uitwendig als inwendig
-        oppb_pipe = _pipe_OD * PI * _λ6
+        oppb_kopstaartplaat = 2 * opp_kopstaartplaat               'Binnen en buiten
+        oppb_trog = 2 * (opp_kopstaartplaat + opp_trog)      'kuip zowel uitwendig als inwendig
+        oppb_pipe = _pipe_OD / 1000 * PI * _λ6
 
         '-------------- plaat gewichten---------------
         kg_kopstaartplaat = _diam_flight ^ 2 * kopstaart_dikte * rho_staal
@@ -2415,6 +2415,7 @@ Public Class Form1
 
             total_kg_plaat = 2 * kg_kopstaartplaat + kg_trog + kg_inlaat + kg_uitlaat + kg_voet + kg_afschermkap    'Onderdelen van plaat die gesneden worden
             tot_opperv_paint = oppb_voet + oppb_uitlaat + oppb_inlaat + oppb_trog        'Buiten Oppervlak paint onderdelen 
+
 
             cost_cutting = total_kg_plaat * Double.Parse(TextBox113.Text)         'snijkosten kg*prijs
 
