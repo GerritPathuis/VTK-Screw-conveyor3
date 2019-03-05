@@ -770,6 +770,8 @@ Public Class Form1
         Dim mekog As Double             'Mekog installed power
         Dim flight_speed As Double      'Flight speed
         Dim r_time As Double
+        Dim cap_under_angle As Double
+
 
         '-------------- get data----------
         Double.TryParse(CType(ComboBox11.SelectedItem, String), _diam_flight)
@@ -792,7 +794,10 @@ Public Class Form1
         '-------- Volumetric Capacity [m3/hr] ---------------
         '-------- Of the selected diameter ------------------
         cap_hr_100 = PI / 4 * (_diam_flight ^ 2 - _pipe_OD ^ 2) * pitch * speed * 60    ' [m3/hr]
-        cap_hr_100 = cap_hr_100 * (100 - _angle * 2) / 100                              ' capacity loss due to inclination (2% per degree)
+
+        cap_under_angle = -0.0213 * _angle + 1.0        'Inclination capacity factor
+
+        cap_hr_100 = cap_hr_100 * cap_under_angle       'capacity loss due to inclination 
 
         '--------------- now calc in [kg/hr] ---------------
         filling_perc = Round(actual_cap_m3 / cap_hr_100 * 100, 1)
@@ -829,6 +834,7 @@ Public Class Form1
         TextBox04.Text = mekog.ToString
         TextBox110.Text = Round(r_time, 0).ToString
         TextBox123.Text = cap_hr_100.ToString("0")          '[m3/hr] @ 100% filling
+        TextBox126.Text = cap_under_angle.ToString("0.00")  'Inclination factor
 
         '--------------- checks ---------------------
         NumericUpDown7.BackColor = CType(IIf(speed > 45, Color.Red, Color.Yellow), Color)
