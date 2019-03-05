@@ -775,9 +775,9 @@ Public Class Form1
         Dim filling_perc_incl As Double 'Conveyor horizontal
 
         '-------------- get data----------
-
-        Double.TryParse(CType(ComboBox9.SelectedItem, String), _pipe_OD)
-        _pipe_OD /= 1000                  '[m]
+        Double.TryParse(CType(ComboBox3.SelectedItem, String), _pipe_OD)
+        _pipe_OD /= 1000                                    '[m]
+        Label177.Text = _pipe_OD.ToString
         If ComboBox11.SelectedIndex > 0 Then
             Double.TryParse(CType(ComboBox11.SelectedItem, String), _diam_flight)
             _diam_flight /= 1000                            '[mm] -> [m]
@@ -1801,6 +1801,7 @@ Public Class Form1
     End Sub
     Private Sub ComboBox3_SelectedValueChanged(sender As Object, e As EventArgs) Handles ComboBox3.SelectedValueChanged
         Pipe_wall_combo_init()
+        Calulate_stress_1()
     End Sub
 
     Private Sub ComboBox6_SelectedValueChanged(sender As Object, e As EventArgs) Handles ComboBox6.SelectedValueChanged

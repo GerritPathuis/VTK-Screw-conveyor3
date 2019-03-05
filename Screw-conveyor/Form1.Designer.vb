@@ -471,6 +471,10 @@ Partial Class Form1
         Me.NumericUpDown38 = New System.Windows.Forms.NumericUpDown()
         Me.Label166 = New System.Windows.Forms.Label()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.Label177 = New System.Windows.Forms.Label()
+        Me.TabPage8 = New System.Windows.Forms.TabPage()
+        Me.PictureBox3 = New System.Windows.Forms.PictureBox()
+        Me.PictureBox4 = New System.Windows.Forms.PictureBox()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox17.SuspendLayout()
@@ -553,6 +557,9 @@ Partial Class Form1
         Me.GroupBox24.SuspendLayout()
         CType(Me.NumericUpDown26, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown38, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabPage8.SuspendLayout()
+        CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TabControl1
@@ -564,6 +571,7 @@ Partial Class Form1
         Me.TabControl1.Controls.Add(Me.TabPage5)
         Me.TabControl1.Controls.Add(Me.TabPage6)
         Me.TabControl1.Controls.Add(Me.TabPage7)
+        Me.TabControl1.Controls.Add(Me.TabPage8)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Name = "TabControl1"
@@ -712,9 +720,9 @@ Partial Class Form1
         Me.Label39.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label39.Location = New System.Drawing.Point(15, 28)
         Me.Label39.Name = "Label39"
-        Me.Label39.Size = New System.Drawing.Size(258, 16)
+        Me.Label39.Size = New System.Drawing.Size(266, 16)
         Me.Label39.TabIndex = 18
-        Me.Label39.Text = "1) High forward resistans is difficult product"
+        Me.Label39.Text = "1) High forward resistance is difficult product"
         '
         'Label44
         '
@@ -909,6 +917,7 @@ Partial Class Form1
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.Label177)
         Me.GroupBox1.Controls.Add(Me.TextBox127)
         Me.GroupBox1.Controls.Add(Me.Label176)
         Me.GroupBox1.Controls.Add(Me.Label175)
@@ -965,9 +974,9 @@ Partial Class Form1
         Me.Label176.AutoSize = True
         Me.Label176.Location = New System.Drawing.Point(25, 462)
         Me.Label176.Name = "Label176"
-        Me.Label176.Size = New System.Drawing.Size(211, 13)
+        Me.Label176.Size = New System.Drawing.Size(221, 13)
         Me.Label176.TabIndex = 42
-        Me.Label176.Text = "Note 1) Inclination NOT taken into account"
+        Me.Label176.Text = "Note 1) Inclination is NOT taken into account"
         '
         'Label175
         '
@@ -2522,9 +2531,9 @@ Partial Class Form1
         Me.Label29.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label29.Location = New System.Drawing.Point(17, 43)
         Me.Label29.Name = "Label29"
-        Me.Label29.Size = New System.Drawing.Size(150, 18)
+        Me.Label29.Size = New System.Drawing.Size(142, 18)
         Me.Label29.TabIndex = 18
-        Me.Label29.Text = "Waall thickness [mm]"
+        Me.Label29.Text = "Wall thickness [mm]"
         '
         'Label26
         '
@@ -5358,6 +5367,53 @@ Partial Class Form1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
+        'Label177
+        '
+        Me.Label177.AutoSize = True
+        Me.Label177.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label177.Location = New System.Drawing.Point(287, 49)
+        Me.Label177.Name = "Label177"
+        Me.Label177.Size = New System.Drawing.Size(83, 13)
+        Me.Label177.TabIndex = 44
+        Me.Label177.Text = "ATEX ALERT"
+        '
+        'TabPage8
+        '
+        Me.TabPage8.Controls.Add(Me.PictureBox4)
+        Me.TabPage8.Controls.Add(Me.PictureBox3)
+        Me.TabPage8.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage8.Name = "TabPage8"
+        Me.TabPage8.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage8.Size = New System.Drawing.Size(987, 718)
+        Me.TabPage8.TabIndex = 7
+        Me.TabPage8.Text = "Chutes"
+        Me.TabPage8.UseVisualStyleBackColor = True
+        Me.TabPage8.UseWaitCursor = True
+        '
+        'PictureBox3
+        '
+        Me.PictureBox3.ErrorImage = CType(resources.GetObject("PictureBox3.ErrorImage"), System.Drawing.Image)
+        Me.PictureBox3.Image = CType(resources.GetObject("PictureBox3.Image"), System.Drawing.Image)
+        Me.PictureBox3.InitialImage = CType(resources.GetObject("PictureBox3.InitialImage"), System.Drawing.Image)
+        Me.PictureBox3.Location = New System.Drawing.Point(8, 15)
+        Me.PictureBox3.Name = "PictureBox3"
+        Me.PictureBox3.Size = New System.Drawing.Size(410, 274)
+        Me.PictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox3.TabIndex = 20
+        Me.PictureBox3.TabStop = False
+        '
+        'PictureBox4
+        '
+        Me.PictureBox4.ErrorImage = CType(resources.GetObject("PictureBox4.ErrorImage"), System.Drawing.Image)
+        Me.PictureBox4.Image = CType(resources.GetObject("PictureBox4.Image"), System.Drawing.Image)
+        Me.PictureBox4.InitialImage = CType(resources.GetObject("PictureBox4.InitialImage"), System.Drawing.Image)
+        Me.PictureBox4.Location = New System.Drawing.Point(444, 15)
+        Me.PictureBox4.Name = "PictureBox4"
+        Me.PictureBox4.Size = New System.Drawing.Size(410, 274)
+        Me.PictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox4.TabIndex = 21
+        Me.PictureBox4.TabStop = False
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -5479,6 +5535,9 @@ Partial Class Form1
         Me.GroupBox24.PerformLayout()
         CType(Me.NumericUpDown26, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NumericUpDown38, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabPage8.ResumeLayout(False)
+        CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -5922,4 +5981,8 @@ Partial Class Form1
     Friend WithEvents Label175 As Label
     Friend WithEvents Label176 As Label
     Friend WithEvents TextBox127 As TextBox
+    Friend WithEvents Label177 As Label
+    Friend WithEvents TabPage8 As TabPage
+    Friend WithEvents PictureBox4 As PictureBox
+    Friend WithEvents PictureBox3 As PictureBox
 End Class
