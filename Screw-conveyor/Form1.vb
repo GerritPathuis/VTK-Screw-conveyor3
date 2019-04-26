@@ -465,6 +465,7 @@ Public Class Form1
 "Soybeans, Whole;48C26NW;30B;3D;720;800;1",
 "Starch dry patato;38A15M;45;1A,1B,1C;400;500;1",
 "Starch wet patato;38A15M;45;1A,1B,1C;400;750;1",
+"Starch dry wheat;38A15M;45;1A,1B,1C;400;550;1",
 "Steel Turnings, Crushed;125D46WV;30B;3D;1600;2400;3",
 "Sugar Beet, Pulp, Dry;14C26;30B;2D;190;240;0.9",
 "Suga Beet, Pulp, Wet;35C35X;30A;1A,1B,1C;400;720;1.2",
