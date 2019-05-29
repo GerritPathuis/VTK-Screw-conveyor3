@@ -57,6 +57,18 @@ Public Class Form1
 
     'Materials name; CEMA Material code; Conveyor loading; Component group, density min, Density max, HP Material
     Public Shared _inputs() As String = {
+" 600 [kg/m3]; 0000;30A;2B;600;600;1.0",
+" 650 [kg/m3]; 0000;30A;2B;650;650;1.0",
+" 700 [kg/m3]; 0000;30A;2B;700;700;1.0",
+" 750 [kg/m3]; 0000;30A;2B;750;750;1.0",
+" 800 [kg/m3]; 0000;30A;2B;800;800;1.0",
+" 850 [kg/m3]; 0000;30A;2B;850;850;1.0",
+" 900 [kg/m3]; 0000;30A;2B;900;900;1.0",
+" 950 [kg/m3]; 0000;30A;2B;950;950;1.0",
+"1000 [kg/m3]; 0000;30A;2B;1000;1000;1.0",
+"1100 [kg/m3]; 0000;30A;2B;1100;1100;1.0",
+"1200 [kg/m3]; 0000;30A;2B;1200;1200;1.0",
+"1300 [kg/m3]; 0000;30A;2B;1300;1300;1.0",
 "Adipic-Acid;45A35;30A;2B;720;720;0.5",
 "Alfalfa Meal;18B45WY;30A;2D;220;350;0.6",
 "Alfalfa Pellets;42C25;45;2D;660;690;0.5",

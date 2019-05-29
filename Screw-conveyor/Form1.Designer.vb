@@ -23,15 +23,15 @@ Partial Class Form1
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
-        Dim ChartArea4 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend4 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series4 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea5 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend5 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series5 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea6 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend6 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series6 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea2 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend2 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series2 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea3 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend3 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series3 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.GroupBox17 = New System.Windows.Forms.GroupBox()
@@ -474,7 +474,12 @@ Partial Class Form1
         Me.TabPage8 = New System.Windows.Forms.TabPage()
         Me.PictureBox4 = New System.Windows.Forms.PictureBox()
         Me.PictureBox3 = New System.Windows.Forms.PictureBox()
+        Me.TabPage9 = New System.Windows.Forms.TabPage()
+        Me.PictureBox6 = New System.Windows.Forms.PictureBox()
+        Me.PictureBox5 = New System.Windows.Forms.PictureBox()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+        Me.Label178 = New System.Windows.Forms.Label()
+        Me.Label179 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox17.SuspendLayout()
@@ -560,6 +565,9 @@ Partial Class Form1
         Me.TabPage8.SuspendLayout()
         CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabPage9.SuspendLayout()
+        CType(Me.PictureBox6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TabControl1
@@ -572,6 +580,7 @@ Partial Class Form1
         Me.TabControl1.Controls.Add(Me.TabPage6)
         Me.TabControl1.Controls.Add(Me.TabPage7)
         Me.TabControl1.Controls.Add(Me.TabPage8)
+        Me.TabControl1.Controls.Add(Me.TabPage9)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Name = "TabControl1"
@@ -5128,17 +5137,17 @@ Partial Class Form1
         '
         'Chart3
         '
-        ChartArea4.Name = "ChartArea1"
-        Me.Chart3.ChartAreas.Add(ChartArea4)
+        ChartArea1.Name = "ChartArea1"
+        Me.Chart3.ChartAreas.Add(ChartArea1)
         Me.Chart3.Dock = System.Windows.Forms.DockStyle.Top
-        Legend4.Name = "Legend1"
-        Me.Chart3.Legends.Add(Legend4)
+        Legend1.Name = "Legend1"
+        Me.Chart3.Legends.Add(Legend1)
         Me.Chart3.Location = New System.Drawing.Point(176, 401)
         Me.Chart3.Name = "Chart3"
-        Series4.ChartArea = "ChartArea1"
-        Series4.Legend = "Legend1"
-        Series4.Name = "Series1"
-        Me.Chart3.Series.Add(Series4)
+        Series1.ChartArea = "ChartArea1"
+        Series1.Legend = "Legend1"
+        Series1.Name = "Series1"
+        Me.Chart3.Series.Add(Series1)
         Me.Chart3.Size = New System.Drawing.Size(808, 199)
         Me.Chart3.TabIndex = 4
         Me.Chart3.Text = "Chart3"
@@ -5155,34 +5164,34 @@ Partial Class Form1
         '
         'Chart2
         '
-        ChartArea5.Name = "ChartArea1"
-        Me.Chart2.ChartAreas.Add(ChartArea5)
+        ChartArea2.Name = "ChartArea1"
+        Me.Chart2.ChartAreas.Add(ChartArea2)
         Me.Chart2.Dock = System.Windows.Forms.DockStyle.Top
-        Legend5.Name = "Legend1"
-        Me.Chart2.Legends.Add(Legend5)
+        Legend2.Name = "Legend1"
+        Me.Chart2.Legends.Add(Legend2)
         Me.Chart2.Location = New System.Drawing.Point(176, 202)
         Me.Chart2.Name = "Chart2"
-        Series5.ChartArea = "ChartArea1"
-        Series5.Legend = "Legend1"
-        Series5.Name = "Series1"
-        Me.Chart2.Series.Add(Series5)
+        Series2.ChartArea = "ChartArea1"
+        Series2.Legend = "Legend1"
+        Series2.Name = "Series1"
+        Me.Chart2.Series.Add(Series2)
         Me.Chart2.Size = New System.Drawing.Size(808, 199)
         Me.Chart2.TabIndex = 3
         Me.Chart2.Text = "Chart2"
         '
         'Chart1
         '
-        ChartArea6.Name = "ChartArea1"
-        Me.Chart1.ChartAreas.Add(ChartArea6)
+        ChartArea3.Name = "ChartArea1"
+        Me.Chart1.ChartAreas.Add(ChartArea3)
         Me.Chart1.Dock = System.Windows.Forms.DockStyle.Top
-        Legend6.Name = "Legend1"
-        Me.Chart1.Legends.Add(Legend6)
+        Legend3.Name = "Legend1"
+        Me.Chart1.Legends.Add(Legend3)
         Me.Chart1.Location = New System.Drawing.Point(176, 3)
         Me.Chart1.Name = "Chart1"
-        Series6.ChartArea = "ChartArea1"
-        Series6.Legend = "Legend1"
-        Series6.Name = "Series1"
-        Me.Chart1.Series.Add(Series6)
+        Series3.ChartArea = "ChartArea1"
+        Series3.Legend = "Legend1"
+        Series3.Name = "Series1"
+        Me.Chart1.Series.Add(Series3)
         Me.Chart1.Size = New System.Drawing.Size(808, 199)
         Me.Chart1.TabIndex = 1
         Me.Chart1.Text = "Chart1"
@@ -5414,9 +5423,69 @@ Partial Class Form1
         Me.PictureBox3.TabStop = False
         Me.PictureBox3.UseWaitCursor = True
         '
+        'TabPage9
+        '
+        Me.TabPage9.Controls.Add(Me.Label179)
+        Me.TabPage9.Controls.Add(Me.Label178)
+        Me.TabPage9.Controls.Add(Me.PictureBox6)
+        Me.TabPage9.Controls.Add(Me.PictureBox5)
+        Me.TabPage9.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage9.Name = "TabPage9"
+        Me.TabPage9.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage9.Size = New System.Drawing.Size(987, 718)
+        Me.TabPage9.TabIndex = 8
+        Me.TabPage9.Text = "Discharge screw"
+        Me.TabPage9.UseVisualStyleBackColor = True
+        '
+        'PictureBox6
+        '
+        Me.PictureBox6.ErrorImage = CType(resources.GetObject("PictureBox6.ErrorImage"), System.Drawing.Image)
+        Me.PictureBox6.Image = CType(resources.GetObject("PictureBox6.Image"), System.Drawing.Image)
+        Me.PictureBox6.InitialImage = CType(resources.GetObject("PictureBox6.InitialImage"), System.Drawing.Image)
+        Me.PictureBox6.Location = New System.Drawing.Point(496, 97)
+        Me.PictureBox6.Name = "PictureBox6"
+        Me.PictureBox6.Size = New System.Drawing.Size(410, 274)
+        Me.PictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox6.TabIndex = 22
+        Me.PictureBox6.TabStop = False
+        Me.PictureBox6.UseWaitCursor = True
+        '
+        'PictureBox5
+        '
+        Me.PictureBox5.ErrorImage = CType(resources.GetObject("PictureBox5.ErrorImage"), System.Drawing.Image)
+        Me.PictureBox5.Image = CType(resources.GetObject("PictureBox5.Image"), System.Drawing.Image)
+        Me.PictureBox5.InitialImage = CType(resources.GetObject("PictureBox5.InitialImage"), System.Drawing.Image)
+        Me.PictureBox5.Location = New System.Drawing.Point(36, 97)
+        Me.PictureBox5.Name = "PictureBox5"
+        Me.PictureBox5.Size = New System.Drawing.Size(410, 274)
+        Me.PictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox5.TabIndex = 21
+        Me.PictureBox5.TabStop = False
+        Me.PictureBox5.UseWaitCursor = True
+        '
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+        '
+        'Label178
+        '
+        Me.Label178.AutoSize = True
+        Me.Label178.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label178.Location = New System.Drawing.Point(52, 341)
+        Me.Label178.Name = "Label178"
+        Me.Label178.Size = New System.Drawing.Size(112, 16)
+        Me.Label178.TabIndex = 23
+        Me.Label178.Text = "FIXED PITCH"
+        '
+        'Label179
+        '
+        Me.Label179.AutoSize = True
+        Me.Label179.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label179.Location = New System.Drawing.Point(512, 341)
+        Me.Label179.Name = "Label179"
+        Me.Label179.Size = New System.Drawing.Size(144, 16)
+        Me.Label179.TabIndex = 24
+        Me.Label179.Text = "VARIABLE PITCH"
         '
         'Form1
         '
@@ -5542,6 +5611,10 @@ Partial Class Form1
         Me.TabPage8.ResumeLayout(False)
         CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabPage9.ResumeLayout(False)
+        Me.TabPage9.PerformLayout()
+        CType(Me.PictureBox6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -5989,4 +6062,9 @@ Partial Class Form1
     Friend WithEvents TabPage8 As TabPage
     Friend WithEvents PictureBox4 As PictureBox
     Friend WithEvents PictureBox3 As PictureBox
+    Friend WithEvents TabPage9 As TabPage
+    Friend WithEvents PictureBox6 As PictureBox
+    Friend WithEvents PictureBox5 As PictureBox
+    Friend WithEvents Label179 As Label
+    Friend WithEvents Label178 As Label
 End Class
