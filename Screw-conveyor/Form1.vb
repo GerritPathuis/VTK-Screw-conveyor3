@@ -9,7 +9,6 @@ Imports System.Windows.Forms
 
 Public Class Form1
 
-
     '----------- directory's-----------
     Dim dirpath_Eng As String = "N:\Engineering\VBasic\Conveyor_sizing_input\"
     Dim dirpath_Rap As String = "N:\Engineering\VBasic\Conveyor_rapport_copy\"
@@ -57,8 +56,8 @@ Public Class Form1
 
     'Materials name; CEMA Material code; Conveyor loading; Component group, density min, Density max, HP Material
     Public Shared _inputs() As String = {
-" 500 [kg/m3]; 0000;30A;2B;600;600;1.0",
-" 550 [kg/m3]; 0000;30A;2B;650;650;1.0",
+" 500 [kg/m3]; 0000;30A;2B;500;500;1.0",
+" 550 [kg/m3]; 0000;30A;2B;550;550;1.0",
 " 600 [kg/m3]; 0000;30A;2B;600;600;1.0",
 " 650 [kg/m3]; 0000;30A;2B;650;650;1.0",
 " 700 [kg/m3]; 0000;30A;2B;700;700;1.0",
@@ -71,6 +70,13 @@ Public Class Form1
 "1100 [kg/m3]; 0000;30A;2B;1100;1100;1.0",
 "1200 [kg/m3]; 0000;30A;2B;1200;1200;1.0",
 "1300 [kg/m3]; 0000;30A;2B;1300;1300;1.0",
+"1400 [kg/m3]; 0000;30A;2B;1400;1400;1.0",
+"1500 [kg/m3]; 0000;30A;2B;1500;1500;1.0",
+"1600 [kg/m3]; 0000;30A;2B;1600;1600;1.0",
+"1700 [kg/m3]; 0000;30A;2B;1700;1700;1.0",
+"1800 [kg/m3]; 0000;30A;2B;1800;1800;1.0",
+"1900 [kg/m3]; 0000;30A;2B;1900;1900;1.0",
+"2000 [kg/m3]; 0000;30A;2B;2000;2000;1.0",
 "Adipic-Acid;45A35;30A;2B;720;720;0.5",
 "Alfalfa Meal;18B45WY;30A;2D;220;350;0.6",
 "Alfalfa Pellets;42C25;45;2D;660;690;0.5",
