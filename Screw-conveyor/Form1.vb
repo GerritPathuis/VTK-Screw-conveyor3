@@ -56,6 +56,10 @@ Public Class Form1
 
     'Materials name; CEMA Material code; Conveyor loading; Component group, density min, Density max, HP Material
     Public Shared _inputs() As String = {
+" 300 [kg/m3]; 0000;30A;2B;300;300;1.0",
+" 350 [kg/m3]; 0000;30A;2B;350;350;1.0",
+" 400 [kg/m3]; 0000;30A;2B;400;400;1.0",
+" 450 [kg/m3]; 0000;30A;2B;450;450;1.0",
 " 500 [kg/m3]; 0000;30A;2B;500;500;1.0",
 " 550 [kg/m3]; 0000;30A;2B;550;550;1.0",
 " 600 [kg/m3]; 0000;30A;2B;600;600;1.0",
