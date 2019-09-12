@@ -848,6 +848,7 @@ Public Class Form1
 
             '--------------- MEKOG -----------------
             mekog = Round(_regu_flow_kg_hr * _λ6 / (40 * 1.36 * 1000), 1)    '[kW]
+            mekog *= 1.6 'Based on current measurement Q19.1165 (Borouge 4) dd 12/09/2019
 
             '-------------- Retention time --------------------
             r_time = _λ6 / (speed / 60 * pitch)                     '[sec]
