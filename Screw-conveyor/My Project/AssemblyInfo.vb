@@ -10,7 +10,7 @@ Imports System.Runtime.InteropServices
 
 <Assembly: AssemblyTitle("Screw-conveyor")>
 <Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("")>
+<Assembly: AssemblyCompany("Pathuis Heavy Industries")>
 <Assembly: AssemblyProduct("Screw-conveyor")>
 <Assembly: AssemblyCopyright("Copyright ©  2015")>
 <Assembly: AssemblyTrademark("")>
