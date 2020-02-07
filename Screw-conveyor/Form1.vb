@@ -1908,7 +1908,7 @@ Public Class Form1
         Calulate_stress_1()
     End Sub
 
-    Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click, NumericUpDown43.ValueChanged, NumericUpDown42.ValueChanged, NumericUpDown41.ValueChanged, NumericUpDown44.ValueChanged
+    Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click, NumericUpDown43.ValueChanged, NumericUpDown42.ValueChanged, NumericUpDown41.ValueChanged, NumericUpDown44.ValueChanged, TabPage10.Enter
         'Calculate flight weight, everything in [mm]
         Dim d1 As Double    '[mm] OD
         Dim d2 As Double    '[mm] D pipe
@@ -1916,6 +1916,8 @@ Public Class Form1
         Dim thick As Double '[mm]
         Dim no_f As Double  '[-]
         Dim w As Double     '[kg]
+        Dim pr As Double    '[kg]
+
 
         d1 = NumericUpDown43.Value / 100        '[m] OD flight
         d2 = NumericUpDown44.Value / 100        '[m] OD pipe
@@ -1924,8 +1926,10 @@ Public Class Form1
         no_f = 1
 
         w = Flight_weight(d1, d2, pitch, thick, no_f)   '[kg] flight weight
+        pr = w * (NumericUpDown45.Value + NumericUpDown46.Value)
 
-        TextBox128.Text = w.ToString("F1")
+        TextBox128.Text = w.ToString("F2")
+        TextBox129.Text = pr.ToString("F2")
     End Sub
     Private Function Flight_weight(d1 As Double, d2 As Double, pitch As Double, thick As Double, no_f As Double) As Double
         Dim hoek_spoed As Double
