@@ -1908,6 +1908,34 @@ Public Class Form1
         Calulate_stress_1()
     End Sub
 
+    Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click, NumericUpDown43.ValueChanged, NumericUpDown42.ValueChanged, NumericUpDown41.ValueChanged, NumericUpDown44.ValueChanged
+        'Calculate flight weight, everything in [mm]
+        Dim d1 As Double    '[mm] OD
+        Dim d2 As Double    '[mm] D pipe
+        Dim pitch As Double '[mm]
+        Dim thick As Double '[mm]
+        Dim no_f As Double  '[-]
+        Dim w As Double     '[kg]
+
+        d1 = NumericUpDown43.Value / 100        '[m] OD flight
+        d2 = NumericUpDown44.Value / 100        '[m] OD pipe
+        pitch = NumericUpDown42.Value * d1      '[m] pitch
+        thick = NumericUpDown41.Value / 100     '[m] flight thickness
+        no_f = 1
+
+        w = Flight_weight(d1, d2, pitch, thick, no_f)   '[kg] flight weight
+
+        TextBox128.Text = w.ToString("F1")
+    End Sub
+    Private Function Flight_weight(d1 As Double, d2 As Double, pitch As Double, thick As Double, no_f As Double) As Double
+        Dim hoek_spoed As Double
+        Dim wkg As Double
+
+        hoek_spoed = Atan(pitch / (PI * d1))                        '[rad]    
+        wkg = PI / 4 * 7.85 * (thick) * no_f * (d1 ^ 2 - d2 ^ 2) / Cos(hoek_spoed)
+        Return (wkg)
+    End Function
+
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
         Print_word()
     End Sub
@@ -2330,7 +2358,7 @@ Public Class Form1
                 rho_staal = 7850
                 TextBox93.Text = "0.88"         'kop staart  [€/kg]
                 TextBox94.Text = "2.09"         'schroefpijp
-                TextBox95.Text = "3.03"         'schroefblad
+                TextBox95.Text = "8.00"         'schroefblad
                 TextBox96.Text = "0.78"         'trog
                 TextBox97.Text = "0.78"         'deksel
                 TextBox92.Text = "2.09"         'astap ronde staf afm 60
@@ -2338,7 +2366,7 @@ Public Class Form1
                 rho_staal = 8000
                 TextBox93.Text = "2.45"         'kop staart 
                 TextBox94.Text = "2.45"         'schroefpijp
-                TextBox95.Text = "2.45"         'schroefblad
+                TextBox95.Text = "10.0"         'schroefblad
                 TextBox96.Text = "2.45"         'trog
                 TextBox97.Text = "2.45"         'deksel
                 TextBox92.Text = "1.52"         'astap [€/kg] materiaal is standaard van staal
@@ -2346,7 +2374,7 @@ Public Class Form1
                 rho_staal = 7860
                 TextBox93.Text = "4.07"         'kop staart 
                 TextBox94.Text = "7.57"         'schroefpijp
-                TextBox95.Text = "6.07"         'schroefblad
+                TextBox95.Text = "10.00"        'schroefblad
                 TextBox96.Text = "4.07"         'trog
                 TextBox97.Text = "4.07"         'deksel
                 TextBox92.Text = "2.09"         'astap [€/kg] materiaal is standaard van staal
