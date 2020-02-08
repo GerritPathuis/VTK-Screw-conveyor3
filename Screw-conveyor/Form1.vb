@@ -1908,37 +1908,63 @@ Public Class Form1
         Calulate_stress_1()
     End Sub
 
-    Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click, NumericUpDown43.ValueChanged, NumericUpDown42.ValueChanged, NumericUpDown41.ValueChanged, NumericUpDown44.ValueChanged, TabPage10.Enter
-        'Calculate flight weight, everything in [mm]
-        Dim d1 As Double    '[mm] OD
-        Dim d2 As Double    '[mm] D pipe
-        Dim pitch As Double '[mm]
-        Dim thick As Double '[mm]
-        Dim no_f As Double  '[-]
-        Dim w As Double     '[kg]
-        Dim pr As Double    '[kg]
+    Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click, NumericUpDown43.ValueChanged, NumericUpDown42.ValueChanged, NumericUpDown41.ValueChanged, NumericUpDown44.ValueChanged, TabPage10.Enter, NumericUpDown46.ValueChanged, NumericUpDown45.ValueChanged
+        'Calculate flight weight, everything in [m]
+        Dim d1 As Double            '[mm] OD
+        Dim d2 As Double            '[mm] D pipe
+        Dim pitch As Double         '[mm]
+        Dim thick As Double         '[mm]
+        Dim no_f As Double          '[-]
+        Dim w As Double             '[kg]
+        Dim pr As Double            '[kg]
+        Dim blank_Dia As Double     '[mm]
+        Dim blank_wgt As Double     '[kg]
+        Dim blank_cost As Double    '[euro] material cost
 
-
-        d1 = NumericUpDown43.Value / 100        '[m] OD flight
-        d2 = NumericUpDown44.Value / 100        '[m] OD pipe
-        pitch = NumericUpDown42.Value * d1      '[m] pitch
-        thick = NumericUpDown41.Value / 100     '[m] flight thickness
+        d1 = NumericUpDown43.Value / 1000           '[m] OD flight
+        d2 = NumericUpDown44.Value / 1000           '[m] OD pipe
+        pitch = NumericUpDown42.Value * d1          '[m] pitch
+        thick = NumericUpDown41.Value / 1000        '[m] flight thickness
         no_f = 1
 
-        w = Flight_weight(d1, d2, pitch, thick, no_f)   '[kg] flight weight
-        pr = w * (NumericUpDown45.Value + NumericUpDown46.Value)
+        '---------- blank dimensions before forming ----
+        blank_Dia = Blank_OD(d1, pitch)             '[m] 
+        blank_wgt = blank_Dia ^ 2 * thick * 7850    '[kg]
+        blank_cost = blank_wgt * NumericUpDown45.Value
 
+        '---------- weight of one 360 degree flight -----
+        w = Flight_weight(d1, d2, pitch, thick, no_f)   '[kg] flight weight
+        pr = NumericUpDown46.Value + blank_cost         'Forming + material
+
+        '---------- present results ----------
         TextBox128.Text = w.ToString("F2")
         TextBox129.Text = pr.ToString("F2")
+
+        TextBox130.Text = blank_Dia.ToString("F2")
+        TextBox132.Text = blank_wgt.ToString("F2")
+        TextBox131.Text = blank_cost.ToString("F2")
     End Sub
     Private Function Flight_weight(d1 As Double, d2 As Double, pitch As Double, thick As Double, no_f As Double) As Double
         Dim hoek_spoed As Double
         Dim wkg As Double
+        Dim tip_length As Double
 
-        hoek_spoed = Atan(pitch / (PI * d1))                        '[rad]    
-        wkg = PI / 4 * 7.85 * (thick) * no_f * (d1 ^ 2 - d2 ^ 2) / Cos(hoek_spoed)
+        hoek_spoed = Atan(pitch / (PI * d1))                        '[rad]  
+        tip_length = Sqrt(pitch ^ 2 + d1 ^ 2)
+
+        wkg = PI / 4 * 7850 * (thick) * no_f * (d1 ^ 2 - d2 ^ 2) / Cos(hoek_spoed)
         Return (wkg)
     End Function
+    Private Function Blank_OD(d1 As Double, pitch As Double) As Double
+        Dim blank_dia As Double     'diameter flight blank (before forming)
+        Dim tip_length As Double    'outside length 1 flight
+
+        tip_length = Sqrt(pitch ^ 2 + (PI * d1) ^ 2)   '[mm]
+
+        blank_dia = tip_length / PI             '[mm]
+        Return (blank_dia)
+    End Function
+
 
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
         Print_word()
