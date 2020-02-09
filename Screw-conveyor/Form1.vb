@@ -739,8 +739,6 @@ Public Class Form1
                                        "110 ; 1500", "132; 1500", "160; 1500", "200; 1500"}
 
 
-
-
     Public Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim words() As String
 
@@ -767,6 +765,18 @@ Public Class Form1
             ComboBox5.Items.Add(words(0))
         Next hh
         ComboBox5.SelectedIndex = 0
+
+
+        TextBox133.Text = "Plaat zwart" & vbTab & "1.30 €/kg" & vbCrLf
+        TextBox133.Text &= "Plaat 304 " & vbTab & vbTab & "0.00 €/kg " & vbCrLf
+        TextBox133.Text &= "Plaat 316 " & vbTab & vbTab & "0.00 €/kg " & vbCrLf
+        TextBox133.Text &= vbCrLf
+        TextBox133.Text &= "Pijp gelast" & vbCrLf
+        TextBox133.Text &= "Pijp zwart  " & vbTab & vbTab & "5.30 €/kg " & vbCrLf
+        TextBox133.Text &= "Pijp 304    " & vbTab & vbTab & "0.00 €/kg " & vbCrLf
+        TextBox133.Text &= "Pijp 316    " & vbTab & vbTab & "0.00 €/kg " & vbCrLf
+        TextBox133.Text &= vbCrLf
+        TextBox133.Text &= "Bron Staalprijzen.nl" & vbCrLf
 
         Screw_combo_init()
         Pipe_dia_combo_init()
@@ -1267,7 +1277,7 @@ Public Class Form1
     End Sub
 
     Private Sub Pipe_dia_combo_init()
-        Dim words() As String
+        Dim words(), tmp As String
 
         ComboBox3.Items.Clear()
         ComboBox9.Items.Clear()
@@ -1277,9 +1287,12 @@ Public Class Form1
             words = pipe_steel(hh).Split(CType(";", Char()))
             ComboBox3.Items.Add(Trim(words(2)))
             ComboBox9.Items.Add(Trim(words(2)))
+            tmp = "     " & Trim(words(2))
+            ComboBox14.Items.Add(tmp)
         Next hh
         ComboBox3.SelectedIndex = 5
         ComboBox9.SelectedIndex = 2
+        ComboBox14.SelectedIndex = 2
 
         words = pipe_steel(ComboBox3.SelectedIndex).Split(CType(";", Char()))
         Double.TryParse(words(2), _pipe_OD)
@@ -1863,7 +1876,7 @@ Public Class Form1
 
         ComboBox13.Items.Clear()
         '-------Fill combobox------------------
-        For hh = 1 To astap_dia.Length - 1                'Fill combobox 3 with pipe data
+        For hh = 1 To astap_dia.Length - 1                'Fill combobox 13 with astap data
             words = astap_dia(hh).Split(CType(";", Char()))
             ComboBox13.Items.Add(words(0))
         Next hh
@@ -1886,7 +1899,7 @@ Public Class Form1
 
         ComboBox12.Items.Clear()
         '-------Fill combobox ------------------
-        For hh = 1 To ppaint.Length - 1                'Fill combobox 3 with pipe data
+        For hh = 1 To ppaint.Length - 1                'Fill combobox 12 with paint data
             words = ppaint(hh).Split(CType(";", Char()))
             ComboBox12.Items.Add(words(0))
         Next hh
@@ -1897,7 +1910,7 @@ Public Class Form1
 
         ComboBox10.Items.Clear()
         '-------Fill combobox-----------------
-        For hh = 1 To pakking.Length - 1                'Fill combobox 3 with pipe data
+        For hh = 1 To pakking.Length - 1                'Fill combobox 10 with pakking data
             words = pakking(hh).Split(CType(";", Char()))
             ComboBox10.Items.Add(words(0))
         Next hh
@@ -1907,8 +1920,8 @@ Public Class Form1
         Calculate()
         Calulate_stress_1()
     End Sub
-
-    Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click, NumericUpDown43.ValueChanged, NumericUpDown42.ValueChanged, NumericUpDown41.ValueChanged, NumericUpDown44.ValueChanged, TabPage10.Enter, NumericUpDown46.ValueChanged, NumericUpDown45.ValueChanged
+       
+    Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click, NumericUpDown43.ValueChanged, NumericUpDown42.ValueChanged, NumericUpDown41.ValueChanged, TabPage10.Enter, NumericUpDown46.ValueChanged, NumericUpDown45.ValueChanged, ComboBox14.SelectedIndexChanged
         'Calculate flight weight, everything in [m]
         Dim d1 As Double            '[mm] OD
         Dim d2 As Double            '[mm] D pipe
@@ -1922,7 +1935,9 @@ Public Class Form1
         Dim blank_cost As Double    '[euro] material cost
 
         d1 = NumericUpDown43.Value / 1000           '[m] OD flight
-        d2 = NumericUpDown44.Value / 1000           '[m] OD pipe
+        Double.TryParse(ComboBox14.Text, d2)        '[mm] OD pipe
+        d2 /= 1000                                  '[m] OD pipe
+
         pitch = NumericUpDown42.Value * d1          '[m] pitch
         thick = NumericUpDown41.Value / 1000        '[m] flight thickness
         no_f = 1
@@ -1940,9 +1955,9 @@ Public Class Form1
         TextBox128.Text = w.ToString("F2")
         TextBox129.Text = pr.ToString("F2")
 
-        TextBox130.Text = blank_Dia.ToString("F2")
-        TextBox132.Text = blank_wgt.ToString("F2")
-        TextBox131.Text = blank_cost.ToString("F2")
+        TextBox130.Text = (blank_Dia * 1000).ToString("F0")     '[mm]
+        TextBox132.Text = blank_wgt.ToString("F2")              '[kg]
+        TextBox131.Text = blank_cost.ToString("F2")             '[e]
     End Sub
     Private Function Flight_weight(d1 As Double, d2 As Double, pitch As Double, thick As Double, no_f As Double) As Double
         Dim hoek_spoed As Double
@@ -1952,10 +1967,11 @@ Public Class Form1
         hoek_spoed = Atan(pitch / (PI * d1))                        '[rad]  
         tip_length = Sqrt(pitch ^ 2 + d1 ^ 2)
 
-        wkg = PI / 4 * 7850 * (thick) * no_f * (d1 ^ 2 - d2 ^ 2) / Cos(hoek_spoed)
+        wkg = PI / 4 * 7850 * thick * no_f * (d1 ^ 2 - d2 ^ 2) / Cos(hoek_spoed)
         Return (wkg)
     End Function
     Private Function Blank_OD(d1 As Double, pitch As Double) As Double
+        'Weight of the square blank
         Dim blank_dia As Double     'diameter flight blank (before forming)
         Dim tip_length As Double    'outside length 1 flight
 
