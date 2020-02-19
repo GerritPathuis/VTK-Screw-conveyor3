@@ -865,17 +865,17 @@ Public Class Form1
 
             '--------------- present results------------
             TextBox19.Text = _λ6.ToString
-            TextBox11.Text = Round(flight_speed, 2).ToString 'Flight speed [m/s]
+            TextBox11.Text = flight_speed.ToString("F2") 'Flight speed [m/s]
             TextBox18.Text = CType(_diam_flight * CDbl(1000.ToString), String)
             TextBox16.Text = CType(_pipe_OD * CDbl(1000.ToString), String)  'Pipe diameter [m]
-            TextBox01.Text = filling_perc.ToString("0.0")
-            TextBox127.Text = filling_perc_incl.ToString("0.0")  'Inclination factor
+            TextBox01.Text = filling_perc.ToString("F1")
+            TextBox127.Text = filling_perc_incl.ToString("F1")  'Inclination factor
             TextBox03.Text = iso_power.ToString
             TextBox04.Text = mekog.ToString
-            TextBox110.Text = Round(r_time, 0).ToString
-            TextBox123.Text = cap_hr_100.ToString("0")        '[m3/hr] @ 100% filling horizontal
-            TextBox126.Text = cap_under_angle.ToString("0.00")  'Inclination factor
-            TextBox124.Text = actual_cap_m3.ToString("0.0") '[m3/hr] 
+            TextBox110.Text = r_time.ToString("F0")
+            TextBox123.Text = cap_hr_100.ToString("F0")        '[m3/hr] @ 100% filling horizontal
+            TextBox126.Text = cap_under_angle.ToString("F2")  'Inclination factor
+            TextBox124.Text = actual_cap_m3.ToString("F1") '[m3/hr] 
 
             '--------------- checks ---------------------
             NumericUpDown7.BackColor = CType(IIf(speed > 45, Color.Red, Color.Yellow), Color)
@@ -964,7 +964,7 @@ Public Class Form1
             End Select
             TextBox07.Text = CType(sigma02, String)
             sigma_fatique = sigma02 * 0.3                   'Fatique stress uitgelegd op oneindige levensduur
-            TextBox08.Text = Round(sigma_fatique, 0).ToString
+            TextBox08.Text = sigma_fatique.ToString("F0")
         End If
 
         If ComboBox3.SelectedIndex > -1 Then
@@ -980,20 +980,20 @@ Public Class Form1
 
             pipe_weight_m = PI / 4 * (_pipe_OD ^ 2 - _pipe_ID ^ 2) * 7850   'Weight per meter [kg/m]
 
-            TextBox13.Text = Round(pipe_weight_m, 1).ToString                'gewicht per meter
-            TextBox16.Text = Round(_pipe_OD * 1000, 1).ToString              'Diameter [m]
+            TextBox13.Text = pipe_weight_m.ToString("F1")                   'gewicht per meter
+            TextBox16.Text = (_pipe_OD * 1000).ToString("F1")               'Diameter [m]
 
             '---------------- Traagheids moment Ix= PI/64.(D^4-d^4)---------------------
             pipe_Ix = PI / 64 * (_pipe_OD ^ 4 - _pipe_ID ^ 4)                  '[m4]
-            TextBox26.Text = Round(pipe_Ix * 1000 ^ 4, 0).ToString
+            TextBox26.Text = (pipe_Ix * 1000 ^ 4).ToString("F0")
 
             '---------------- Weerstand moment Buiging  Wx= PI/32.(D^4-d^4)/D---------------------
             pipe_Wx = PI / 32 * (_pipe_OD ^ 4 - _pipe_ID ^ 4) / _pipe_OD        '[m3]
-            TextBox14.Text = Round(pipe_Wx * 1000 ^ 3, 0).ToString
+            TextBox14.Text = (pipe_Wx * 1000 ^ 3).ToString("F0")
 
             '---------------- Weerstand moment Torsie (polair)  Wp= PI/16.(D^4-d^4)/D --------------
             pipe_Wp = PI / 16 * (_pipe_OD ^ 4 - _pipe_ID ^ 4) / _pipe_OD       '[m3]
-            TextBox15.Text = Round(pipe_Wp * 1000 ^ 3, 0).ToString
+            TextBox15.Text = (pipe_Wp * 1000 ^ 3).ToString("F0")
 
             '----------dimensions-----------------------------------------------------------------
             _κ1 = NumericUpDown31.Value                '[m] exposed pipe length force 1
@@ -1046,33 +1046,33 @@ Public Class Form1
             flight_lengte_gem = (flight_lengte_buiten + flight_lengte_binnen) / 2
             fligh_dik = NumericUpDown8.Value / 1000                                             '[m]
             flight_gewicht = (flight_hoogte * flight_lengte_gem * fligh_dik * 7850) / pitch     'Flight Gewicht per meter
-            TextBox02.Text = Round(flight_gewicht, 1).ToString                                   'Flight Gewicht per meter
-            TextBox05.Text = Round(fligh_dik * 1000, 1).ToString                                 'Flight dikte [mm]
+            TextBox02.Text = flight_gewicht.ToString("F1")                                   'Flight Gewicht per meter
+            TextBox05.Text = (fligh_dik * 1000).ToString("F1")                                 'Flight dikte [mm]
 
             '------------- aandrijving torsie @ drive ----------------------------
             P_torque = actual_power * 1000 / (2 * PI * NumericUpDown7.Value / 60)
-            TextBox29.Text = Round(P_torque, 0).ToString                                        'Torque from drive [N.m]
+            TextBox29.Text = P_torque.ToString("F0")                                        'Torque from drive [N.m]
 
             '----------- Weight (pipe+flight) + transport force combined ------
             '---- Worst case material assumed sitting lowest point of the trough---
 
-            q_load_1 = (pipe_weight_m + flight_gewicht) * 9.81          '[N/m] Uniform distributed weight
+            q_load_1 = (pipe_weight_m + flight_gewicht) * 9.81      '[N/m] Uniform distributed weight
             If CheckBox10.Checked Then q_load_1 = NumericUpDown29.Value 'Test
-            TextBox22.Text = Round(q_load_1, 0).ToString                '[N/m] Uniform distributed weight
+            TextBox22.Text = q_load_1.ToString("F0")                '[N/m] Uniform distributed weight
 
             '----------- Axial load caused by transport of product
-            Radius_transport = (_diam_flight + _pipe_OD) / 4            'Acc Jos (D+d)/4
+            Radius_transport = (_diam_flight + _pipe_OD) / 4        'Acc Jos (D+d)/4
             F_tangent = P_torque / Radius_transport
-            q_load_2 = F_tangent / _λ6                         'Transport kracht geeft doorbuiging pijp
-            q_load_3 = Uniform_mat_load                                 '[N/m] Uniform distributed material weight
-            TextBox17.Text = Round(q_load_3, 0).ToString                '[N/m]
+            q_load_2 = F_tangent / _λ6                              'Transport kracht geeft doorbuiging pijp
+            q_load_3 = Uniform_mat_load                             '[N/m] Uniform distributed material weight
+            TextBox17.Text = q_load_3.ToString("F0")                '[N/m]
 
             '============= Traditionele VTK berekening ==========================
             '============= verwaarloosd Q_load2 =================================
             If CheckBox1.Checked Then
                 q_load_2 = 0
             End If
-            TextBox28.Text = Round(q_load_2, 0).ToString                '[N]
+            TextBox28.Text = q_load_2.ToString("F2")               '[N]
             q_load_comb = Sqrt((q_load_1 + q_load_3) ^ 2 + q_load_2 ^ 2)     '[N/m] Radiale en tangentiele kracht gecombineerd
 
             '============= Reactie krachten Bearings==============================
@@ -1095,9 +1095,9 @@ Public Class Form1
             Rb /= _λ7
             Ra = R_total - Rb
 
-            TextBox24.Text = Round(Ra, 0).ToString          'Reactie kracht Ra
-            TextBox36.Text = Round(Rb, 0).ToString          'Reactie kracht Rb
-            TextBox39.Text = Round(R_total, 0).ToString 'Reactie kracht Ra+Rb
+            TextBox24.Text = Ra.ToString("F0")          'Reactie kracht Ra
+            TextBox36.Text = Rb.ToString("F0")          'Reactie kracht Rb
+            TextBox39.Text = R_total.ToString("F0") 'Reactie kracht Ra+Rb
 
             'Gebaseerd op http://beamguru.com/online/beam-calculator/
             '============ Krachten zijn
@@ -1186,52 +1186,52 @@ Public Class Form1
 
             xnul = _d(imax_count)
             Q_max_bend = _m(imax_count)
-            TextBox38.Text = xnul.ToString("0.00")          'Positie max moment [m]
-            TextBox20.Text = _αv(imax_count).ToString("0.0")
+            TextBox38.Text = xnul.ToString("F2")          'Positie max moment [m]
+            TextBox20.Text = _αv(imax_count).ToString("F1")
 
             '======= present ==========
             TextBox90.Text = _s(0).ToString("0")             'Shear force
-            TextBox4.Text = _s(i_chute_1).ToString("0")      'Shear force
-            TextBox5.Text = _s(i_chute_2).ToString("0")      'Shear force
-            TextBox6.Text = _s(i_chute_3).ToString("0")      'Shear force
-            TextBox91.Text = _s(_steps).ToString("0")         'Shear force
+            TextBox4.Text = _s(i_chute_1).ToString("F0")      'Shear force
+            TextBox5.Text = _s(i_chute_2).ToString("F0")      'Shear force
+            TextBox6.Text = _s(i_chute_3).ToString("F0")      'Shear force
+            TextBox91.Text = _s(_steps).ToString("F0")         'Shear force
 
-            TextBox1.Text = _m(i_chute_1).ToString("0")      'Moment chute #1
-            TextBox2.Text = _m(i_chute_2).ToString("0")      'Moment chute #2
-            TextBox3.Text = _m(i_chute_3).ToString("0")      'Moment chute #3
-            TextBox37.Text = Round(Q_max_bend, 0).ToString  'Max moment [Nm]   
+            TextBox1.Text = _m(i_chute_1).ToString("F0")      'Moment chute #1
+            TextBox2.Text = _m(i_chute_2).ToString("F0")      'Moment chute #2
+            TextBox3.Text = _m(i_chute_3).ToString("F0")      'Moment chute #3
+            TextBox37.Text = Q_max_bend.ToString("F0")  'Max moment [Nm]   
 
             TextBox114.Clear()
             For i = 0 To _steps    'Write results to text box
-                TextBox114.Text &= "Dist=" & _d(i).ToString("0.000") & "   "
+                TextBox114.Text &= "Dist=" & _d(i).ToString("F3") & "   "
                 TextBox114.Text &= "Shear=" & _s(i).ToString("0000") & "   "
                 TextBox114.Text &= "Moment=" & _m(i).ToString("0000") & "   "
-                TextBox114.Text &= "Angle=" & (_α(i) * 1000).ToString("0.00") & "   "
-                TextBox114.Text &= "Sag=" & _αv(i).ToString("0.000") & vbCrLf
+                TextBox114.Text &= "Angle=" & (_α(i) * 1000).ToString("F2") & "   "
+                TextBox114.Text &= "Sag=" & _αv(i).ToString("F3") & vbCrLf
             Next
-            TextBox114.Text &= "Maximum bend moment " & _m(imax_count).ToString("0.0") & " [Nm] @ " & xnul.ToString & " [m]" & vbCrLf
-            TextBox114.Text &= "Maximum sag " & _αv(imax_count).ToString("0.00") & " [mm] "
+            TextBox114.Text &= "Maximum bend moment " & _m(imax_count).ToString("F1") & " [Nm] @ " & xnul.ToString & " [m]" & vbCrLf
+            TextBox114.Text &= "Maximum sag " & _αv(imax_count).ToString("F2") & " [mm] "
 
 
             '================== calc torsie ========================================
             '=======================================================================
-            Tou_torque = P_torque / (pipe_Wp * 1000 ^ 2)            '[N/mm2]
-            TextBox12.Text = Round(Tou_torque, 1).ToString          'Stress from drive [N.m]
+            Tou_torque = P_torque / (pipe_Wp * 1000 ^ 2)        '[N/mm2]
+            TextBox12.Text = Tou_torque.ToString("F1")          'Stress from drive [N.m]
 
             '-------------------------- @ drive max bend------------------------
             P_torque_M = (P_torque * xnul / _λ6)
-            Tou_torque_M = P_torque_M / (pipe_Wp * 1000 ^ 2)        '[N/mm2]
-            TextBox10.Text = Round(Tou_torque_M, 1).ToString("0.0")
+            Tou_torque_M = P_torque_M / (pipe_Wp * 1000 ^ 2)    '[N/mm2]
+            TextBox10.Text = Tou_torque_M.ToString("F1")
 
             '==================calc stress ===========================================
             '=========================================================================
             '----------- bending stress--------------------
-            sigma_eg = Q_max_bend / (pipe_Wx * 1000 ^ 2)                   '[N/mm2]
-            TextBox09.Text = Round(sigma_eg, 1).ToString                    '[N/mm2]
+            sigma_eg = Q_max_bend / (pipe_Wx * 1000 ^ 2)        '[N/mm2]
+            TextBox09.Text = sigma_eg.ToString("F1")            '[N/mm2]
 
             '------------ Hubert en hencky @ maximale doorbuiging--------------------
             combined_stress = Sqrt((sigma_eg) ^ 2 + 3 * (Tou_torque_M) ^ 2)
-            TextBox21.Text = Round(combined_stress, 1).ToString("0.0")
+            TextBox21.Text = combined_stress.ToString("F1")
 
             '---------- allowed sag --------------
             Select Case True
@@ -1270,7 +1270,7 @@ Public Class Form1
             Double.TryParse(words(0), _diam_flight)
             _diam_flight /= 1000                    'Trough width[m]
 
-            TextBox18.Text = Round(_diam_flight * 1000, 3).ToString
+            TextBox18.Text = (_diam_flight * 1000).ToString("F3")
             MessageBox.Show(_diam_flight.ToString)
         End If
     End Sub
@@ -1296,7 +1296,7 @@ Public Class Form1
         words = pipe_steel(ComboBox3.SelectedIndex).Split(CType(";", Char()))
         Double.TryParse(words(2), _pipe_OD)
         _pipe_OD /= 1000                                         'Outside Diameter [mm]
-        TextBox16.Text = Round(_pipe_OD * 1000, 1).ToString      'Diameter [mm]
+        TextBox16.Text = (_pipe_OD * 1000).ToString("F1")     'Diameter [mm]
     End Sub
     Private Sub Pipe_wall_combo_init()
         Dim words() As String
@@ -2400,6 +2400,8 @@ Public Class Form1
                 TextBox94.Text = "2.09"         'schroefpijp staal
                 TextBox95.Text = "8.00"         'schroefblad
                 TextBox92.Text = "2.09"         'astap ronde staf afm 60
+
+                CheckBox6.Checked = True        'Paint
             Case (RadioButton7.Checked)         'rvs304, warmgewalst
                 rho_staal = 8000
                 TextBox93.Text = "2.45"         'kop staart 
@@ -2409,6 +2411,7 @@ Public Class Form1
                 TextBox94.Text = "2.45"         'schroefpijp 304
                 TextBox95.Text = "10.0"         'schroefblad
                 TextBox92.Text = "1.52"         'astap [€/kg] materiaal is standaard van staal
+                CheckBox6.Checked = False       'Paint
             Case (RadioButton8.Checked)         'rvs316, warmgewalst(zie vtke-151401)
                 rho_staal = 7860
                 TextBox93.Text = "4.07"         'kop staart 
@@ -2418,6 +2421,7 @@ Public Class Form1
                 TextBox94.Text = "7.57"         'schroefpijp 316
                 TextBox95.Text = "10.00"        'schroefblad
                 TextBox92.Text = "2.09"         'astap [€/kg] materiaal is standaard van staal
+                CheckBox6.Checked = False       'Paint
         End Select
 
         If ComboBox4.SelectedIndex > -1 And ComboBox7.SelectedIndex > -1 And ComboBox8.SelectedIndex > -1 And
@@ -2580,45 +2584,47 @@ Public Class Form1
         total_cost = subtotalCost_Steel + subtotalCost_Components + subtotalCost_Options + subtotalCost_Misc
 
         'FILL TEXTBOXES STEEL SUBGROUP ----------------------------------------------------------------------------------------
-        TextBox42.Text = Round(2 * kg_kopstaartplaat, 1).ToString   'kopstaartplaat kg (twee kopplaten)
-        TextBox56.Text = Round(cost_kopstaartplaat, 2).ToString         'kopstaartplaat cost
+        TextBox42.Text = (2 * kg_kopstaartplaat).ToString("F1")   'kopstaartplaat kg (twee kopplaten)
+        TextBox56.Text = cost_kopstaartplaat.ToString("F0")         'kopstaartplaat cost
 
         TextBox136.Text = NumericUpDown8.Value.ToString     'schroefblad dikte mm
         TextBox47.Text = kg_trog.ToString("F1")             'trog kg
-        TextBox61.Text = cost_trog.ToString("F2")           'trog cost
         TextBox48.Text = kg_deksel.ToString("F1")           'deksel kg
-        TextBox62.Text = cost_deksel.ToString("F2")         'deksel cost
-        TextBox43.Text = cost_cutting.ToString("F2")        'snijkosten
         TextBox46.Text = kg_schroefblad.ToString("F1")      'schroefblad kg
-        TextBox60.Text = cost_schroefblad.ToString("F2")    'schroefblad cost
         TextBox45.Text = kg_pipe.ToString("F1")             'pijp kg
-        TextBox59.Text = cost_pipe.ToString("F2")           'pijp cost
         TextBox54.Text = kg_astap.ToString("F1")            'astap kg
-        TextBox78.Text = cost_astap.ToString("F2")          'astap kg
         TextBox134.Text = totaal_gew.ToString("F0")         'totaal gewicht
         TextBox135.Text = gew_inuitvoet.ToString("F0")      'inlaat, uitlaat+voet
 
+        TextBox61.Text = cost_trog.ToString("F0")           'trog cost
+        TextBox62.Text = cost_deksel.ToString("F0")         'deksel cost
+        TextBox43.Text = cost_cutting.ToString("F0")        'snijkosten
+        TextBox60.Text = cost_schroefblad.ToString("F0")    'schroefblad cost
+        TextBox59.Text = cost_pipe.ToString("F0")           'pijp cost
+        TextBox78.Text = cost_astap.ToString("F0")          'astap kg
+
+
         'FILL TEXTBOXES COMPONENTS SUBGROUP ----------------------------------------------------------------------------------------
-        TextBox57.Text = Round(cost_motorreductor, 2).ToString      'Motorreductor
-        TextBox58.Text = Round(cost_koppeling, 2).ToString          'Koppeling
-        TextBox63.Text = Round(cost_lagers, 2).ToString             'Lagers
-        TextBox102.Text = Round(cost_hang, 1).ToString              'Hangende lagers
-        TextBox64.Text = Round(cost_stopbus, 1).ToString            'Asafdichting
-        TextBox104.Text = Round(cost_pakking, 2).ToString           'Seals
+        TextBox57.Text = cost_motorreductor.ToString("F2")       'Motorreductor
+        TextBox58.Text = cost_koppeling.ToString("F2")           'Koppeling
+        TextBox63.Text = cost_lagers.ToString("F2")              'Lagers
+        TextBox102.Text = cost_hang.ToString("F1")               'Hangende lagers
+        TextBox64.Text = cost_stopbus.ToString("F1")             'Asafdichting
+        TextBox104.Text = cost_pakking.ToString("F2")            'Seals
 
         'FILL TEXTBOXES OPTIONS SUBGROUP ---------------------------------------------------------------------------------------
-        TextBox79.Text = Round(cost_inlaat, 2).ToString             'Inlaat cost
-        TextBox80.Text = Round(cost_uitlaat, 2).ToString            'Uitlaat cost
-        TextBox81.Text = Round(cost_voet, 2).ToString               'Voet cost
-        TextBox76.Text = Round(kg_afschermkap, 1).ToString          'Afschermkap kg
-        TextBox82.Text = Round(cost_afschermkap, 2).ToString        'Afschermkap cost
+        TextBox79.Text = cost_inlaat.ToString("F2")             'Inlaat cost
+        TextBox80.Text = cost_uitlaat.ToString("F2")            'Uitlaat cost
+        TextBox81.Text = cost_voet.ToString("F2")               'Voet cost
+        TextBox82.Text = cost_afschermkap.ToString("F2")        'Afschermkap cost
+        TextBox76.Text = kg_afschermkap.ToString("F0")          'Afschermkap kg
 
         'FILL TEXTBOXES MSIC SUBGROUP ----------------------------------------------------------------------------------------
-        TextBox77.Text = Round(kg_lining, 1).ToString               'Lining kg
-        TextBox83.Text = Round(cost_lining, 2).ToString             'Lining cost
-        TextBox108.Text = Round(tot_opperv_paint, 1).ToString       'Verf m2
-        TextBox107.Text = Round(cost_painting, 2).ToString          'Verf cost
-        TextBox112.Text = Round(cost_transport, 2).ToString         'Transport cost
+        TextBox77.Text = kg_lining.ToString("F2")                'Lining kg
+        TextBox83.Text = cost_lining.ToString("F2")              'Lining cost
+        TextBox108.Text = tot_opperv_paint.ToString("F1")        'Verf m2
+        TextBox107.Text = cost_painting.ToString("F2")           'Verf cost
+        TextBox112.Text = cost_transport.ToString("F2")          'Transport cost
         'TABBLAD SALES PRICE ---------------------------------------------------------------------------------------
 
         'CALCULATE ----------------------------------------------------------------------------------------
@@ -2640,30 +2646,30 @@ Public Class Form1
         perc_mater = 100 * total_cost / geheel_totprijs                     'Percentage materiaal
         perc_arbeid = 100 * tot_prijsarbeid / geheel_totprijs               'Percentage arbeid
         dekking = geheel_totprijs * 0.175                                   'Dekking
-        marge_cost = (geheel_totprijs + dekking) * 0.1                       'Marge
-        verkoopprijs = geheel_totprijs + dekking + marge_cost           'Verkoopprijs
+        marge_cost = (geheel_totprijs + dekking) * 0.1                      'Marge
+        verkoopprijs = geheel_totprijs + dekking + marge_cost               'Verkoopprijs
 
         'FILL TEXTBOXES ----------------------------------------------------------------------------------------
-        TextBox88.Text = Round(certificate_cost, 2).ToString            'Certificaat cost
-        TextBox109.Text = total_kg_plaat.ToString("0")                   'Totaal gewicht plaat
-        TextBox68.Text = Round(cost_kopstaartplaat + cost_trog + cost_deksel + cost_cutting, 0).ToString     'Totaal prijs plaat
+        TextBox88.Text = certificate_cost.ToString("F2")           'Certificaat cost
+        TextBox109.Text = total_kg_plaat.ToString("F0")                   'Totaal gewicht plaat
+        TextBox68.Text = (cost_kopstaartplaat + cost_trog + cost_deksel + cost_cutting).ToString("F0")     'Totaal prijs plaat
 
-        TextBox105.Text = Round(engineering_prijs_uur, 0).ToString      'Engineering uren
-        TextBox55.Text = Round(prijs_engineering, 1).ToString           'Engineering cost
-        TextBox69.Text = Round(project_prijs_uur, 0).ToString           'Project management uren
-        TextBox70.Text = Round(prijs_project, 0).ToString               'Project management cost
-        TextBox71.Text = Round(fabriek_prijs_uur, 0).ToString           'Fabriek uren
-        TextBox72.Text = Round(prijs_fabriek, 0).ToString               'Fabriek cost
-        TextBox106.Text = Round(tot_uren, 0).ToString                   'Totaal aantal uren
-        TextBox111.Text = Round(total_cost, 0).ToString                 'Totale prijs materiaal
-        TextBox103.Text = Round(total_cost, 0).ToString                 'Totale prijs materiaal
-        TextBox100.Text = Round(perc_mater, 0).ToString                 'Totale percentage materiaal
-        TextBox98.Text = Round(tot_prijsarbeid, 0).ToString             'Totale prijs arbeid
-        TextBox101.Text = Round(perc_arbeid, 0).ToString                'Totale percentage arbeid
-        TextBox73.Text = Round(geheel_totprijs, 0).ToString             'Geheel totaalprijs
-        TextBox74.Text = Round(dekking, 0).ToString                     'Dekking
-        TextBox99.Text = Round(marge_cost, 0).ToString                  'Marge
-        TextBox75.Text = Round(verkoopprijs, 0).ToString                'Verkoopprijs
+        TextBox105.Text = engineering_prijs_uur.ToString("F0")      'Engineering uren
+        TextBox55.Text = prijs_engineering.ToString("F1")          'Engineering cost
+        TextBox69.Text = project_prijs_uur.ToString("F0")           'Project management uren
+        TextBox70.Text = prijs_project.ToString("F0")               'Project management cost
+        TextBox71.Text = fabriek_prijs_uur.ToString("F0")           'Fabriek uren
+        TextBox72.Text = prijs_fabriek.ToString("F0")               'Fabriek cost
+        TextBox106.Text = tot_uren.ToString("F0")                   'Totaal aantal uren
+        TextBox111.Text = total_cost.ToString("F0")                 'Totale prijs materiaal
+        TextBox103.Text = total_cost.ToString("F0")                 'Totale prijs materiaal
+        TextBox100.Text = perc_mater.ToString("F0")                 'Totale percentage materiaal
+        TextBox98.Text = tot_prijsarbeid.ToString("F0")            'Totale prijs arbeid
+        TextBox101.Text = perc_arbeid.ToString("F0")                'Totale percentage arbeid
+        TextBox73.Text = geheel_totprijs.ToString("F0")             'Geheel totaalprijs
+        TextBox74.Text = dekking.ToString("F0")                     'Dekking
+        TextBox99.Text = marge_cost.ToString("F0")                  'Marge
+        TextBox75.Text = verkoopprijs.ToString("F0")                'Verkoopprijs
     End Sub
     Private Sub Draw_chart1()
         Dim hh As Integer
