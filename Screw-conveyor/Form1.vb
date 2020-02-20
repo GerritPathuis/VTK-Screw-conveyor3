@@ -789,7 +789,7 @@ Public Class Form1
         Pakking_combo()
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles NumericUpDown9.ValueChanged, NumericUpDown7.ValueChanged, NumericUpDown6.ValueChanged, NumericUpDown5.ValueChanged, NumericUpDown4.ValueChanged, NumericUpDown3.ValueChanged, NumericUpDown2.ValueChanged, Button1.Click, TabPage1.Enter, ComboBox11.SelectedValueChanged
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles NumericUpDown9.ValueChanged, NumericUpDown7.ValueChanged, NumericUpDown6.ValueChanged, NumericUpDown5.ValueChanged, NumericUpDown4.ValueChanged, NumericUpDown3.ValueChanged, NumericUpDown2.ValueChanged, Button1.Click, TabPage1.Enter, ComboBox11.SelectedValueChanged, NumericUpDown8.ValueChanged, NumericUpDown40.ValueChanged, NumericUpDown39.ValueChanged
         Calculate()
     End Sub
 
@@ -821,6 +821,7 @@ Public Class Form1
             speed = NumericUpDown7.Value                    '[rpm]
             progress_resistance = NumericUpDown9.Value      '[-]
             density = NumericUpDown6.Value                  '[kg/m3] Density
+            _λ6 = NumericUpDown3.Value                      '[m] lengte van de trog/schroef 
 
             '------- Flight speed (ATEX < 1 [m/s])-----------
             flight_speed = speed / 60 * PI * _diam_flight   '[m/s]
@@ -859,6 +860,9 @@ Public Class Form1
             '--------------- MEKOG -----------------
             mekog = Round(_regu_flow_kg_hr * _λ6 / (40 * 1.36 * 1000), 1)    '[kW]
             mekog *= 1.6 'Based on current measurement Q19.1165 (Borouge 4) dd 12/09/2019
+
+            Debug.WriteLine("_regu_flow_kg_hr= " & _regu_flow_kg_hr.ToString)
+            Debug.WriteLine(" _λ6= " & _λ6.ToString)
 
             '-------------- Retention time --------------------
             r_time = _λ6 / (speed / 60 * pitch)                     '[sec]
