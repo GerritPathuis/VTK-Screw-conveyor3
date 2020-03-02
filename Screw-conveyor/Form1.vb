@@ -887,7 +887,7 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown10.ValueChanged, NumericUpDown25.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox4.SelectedIndexChanged, ComboBox13.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox8.CheckedChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, CheckBox4.CheckedChanged, CheckBox7.CheckedChanged, CheckBox6.CheckedChanged, TabPage4.Enter
+    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown10.ValueChanged, NumericUpDown25.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox4.SelectedIndexChanged, ComboBox13.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox8.CheckedChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, CheckBox4.CheckedChanged, CheckBox7.CheckedChanged, CheckBox6.CheckedChanged, TabPage4.Enter, CheckBox5.CheckedChanged
         Costing_material()
     End Sub
 
@@ -2393,7 +2393,6 @@ Public Class Form1
         TextBox84.Text = "3.25"                 'lining [€/kg]
         TextBox85.Text = "10.00"                'alu afschermkap [€/kg]
 
-
         Select Case True
             Case (RadioButton6.Checked)         'staal, s235JR
                 rho_staal = 7850
@@ -2401,30 +2400,29 @@ Public Class Form1
                 TextBox96.Text = "0.78"         'trog
                 TextBox97.Text = "0.78"         'deksel
                 TextBox113.Text = "0.78"        'inlaat,uitlaat,voet, schermkap [€/kg]
-                TextBox94.Text = "2.09"         'schroefpijp staal
+                TextBox94.Text = CType(IIf(Not CheckBox5.Checked, "2.00", "3.00"), String) 'schroefpijp staal (seam/seamless)
                 TextBox95.Text = "8.00"         'schroefblad
                 TextBox92.Text = "2.09"         'astap ronde staf afm 60
-
                 CheckBox6.Checked = True        'Paint
-            Case (RadioButton7.Checked)         'rvs304, warmgewalst
-                rho_staal = 8000
-                TextBox93.Text = "2.45"         'kop staart 
-                TextBox96.Text = "2.45"         'trog
-                TextBox97.Text = "2.45"         'deksel
-                TextBox113.Text = "2.45"        'inlaat,uitlaat,voet, schermkap [€/kg]
-                TextBox94.Text = "2.45"         'schroefpijp 304
+            Case (RadioButton7.Checked)         'rvs304, (Koud + 2B)
+                rho_staal = 7950
+                TextBox93.Text = "2.75"         'kop staart 
+                TextBox96.Text = "2.75"         'trog
+                TextBox97.Text = "2.75"         'deksel
+                TextBox113.Text = "2.75"        'inlaat,uitlaat,voet, schermkap [€/kg]
+                TextBox94.Text = CType(IIf(Not CheckBox5.Checked, "3.45", "6.25"), String) 'schroefpijp 304 (seam/seamless)
                 TextBox95.Text = "10.0"         'schroefblad
                 TextBox92.Text = "1.52"         'astap [€/kg] materiaal is standaard van staal
                 CheckBox6.Checked = False       'Paint
-            Case (RadioButton8.Checked)         'rvs316, warmgewalst(zie vtke-151401)
-                rho_staal = 7860
-                TextBox93.Text = "4.07"         'kop staart 
-                TextBox96.Text = "4.07"         'trog
-                TextBox97.Text = "4.07"         'deksel
-                TextBox113.Text = "4.07"        'inlaat,uitlaat,voet, schermkap [€/kg]
-                TextBox94.Text = "7.57"         'schroefpijp 316
+            Case (RadioButton8.Checked)         'rvs316, (Koud + 2B)
+                rho_staal = 8000
+                TextBox93.Text = "3.97"         'kop staart 
+                TextBox96.Text = "3.97"         'trog
+                TextBox97.Text = "3.97"         'deksel
+                TextBox113.Text = "3.97"        'inlaat,uitlaat,voet, schermkap [€/kg]
+                TextBox94.Text = CType(IIf(Not CheckBox5.Checked, "4.45", "8.20"), String) 'schroefpijp 316 (seam/seamless)
                 TextBox95.Text = "10.00"        'schroefblad
-                TextBox92.Text = "2.09"         'astap [€/kg] materiaal is standaard van staal
+                TextBox92.Text = "1.52"         'astap [€/kg] materiaal is standaard van staal
                 CheckBox6.Checked = False       'Paint
         End Select
 
@@ -2453,7 +2451,11 @@ Public Class Form1
         '---------------Plaat diktes---------------
         dikte_trog = NumericUpDown14.Value / 1000
         kopstaart_dikte = NumericUpDown10.Value / 1000  '[m]
-        dikte_deksel = NumericUpDown15.Value / 1000
+        If RadioButton5.Checked Then
+            dikte_deksel = NumericUpDown15.Value / 1000 'U-trog
+        Else
+            dikte_deksel = 0                            'Pijpschroef
+        End If
         dikte_lining = NumericUpDown25.Value / 1000
 
         '--------------staal Oppervlaktes -------
