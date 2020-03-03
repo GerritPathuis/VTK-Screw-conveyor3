@@ -803,6 +803,7 @@ Public Class Form1
         Dim iso_power As Double         'Total Power 
         Dim height As Double            'Height difference due to inclination 
         Dim mekog As Double             'Mekog installed power
+        Dim mekog_torque As Double       'Mekog installed torque
         Dim flight_speed As Double      'Flight speed
         Dim r_time As Double
         Dim cap_under_angle As Double
@@ -860,6 +861,7 @@ Public Class Form1
             '--------------- MEKOG -----------------
             mekog = Round(_regu_flow_kg_hr * _λ6 / (40 * 1.36 * 1000), 1)    '[kW]
             mekog *= 1.6 'Based on current measurement Q19.1165 (Borouge 4) dd 12/09/2019
+            mekog_torque = mekog * 1000 / (speed * 2 * PI / 60)
 
             Debug.WriteLine("_regu_flow_kg_hr= " & _regu_flow_kg_hr.ToString)
             Debug.WriteLine(" _λ6= " & _λ6.ToString)
@@ -874,12 +876,16 @@ Public Class Form1
             TextBox16.Text = CType(_pipe_OD * CDbl(1000.ToString), String)  'Pipe diameter [m]
             TextBox01.Text = filling_perc.ToString("F1")
             TextBox127.Text = filling_perc_incl.ToString("F1")  'Inclination factor
-            TextBox03.Text = iso_power.ToString
-            TextBox04.Text = mekog.ToString
+            TextBox03.Text = iso_power.ToString                 '[kW]
+            TextBox04.Text = mekog.ToString                     '[kW]
+            TextBox137.Text = mekog_torque.ToString("F0")       '[Nm]
+
             TextBox110.Text = r_time.ToString("F0")
             TextBox123.Text = cap_hr_100.ToString("F0")        '[m3/hr] @ 100% filling horizontal
             TextBox126.Text = cap_under_angle.ToString("F2")  'Inclination factor
             TextBox124.Text = actual_cap_m3.ToString("F1") '[m3/hr] 
+
+
 
             '--------------- checks ---------------------
             NumericUpDown7.BackColor = CType(IIf(speed > 45, Color.Red, Color.Yellow), Color)
