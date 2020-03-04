@@ -24,15 +24,15 @@ Partial Class Form1
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
-        Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea2 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend2 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series2 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea3 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend3 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series3 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea16 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend16 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series16 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea17 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend17 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series17 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea18 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend18 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series18 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.GroupBox17 = New System.Windows.Forms.GroupBox()
@@ -65,6 +65,7 @@ Partial Class Form1
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.TextBox137 = New System.Windows.Forms.TextBox()
         Me.Label177 = New System.Windows.Forms.Label()
         Me.TextBox127 = New System.Windows.Forms.TextBox()
         Me.Label176 = New System.Windows.Forms.Label()
@@ -510,9 +511,28 @@ Partial Class Form1
         Me.NumericUpDown41 = New System.Windows.Forms.NumericUpDown()
         Me.NumericUpDown42 = New System.Windows.Forms.NumericUpDown()
         Me.Label182 = New System.Windows.Forms.Label()
+        Me.TabPage11 = New System.Windows.Forms.TabPage()
+        Me.PictureBox7 = New System.Windows.Forms.PictureBox()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
-        Me.TextBox137 = New System.Windows.Forms.TextBox()
+        Me.TextBox138 = New System.Windows.Forms.TextBox()
+        Me.TextBox139 = New System.Windows.Forms.TextBox()
+        Me.Label192 = New System.Windows.Forms.Label()
+        Me.Label193 = New System.Windows.Forms.Label()
+        Me.Label194 = New System.Windows.Forms.Label()
+        Me.GroupBox32 = New System.Windows.Forms.GroupBox()
+        Me.NumericUpDown12 = New System.Windows.Forms.NumericUpDown()
+        Me.TextBox141 = New System.Windows.Forms.TextBox()
+        Me.Label195 = New System.Windows.Forms.Label()
+        Me.Label196 = New System.Windows.Forms.Label()
+        Me.Label197 = New System.Windows.Forms.Label()
+        Me.NumericUpDown44 = New System.Windows.Forms.NumericUpDown()
+        Me.TextBox142 = New System.Windows.Forms.TextBox()
+        Me.Label199 = New System.Windows.Forms.Label()
+        Me.Button12 = New System.Windows.Forms.Button()
+        Me.NumericUpDown47 = New System.Windows.Forms.NumericUpDown()
+        Me.Label200 = New System.Windows.Forms.Label()
+        Me.GroupBox33 = New System.Windows.Forms.GroupBox()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         Me.GroupBox17.SuspendLayout()
@@ -609,7 +629,14 @@ Partial Class Form1
         CType(Me.NumericUpDown43, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown41, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.NumericUpDown42, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.TabPage11.SuspendLayout()
+        CType(Me.PictureBox7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox32.SuspendLayout()
+        CType(Me.NumericUpDown12, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.NumericUpDown44, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.NumericUpDown47, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox33.SuspendLayout()
         Me.SuspendLayout()
         '
         'TabControl1
@@ -624,6 +651,7 @@ Partial Class Form1
         Me.TabControl1.Controls.Add(Me.TabPage8)
         Me.TabControl1.Controls.Add(Me.TabPage9)
         Me.TabControl1.Controls.Add(Me.TabPage10)
+        Me.TabControl1.Controls.Add(Me.TabPage11)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Name = "TabControl1"
@@ -633,6 +661,7 @@ Partial Class Form1
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.GroupBox33)
         Me.TabPage1.Controls.Add(Me.GroupBox17)
         Me.TabPage1.Controls.Add(Me.GroupBox7)
         Me.TabPage1.Controls.Add(Me.Button1)
@@ -969,7 +998,6 @@ Partial Class Form1
         '
         'GroupBox1
         '
-        Me.GroupBox1.Controls.Add(Me.TextBox137)
         Me.GroupBox1.Controls.Add(Me.Label177)
         Me.GroupBox1.Controls.Add(Me.TextBox127)
         Me.GroupBox1.Controls.Add(Me.Label176)
@@ -990,10 +1018,6 @@ Partial Class Form1
         Me.GroupBox1.Controls.Add(Me.NumericUpDown8)
         Me.GroupBox1.Controls.Add(Me.Label33)
         Me.GroupBox1.Controls.Add(Me.TextBox16)
-        Me.GroupBox1.Controls.Add(Me.TextBox04)
-        Me.GroupBox1.Controls.Add(Me.TextBox03)
-        Me.GroupBox1.Controls.Add(Me.Label13)
-        Me.GroupBox1.Controls.Add(Me.Label12)
         Me.GroupBox1.Controls.Add(Me.TextBox01)
         Me.GroupBox1.Controls.Add(Me.Label9)
         Me.GroupBox1.Controls.Add(Me.Label8)
@@ -1008,10 +1032,19 @@ Partial Class Form1
         Me.GroupBox1.Controls.Add(Me.Label1)
         Me.GroupBox1.Location = New System.Drawing.Point(8, 168)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(370, 493)
+        Me.GroupBox1.Size = New System.Drawing.Size(370, 413)
         Me.GroupBox1.TabIndex = 11
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Conveyor data"
+        '
+        'TextBox137
+        '
+        Me.TextBox137.Enabled = False
+        Me.TextBox137.Location = New System.Drawing.Point(284, 44)
+        Me.TextBox137.Name = "TextBox137"
+        Me.TextBox137.Size = New System.Drawing.Size(65, 20)
+        Me.TextBox137.TabIndex = 45
+        Me.TextBox137.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label177
         '
@@ -1036,7 +1069,7 @@ Partial Class Form1
         'Label176
         '
         Me.Label176.AutoSize = True
-        Me.Label176.Location = New System.Drawing.Point(25, 462)
+        Me.Label176.Location = New System.Drawing.Point(25, 393)
         Me.Label176.Name = "Label176"
         Me.Label176.Size = New System.Drawing.Size(221, 13)
         Me.Label176.TabIndex = 42
@@ -1085,7 +1118,7 @@ Partial Class Form1
         Me.NumericUpDown40.BackColor = System.Drawing.Color.Yellow
         Me.NumericUpDown40.DecimalPlaces = 2
         Me.NumericUpDown40.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.NumericUpDown40.Location = New System.Drawing.Point(208, 419)
+        Me.NumericUpDown40.Location = New System.Drawing.Point(208, 370)
         Me.NumericUpDown40.Maximum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.NumericUpDown40.Name = "NumericUpDown40"
         Me.NumericUpDown40.Size = New System.Drawing.Size(65, 20)
@@ -1097,7 +1130,7 @@ Partial Class Form1
         '
         Me.Label171.AutoSize = True
         Me.Label171.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label171.Location = New System.Drawing.Point(22, 419)
+        Me.Label171.Location = New System.Drawing.Point(22, 370)
         Me.Label171.Name = "Label171"
         Me.Label171.Size = New System.Drawing.Size(150, 16)
         Me.Label171.TabIndex = 33
@@ -1108,7 +1141,7 @@ Partial Class Form1
         Me.NumericUpDown39.BackColor = System.Drawing.Color.Yellow
         Me.NumericUpDown39.DecimalPlaces = 2
         Me.NumericUpDown39.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
-        Me.NumericUpDown39.Location = New System.Drawing.Point(208, 394)
+        Me.NumericUpDown39.Location = New System.Drawing.Point(208, 345)
         Me.NumericUpDown39.Maximum = New Decimal(New Integer() {1, 0, 0, 0})
         Me.NumericUpDown39.Name = "NumericUpDown39"
         Me.NumericUpDown39.Size = New System.Drawing.Size(65, 20)
@@ -1120,7 +1153,7 @@ Partial Class Form1
         '
         Me.Label170.AutoSize = True
         Me.Label170.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label170.Location = New System.Drawing.Point(22, 394)
+        Me.Label170.Location = New System.Drawing.Point(22, 345)
         Me.Label170.Name = "Label170"
         Me.Label170.Size = New System.Drawing.Size(163, 16)
         Me.Label170.TabIndex = 31
@@ -1149,7 +1182,7 @@ Partial Class Form1
         'TextBox110
         '
         Me.TextBox110.Enabled = False
-        Me.TextBox110.Location = New System.Drawing.Point(208, 369)
+        Me.TextBox110.Location = New System.Drawing.Point(208, 320)
         Me.TextBox110.Name = "TextBox110"
         Me.TextBox110.Size = New System.Drawing.Size(65, 20)
         Me.TextBox110.TabIndex = 28
@@ -1159,7 +1192,7 @@ Partial Class Form1
         '
         Me.Label74.AutoSize = True
         Me.Label74.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label74.Location = New System.Drawing.Point(22, 370)
+        Me.Label74.Location = New System.Drawing.Point(22, 321)
         Me.Label74.Name = "Label74"
         Me.Label74.Size = New System.Drawing.Size(126, 16)
         Me.Label74.TabIndex = 27
@@ -1218,7 +1251,7 @@ Partial Class Form1
         'TextBox04
         '
         Me.TextBox04.Enabled = False
-        Me.TextBox04.Location = New System.Drawing.Point(208, 344)
+        Me.TextBox04.Location = New System.Drawing.Point(208, 44)
         Me.TextBox04.Name = "TextBox04"
         Me.TextBox04.Size = New System.Drawing.Size(65, 20)
         Me.TextBox04.TabIndex = 20
@@ -1227,7 +1260,7 @@ Partial Class Form1
         'TextBox03
         '
         Me.TextBox03.Enabled = False
-        Me.TextBox03.Location = New System.Drawing.Point(208, 319)
+        Me.TextBox03.Location = New System.Drawing.Point(208, 19)
         Me.TextBox03.Name = "TextBox03"
         Me.TextBox03.Size = New System.Drawing.Size(65, 20)
         Me.TextBox03.TabIndex = 19
@@ -1237,7 +1270,7 @@ Partial Class Form1
         '
         Me.Label13.AutoSize = True
         Me.Label13.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label13.Location = New System.Drawing.Point(22, 344)
+        Me.Label13.Location = New System.Drawing.Point(22, 44)
         Me.Label13.Name = "Label13"
         Me.Label13.Size = New System.Drawing.Size(154, 16)
         Me.Label13.TabIndex = 18
@@ -1247,7 +1280,7 @@ Partial Class Form1
         '
         Me.Label12.AutoSize = True
         Me.Label12.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label12.Location = New System.Drawing.Point(22, 318)
+        Me.Label12.Location = New System.Drawing.Point(22, 18)
         Me.Label12.Name = "Label12"
         Me.Label12.Size = New System.Drawing.Size(133, 16)
         Me.Label12.TabIndex = 17
@@ -5193,17 +5226,17 @@ Partial Class Form1
         '
         'Chart3
         '
-        ChartArea1.Name = "ChartArea1"
-        Me.Chart3.ChartAreas.Add(ChartArea1)
+        ChartArea16.Name = "ChartArea1"
+        Me.Chart3.ChartAreas.Add(ChartArea16)
         Me.Chart3.Dock = System.Windows.Forms.DockStyle.Top
-        Legend1.Name = "Legend1"
-        Me.Chart3.Legends.Add(Legend1)
+        Legend16.Name = "Legend1"
+        Me.Chart3.Legends.Add(Legend16)
         Me.Chart3.Location = New System.Drawing.Point(176, 401)
         Me.Chart3.Name = "Chart3"
-        Series1.ChartArea = "ChartArea1"
-        Series1.Legend = "Legend1"
-        Series1.Name = "Series1"
-        Me.Chart3.Series.Add(Series1)
+        Series16.ChartArea = "ChartArea1"
+        Series16.Legend = "Legend1"
+        Series16.Name = "Series1"
+        Me.Chart3.Series.Add(Series16)
         Me.Chart3.Size = New System.Drawing.Size(808, 199)
         Me.Chart3.TabIndex = 4
         Me.Chart3.Text = "Chart3"
@@ -5220,34 +5253,34 @@ Partial Class Form1
         '
         'Chart2
         '
-        ChartArea2.Name = "ChartArea1"
-        Me.Chart2.ChartAreas.Add(ChartArea2)
+        ChartArea17.Name = "ChartArea1"
+        Me.Chart2.ChartAreas.Add(ChartArea17)
         Me.Chart2.Dock = System.Windows.Forms.DockStyle.Top
-        Legend2.Name = "Legend1"
-        Me.Chart2.Legends.Add(Legend2)
+        Legend17.Name = "Legend1"
+        Me.Chart2.Legends.Add(Legend17)
         Me.Chart2.Location = New System.Drawing.Point(176, 202)
         Me.Chart2.Name = "Chart2"
-        Series2.ChartArea = "ChartArea1"
-        Series2.Legend = "Legend1"
-        Series2.Name = "Series1"
-        Me.Chart2.Series.Add(Series2)
+        Series17.ChartArea = "ChartArea1"
+        Series17.Legend = "Legend1"
+        Series17.Name = "Series1"
+        Me.Chart2.Series.Add(Series17)
         Me.Chart2.Size = New System.Drawing.Size(808, 199)
         Me.Chart2.TabIndex = 3
         Me.Chart2.Text = "Chart2"
         '
         'Chart1
         '
-        ChartArea3.Name = "ChartArea1"
-        Me.Chart1.ChartAreas.Add(ChartArea3)
+        ChartArea18.Name = "ChartArea1"
+        Me.Chart1.ChartAreas.Add(ChartArea18)
         Me.Chart1.Dock = System.Windows.Forms.DockStyle.Top
-        Legend3.Name = "Legend1"
-        Me.Chart1.Legends.Add(Legend3)
+        Legend18.Name = "Legend1"
+        Me.Chart1.Legends.Add(Legend18)
         Me.Chart1.Location = New System.Drawing.Point(176, 3)
         Me.Chart1.Name = "Chart1"
-        Series3.ChartArea = "ChartArea1"
-        Series3.Legend = "Legend1"
-        Series3.Name = "Series1"
-        Me.Chart1.Series.Add(Series3)
+        Series18.ChartArea = "ChartArea1"
+        Series18.Legend = "Legend1"
+        Series18.Name = "Series1"
+        Me.Chart1.Series.Add(Series18)
         Me.Chart1.Size = New System.Drawing.Size(808, 199)
         Me.Chart1.TabIndex = 1
         Me.Chart1.Text = "Chart1"
@@ -5859,18 +5892,244 @@ Partial Class Form1
         Me.Label182.TabIndex = 51
         Me.Label182.Text = "Flight thickness [mm]"
         '
+        'TabPage11
+        '
+        Me.TabPage11.Controls.Add(Me.Button12)
+        Me.TabPage11.Controls.Add(Me.GroupBox32)
+        Me.TabPage11.Controls.Add(Me.Label194)
+        Me.TabPage11.Controls.Add(Me.Label193)
+        Me.TabPage11.Controls.Add(Me.PictureBox7)
+        Me.TabPage11.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage11.Name = "TabPage11"
+        Me.TabPage11.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage11.Size = New System.Drawing.Size(987, 718)
+        Me.TabPage11.TabIndex = 10
+        Me.TabPage11.Text = "Torque"
+        Me.TabPage11.UseVisualStyleBackColor = True
+        '
+        'PictureBox7
+        '
+        Me.PictureBox7.ErrorImage = CType(resources.GetObject("PictureBox7.ErrorImage"), System.Drawing.Image)
+        Me.PictureBox7.Image = Global.Screw_conveyor.My.Resources.Resources.NonvanAsperen
+        Me.PictureBox7.InitialImage = CType(resources.GetObject("PictureBox7.InitialImage"), System.Drawing.Image)
+        Me.PictureBox7.Location = New System.Drawing.Point(35, 86)
+        Me.PictureBox7.Name = "PictureBox7"
+        Me.PictureBox7.Size = New System.Drawing.Size(673, 555)
+        Me.PictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox7.TabIndex = 22
+        Me.PictureBox7.TabStop = False
+        Me.PictureBox7.UseWaitCursor = True
+        '
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'TextBox137
+        'TextBox138
         '
-        Me.TextBox137.Enabled = False
-        Me.TextBox137.Location = New System.Drawing.Point(284, 344)
-        Me.TextBox137.Name = "TextBox137"
-        Me.TextBox137.Size = New System.Drawing.Size(65, 20)
-        Me.TextBox137.TabIndex = 45
-        Me.TextBox137.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.TextBox138.Enabled = False
+        Me.TextBox138.Location = New System.Drawing.Point(284, 70)
+        Me.TextBox138.Name = "TextBox138"
+        Me.TextBox138.Size = New System.Drawing.Size(65, 20)
+        Me.TextBox138.TabIndex = 48
+        Me.TextBox138.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'TextBox139
+        '
+        Me.TextBox139.Enabled = False
+        Me.TextBox139.Location = New System.Drawing.Point(208, 70)
+        Me.TextBox139.Name = "TextBox139"
+        Me.TextBox139.Size = New System.Drawing.Size(65, 20)
+        Me.TextBox139.TabIndex = 47
+        Me.TextBox139.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label192
+        '
+        Me.Label192.AutoSize = True
+        Me.Label192.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label192.Location = New System.Drawing.Point(22, 70)
+        Me.Label192.Name = "Label192"
+        Me.Label192.Size = New System.Drawing.Size(142, 16)
+        Me.Label192.TabIndex = 46
+        Me.Label192.Text = "Power NON [kW] [Nm]"
+        '
+        'Label193
+        '
+        Me.Label193.AutoSize = True
+        Me.Label193.Font = New System.Drawing.Font("Microsoft Sans Serif", 14.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label193.Location = New System.Drawing.Point(32, 27)
+        Me.Label193.Name = "Label193"
+        Me.Label193.Size = New System.Drawing.Size(313, 24)
+        Me.Label193.TabIndex = 23
+        Me.Label193.Text = "Noord-Oost Nederland, Asperen"
+        '
+        'Label194
+        '
+        Me.Label194.AutoSize = True
+        Me.Label194.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label194.Location = New System.Drawing.Point(32, 51)
+        Me.Label194.Name = "Label194"
+        Me.Label194.Size = New System.Drawing.Size(370, 18)
+        Me.Label194.TabIndex = 24
+        Me.Label194.Text = "Motor Torque als functie van diameter en schroeflengte"
+        '
+        'GroupBox32
+        '
+        Me.GroupBox32.Controls.Add(Me.NumericUpDown47)
+        Me.GroupBox32.Controls.Add(Me.Label200)
+        Me.GroupBox32.Controls.Add(Me.TextBox142)
+        Me.GroupBox32.Controls.Add(Me.Label199)
+        Me.GroupBox32.Controls.Add(Me.NumericUpDown12)
+        Me.GroupBox32.Controls.Add(Me.TextBox141)
+        Me.GroupBox32.Controls.Add(Me.Label195)
+        Me.GroupBox32.Controls.Add(Me.Label196)
+        Me.GroupBox32.Controls.Add(Me.Label197)
+        Me.GroupBox32.Controls.Add(Me.NumericUpDown44)
+        Me.GroupBox32.Location = New System.Drawing.Point(728, 86)
+        Me.GroupBox32.Name = "GroupBox32"
+        Me.GroupBox32.Size = New System.Drawing.Size(253, 183)
+        Me.GroupBox32.TabIndex = 25
+        Me.GroupBox32.TabStop = False
+        Me.GroupBox32.Text = "Screw conveyor"
+        '
+        'NumericUpDown12
+        '
+        Me.NumericUpDown12.BackColor = System.Drawing.Color.Yellow
+        Me.NumericUpDown12.DecimalPlaces = 1
+        Me.NumericUpDown12.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.NumericUpDown12.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.NumericUpDown12.Location = New System.Drawing.Point(167, 49)
+        Me.NumericUpDown12.Maximum = New Decimal(New Integer() {12, 0, 0, 0})
+        Me.NumericUpDown12.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
+        Me.NumericUpDown12.Name = "NumericUpDown12"
+        Me.NumericUpDown12.Size = New System.Drawing.Size(80, 26)
+        Me.NumericUpDown12.TabIndex = 33
+        Me.NumericUpDown12.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.NumericUpDown12.Value = New Decimal(New Integer() {5, 0, 0, 0})
+        '
+        'TextBox141
+        '
+        Me.TextBox141.Enabled = False
+        Me.TextBox141.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox141.Location = New System.Drawing.Point(167, 109)
+        Me.TextBox141.Name = "TextBox141"
+        Me.TextBox141.Size = New System.Drawing.Size(80, 26)
+        Me.TextBox141.TabIndex = 32
+        Me.TextBox141.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label195
+        '
+        Me.Label195.AutoSize = True
+        Me.Label195.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label195.Location = New System.Drawing.Point(6, 51)
+        Me.Label195.Name = "Label195"
+        Me.Label195.Size = New System.Drawing.Size(126, 20)
+        Me.Label195.TabIndex = 31
+        Me.Label195.Text = "Screw lengte [m]"
+        '
+        'Label196
+        '
+        Me.Label196.AutoSize = True
+        Me.Label196.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label196.Location = New System.Drawing.Point(6, 22)
+        Me.Label196.Name = "Label196"
+        Me.Label196.Size = New System.Drawing.Size(112, 20)
+        Me.Label196.TabIndex = 30
+        Me.Label196.Text = "Diameter [mm]"
+        '
+        'Label197
+        '
+        Me.Label197.AutoSize = True
+        Me.Label197.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label197.Location = New System.Drawing.Point(6, 109)
+        Me.Label197.Name = "Label197"
+        Me.Label197.Size = New System.Drawing.Size(156, 20)
+        Me.Label197.TabIndex = 29
+        Me.Label197.Text = "Gearbox torque [Nm]"
+        '
+        'NumericUpDown44
+        '
+        Me.NumericUpDown44.BackColor = System.Drawing.Color.Yellow
+        Me.NumericUpDown44.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.NumericUpDown44.Increment = New Decimal(New Integer() {20, 0, 0, 0})
+        Me.NumericUpDown44.Location = New System.Drawing.Point(167, 19)
+        Me.NumericUpDown44.Maximum = New Decimal(New Integer() {1200, 0, 0, 0})
+        Me.NumericUpDown44.Minimum = New Decimal(New Integer() {200, 0, 0, 0})
+        Me.NumericUpDown44.Name = "NumericUpDown44"
+        Me.NumericUpDown44.Size = New System.Drawing.Size(80, 26)
+        Me.NumericUpDown44.TabIndex = 28
+        Me.NumericUpDown44.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.NumericUpDown44.Value = New Decimal(New Integer() {400, 0, 0, 0})
+        '
+        'TextBox142
+        '
+        Me.TextBox142.Enabled = False
+        Me.TextBox142.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox142.Location = New System.Drawing.Point(167, 139)
+        Me.TextBox142.Name = "TextBox142"
+        Me.TextBox142.Size = New System.Drawing.Size(80, 26)
+        Me.TextBox142.TabIndex = 36
+        Me.TextBox142.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label199
+        '
+        Me.Label199.AutoSize = True
+        Me.Label199.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label199.Location = New System.Drawing.Point(6, 138)
+        Me.Label199.Name = "Label199"
+        Me.Label199.Size = New System.Drawing.Size(121, 20)
+        Me.Label199.TabIndex = 35
+        Me.Label199.Text = "E-motor [power]"
+        '
+        'Button12
+        '
+        Me.Button12.Location = New System.Drawing.Point(862, 357)
+        Me.Button12.Name = "Button12"
+        Me.Button12.Size = New System.Drawing.Size(75, 23)
+        Me.Button12.TabIndex = 26
+        Me.Button12.Text = "Button12"
+        Me.Button12.UseVisualStyleBackColor = True
+        Me.Button12.Visible = False
+        '
+        'NumericUpDown47
+        '
+        Me.NumericUpDown47.BackColor = System.Drawing.Color.Yellow
+        Me.NumericUpDown47.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.NumericUpDown47.Increment = New Decimal(New Integer() {1, 0, 0, 65536})
+        Me.NumericUpDown47.Location = New System.Drawing.Point(167, 79)
+        Me.NumericUpDown47.Maximum = New Decimal(New Integer() {60, 0, 0, 0})
+        Me.NumericUpDown47.Minimum = New Decimal(New Integer() {2, 0, 0, 0})
+        Me.NumericUpDown47.Name = "NumericUpDown47"
+        Me.NumericUpDown47.Size = New System.Drawing.Size(80, 26)
+        Me.NumericUpDown47.TabIndex = 38
+        Me.NumericUpDown47.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.NumericUpDown47.Value = New Decimal(New Integer() {38, 0, 0, 0})
+        '
+        'Label200
+        '
+        Me.Label200.AutoSize = True
+        Me.Label200.Font = New System.Drawing.Font("Microsoft Sans Serif", 12.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label200.Location = New System.Drawing.Point(6, 80)
+        Me.Label200.Name = "Label200"
+        Me.Label200.Size = New System.Drawing.Size(143, 20)
+        Me.Label200.TabIndex = 37
+        Me.Label200.Text = "Screw Speed [rpm]"
+        '
+        'GroupBox33
+        '
+        Me.GroupBox33.Controls.Add(Me.TextBox138)
+        Me.GroupBox33.Controls.Add(Me.TextBox03)
+        Me.GroupBox33.Controls.Add(Me.TextBox139)
+        Me.GroupBox33.Controls.Add(Me.Label12)
+        Me.GroupBox33.Controls.Add(Me.Label192)
+        Me.GroupBox33.Controls.Add(Me.Label13)
+        Me.GroupBox33.Controls.Add(Me.TextBox137)
+        Me.GroupBox33.Controls.Add(Me.TextBox04)
+        Me.GroupBox33.Location = New System.Drawing.Point(8, 587)
+        Me.GroupBox33.Name = "GroupBox33"
+        Me.GroupBox33.Size = New System.Drawing.Size(370, 100)
+        Me.GroupBox33.TabIndex = 77
+        Me.GroupBox33.TabStop = False
+        Me.GroupBox33.Text = "Power"
         '
         'Form1
         '
@@ -5880,7 +6139,7 @@ Partial Class Form1
         Me.Controls.Add(Me.TabControl1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Form1"
-        Me.Text = "Screw conveyors 3.0e"
+        Me.Text = "Screw conveyors 3.0f"
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage1.PerformLayout()
@@ -6012,7 +6271,17 @@ Partial Class Form1
         CType(Me.NumericUpDown43, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NumericUpDown41, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.NumericUpDown42, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.TabPage11.ResumeLayout(False)
+        Me.TabPage11.PerformLayout()
+        CType(Me.PictureBox7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox32.ResumeLayout(False)
+        Me.GroupBox32.PerformLayout()
+        CType(Me.NumericUpDown12, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NumericUpDown44, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.NumericUpDown47, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox33.ResumeLayout(False)
+        Me.GroupBox33.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -6497,4 +6766,24 @@ Partial Class Form1
     Friend WithEvents TextBox136 As TextBox
     Friend WithEvents CheckBox5 As CheckBox
     Friend WithEvents TextBox137 As TextBox
+    Friend WithEvents TabPage11 As TabPage
+    Friend WithEvents PictureBox7 As PictureBox
+    Friend WithEvents TextBox138 As TextBox
+    Friend WithEvents TextBox139 As TextBox
+    Friend WithEvents Label192 As Label
+    Friend WithEvents Button12 As Button
+    Friend WithEvents GroupBox32 As GroupBox
+    Friend WithEvents TextBox142 As TextBox
+    Friend WithEvents Label199 As Label
+    Friend WithEvents NumericUpDown12 As NumericUpDown
+    Friend WithEvents TextBox141 As TextBox
+    Friend WithEvents Label195 As Label
+    Friend WithEvents Label196 As Label
+    Friend WithEvents Label197 As Label
+    Friend WithEvents NumericUpDown44 As NumericUpDown
+    Friend WithEvents Label194 As Label
+    Friend WithEvents Label193 As Label
+    Friend WithEvents NumericUpDown47 As NumericUpDown
+    Friend WithEvents Label200 As Label
+    Friend WithEvents GroupBox33 As GroupBox
 End Class

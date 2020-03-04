@@ -784,13 +784,17 @@ Public Class Form1
         Coupling_combo()
         Lager_combo()
         Astap_combo()
-
         Paint_combo()
         Pakking_combo()
     End Sub
-
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles NumericUpDown9.ValueChanged, NumericUpDown7.ValueChanged, NumericUpDown6.ValueChanged, NumericUpDown5.ValueChanged, NumericUpDown4.ValueChanged, NumericUpDown3.ValueChanged, NumericUpDown2.ValueChanged, Button1.Click, TabPage1.Enter, ComboBox11.SelectedValueChanged, NumericUpDown8.ValueChanged, NumericUpDown40.ValueChanged, NumericUpDown39.ValueChanged
+    Private Sub Calc_sequence()
         Calculate()
+        Calulate_stress_1()
+        Costing_material()
+        Screen_contrast()
+    End Sub
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles NumericUpDown9.ValueChanged, NumericUpDown7.ValueChanged, NumericUpDown6.ValueChanged, NumericUpDown5.ValueChanged, NumericUpDown4.ValueChanged, NumericUpDown3.ValueChanged, NumericUpDown2.ValueChanged, Button1.Click, TabPage1.Enter, ComboBox11.SelectedValueChanged, NumericUpDown8.ValueChanged, NumericUpDown40.ValueChanged, NumericUpDown39.ValueChanged
+        Calc_sequence()
     End Sub
 
     Private Sub Calculate()
@@ -802,8 +806,10 @@ Public Class Form1
         Dim iso_no_product As Double    'Power for seals + bearings
         Dim iso_power As Double         'Total Power 
         Dim height As Double            'Height difference due to inclination 
-        Dim mekog As Double             'Mekog installed power
-        Dim mekog_torque As Double       'Mekog installed torque
+        Dim mekog_pow As Double         'Mekog installed power
+        Dim mekog_torque As Double      'Mekog installed torque
+        Dim NON_torque As Double        'NON gearbox torque
+        Dim NON_pow As Double           'NON gearbox power
         Dim flight_speed As Double      'Flight speed
         Dim r_time As Double
         Dim cap_under_angle As Double
@@ -850,24 +856,29 @@ Public Class Form1
                     TextBox01.BackColor = CType(IIf(filling_perc > 75, Color.Red, Color.LightGreen), Color)
             End Select
 
-            '--------------- ISO 7119 -----------------
+            '--------------- ISO 7119 power calc -----------------
             height = _λ6 * Sin(_angle / 360 * 2 * PI)
 
             iso_forward = _regu_flow_kg_hr * _λ6 * 9.91 * progress_resistance / (3600 * 1000)    'Forwards [kW]
-            iso_incline = _regu_flow_kg_hr * height * 9.81 / (3600 * 1000)                        'Uphill [kW]
+            iso_incline = _regu_flow_kg_hr * height * 9.81 / (3600 * 1000)                       'Uphill [kW]
             iso_no_product = _diam_flight * _λ6 / 20                                     'Power for seals 0. + bearings [kW]
-            iso_power = Round(iso_forward + iso_incline + iso_no_product, 1)
+            iso_power = iso_forward + iso_incline + iso_no_product
 
-            '--------------- MEKOG -----------------
-            mekog = Round(_regu_flow_kg_hr * _λ6 / (40 * 1.36 * 1000), 1)    '[kW]
-            mekog *= 1.6 'Based on current measurement Q19.1165 (Borouge 4) dd 12/09/2019
-            mekog_torque = mekog * 1000 / (speed * 2 * PI / 60)
+            '--------------- MEKOG power calc -----------------
+            mekog_pow = Round(_regu_flow_kg_hr * _λ6 / (40 * 1.36 * 1000), 1)    '[kW]
+            mekog_pow *= 1.6 'Based on current measurement Q19.1165 (Borouge 4) dd 12/09/2019
+            mekog_torque = mekog_pow * 1000 / (speed * 2 * PI / 60)
 
-            Debug.WriteLine("_regu_flow_kg_hr= " & _regu_flow_kg_hr.ToString)
-            Debug.WriteLine(" _λ6= " & _λ6.ToString)
+            ' Debug.WriteLine("_regu_flow_kg_hr= " & _regu_flow_kg_hr.ToString)
+            'Debug.WriteLine(" _λ6= " & _λ6.ToString)
+
+            '--------------- NON asperen chart ----------------
+            NON_torque = Calc_NON_Torque((_diam_flight * 1000), _λ6)    '[Nm]
+            NON_pow = NON_torque * (speed * 2 * PI / 60) / 1000         '[kW]
+            NON_pow /= 0.8                                              '[kW] (efficiency gearbox)
 
             '-------------- Retention time --------------------
-            r_time = _λ6 / (speed / 60 * pitch)                     '[sec]
+            r_time = _λ6 / (speed / 60 * pitch)                         '[sec]
 
             '--------------- present results------------
             TextBox19.Text = _λ6.ToString
@@ -876,16 +887,16 @@ Public Class Form1
             TextBox16.Text = CType(_pipe_OD * CDbl(1000.ToString), String)  'Pipe diameter [m]
             TextBox01.Text = filling_perc.ToString("F1")
             TextBox127.Text = filling_perc_incl.ToString("F1")  'Inclination factor
-            TextBox03.Text = iso_power.ToString                 '[kW]
-            TextBox04.Text = mekog.ToString                     '[kW]
-            TextBox137.Text = mekog_torque.ToString("F0")       '[Nm]
+            TextBox03.Text = iso_power.ToString("F1")           '[kW]
+            TextBox04.Text = mekog_pow.ToString("F1")           '[kW]
+            TextBox137.Text = mekog_torque.ToString("F0")       '[Nm] gearbox
+            TextBox139.Text = NON_pow.ToString("F1")            '[Nm] power
+            TextBox138.Text = NON_torque.ToString("F0")         '[Nm] gearbox
 
             TextBox110.Text = r_time.ToString("F0")
             TextBox123.Text = cap_hr_100.ToString("F0")        '[m3/hr] @ 100% filling horizontal
             TextBox126.Text = cap_under_angle.ToString("F2")  'Inclination factor
             TextBox124.Text = actual_cap_m3.ToString("F1") '[m3/hr] 
-
-
 
             '--------------- checks ---------------------
             NumericUpDown7.BackColor = CType(IIf(speed > 45, Color.Red, Color.Yellow), Color)
@@ -894,7 +905,8 @@ Public Class Form1
     End Sub
 
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown10.ValueChanged, NumericUpDown25.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox4.SelectedIndexChanged, ComboBox13.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox8.CheckedChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, CheckBox4.CheckedChanged, CheckBox7.CheckedChanged, CheckBox6.CheckedChanged, TabPage4.Enter, CheckBox5.CheckedChanged
-        Costing_material()
+
+        Calc_sequence()
     End Sub
 
     'Materiaal in de conveyor
@@ -909,7 +921,8 @@ Public Class Form1
     End Sub
 
     Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click, TabPage5.Enter, NumericUpDown34.ValueChanged, NumericUpDown33.ValueChanged, NumericUpDown30.ValueChanged, NumericUpDown27.ValueChanged
-        Costing_material()
+        Calc_sequence()
+        'Costing_material()
     End Sub
     'Please note complete calculation in [m] not [mm]
     Private Sub Calulate_stress_1()
@@ -1270,7 +1283,7 @@ Public Class Form1
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click, NumericUpDown11.ValueChanged, ComboBox2.SelectedIndexChanged, NumericUpDown13.ValueChanged, TabPage2.Enter, NumericUpDown17.ValueChanged, NumericUpDown16.ValueChanged, ComboBox5.SelectedIndexChanged, RadioButton3.CheckedChanged, RadioButton2.CheckedChanged, RadioButton1.CheckedChanged, CheckBox1.CheckedChanged, NumericUpDown18.ValueChanged, NumericUpDown19.ValueChanged, NumericUpDown24.ValueChanged, NumericUpDown28.ValueChanged, CheckBox10.CheckedChanged, NumericUpDown29.ValueChanged, NumericUpDown37.ValueChanged, NumericUpDown36.ValueChanged, NumericUpDown32.ValueChanged, NumericUpDown31.ValueChanged, NumericUpDown22.ValueChanged
-        Calulate_stress_1()
+        Calc_sequence()
     End Sub
     Private Sub Screw_dia_combo()
         Dim words() As String
@@ -1984,7 +1997,40 @@ Public Class Form1
         Return (blank_dia)
     End Function
 
+    Private Sub Button12_Click(sender As Object, e As EventArgs) Handles Button12.Click, TabPage11.Enter, NumericUpDown47.ValueChanged, NumericUpDown44.ValueChanged, NumericUpDown12.ValueChanged
+        Dim dia As Double           '[mm] screw conveyor
+        Dim length As Double        '[m] screw
+        Dim speed As Double         '[rpm] screw
+        Dim T_gearbox As Double     '[Nm] Torque gearbox
+        Dim power_motor As Double   '[kW]
+        Dim eff As Double = 0.8     '[-]
 
+        '----- Get data -------
+        dia = NumericUpDown44.Value         '[mm] screw conveyor
+        length = NumericUpDown12.Value      '[m] screw
+        speed = NumericUpDown47.Value       '[rpm] screw
+
+        '----- Calc torque ---------
+        T_gearbox = Calc_NON_Torque(dia, length)
+
+        '----- Calc power ----------
+        power_motor = (T_gearbox * speed * 2 * PI / 60) / eff   '[W]
+        power_motor /= 1000                                 '[kW]
+
+        TextBox141.Text = T_gearbox.ToString("F0")          '[Nm]
+        TextBox142.Text = power_motor.ToString("F1")        '[kW]
+    End Sub
+    Private Function Calc_NON_Torque(dia As Double, length As Double) As Double
+        'Based on chart from Noord-Oost Nederland, Asperen
+        Dim rc As Double            '[richtingscoeficient]
+        Dim offset As Double        '[verticale nul verschuiving]
+        Dim torque As Double
+
+        rc = 0.00029 * dia ^ 2 - 0.17518 * dia + 74.562     '[-]
+        offset = 0.8229 * dia - 200.25                      '[-]
+        torque = rc * length + offset                       '[Nm]
+        Return (torque)
+    End Function
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
         Print_word()
     End Sub
@@ -2478,9 +2524,9 @@ Public Class Form1
         kg_trog = _diam_flight * 4 * dikte_trog * _λ6 * rho_staal
         kg_deksel = _diam_flight * 1.1 * dikte_deksel * _λ6 * rho_staal     '50mm voor de horizontale flens en 25mm voor het stukje naar beneden
 
-        Debug.WriteLine(" kg_kopstaartplaat= " & kg_kopstaartplaat.ToString)
-        Debug.WriteLine(" kg_trog= " & kg_trog.ToString)
-        Debug.WriteLine(" kg_deksel= " & kg_deksel.ToString)
+        'Debug.WriteLine(" kg_kopstaartplaat= " & kg_kopstaartplaat.ToString)
+        'Debug.WriteLine(" kg_trog= " & kg_trog.ToString)
+        'Debug.WriteLine(" kg_deksel= " & kg_deksel.ToString)
 
         '--------------- pipe gewicht-------------------
         Double.TryParse(CType(ComboBox9.SelectedItem, String), _pipe_OD)         ' ComboBox3 = ComboBox9
@@ -2779,6 +2825,49 @@ Public Class Form1
 
         For hh = 0 To _steps
             Chart3.Series(0).Points.AddXY(_d(hh), _αv(hh))  'Deflection
+        Next
+    End Sub
+    Private Sub Screen_contrast()
+        '====This fuction is to increase the readability=====
+        '==== of the red text ===============================
+        Dim all_txt, all_num, all_lab As New List(Of Control)
+
+        '-------- find all Text box controls -----------------
+        FindControlRecursive(all_txt, Me, GetType(TextBox))   'Find the control
+        For i = 0 To all_txt.Count - 1
+            Dim grbx As TextBox = CType(all_txt(i), TextBox)
+            grbx.ReadOnly = False
+            grbx.Enabled = True
+            If grbx.BackColor.Equals(Color.Red) Then
+                grbx.ForeColor = Color.White
+            Else
+                grbx.ForeColor = Color.Black
+            End If
+        Next
+
+        '-------- find all numeric controls -----------------
+        FindControlRecursive(all_num, Me, GetType(NumericUpDown))   'Find the control
+        For i = 0 To all_num.Count - 1
+            Dim grbx As NumericUpDown = CType(all_num(i), NumericUpDown)
+            grbx.ReadOnly = False
+            grbx.Enabled = True
+            If grbx.BackColor.Equals(Color.Red) Then
+                grbx.ForeColor = Color.White
+            Else
+                grbx.ForeColor = Color.Black
+            End If
+        Next
+
+        '-------- find all label controls -----------------
+        FindControlRecursive(all_lab, Me, GetType(Label))   'Find the control
+        For i = 0 To all_lab.Count - 1
+            Dim grbx As Label = CType(all_lab(i), Label)
+            grbx.Enabled = True
+            If grbx.BackColor.Equals(Color.Red) Then
+                grbx.ForeColor = Color.White
+            Else
+                grbx.ForeColor = Color.Black
+            End If
         Next
     End Sub
 End Class
