@@ -638,6 +638,7 @@ Public Class Form1
 
     Public Shared ppaint() As String =
      {"Description;cost",
+      "Pickling + passivating; 3.00",                           'guess
       "10-20m2 75um zink compound;13.25",
       "20-100m2 75um zink compound;12.50",
       "10-20m2 150um primer en epoxy (binnen);17.0",
@@ -920,9 +921,8 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click, TabPage5.Enter, NumericUpDown34.ValueChanged, NumericUpDown33.ValueChanged, NumericUpDown30.ValueChanged, NumericUpDown27.ValueChanged
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click, TabPage5.Enter, NumericUpDown34.ValueChanged, NumericUpDown33.ValueChanged, NumericUpDown30.ValueChanged, NumericUpDown27.ValueChanged, NumericUpDown48.ValueChanged, TextBox99.VisibleChanged, RadioButton11.CheckedChanged, NumericUpDown50.ValueChanged, NumericUpDown49.ValueChanged
         Calc_sequence()
-        'Costing_material()
     End Sub
     'Please note complete calculation in [m] not [mm]
     Private Sub Calulate_stress_1()
@@ -1396,7 +1396,7 @@ Public Class Form1
         oPara2.Range.Font.Size = font_sizze + 1
         oPara2.Format.SpaceAfter = 1
         oPara2.Range.Font.Bold = CInt(False)
-        oPara2.Range.Text = "Kostencalculatie van schroeftransporteur" & vbCrLf
+        oPara2.Range.Text = "Screw conveyor cost calculation" & vbCrLf
         oPara2.Range.InsertParagraphAfter()
 
         '----------------------------------------------
@@ -1414,7 +1414,7 @@ Public Class Form1
         oTable.Cell(row, 1).Range.Text = "Project number "
         oTable.Cell(row, 2).Range.Text = TextBox35.Text
         row += 1
-        oTable.Cell(row, 1).Range.Text = "Schroefnummer "
+        oTable.Cell(row, 1).Range.Text = "Conveyor id"
         oTable.Cell(row, 2).Range.Text = TextBox53.Text
         row += 1
         oTable.Cell(row, 1).Range.Text = "Author "
@@ -1459,14 +1459,14 @@ Public Class Form1
         oTable.Cell(row, 3).Range.Text = CType(NumericUpDown2.Value, String)
         oTable.Cell(row, 2).Range.Text = "[-]"
         row += 1
-        oTable.Cell(row, 1).Range.Text = "Blad dikte"
+        oTable.Cell(row, 1).Range.Text = "Flight thickness"
         oTable.Cell(row, 3).Range.Text = CType(NumericUpDown8.Value, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
         oTable.Cell(row, 5).Range.Text = TextBox46.Text
         oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
 
-        oTable.Cell(row, 1).Range.Text = "Toerental"
+        oTable.Cell(row, 1).Range.Text = "Conveyor speed"
         oTable.Cell(row, 3).Range.Text = CType(NumericUpDown7.Value, String)
         oTable.Cell(row, 2).Range.Text = "[rpm]"
         row += 1
@@ -1486,7 +1486,7 @@ Public Class Form1
         oTable.Cell(row, 3).Range.Text = CType(NumericUpDown4.Value, String)
         oTable.Cell(row, 2).Range.Text = "[deg]"
         row += 1
-        oTable.Cell(row, 1).Range.Text = "Staalsoort"
+        oTable.Cell(row, 1).Range.Text = "Steel type"
         oTable.Cell(row, 3).Range.Text = CType(ComboBox2.SelectedItem, String)
         oTable.Cell(row, 2).Range.Text = "[-]"
         row += 1
@@ -1520,7 +1520,7 @@ Public Class Form1
         row = 1
         oTable.Cell(row, 1).Range.Text = "Input data"
         row += 1
-        oTable.Cell(row, 1).Range.Text = "Motorreductor"
+        oTable.Cell(row, 1).Range.Text = "Gearreducer"
         oTable.Cell(row, 3).Range.Text = CType(ComboBox4.SelectedItem, String)
         oTable.Cell(row, 2).Range.Text = "[-]"
         row += 1
@@ -1528,40 +1528,40 @@ Public Class Form1
         NewMethod(oTable, row)
         oTable.Cell(row, 2).Range.Text = "[-]"
         row += 1
-        oTable.Cell(row, 1).Range.Text = "Lager asdiameter"
+        oTable.Cell(row, 1).Range.Text = "Bearing shaft diameter"
         oTable.Cell(row, 3).Range.Text = CType(ComboBox8.SelectedItem, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
         row += 1
-        oTable.Cell(row, 1).Range.Text = "Aantal certificaten "
+        oTable.Cell(row, 1).Range.Text = "No. certificates "
         oTable.Cell(row, 3).Range.Text = CType(NumericUpDown27.Value, String)
         oTable.Cell(row, 2).Range.Text = "[-]"
         row += 1
-        oTable.Cell(row, 1).Range.Text = "Gewicht kop-en staartplaat"
+        oTable.Cell(row, 1).Range.Text = "Weight end plates"
         oTable.Cell(row, 3).Range.Text = CType(NumericUpDown10.Value, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
         oTable.Cell(row, 5).Range.Text = TextBox42.Text
         oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
-        oTable.Cell(row, 1).Range.Text = "Gewicht schroefblad"
+        oTable.Cell(row, 1).Range.Text = "Weight flighting"
         oTable.Cell(row, 3).Range.Text = CType(NumericUpDown8.Value, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
         oTable.Cell(row, 5).Range.Text = TextBox46.Text
         oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
-        oTable.Cell(row, 1).Range.Text = "Gewicht trog"
+        oTable.Cell(row, 1).Range.Text = "Weight trough"
         oTable.Cell(row, 3).Range.Text = CType(NumericUpDown14.Value, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
         oTable.Cell(row, 5).Range.Text = TextBox47.Text
         oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
-        oTable.Cell(row, 1).Range.Text = "Gewicht deksel"
+        oTable.Cell(row, 1).Range.Text = "Weight cover"
         oTable.Cell(row, 3).Range.Text = CType(NumericUpDown15.Value, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
         oTable.Cell(row, 5).Range.Text = TextBox48.Text
         oTable.Cell(row, 4).Range.Text = "[kg]"
 
         row += 1
-        oTable.Cell(row, 1).Range.Text = "Gewicht Astap"
+        oTable.Cell(row, 1).Range.Text = "Weight stub shafts"
         oTable.Cell(row, 3).Range.Text = CType(ComboBox13.SelectedItem, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
         oTable.Cell(row, 5).Range.Text = TextBox54.Text
@@ -1582,21 +1582,26 @@ Public Class Form1
 
         oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
         'Insert a 16 x 3 table, fill it with data and change the column widths.
-        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 11, 8)
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 14, 8)
         oTable.Range.ParagraphFormat.SpaceAfter = 1
         oTable.Range.Font.Size = font_sizze
         oTable.Range.Font.Bold = CInt(False)
         oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
         oTable.Rows.Item(1).Range.Font.Size = font_sizze + 2
         row = 1
-        oTable.Cell(row, 1).Range.Text = "Kosten"
+        oTable.Cell(row, 1).Range.Text = "Costs"
         row += 1
         oTable.Rows.Item(2).Range.Font.Bold = CInt(True)
         oTable.Cell(row, 6).Range.Text = "Material"
         oTable.Cell(row, 1).Range.Text = "Labour"
-        'row += 1
-        'oTable.Cell(row, 3).Range.Text = "Hours"
-        'oTable.Cell(row, 5).Range.Text = "Costs"
+
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Work preparation"
+        oTable.Cell(row, 2).Range.Text = "[hr]"
+        oTable.Cell(row, 3).Range.Text = CType(NumericUpDown48.Value, String)
+        oTable.Cell(row, 4).Range.Text = "[€]"
+        oTable.Cell(row, 5).Range.Text = TextBox140.Text
+
         row += 1
         oTable.Cell(row, 1).Range.Text = "Engineering"
         oTable.Cell(row, 2).Range.Text = "[hr]"
@@ -1604,7 +1609,7 @@ Public Class Form1
         oTable.Cell(row, 4).Range.Text = "[€]"
         oTable.Cell(row, 5).Range.Text = TextBox55.Text
         row += 1
-        oTable.Cell(row, 1).Range.Text = "Project"
+        oTable.Cell(row, 1).Range.Text = "Project man."
         oTable.Cell(row, 3).Range.Text = CType(NumericUpDown33.Value, String)
         oTable.Cell(row, 2).Range.Text = "[hr]"
         oTable.Cell(row, 4).Range.Text = "[€]"
@@ -1639,8 +1644,18 @@ Public Class Form1
         oTable.Cell(row, 4).Range.Text = "[€]"
 
         row += 1
-        oTable.Rows.Item(11).Range.Font.Bold = CInt(True)
-        oTable.Rows.Item(11).Range.Font.Size = font_sizze + 1
+        oTable.Cell(row, 1).Range.Text = "Packing"
+        oTable.Cell(row, 5).Range.Text = CType(NumericUpDown49.Value, String)
+        oTable.Cell(row, 4).Range.Text = "[€]"
+
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Shipping"
+        oTable.Cell(row, 5).Range.Text = CType(NumericUpDown50.Value, String)
+        oTable.Cell(row, 4).Range.Text = "[€]"
+
+        row += 1
+        oTable.Rows.Item(12).Range.Font.Bold = CInt(True)
+        oTable.Rows.Item(12).Range.Font.Size = font_sizze + 1
         oTable.Cell(row, 1).Range.Text = "Total sale price"
         oTable.Cell(row, 5).Range.Text = TextBox75.Text
         oTable.Cell(row, 4).Range.Text = "[€]"
@@ -1915,11 +1930,11 @@ Public Class Form1
 
         ComboBox12.Items.Clear()
         '-------Fill combobox ------------------
-        For hh = 1 To ppaint.Length - 1                'Fill combobox 12 with paint data
+        For hh = 1 To ppaint.Length - 1         'Fill combobox 12 with paint data
             words = ppaint(hh).Split(CType(";", Char()))
             ComboBox12.Items.Add(words(0))
         Next hh
-        ComboBox12.SelectedIndex = 1
+        ComboBox12.SelectedIndex = 0            'Pickling + passivating
     End Sub
     Private Sub Pakking_combo()
         Dim words() As String
@@ -1937,7 +1952,7 @@ Public Class Form1
         Calulate_stress_1()
     End Sub
 
-    Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click, NumericUpDown43.ValueChanged, NumericUpDown42.ValueChanged, NumericUpDown41.ValueChanged, TabPage10.Enter, NumericUpDown46.ValueChanged, NumericUpDown45.ValueChanged, ComboBox14.SelectedIndexChanged
+    Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click, NumericUpDown43.ValueChanged, NumericUpDown42.ValueChanged, NumericUpDown41.ValueChanged, TabPage10.Enter, NumericUpDown45.ValueChanged, ComboBox14.SelectedIndexChanged
         'Calculate flight weight, everything in [m]
         Dim d1 As Double            '[mm] OD
         Dim d2 As Double            '[mm] D pipe
@@ -1965,11 +1980,10 @@ Public Class Form1
 
         '---------- weight of one 360 degree flight -----
         w = Flight_weight(d1, d2, pitch, thick, no_f)   '[kg] flight weight
-        pr = NumericUpDown46.Value + blank_cost         'Forming + material
 
         '---------- present results ----------
         TextBox128.Text = w.ToString("F2")
-        TextBox129.Text = pr.ToString("F2")
+
 
         TextBox130.Text = (blank_Dia * 1000).ToString("F0")     '[mm]
         TextBox132.Text = blank_wgt.ToString("F2")              '[kg]
@@ -2428,11 +2442,13 @@ Public Class Form1
         Dim cost_pakking, cost_hang, cost_transport As Double
         Dim cost_stopbus As Double
         Dim certificate_cost, total_cost As Double
-        Dim uren_engineering, uren_project, uren_fabrieks, tot_uren As Double
-        Dim engineering_prijs_uur, project_prijs_uur, fabriek_prijs_uur As Double
-        Dim prijs_engineering, prijs_project, prijs_fabriek As Double
-        Dim tot_prijsarbeid, geheel_totprijs, dekking, marge_cost, verkoopprijs, perc_mater, perc_arbeid As Double
+        Dim uren_wvb, uren_eng, uren_pro, uren_fab, tot_uren As Double
+        Dim eng_prijs_uur, project_prijs_uur, fabriek_prijs_uur, wvb_prijs_uur As Double
+        Dim prijs_wvb, prijs_eng, prijs_pro, prijs_fab As Double
+        Dim tot_prijsarbeid, geheel_totprijs, dekking, marge_cost, verkoopprijs As Double
+        Dim perc_mater, perc_arbeid As Double
         Dim gew_inuitvoet As Double
+        Dim packing, shipping As Double                 'packing, shipping costs
 
         TextBox40.Text = ComboBox2.Text                'materiaalsoort staal
         TextBox41.Text = (_pipe_OD * 1000).ToString    'diameter pijp
@@ -2582,6 +2598,7 @@ Public Class Form1
         Dim subtotalCost_Misc As Double
         Dim kgprijs(9) As Double
         Dim totaal_gew As Double
+        Dim marge_factor As Double
 
         'TABBLAD COSTING ---------------------------------------------------------------------------------------
         'STEEL SUBGROUP ----------------------------------------------------------------------------------------
@@ -2686,43 +2703,68 @@ Public Class Form1
         'TABBLAD SALES PRICE ---------------------------------------------------------------------------------------
 
         'CALCULATE ----------------------------------------------------------------------------------------
-        uren_engineering = NumericUpDown30.Value
-        uren_project = NumericUpDown33.Value
-        uren_fabrieks = NumericUpDown34.Value
+        uren_wvb = NumericUpDown48.Value
+        uren_eng = NumericUpDown30.Value
+        uren_pro = NumericUpDown33.Value
+        uren_fab = NumericUpDown34.Value
+        tot_uren = uren_wvb + uren_eng + uren_pro + uren_fab       'Totaal aantal uren
 
-        engineering_prijs_uur = 80
-        project_prijs_uur = 100
-        fabriek_prijs_uur = 60
+        Dim uren_ratio(4) As Double
+        uren_ratio(0) = uren_wvb / tot_uren
+        uren_ratio(1) = uren_eng / tot_uren
+        uren_ratio(2) = uren_pro / tot_uren
+        uren_ratio(3) = uren_fab / tot_uren
+        TextBox144.Text = uren_ratio(0).ToString("F2")
+        TextBox145.Text = uren_ratio(1).ToString("F2")
+        TextBox146.Text = uren_ratio(2).ToString("F2")
+        TextBox147.Text = uren_ratio(3).ToString("F2")
+
+        '---------- labour -------------- 
+        wvb_prijs_uur = 70              'labour rate
+        eng_prijs_uur = 67              'labour rate
+        project_prijs_uur = 93          'labour rate
+        fabriek_prijs_uur = 55          'labour rate
+
+        prijs_wvb = uren_wvb * wvb_prijs_uur                                'Wvb cost
+        prijs_eng = uren_eng * eng_prijs_uur                                'Engineering cost
+        prijs_pro = uren_pro * project_prijs_uur                        'Project management cost
+        prijs_fab = uren_fab * fabriek_prijs_uur                       'Fabriek cost
+
+        tot_prijsarbeid = prijs_wvb + prijs_eng + prijs_pro + prijs_fab     'Totale prijs arbeid
 
         certificate_cost = 50 * NumericUpDown27.Value                       'Certificaat cost
-        prijs_engineering = uren_engineering * engineering_prijs_uur        'Engineering cost
-        prijs_project = uren_project * project_prijs_uur                    'Project management cost
-        prijs_fabriek = uren_fabrieks * fabriek_prijs_uur                   'Fabriek cost
-        tot_uren = uren_engineering + uren_project + uren_fabrieks          'Totaal aantal uren
-        tot_prijsarbeid = prijs_engineering + prijs_project + prijs_fabriek 'Totale prijs arbeid
         geheel_totprijs = total_cost + tot_prijsarbeid                      'Totaal prijs
         perc_mater = 100 * total_cost / geheel_totprijs                     'Percentage materiaal
         perc_arbeid = 100 * tot_prijsarbeid / geheel_totprijs               'Percentage arbeid
-        dekking = geheel_totprijs * 0.175                                   'Dekking
-        marge_cost = (geheel_totprijs + dekking) * 0.1                      'Marge
+        dekking = geheel_totprijs * (1 / 0.96 - 1)                          'Risco Dekking 4%
+
+
+        '------- normal customer OR intercompany -------------
+        marge_factor = CDbl(IIf(RadioButton11.Checked, 0.82, 0.85))         'Marge factor
+        marge_cost = (geheel_totprijs + dekking) * (1 / marge_factor - 1)   'Marge
+        packing = NumericUpDown49.Value                                     'packing
+        shipping = NumericUpDown50.Value                                    'Shipping
         verkoopprijs = geheel_totprijs + dekking + marge_cost               'Verkoopprijs
+        verkoopprijs += packing + shipping                                  'Verkoopprijs
 
         'FILL TEXTBOXES ----------------------------------------------------------------------------------------
-        TextBox88.Text = certificate_cost.ToString("F2")           'Certificaat cost
-        TextBox109.Text = total_kg_plaat.ToString("F0")                   'Totaal gewicht plaat
-        TextBox68.Text = (cost_kopstaartplaat + cost_trog + cost_deksel + cost_cutting).ToString("F0")     'Totaal prijs plaat
+        TextBox88.Text = certificate_cost.ToString("F2")                    'Certificaat cost
+        TextBox109.Text = total_kg_plaat.ToString("F0")                     'Totaal gewicht plaat
+        TextBox68.Text = (cost_kopstaartplaat + cost_trog + cost_deksel + cost_cutting).ToString("F0")
 
-        TextBox105.Text = engineering_prijs_uur.ToString("F0")      'Engineering uren
-        TextBox55.Text = prijs_engineering.ToString("F1")          'Engineering cost
+        TextBox143.Text = wvb_prijs_uur.ToString("F0")              'Wvb uren
+        TextBox140.Text = prijs_wvb.ToString("F0")                  'Wvb cost
+        TextBox105.Text = eng_prijs_uur.ToString("F0")              'Engineering uren
+        TextBox55.Text = prijs_eng.ToString("F0")                   'Engineering cost
         TextBox69.Text = project_prijs_uur.ToString("F0")           'Project management uren
-        TextBox70.Text = prijs_project.ToString("F0")               'Project management cost
+        TextBox70.Text = prijs_pro.ToString("F0")                   'Project management cost
         TextBox71.Text = fabriek_prijs_uur.ToString("F0")           'Fabriek uren
-        TextBox72.Text = prijs_fabriek.ToString("F0")               'Fabriek cost
+        TextBox72.Text = prijs_fab.ToString("F0")                   'Fabriek cost
         TextBox106.Text = tot_uren.ToString("F0")                   'Totaal aantal uren
         TextBox111.Text = total_cost.ToString("F0")                 'Totale prijs materiaal
         TextBox103.Text = total_cost.ToString("F0")                 'Totale prijs materiaal
         TextBox100.Text = perc_mater.ToString("F0")                 'Totale percentage materiaal
-        TextBox98.Text = tot_prijsarbeid.ToString("F0")            'Totale prijs arbeid
+        TextBox98.Text = tot_prijsarbeid.ToString("F0")             'Totale prijs arbeid
         TextBox101.Text = perc_arbeid.ToString("F0")                'Totale percentage arbeid
         TextBox73.Text = geheel_totprijs.ToString("F0")             'Geheel totaalprijs
         TextBox74.Text = dekking.ToString("F0")                     'Dekking
