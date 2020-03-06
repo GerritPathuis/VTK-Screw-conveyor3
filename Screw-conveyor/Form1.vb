@@ -7,12 +7,30 @@ Imports Word = Microsoft.Office.Interop.Word
 Imports System.Windows.Forms.DataVisualization.Charting
 Imports System.Windows.Forms
 
+Public Structure Conveyor_struct    'For conveyors
+    Public Tag As String            '[T4400]
+    Public no_screws As Integer     '[-]
+    Public flight_OD As Double     '[mm] 
+    Public pipe_od As Double        '[mm]
+    Public pipe_ID As Double        '[mm]
+    Public pitch As Double          '[mm]
+    Public flight_thick As Double   '[mm]
+    Public flight_weight As Double  '[kg] weight of one 360 degree flight
+    Public cap_1rev As Double       '[ltr/rev]
+    Public cap_sys As Double        '[kg/hr] capacity system
+    Public density As Double        '[kg/m3]
+    Public filling As Double        '[%]
+    Public rpm As Double            '[rpm]
+End Structure
+
 Public Class Form1
     'Use icon convert site https://icoconvert.com/ 
     '----------- directory's-----------
     Dim dirpath_Eng As String = "N:\Engineering\VBasic\Conveyor_sizing_input\"
     Dim dirpath_Rap As String = "N:\Engineering\VBasic\Conveyor_rapport_copy\"
     Dim dirpath_Home_GP As String = "C:\Temp\"
+
+    Public conv As Conveyor_struct   'Conveyors data
 
     Public _steps As Integer = 150   'Calculation _steps
     Public _d(_steps) As Double      '[m] Distance to drive plate
@@ -638,7 +656,7 @@ Public Class Form1
 
     Public Shared ppaint() As String =
      {"Description;cost",
-      "Pickling + passivating; 3.00",                           'guess
+      "Pickling + passivating; 0.50",
       "10-20m2 75um zink compound;13.25",
       "20-100m2 75um zink compound;12.50",
       "10-20m2 150um primer en epoxy (binnen);17.0",
@@ -1954,52 +1972,54 @@ Public Class Form1
 
     Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click, NumericUpDown43.ValueChanged, NumericUpDown42.ValueChanged, NumericUpDown41.ValueChanged, TabPage10.Enter, NumericUpDown45.ValueChanged, ComboBox14.SelectedIndexChanged
         'Calculate flight weight, everything in [m]
-        Dim d1 As Double            '[mm] OD
-        Dim d2 As Double            '[mm] D pipe
-        Dim pitch As Double         '[mm]
-        Dim thick As Double         '[mm]
-        Dim no_f As Double          '[-]
-        Dim w As Double             '[kg]
-        Dim pr As Double            '[kg]
         Dim blank_Dia As Double     '[mm]
         Dim blank_wgt As Double     '[kg]
         Dim blank_cost As Double    '[euro] material cost
 
-        d1 = NumericUpDown43.Value / 1000           '[m] OD flight
-        Double.TryParse(ComboBox14.Text, d2)        '[mm] OD pipe
-        d2 /= 1000                                  '[m] OD pipe
+        conv.flight_OD = NumericUpDown43.Value / 1000           '[m] OD flight
+        Double.TryParse(ComboBox14.Text, conv.pipe_id)          '[mm] OD pipe
+        conv.pipe_id /= 1000                                    '[m] OD pipe
 
-        pitch = NumericUpDown42.Value * d1          '[m] pitch
-        thick = NumericUpDown41.Value / 1000        '[m] flight thickness
-        no_f = 1
+        conv.pitch = NumericUpDown42.Value * conv.pipe_od       '[m] pitch
+        conv.flight_thick = NumericUpDown41.Value / 1000        '[m] flight thickness
+
+
+        Debug.WriteLine("conv.pipe_od= " & conv.pipe_od.ToString)
 
         '---------- blank dimensions before forming ----
-        blank_Dia = Blank_OD(d1, pitch)             '[m] 
-        blank_wgt = blank_Dia ^ 2 * thick * 7850    '[kg]
-        blank_cost = blank_wgt * NumericUpDown45.Value
+        blank_Dia = Blank_OD(conv.flight_OD, conv.pitch)          '[m] 
+
+        Debug.WriteLine(" blank_Dia= " & blank_Dia.ToString)
+
+        blank_wgt = blank_Dia ^ 2 * conv.flight_thick * 7850    '[kg]
+        blank_cost = blank_wgt * NumericUpDown45.Value          '[e]
 
         '---------- weight of one 360 degree flight -----
-        w = Flight_weight(d1, d2, pitch, thick, no_f)   '[kg] flight weight
+        Flight_weight(conv, 1)   'calc flight weight
 
         '---------- present results ----------
-        TextBox128.Text = w.ToString("F2")
-
-
+        TextBox128.Text = conv.flight_weight.ToString("F2")     '[kg]
         TextBox130.Text = (blank_Dia * 1000).ToString("F0")     '[mm]
         TextBox132.Text = blank_wgt.ToString("F2")              '[kg]
         TextBox131.Text = blank_cost.ToString("F2")             '[e]
     End Sub
-    Private Function Flight_weight(d1 As Double, d2 As Double, pitch As Double, thick As Double, no_f As Double) As Double
+    ' Private Function Flight_weight(d1 As Double, d2 As Double, pitch As Double, thick As Double, no_f As Double) As Double
+    Private Sub Flight_weight(ByRef c As Conveyor_struct, no_f As Double)
         Dim hoek_spoed As Double
-        Dim wkg As Double
+
         Dim tip_length As Double
 
-        hoek_spoed = Atan(pitch / (PI * d1))                        '[rad]  
-        tip_length = Sqrt(pitch ^ 2 + d1 ^ 2)
+        hoek_spoed = Atan(c.pitch / (PI * c.flight_OD))            '[rad]  
+        tip_length = Sqrt(c.pitch ^ 2 + c.flight_OD ^ 2)           '[m]
 
-        wkg = PI / 4 * 7850 * thick * no_f * (d1 ^ 2 - d2 ^ 2) / Cos(hoek_spoed)
-        Return (wkg)
-    End Function
+        c.flight_weight = PI / 4 * 7850 * c.flight_thick * no_f * (c.flight_OD ^ 2 - c.pipe_od ^ 2) / Cos(hoek_spoed)
+
+        'Debug.WriteLine("============== ")
+        'Debug.WriteLine("pitch= " & c.pitch.ToString)
+        'Debug.WriteLine("c.dia_flight= " & c.flight_OD.ToString)
+        'Debug.WriteLine("c.pipe_od= " & c.pipe_od.ToString)
+        'Debug.WriteLine("c.flight_weight= " & c.flight_weight.ToString)
+    End Sub
     Private Function Blank_OD(d1 As Double, pitch As Double) As Double
         'Weight of the square blank
         Dim blank_dia As Double     'diameter flight blank (before forming)
