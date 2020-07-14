@@ -2139,7 +2139,7 @@ Public Class Form1
 
         '----------------------------------------------
         'Insert a 16 x 3 table, fill it with data and change the column widths.
-        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 17, 3)
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 19, 3)
         oTable.Range.ParagraphFormat.SpaceAfter = 1
         oTable.Range.Font.Size = font_sizze
         oTable.Range.Font.Bold = CInt(False)
@@ -2147,6 +2147,16 @@ Public Class Form1
         oTable.Rows.Item(1).Range.Font.Size = font_sizze + 2
         row = 1
         oTable.Cell(row, 1).Range.Text = "Conveyor Data"
+
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Capacity"
+        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown5.Value, String)
+        oTable.Cell(row, 3).Range.Text = "[ton/h]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Material density"
+        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown6.Value, String)
+        oTable.Cell(row, 3).Range.Text = "[kg/h]"
+
         row += 1
         oTable.Cell(row, 1).Range.Text = "Diameter flight"
         oTable.Cell(row, 2).Range.Text = ComboBox11.Text
