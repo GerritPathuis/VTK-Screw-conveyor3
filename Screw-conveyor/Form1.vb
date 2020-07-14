@@ -2137,9 +2137,45 @@ Public Class Form1
         oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
         oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
 
+        'Insert a table, fill it with data and change the column widths.
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 5, 3)
+        oTable.Range.ParagraphFormat.SpaceAfter = 0
+        oTable.Range.Font.Size = font_sizze
+        oTable.Range.Font.Bold = CInt(False)
+        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+
+        row = 1
+        oTable.Cell(row, 1).Range.Text = "Material"
+        row += 1
+
+        oTable.Cell(row, 1).Range.Text = "Product"
+        str = ComboBox1.Text
+        If Len(str) > 22 Then str = str.Substring(0, 22)
+        oTable.Cell(row, 2).Range.Text = str
+
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Product Flow"
+        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown5.Value, String)
+        oTable.Cell(row, 3).Range.Text = "[ton/hr]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Product Density"
+        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown6.Value, String)
+        oTable.Cell(row, 3).Range.Text = "[kg/m3]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Forward resistance"
+        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown9.Value, String)
+        oTable.Cell(row, 3).Range.Text = "[-]"
+
+        oTable.Columns(1).Width = oWord.InchesToPoints(2.0)
+        oTable.Columns(2).Width = oWord.InchesToPoints(1.8)
+        oTable.Columns(3).Width = oWord.InchesToPoints(1.5)
+
+        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+        oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+
         '----------------------------------------------
         'Insert a 16 x 3 table, fill it with data and change the column widths.
-        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 19, 3)
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 13, 3)
         oTable.Range.ParagraphFormat.SpaceAfter = 1
         oTable.Range.Font.Size = font_sizze
         oTable.Range.Font.Bold = CInt(False)
@@ -2147,15 +2183,6 @@ Public Class Form1
         oTable.Rows.Item(1).Range.Font.Size = font_sizze + 2
         row = 1
         oTable.Cell(row, 1).Range.Text = "Conveyor Data"
-
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Capacity"
-        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown5.Value, String)
-        oTable.Cell(row, 3).Range.Text = "[ton/h]"
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Material density"
-        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown6.Value, String)
-        oTable.Cell(row, 3).Range.Text = "[kg/h]"
 
         row += 1
         oTable.Cell(row, 1).Range.Text = "Diameter flight"
@@ -2205,25 +2232,6 @@ Public Class Form1
         oTable.Cell(row, 1).Range.Text = "Power Installed"
         oTable.Cell(row, 2).Range.Text = ComboBox5.Text
         oTable.Cell(row, 3).Range.Text = "[kW]"
-
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Product"
-        str = ComboBox1.Text
-        If Len(str) > 22 Then str = str.Substring(0, 22)
-        oTable.Cell(row, 2).Range.Text = str
-
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Product Flow"
-        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown5.Value, String)
-        oTable.Cell(row, 3).Range.Text = "[ton/hr]"
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Product Density"
-        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown6.Value, String)
-        oTable.Cell(row, 3).Range.Text = "[kg/m3]"
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Forward resistance"
-        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown9.Value, String)
-        oTable.Cell(row, 3).Range.Text = "[-]"
 
         oTable.Columns(1).Width = oWord.InchesToPoints(2.0)
         oTable.Columns(2).Width = oWord.InchesToPoints(1.8)
