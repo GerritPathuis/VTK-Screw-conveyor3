@@ -26,9 +26,9 @@ End Structure
 Public Class Form1
     'Use icon convert site https://icoconvert.com/ 
     '----------- directory's-----------
-    Dim dirpath_Eng As String = "N:\Engineering\VBasic\Conveyor_sizing_input\"
-    Dim dirpath_Rap As String = "N:\Engineering\VBasic\Conveyor_rapport_copy\"
-    Dim dirpath_Home_GP As String = "C:\Temp\"
+    ReadOnly dirpath_Eng As String = "N:\Engineering\VBasic\Conveyor_sizing_input\"
+    ReadOnly dirpath_Rap As String = "N:\Engineering\VBasic\Conveyor_rapport_copy\"
+    ReadOnly dirpath_Home_GP As String = "C:\Temp\"
 
     Public conv As Conveyor_struct   'Conveyors data
 
@@ -74,6 +74,7 @@ Public Class Form1
 
     'Materials name; CEMA Material code; Conveyor loading; Component group, density min, Density max, HP Material
     Public Shared _inputs() As String = {
+" 250 [kg/m3]; 0000;30A;2B;250;250;1.0",
 " 300 [kg/m3]; 0000;30A;2B;300;300;1.0",
 " 350 [kg/m3]; 0000;30A;2B;350;350;1.0",
 " 400 [kg/m3]; 0000;30A;2B;400;400;1.0",
@@ -1984,12 +1985,12 @@ Public Class Form1
         conv.flight_thick = NumericUpDown41.Value / 1000        '[m] flight thickness
 
 
-        Debug.WriteLine("conv.pipe_od= " & conv.pipe_od.ToString)
+        ' Debug.WriteLine("conv.pipe_od= " & conv.pipe_od.ToString)
 
         '---------- blank dimensions before forming ----
         blank_Dia = Blank_OD(conv.flight_OD, conv.pitch)          '[m] 
 
-        Debug.WriteLine(" blank_Dia= " & blank_Dia.ToString)
+        'Debug.WriteLine(" blank_Dia= " & blank_Dia.ToString)
 
         blank_wgt = blank_Dia ^ 2 * conv.flight_thick * 7850    '[kg]
         blank_cost = blank_wgt * NumericUpDown45.Value          '[e]
@@ -2471,7 +2472,7 @@ Public Class Form1
         Dim kg_astap, dia_astap, lengte_astap As Double
         Dim kg_afschermkap As Double
         Dim tot_opperv_paint As Double
-        Dim oppb_afschermkap, oppb_astap, oppb_voet, oppb_uitlaat, oppb_inlaat As Double
+        Dim oppb_astap, oppb_voet, oppb_uitlaat, oppb_inlaat As Double
         Dim oppb_deksel, oppb_trog, oppb_kopstaartplaat, oppb_schroefblad, oppb_pipe As Double
         Dim cost_kopstaartplaat, cost_trog, cost_pipe, cost_deksel, cost_inlaat, cost_uitlaat As Double
         Dim cost_voet, cost_schroefblad, cost_astap, cost_lining, cost_afschermkap As Double
@@ -2609,7 +2610,7 @@ Public Class Form1
         oppb_schroefblad = 2 * (kg_schroefblad / (NumericUpDown8.Value * rho_staal / 1000))
 
         Double.TryParse(CType(ComboBox13.SelectedItem, String), dia_astap)             '[mm] 
-        dia_astap = dia_astap / 1000                                    '[m]
+        dia_astap /= 1000                                           '[m]
         lengte_astap = 1.0                                              'lengte in meters average 1m
         kg_astap = 7850 * lengte_astap * PI * (dia_astap / 2) ^ 2       'het standaardmateriaal is staal, dit is het totale inkoopmateriaal, wat daarna nog wordt gefreesd/gedraaid
         oppb_astap = PI * dia_astap * lengte_astap
@@ -2626,7 +2627,7 @@ Public Class Form1
         oppb_inlaat = 1             '[m2]
         oppb_uitlaat = 1            '[m2]
         oppb_voet = 0.5             '[m2]
-        oppb_afschermkap = 1        '[m2]
+        'oppb_afschermkap = 1        '[m2]
 
         '----------------------------------------COST CALCULATION-----------------------------------------------
         '-------------------------------------------------------------------------------------------------------
