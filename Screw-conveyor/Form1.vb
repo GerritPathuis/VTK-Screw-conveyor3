@@ -753,6 +753,27 @@ Public Class Form1
       "Flowtite wit, 10*3   ;103",
       "230x133x6 Silicone wit;8.15"}
 
+    Public Shared Ks_factor() As String =
+     {"Product;Density;Ks;taludhoek;remarks",
+      "Patato starch   ;    720;4.4;    35-45;  --",
+      "Buck wheat      ;    640;2.3;    30;     --",
+      "Bones whole     ;    550;2.0;    30;     --",
+      "Cacao nibs      ;    550;5.0;    30-45;  --",
+      "Cement          ;    1200;3.5;   30-40;  --",
+      "Gluten meal     ;    640;2.5;    30-45;  --",
+      "Peanuts in shells;   240;2.0;    30-45;  --",
+      "Clover seed     ;    770;2.3;    30;     --",
+      "Coffee ground   ;    350;2.3;    30-40;  --",
+      "Lineseed        ;    650;2.0;    30;     --",
+      "Corn germs      ;    400;2.0;    35-45;  --",
+      "Corn meal       ;    640;2.4;    35-45;  --",
+      "Lactose         ;    510;3.2;    35-45;  perishable",
+      "Potas           ;    1120;3.5;   30;     --",
+      "Sugar granulated;    670;3.4;    35-45;  perishable",
+      "Soap-stone, talc fine;640;2.9;   45;     becomes liquified with air",
+      "Wheat           ;    700;1.8;    30;     --",
+      "Soap powder     ;    320;2.5;    30-45;  --"}
+
 
     Public Shared emotor() As String = {"3.0; 1500", "4.0; 1500", "5.5; 1500", "7.5; 1500", "11;  1500", "15; 1500", "22; 1500",
                                        "30  ; 1500", "37;  1500", "45;  1500", "55;  1500", "75; 1500", "90; 1500",
@@ -797,6 +818,21 @@ Public Class Form1
         TextBox133.Text &= "Pijp 316    " & vbTab & vbTab & "0.00 €/kg " & vbCrLf
         TextBox133.Text &= vbCrLf
         TextBox133.Text &= "Bron Staalprijzen.nl" & vbCrLf
+
+        TextBox149.Text = "Vullings graad" & vbCrLf
+        TextBox149.Text &= "Talud hoek < 45 deg, Vulling is 5% tot 15%" & vbCrLf
+        TextBox149.Text &= "" & vbCrLf
+        TextBox149.Text &= "Standard 16 inch screw has 4 inch pipe" & vbCrLf
+        TextBox149.Text &= "" & vbCrLf
+
+        '------- TextBox152.Text -----------------
+        'Vertical screw conveyors ----------------
+        TextBox152.Text = "Stortgoed    " & vbTab & "Density" & vbTab & "KS" & vbTab & "Taludhoek" & vbCrLf
+        TextBox152.Text &= vbTab & vbTab & "[kg/m3]" & vbTab & "[-]" & vbTab & "[degree]" & vbCrLf
+        For hh = 1 To Ks_factor.Length - 1
+            words = Ks_factor(hh).Split(CType(";", Char()))
+            TextBox152.Text &= words(0) & vbTab & Trim(words(1)) & vbTab & Trim(words(2)) & vbTab & Trim(words(3)) & vbCrLf
+        Next hh
 
         Screw_combo_init()
         Pipe_dia_combo_init()
@@ -2070,6 +2106,8 @@ Public Class Form1
         Print_word()
     End Sub
 
+
+
     Private Sub Print_word()
         Dim oWord As Word.Application ' = Nothing
         Dim oDoc As Word.Document
@@ -2950,5 +2988,56 @@ Public Class Form1
                 grbx.ForeColor = Color.Black
             End If
         Next
+    End Sub
+    Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click, TabPage12.Enter, NumericUpDown53.ValueChanged, NumericUpDown52.ValueChanged, NumericUpDown51.ValueChanged, NumericUpDown46.ValueChanged, NumericUpDown55.ValueChanged, NumericUpDown54.ValueChanged
+        Dim Qv As Double            '[m3/h] capacity 
+        Dim Qm As Double            '[kg/h] capacity 
+        Dim g As Double = 9.81      '[kg/m/s^2]Gravitatie
+        Dim n As Double             '[rpm] toerental
+        Dim f As Double             '[%] Vulling
+        Dim dia As Double           '[m] Diameter
+        Dim length As Double        '[m] lengte
+        Dim Kn As Double            '[-] Versnellingskengetal
+        Dim w As Double             '[rad/s] hoeksnelheid
+        Dim ro As Double            '[kg/m3] density
+        Dim pow As Double           '[kW] power
+        Dim Ks As Double            'Stortgoed power getal
+
+        dia = NumericUpDown52.Value / 1000      '[m]
+        length = NumericUpDown51.Value          '[m]      
+        n = NumericUpDown46.Value               '[rpm]
+        f = NumericUpDown53.Value               '[-] vulling
+        ro = NumericUpDown54.Value              '[-] density
+        Ks = NumericUpDown55.Value              '[-] Stortgoed power getal
+
+
+        '--------- capacity --------------------
+        Qv = 18 * dia ^ 3 * n * f / 100          '[m3/h]
+        Qm = Qv * ro / 1000                      '[ton/h]
+        w = 2 * PI * n / 60                      '[rad/s] hoeksnelheid
+        Kn = 2 * w ^ 2 * dia / g                 '[-] Versnellingskengetal
+
+        '--------- Power --------------------
+        pow = Qm * length * Ks / 41 * 0.75      '[kW]
+
+        Select Case True            'Efficiency motor + gear box
+            Case pow < 0.75
+                pow *= 2
+            Case pow >= 0.75 And pow < 1.5
+                pow *= 1.5
+            Case pow >= 1.5 And pow < 3
+                pow *= 1.25
+            Case pow >= 3
+                pow *= 1.1
+        End Select
+
+        '--------- Results --------------------
+        TextBox148.Text = Qv.ToString("F1")      '[m3/h]
+        TextBox151.Text = Qm.ToString("F1")      '[ton/h]
+        TextBox150.Text = Kn.ToString("F1")      '[-]
+        TextBox129.Text = pow.ToString("F1")      '[kW]
+
+        '----------- Checks ------------
+        TextBox150.BackColor = CType(IIf(Kn < 15, Color.Red, Color.LightGreen), Color)
     End Sub
 End Class
