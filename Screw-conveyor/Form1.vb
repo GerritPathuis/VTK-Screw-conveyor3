@@ -74,6 +74,7 @@ Public Class Form1
 
     'Materials name; CEMA Material code; Conveyor loading; Component group, density min, Density max, HP Material
     Public Shared _inputs() As String = {
+"--          ; 0000;30A;2B;500;500;1.0",
 " 250 [kg/m3]; 0000;30A;2B;250;250;1.0",
 " 300 [kg/m3]; 0000;30A;2B;300;300;1.0",
 " 350 [kg/m3]; 0000;30A;2B;350;350;1.0",
@@ -791,7 +792,7 @@ Public Class Form1
             words = _inputs(hh).Split(CType(";", Char()))
             ComboBox1.Items.Add(words(0))
         Next hh
-        ComboBox1.SelectedIndex = 225                   'Grafite ore
+        ComboBox1.SelectedIndex = 0                 'Leeg
 
         '-------Fill combobox2, Steel selection------------------
         For hh = 0 To (UBound(steel) - 1)               'Fill combobox 2 with steel data
