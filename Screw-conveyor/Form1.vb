@@ -2106,7 +2106,9 @@ Public Class Form1
         Print_word()
     End Sub
 
-
+    Private Sub Button14_Click(sender As Object, e As EventArgs) Handles Button14.Click
+        Print_vertical_screw()
+    End Sub
 
     Private Sub Print_word()
         Dim oWord As Word.Application ' = Nothing
@@ -2497,6 +2499,8 @@ Public Class Form1
 
 
     End Sub
+
+
 
     Private Sub Costing_material()
         Dim rho_staal, rho_kunststof As Double
@@ -3040,4 +3044,157 @@ Public Class Form1
         '----------- Checks ------------
         TextBox150.BackColor = CType(IIf(Kn < 15, Color.Red, Color.LightGreen), Color)
     End Sub
+
+    Private Sub Print_vertical_screw()
+        Dim oWord As Word.Application ' = Nothing
+        Dim oDoc As Word.Document
+        Dim oTable As Word.Table
+        Dim oPara1, oPara2, opara3 As Word.Paragraph
+        Dim row, font_sizze As Integer
+        Dim ufilename, str As String
+        Dim speed As Double
+
+        oWord = New Word.Application()
+
+        'Start Word and open the document template. 
+        font_sizze = 8
+        oWord = CType(CreateObject("Word.Application"), Word.Application)
+        oWord.Visible = True
+        oDoc = oWord.Documents.Add
+        oDoc.PageSetup.TopMargin = 35
+        oDoc.PageSetup.BottomMargin = 20
+        oDoc.PageSetup.RightMargin = 20
+        oDoc.PageSetup.Orientation = Word.WdOrientation.wdOrientPortrait
+        oDoc.PageSetup.PaperSize = Word.WdPaperSize.wdPaperA4
+
+        'Insert a paragraph at the beginning of the document. 
+        oPara1 = oDoc.Content.Paragraphs.Add
+        oPara1.Range.Text = "VTK Engineering"
+        oPara1.Range.Font.Name = "Arial"
+        oPara1.Range.Font.Size = font_sizze + 3
+        oPara1.Range.Font.Bold = CInt(True)
+        oPara1.Format.SpaceAfter = 1                '24 pt spacing after paragraph. 
+        oPara1.Range.InsertParagraphAfter()
+
+        oPara2 = oDoc.Content.Paragraphs.Add(oDoc.Bookmarks.Item("\endofdoc").Range)
+        oPara2.Range.Font.Size = font_sizze + 1
+        oPara2.Format.SpaceAfter = 1
+        oPara2.Range.Font.Bold = CInt(False)
+        oPara2.Range.Text = "Vertical Screw Conveyor" & vbCrLf
+        oPara2.Range.InsertParagraphAfter()
+
+        '----------------------------------------------
+        'Insert a table, fill it with data and change the column widths.
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 5, 2)
+        oTable.Range.ParagraphFormat.SpaceAfter = 0
+        oTable.Range.Font.Size = font_sizze
+        oTable.Range.Font.Bold = CInt(False)
+        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+
+        row = 1
+        oTable.Cell(row, 1).Range.Text = "Project number "
+        oTable.Cell(row, 2).Range.Text = TextBox66.Text
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Project Name"
+        oTable.Cell(row, 2).Range.Text = TextBox65.Text
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Machine Id "
+        oTable.Cell(row, 2).Range.Text = TextBox67.Text
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Author "
+        oTable.Cell(row, 2).Range.Text = Environment.UserName
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Date "
+        oTable.Cell(row, 2).Range.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+
+        oTable.Columns(1).Width = oWord.InchesToPoints(2.5)   'Change width of columns 1 & 2.
+        oTable.Columns(2).Width = oWord.InchesToPoints(2)
+
+        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+        oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+
+
+        '--------------Material -------------------
+        'Insert a table, fill it with data and change the column widths.
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 5, 3)
+        oTable.Range.ParagraphFormat.SpaceAfter = 0
+        oTable.Range.Font.Size = font_sizze
+        oTable.Range.Font.Bold = CInt(False)
+        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+
+        row = 1
+        oTable.Cell(row, 1).Range.Text = "Material"
+        row += 1
+
+        oTable.Cell(row, 1).Range.Text = "Product"
+        str = TextBox154.Text
+        If Len(str) > 22 Then str = str.Substring(0, 22)
+        oTable.Cell(row, 2).Range.Text = str
+
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Product Flow"
+        oTable.Cell(row, 2).Range.Text = TextBox151.Text
+        oTable.Cell(row, 3).Range.Text = "[ton/hr]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Product Density"
+        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown54.Value, String)
+        oTable.Cell(row, 3).Range.Text = "[kg/m3]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Ks power factor"
+        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown55.Value, String)
+        oTable.Cell(row, 3).Range.Text = "[-]"
+
+        oTable.Columns(1).Width = oWord.InchesToPoints(2.0)
+        oTable.Columns(2).Width = oWord.InchesToPoints(1.8)
+        oTable.Columns(3).Width = oWord.InchesToPoints(1.5)
+
+        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+        oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+
+
+
+        '--------------Screw data  -------------------
+        'Insert a table, fill it with data and change the column widths.
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 7, 3)
+        oTable.Range.ParagraphFormat.SpaceAfter = 0
+        oTable.Range.Font.Size = font_sizze
+        oTable.Range.Font.Bold = CInt(False)
+        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+
+        row = 1
+        oTable.Cell(row, 1).Range.Text = "Conveyor data"
+        row += 1
+
+        oTable.Cell(row, 1).Range.Text = "Diameter"
+        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown52.Value, String)
+        oTable.Cell(row, 3).Range.Text = "[mm]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Screw length"
+        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown51.Value, String)
+        oTable.Cell(row, 3).Range.Text = "[m]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Screw speed"
+        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown46.Value, String)
+        oTable.Cell(row, 3).Range.Text = "[rpm]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Kn gravitation"
+        oTable.Cell(row, 2).Range.Text = TextBox150.Text
+        oTable.Cell(row, 3).Range.Text = "[-]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Filling"
+        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown53.Value, String)
+        oTable.Cell(row, 3).Range.Text = "[%]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Motor"
+        oTable.Cell(row, 2).Range.Text = TextBox129.Text
+        oTable.Cell(row, 3).Range.Text = "[kW]"
+
+        oTable.Columns(1).Width = oWord.InchesToPoints(2.0)
+        oTable.Columns(2).Width = oWord.InchesToPoints(1.8)
+        oTable.Columns(3).Width = oWord.InchesToPoints(1.5)
+
+        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+        oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+    End Sub
+
 End Class
