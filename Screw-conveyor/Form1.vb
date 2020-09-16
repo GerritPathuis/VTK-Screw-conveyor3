@@ -2217,7 +2217,7 @@ Public Class Form1
 
         '----------------------------------------------
         'Insert a 16 x 3 table, fill it with data and change the column widths.
-        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 13, 3)
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 14, 3)
         oTable.Range.ParagraphFormat.SpaceAfter = 1
         oTable.Range.Font.Size = font_sizze
         oTable.Range.Font.Bold = CInt(False)
@@ -2269,6 +2269,10 @@ Public Class Form1
         row += 1
         oTable.Cell(row, 1).Range.Text = "Power MEKOG"
         oTable.Cell(row, 2).Range.Text = TextBox04.Text
+        oTable.Cell(row, 3).Range.Text = "[kW]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Power NON"
+        oTable.Cell(row, 2).Range.Text = TextBox139.Text
         oTable.Cell(row, 3).Range.Text = "[kW]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Power Installed"

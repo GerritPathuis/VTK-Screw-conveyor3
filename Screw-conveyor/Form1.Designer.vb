@@ -6503,7 +6503,7 @@ Partial Class Form1
         Me.GroupBox30.Controls.Add(Me.NumericUpDown52)
         Me.GroupBox30.Location = New System.Drawing.Point(52, 48)
         Me.GroupBox30.Name = "GroupBox30"
-        Me.GroupBox30.Size = New System.Drawing.Size(294, 431)
+        Me.GroupBox30.Size = New System.Drawing.Size(294, 436)
         Me.GroupBox30.TabIndex = 26
         Me.GroupBox30.TabStop = False
         Me.GroupBox30.Text = "Vertical Screw conveyor (Pitch is 1.0)"
