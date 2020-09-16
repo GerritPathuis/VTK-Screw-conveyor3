@@ -1746,10 +1746,15 @@ Public Class Form1
     Private Sub Save_tofile()
         Dim temp_string, user As String
 
+
+
         user = Trim(Environment.UserName)         'User name on the screen
         Dim filename As String
         Dim all_num, all_combo, all_check, all_radio As New List(Of Control)
         Dim i As Integer
+
+        Button8.Text = "Busy...."
+        Button8.Refresh()
 
         filename = "Conveyor_select_" & TextBox66.Text & "_" & TextBox65.Text & "_" & TextBox67.Text & DateTime.Now.ToString("_yyyy_MM_dd_") & user & ".vtks"
 
@@ -1800,6 +1805,7 @@ Public Class Form1
                 File.WriteAllText(dirpath_Home_GP & filename, temp_string, Encoding.ASCII)     'used at home
             End If
         End If
+        Button8.Text = "Save Input"
     End Sub
     Private Sub Check_directories()
         '---- if path not exist then create one----------
