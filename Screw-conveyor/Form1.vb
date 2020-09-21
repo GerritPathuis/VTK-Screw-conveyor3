@@ -820,11 +820,18 @@ Public Class Form1
         TextBox133.Text &= vbCrLf
         TextBox133.Text &= "Bron Staalprijzen.nl" & vbCrLf
 
-        TextBox149.Text = "Vullings graad" & vbCrLf
+        TextBox149.Text = "Pitch bottom 1.6m = 0.30" & vbCrLf
+        TextBox149.Text &= "Top section = 0.70" & vbCrLf
+        TextBox149.Text &= "Vullings graad" & vbCrLf
         TextBox149.Text &= "Talud hoek < 45 deg, Vulling is 5% tot 15%" & vbCrLf
         TextBox149.Text &= "" & vbCrLf
-        TextBox149.Text &= "Standard 16 inch screw has 4 inch pipe" & vbCrLf
-        TextBox149.Text &= "" & vbCrLf
+        TextBox149.Text &= "For example see Project 16.0102" & vbCrLf
+        TextBox149.Text &= "Aerated cement powder 850-1200 kg/m3" & vbCrLf
+        TextBox149.Text &= "Capacity 150 ton/h" & vbCrLf
+        TextBox149.Text &= "L=9.9m, 610x6.4, tube 324x8," & vbCrLf
+        TextBox149.Text &= "Flight D=582x6, pitch 400 and 180mm" & vbCrLf
+        TextBox149.Text &= "weight 886 kg, 247rpm, 30kW" & vbCrLf
+        TextBox149.Text &= "Chain drive" & vbCrLf
 
         '------- TextBox152.Text -----------------
         'Vertical screw conveyors ----------------
@@ -3020,6 +3027,7 @@ Public Class Form1
 
         dia = NumericUpDown52.Value / 1000      '[m]
         length = NumericUpDown51.Value          '[m]      
+        pitch = NumericUpDown56.Value           '[-] 
         n = NumericUpDown46.Value               '[rpm]
         f = NumericUpDown53.Value               '[-] vulling
         ro = NumericUpDown54.Value              '[-] density
@@ -3027,7 +3035,7 @@ Public Class Form1
 
 
         '--------- capacity --------------------
-        Qv = 18 * dia ^ 3 * n * f / 100          '[m3/h]
+        Qv = 18 * dia ^ 3 * pitch * n * f / 100  '[m3/h]
         Qm = Qv * ro / 1000                      '[ton/h]
         w = 2 * PI * n / 60                      '[rad/s] hoeksnelheid
         Kn = 2 * w ^ 2 * dia / g                 '[-] Versnellingskengetal
