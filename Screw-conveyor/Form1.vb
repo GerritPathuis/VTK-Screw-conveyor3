@@ -574,20 +574,24 @@ Public Class Form1
     "SS 410 ;EN 10088-1 U1S;X12Cr13 (Gegloeid) 541000;1.4006;1.15;0.28;7700;216;450-650;230;250;240;235;230;225;225;220;210;195;A240-410;--",
     "SuperDuplex;--;X2CrNiMoN22-5-3 saisna;1.4501;1.4;0.28;7800;200;730-930;445;550;510;480;445;405;400;395;0;0;--;--"}
 
+    '----------------- Problem there is no diameter switching on materials base !!!!!!!!!!!
+
     'DN, inch,OD, wall1, wall2, wall3,...
     Public Shared pipe_ss() As String =
-   {"DN100;4 inch; 114.3;  6.3;7.1;8;10;12.7;16.0",
-    "DN125;5 inch; 139.7;  6.3;7.1;8;10;12.7;16.0",
-    "DN150;6 inch; 168.3;  6.3;7.1;8;10;12.7;16.0",
-    "DN200;8 inch; 219.1;  6.3;7.1;8;10;12.7;16.0",
-    "DN250;10 inch; 273;   6.3;7.1;8;10;12.7;16.0",
-    "DN300;12 inch; 323.9; 6.3;7.1;8;10;12.7;16.0",
-    "DN350;14 inch; 355.6; 6.3;7.1;8;10;12.7;16.0",
-    "DN400;16 inch; 406.4; 6.3;7.1;8;10;12.7;16.0",
-    "DN500;20 inch; 508;   6.3;7.1;8;10;12.7;16.0"}
+   {"DN80; 3 inch; 88.9;   3.0; 4.0;    5.5;7.6  ;11.1;15.2",
+    "DN100;4 inch; 114.3;  6.3; 7.1;    8  ;10   ;12.7;16.0",
+    "DN125;5 inch; 139.7;  6.3; 7.1;    8  ;10   ;12.7;16.0",
+    "DN150;6 inch; 168.3;  6.3; 7.1;    8  ;10   ;12.7;16.0",
+    "DN200;8 inch; 219.1;  6.3; 7.1;    8  ;10   ;12.7;16.0",
+    "DN250;10 inch; 273;   6.3; 7.1;    8  ;10   ;12.7;16.0",
+    "DN300;12 inch; 323.9; 6.3; 7.1;    8  ;10   ;12.7;16.0",
+    "DN350;14 inch; 355.6; 6.3; 7.1;    8  ;10   ;12.7;16.0",
+    "DN400;16 inch; 406.4; 6.3; 7.1;    8  ;10   ;12.7;16.0",
+    "DN500;20 inch; 508;   6.3; 7.1;    8  ;10   ;12.7;16.0"}
 
     Public Shared pipe_steel() As String =
-   {"DN100;4 inch; 114.3;  6.02;  8.56; 0;   0",
+   {"DN80; 2 inch;  88.9;  3.05;  5.49; 7.6; 0",
+    "DN100;4 inch; 114.3;  6.02;  8.56; 0;   0",
     "DN125;5 inch; 141.3;  6.55;  9.53; 0;   0",
     "DN150;6 inch; 168.3;  7.11; 10.97; 0;   0",
     "DN200;8 inch; 219.1;  6.35;  8.18; 12.7;0",
@@ -852,7 +856,8 @@ Public Class Form1
         Pakking_combo()
     End Sub
     Private Sub Calc_sequence()
-        Calculate()
+        Screw_dia_combo()
+        Calculate_cap()
         Calulate_stress_1()
         Costing_material()
         Screen_contrast()
@@ -861,7 +866,7 @@ Public Class Form1
         Calc_sequence()
     End Sub
 
-    Private Sub Calculate()
+    Private Sub Calculate_cap()
         Dim cap_hr_100 As Double        '100% Capacity conveyor [m3/hr]
         Dim cap_hr_100_in As Double     '100% Capacity conveyor inclined [m3/hr]
         Dim actual_cap_m3 As Double     'actual Çapacity conveyor [m3/hr]
@@ -879,14 +884,15 @@ Public Class Form1
         Dim cap_under_angle As Double
         Dim filling_perc As Double      'Conveyor horizontal
         Dim filling_perc_incl As Double 'Conveyor horizontal
+        Dim tmp As Double
 
         '-------------- get data----------
         Double.TryParse(CType(ComboBox3.SelectedItem, String), _pipe_OD)
         _pipe_OD /= 1000                                    '[m]
         Label177.Text = _pipe_OD.ToString
-        If ComboBox11.SelectedIndex > 0 Then
-            Double.TryParse(CType(ComboBox11.SelectedItem, String), _diam_flight)
-            _diam_flight /= 1000                            '[mm] -> [m]
+        If ComboBox11.SelectedIndex > -1 Then
+            Double.TryParse(ComboBox11.Text, tmp)
+            _diam_flight = tmp / 1000                        '[mm] -> [m]
             pitch = _diam_flight * NumericUpDown2.Value     '[m]
             _angle = NumericUpDown4.Value                   '[degree]
             speed = NumericUpDown7.Value                    '[rpm]
@@ -912,6 +918,8 @@ Public Class Form1
             '--------------- now calc in [kg/hr] ---------------
             filling_perc = actual_cap_m3 / cap_hr_100 * 100             'Horizontal
             filling_perc_incl = actual_cap_m3 / cap_hr_100_in * 100     'Inclined
+
+
 
             Select Case RadioButton9.Checked
                 Case True   'Transport screw
@@ -969,7 +977,6 @@ Public Class Form1
     End Sub
 
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown10.ValueChanged, NumericUpDown25.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox4.SelectedIndexChanged, ComboBox13.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox8.CheckedChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, CheckBox4.CheckedChanged, CheckBox7.CheckedChanged, CheckBox6.CheckedChanged, TabPage4.Enter, CheckBox5.CheckedChanged
-
         Calc_sequence()
     End Sub
 
@@ -1349,15 +1356,13 @@ Public Class Form1
         Calc_sequence()
     End Sub
     Private Sub Screw_dia_combo()
-        Dim words() As String
+        Dim tmp As Double
 
         If (ComboBox11.SelectedIndex > -1) Then      'Prevent exceptions
-            words = Flight_dia(ComboBox11.SelectedIndex).Split(CType(";", Char()))
-            Double.TryParse(words(0), _diam_flight)
-            _diam_flight /= 1000                    'Trough width[m]
+            Double.TryParse(ComboBox11.Text, tmp)
+            _diam_flight = tmp / 1000                    'Trough width[m]
 
-            TextBox18.Text = (_diam_flight * 1000).ToString("F3")
-            MessageBox.Show(_diam_flight.ToString)
+            TextBox18.Text = (_diam_flight * 1000).ToString("F0")
         End If
     End Sub
 
@@ -1738,8 +1743,7 @@ Public Class Form1
     End Sub
 
     Private Sub ComboBox11_SelectedIndexChanged(sender As Object, e As EventArgs)
-        Screw_dia_combo()
-        Calculate()
+        Calc_sequence()
     End Sub
 
     Private Sub Button8_Click(sender As Object, e As EventArgs) Handles Button8.Click
@@ -1838,7 +1842,7 @@ Public Class Form1
 
     Private Sub Button9_Click(sender As Object, e As EventArgs) Handles Button9.Click
         Read_file()
-        Calculate()
+        Calc_sequence()
     End Sub
     'Retrieve control settings and case_x_conditions from file
     'Split the file string into 5 separate strings
@@ -2017,8 +2021,7 @@ Public Class Form1
         ComboBox10.SelectedIndex = 3
     End Sub
     Private Sub RadioButton9_CheckedChanged(sender As Object, e As EventArgs) Handles RadioButton9.CheckedChanged
-        Calculate()
-        Calulate_stress_1()
+        Calc_sequence()
     End Sub
 
     Private Sub Button11_Click(sender As Object, e As EventArgs) Handles Button11.Click, NumericUpDown43.ValueChanged, NumericUpDown42.ValueChanged, NumericUpDown41.ValueChanged, TabPage10.Enter, NumericUpDown45.ValueChanged, ComboBox14.SelectedIndexChanged
@@ -2870,6 +2873,7 @@ Public Class Form1
         TextBox99.Text = marge_cost.ToString("F0")                  'Marge
         TextBox75.Text = verkoopprijs.ToString("F0")                'Verkoopprijs
     End Sub
+
     Private Sub Draw_chart1()
         Dim hh As Integer
 
@@ -3068,10 +3072,11 @@ Public Class Form1
         Dim oWord As Word.Application ' = Nothing
         Dim oDoc As Word.Document
         Dim oTable As Word.Table
-        Dim oPara1, oPara2, opara3 As Word.Paragraph
+        Dim oPara1, oPara2 As Word.Paragraph
         Dim row, font_sizze As Integer
-        Dim ufilename, str As String
-        Dim speed As Double
+        'Dim ufilename As String
+        Dim str As String
+        'Dim speed As Double
 
         oWord = New Word.Application()
 
