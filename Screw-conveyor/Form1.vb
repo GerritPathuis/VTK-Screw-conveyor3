@@ -745,6 +745,7 @@ Public Class Form1
       "400 ;0",
       "500 ;0",
       "630 ;0",
+      "700 ;0",
       "800 ;0",
       "1000 ;0",
       "1200 ;0",
@@ -2873,6 +2874,7 @@ Public Class Form1
         TextBox99.Text = marge_cost.ToString("F0")                  'Marge
         TextBox75.Text = verkoopprijs.ToString("F0")                'Verkoopprijs
     End Sub
+
 
     Private Sub Draw_chart1()
         Dim hh As Integer
