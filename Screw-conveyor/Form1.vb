@@ -1067,7 +1067,7 @@ Public Class Form1
             Double.TryParse(words(2), _pipe_OD)
             _pipe_OD /= 1000                            'Outside Diameter [m]
             pipe_OR = _pipe_OD / 2                      'Radius [mm]
-            _pipe_wall = CDbl(ComboBox6.SelectedItem)   'Wall thickness [mm]
+            _pipe_wall = NumericUpDown57.Value          'Wall thickness [mm]
             _pipe_wall /= 1000
             _pipe_ID = (_pipe_OD - 2 * _pipe_wall)      'Inside diameter [mm]
             pipe_IR = _pipe_ID / 2                      'Inside radius [mm]
@@ -1353,7 +1353,7 @@ Public Class Form1
 
     End Sub
 
-    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click, NumericUpDown11.ValueChanged, ComboBox2.SelectedIndexChanged, NumericUpDown13.ValueChanged, TabPage2.Enter, NumericUpDown17.ValueChanged, NumericUpDown16.ValueChanged, ComboBox5.SelectedIndexChanged, RadioButton3.CheckedChanged, RadioButton2.CheckedChanged, RadioButton1.CheckedChanged, CheckBox1.CheckedChanged, NumericUpDown18.ValueChanged, NumericUpDown19.ValueChanged, NumericUpDown24.ValueChanged, NumericUpDown28.ValueChanged, CheckBox10.CheckedChanged, NumericUpDown29.ValueChanged, NumericUpDown37.ValueChanged, NumericUpDown36.ValueChanged, NumericUpDown32.ValueChanged, NumericUpDown31.ValueChanged, NumericUpDown22.ValueChanged
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click, NumericUpDown11.ValueChanged, ComboBox2.SelectedIndexChanged, NumericUpDown13.ValueChanged, TabPage2.Enter, NumericUpDown17.ValueChanged, NumericUpDown16.ValueChanged, ComboBox5.SelectedIndexChanged, RadioButton3.CheckedChanged, RadioButton2.CheckedChanged, RadioButton1.CheckedChanged, CheckBox1.CheckedChanged, NumericUpDown18.ValueChanged, NumericUpDown19.ValueChanged, NumericUpDown24.ValueChanged, NumericUpDown28.ValueChanged, CheckBox10.CheckedChanged, NumericUpDown29.ValueChanged, NumericUpDown37.ValueChanged, NumericUpDown36.ValueChanged, NumericUpDown32.ValueChanged, NumericUpDown31.ValueChanged, NumericUpDown22.ValueChanged, NumericUpDown57.ValueChanged
         Calc_sequence()
     End Sub
     Private Sub Screw_dia_combo()
@@ -1391,18 +1391,7 @@ Public Class Form1
         TextBox16.Text = (_pipe_OD * 1000).ToString("F1")     'Diameter [mm]
     End Sub
     Private Sub Pipe_wall_combo_init()
-        Dim words() As String
-        Dim temp As Double
-
         If ComboBox3.Items.Count > 0 Then 'Prevent exceptions
-            ComboBox6.Items.Clear()
-            '-------Fill combobox6, pipe wall selection------------------
-            words = pipe_steel(ComboBox3.SelectedIndex).Split(CType(";", Char()))  'Fill combobox 6 pipe wall data
-            For hh = 3 To 6
-                Double.TryParse(words(hh), temp)
-                If temp > 0 Then ComboBox6.Items.Add(Trim(words(hh)))
-            Next
-            ComboBox6.SelectedIndex = 0
             Calulate_stress_1()
         End If
     End Sub
@@ -1520,7 +1509,7 @@ Public Class Form1
         oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Wall thickness pipe"
-        oTable.Cell(row, 3).Range.Text = CType(ComboBox6.SelectedItem, String)
+        oTable.Cell(row, 3).Range.Text = NumericUpDown57.Value.ToString("F1")
         oTable.Cell(row, 2).Range.Text = "[mm]"
 
         row += 1
@@ -1948,7 +1937,7 @@ Public Class Form1
         Calulate_stress_1()
     End Sub
 
-    Private Sub ComboBox6_SelectedValueChanged(sender As Object, e As EventArgs) Handles ComboBox6.SelectedValueChanged
+    Private Sub ComboBox6_SelectedValueChanged(sender As Object, e As EventArgs)
         Calulate_stress_1()
     End Sub
 
@@ -2249,7 +2238,7 @@ Public Class Form1
         oTable.Cell(row, 3).Range.Text = "[mm]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Diameter pipe"
-        oTable.Cell(row, 2).Range.Text = ComboBox3.Text & " x " & ComboBox6.Text
+        oTable.Cell(row, 2).Range.Text = ComboBox3.Text & " x " & NumericUpDown57.Value.ToString("F1")
         oTable.Cell(row, 3).Range.Text = "[mm]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Pitch"
@@ -2656,9 +2645,9 @@ Public Class Form1
 
         '--------------- pipe gewicht-------------------
         Double.TryParse(CType(ComboBox9.SelectedItem, String), _pipe_OD)         ' ComboBox3 = ComboBox9
-        _pipe_OD /= 1000                  '[m]
-        _pipe_wall = CDbl(ComboBox6.SelectedItem)
-        _pipe_wall /= 1000                          '[m]
+        _pipe_OD /= 1000                        '[m]
+        _pipe_wall = NumericUpDown57.Value      '[mm]
+        _pipe_wall /= 1000                      '[m]
         _pipe_ID = (_pipe_OD - 2 * _pipe_wall)
         kg_pipe = rho_staal * PI / 4 * (_pipe_OD ^ 2 - _pipe_ID ^ 2) * _λ6
 
@@ -2882,6 +2871,19 @@ Public Class Form1
         TextBox75.Text = verkoopprijs.ToString("F0")                'Verkoopprijs
     End Sub
 
+    Private Sub PictureBox11_Click(sender As Object, e As EventArgs) Handles PictureBox11.Click
+        Form2.Text = "ASME B36.10 Piping"
+        Form2.PictureBox1.Image = Screw_conveyor.My.Resources.Resources.B36_10
+        Form2.Size = New Size(1222, 734)
+        Form2.Show()
+    End Sub
+
+    Private Sub PictureBox12_Click(sender As Object, e As EventArgs) Handles PictureBox12.Click
+        Form2.Text = "DIN ISO Piping"
+        Form2.PictureBox1.Image = Screw_conveyor.My.Resources.Resources.DIN_ISO
+        Form2.Size = New Size(1400, 900)
+        Form2.Show()
+    End Sub
 
     Private Sub Draw_chart1()
         Dim hh As Integer
