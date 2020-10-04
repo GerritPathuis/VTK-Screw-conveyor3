@@ -27,7 +27,7 @@
     <InstallUrl>\\DCF1\data2%24\Engineering\VBasic\Conveyor_sizing\</InstallUrl>
     <ProductName>Screw Conveyor</ProductName>
     <PublisherName>Pathuis Heavy Industries</PublisherName>
-    <ApplicationRevision>82</ApplicationRevision>
+    <ApplicationRevision>83</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -74,7 +74,7 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>51B75345D38E17AE30A42F86920C9EB2BB131966</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>AA9A3D2F45CAF0B5DCDA7F865E8EB7FC26B213D6</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestKeyFile>
@@ -84,7 +84,7 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>false</SignManifests>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>favicon %286%29.ico</ApplicationIcon>

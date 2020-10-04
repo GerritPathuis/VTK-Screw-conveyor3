@@ -24,15 +24,15 @@ Partial Class Form1
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
-        Dim ChartArea7 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend7 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series7 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea8 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend8 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series8 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea9 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend9 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series9 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea16 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend16 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series16 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea17 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend17 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series17 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea18 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend18 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series18 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.GroupBox33 = New System.Windows.Forms.GroupBox()
@@ -584,15 +584,20 @@ Partial Class Form1
         Me.PictureBox9 = New System.Windows.Forms.PictureBox()
         Me.PictureBox8 = New System.Windows.Forms.PictureBox()
         Me.TabPage13 = New System.Windows.Forms.TabPage()
+        Me.Label227 = New System.Windows.Forms.Label()
+        Me.Label226 = New System.Windows.Forms.Label()
+        Me.Label225 = New System.Windows.Forms.Label()
+        Me.Label224 = New System.Windows.Forms.Label()
+        Me.Label223 = New System.Windows.Forms.Label()
         Me.Label222 = New System.Windows.Forms.Label()
         Me.PictureBox10 = New System.Windows.Forms.PictureBox()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
-        Me.Label223 = New System.Windows.Forms.Label()
-        Me.Label224 = New System.Windows.Forms.Label()
-        Me.Label225 = New System.Windows.Forms.Label()
-        Me.Label226 = New System.Windows.Forms.Label()
-        Me.Label227 = New System.Windows.Forms.Label()
+        Me.CheckBox9 = New System.Windows.Forms.CheckBox()
+        Me.GroupBox35 = New System.Windows.Forms.GroupBox()
+        Me.CheckBox11 = New System.Windows.Forms.CheckBox()
+        Me.CheckBox12 = New System.Windows.Forms.CheckBox()
+        Me.CheckBox13 = New System.Windows.Forms.CheckBox()
         Me.TabControl1.SuspendLayout
         Me.TabPage1.SuspendLayout
         Me.GroupBox33.SuspendLayout
@@ -712,6 +717,7 @@ Partial Class Form1
         Me.TabPage13.SuspendLayout
         CType(Me.PictureBox10, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox35.SuspendLayout
         Me.SuspendLayout
         '
         'TabControl1
@@ -1565,6 +1571,7 @@ Partial Class Form1
         '
         'TabPage2
         '
+        Me.TabPage2.Controls.Add(Me.GroupBox35)
         Me.TabPage2.Controls.Add(Me.GroupBox23)
         Me.TabPage2.Controls.Add(Me.GroupBox22)
         Me.TabPage2.Controls.Add(Me.GroupBox21)
@@ -1935,9 +1942,9 @@ Partial Class Form1
         '
         'Button4
         '
-        Me.Button4.Location = New System.Drawing.Point(651, 553)
+        Me.Button4.Location = New System.Drawing.Point(649, 486)
         Me.Button4.Name = "Button4"
-        Me.Button4.Size = New System.Drawing.Size(328, 77)
+        Me.Button4.Size = New System.Drawing.Size(191, 108)
         Me.Button4.TabIndex = 23
         Me.Button4.Text = "Print to Word"
         Me.Button4.UseVisualStyleBackColor = True
@@ -2973,9 +2980,9 @@ Partial Class Form1
         '
         'Button2
         '
-        Me.Button2.Location = New System.Drawing.Point(651, 501)
+        Me.Button2.Location = New System.Drawing.Point(649, 600)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(328, 46)
+        Me.Button2.Size = New System.Drawing.Size(82, 29)
         Me.Button2.TabIndex = 3
         Me.Button2.Text = "Calc"
         Me.Button2.UseVisualStyleBackColor = True
@@ -5580,17 +5587,17 @@ Partial Class Form1
         '
         'Chart3
         '
-        ChartArea7.Name = "ChartArea1"
-        Me.Chart3.ChartAreas.Add(ChartArea7)
+        ChartArea16.Name = "ChartArea1"
+        Me.Chart3.ChartAreas.Add(ChartArea16)
         Me.Chart3.Dock = System.Windows.Forms.DockStyle.Top
-        Legend7.Name = "Legend1"
-        Me.Chart3.Legends.Add(Legend7)
+        Legend16.Name = "Legend1"
+        Me.Chart3.Legends.Add(Legend16)
         Me.Chart3.Location = New System.Drawing.Point(176, 401)
         Me.Chart3.Name = "Chart3"
-        Series7.ChartArea = "ChartArea1"
-        Series7.Legend = "Legend1"
-        Series7.Name = "Series1"
-        Me.Chart3.Series.Add(Series7)
+        Series16.ChartArea = "ChartArea1"
+        Series16.Legend = "Legend1"
+        Series16.Name = "Series1"
+        Me.Chart3.Series.Add(Series16)
         Me.Chart3.Size = New System.Drawing.Size(808, 199)
         Me.Chart3.TabIndex = 4
         Me.Chart3.Text = "Chart3"
@@ -5607,34 +5614,34 @@ Partial Class Form1
         '
         'Chart2
         '
-        ChartArea8.Name = "ChartArea1"
-        Me.Chart2.ChartAreas.Add(ChartArea8)
+        ChartArea17.Name = "ChartArea1"
+        Me.Chart2.ChartAreas.Add(ChartArea17)
         Me.Chart2.Dock = System.Windows.Forms.DockStyle.Top
-        Legend8.Name = "Legend1"
-        Me.Chart2.Legends.Add(Legend8)
+        Legend17.Name = "Legend1"
+        Me.Chart2.Legends.Add(Legend17)
         Me.Chart2.Location = New System.Drawing.Point(176, 202)
         Me.Chart2.Name = "Chart2"
-        Series8.ChartArea = "ChartArea1"
-        Series8.Legend = "Legend1"
-        Series8.Name = "Series1"
-        Me.Chart2.Series.Add(Series8)
+        Series17.ChartArea = "ChartArea1"
+        Series17.Legend = "Legend1"
+        Series17.Name = "Series1"
+        Me.Chart2.Series.Add(Series17)
         Me.Chart2.Size = New System.Drawing.Size(808, 199)
         Me.Chart2.TabIndex = 3
         Me.Chart2.Text = "Chart2"
         '
         'Chart1
         '
-        ChartArea9.Name = "ChartArea1"
-        Me.Chart1.ChartAreas.Add(ChartArea9)
+        ChartArea18.Name = "ChartArea1"
+        Me.Chart1.ChartAreas.Add(ChartArea18)
         Me.Chart1.Dock = System.Windows.Forms.DockStyle.Top
-        Legend9.Name = "Legend1"
-        Me.Chart1.Legends.Add(Legend9)
+        Legend18.Name = "Legend1"
+        Me.Chart1.Legends.Add(Legend18)
         Me.Chart1.Location = New System.Drawing.Point(176, 3)
         Me.Chart1.Name = "Chart1"
-        Series9.ChartArea = "ChartArea1"
-        Series9.Legend = "Legend1"
-        Series9.Name = "Series1"
-        Me.Chart1.Series.Add(Series9)
+        Series18.ChartArea = "ChartArea1"
+        Series18.Legend = "Legend1"
+        Series18.Name = "Series1"
+        Me.Chart1.Series.Add(Series18)
         Me.Chart1.Size = New System.Drawing.Size(808, 199)
         Me.Chart1.TabIndex = 1
         Me.Chart1.Text = "Chart1"
@@ -6824,6 +6831,56 @@ Partial Class Form1
         Me.TabPage13.Text = "Shaftless"
         Me.TabPage13.UseVisualStyleBackColor = True
         '
+        'Label227
+        '
+        Me.Label227.AutoSize = True
+        Me.Label227.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label227.Location = New System.Drawing.Point(24, 70)
+        Me.Label227.Name = "Label227"
+        Me.Label227.Size = New System.Drawing.Size(309, 18)
+        Me.Label227.TabIndex = 39
+        Me.Label227.Text = "Maximum filling 25% (info Dutch Spriral)"
+        '
+        'Label226
+        '
+        Me.Label226.AutoSize = True
+        Me.Label226.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label226.Location = New System.Drawing.Point(696, 581)
+        Me.Label226.Name = "Label226"
+        Me.Label226.Size = New System.Drawing.Size(248, 18)
+        Me.Label226.TabIndex = 38
+        Me.Label226.Text = "www.dutchspiral.nl (max d=700)"
+        '
+        'Label225
+        '
+        Me.Label225.AutoSize = True
+        Me.Label225.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label225.Location = New System.Drawing.Point(696, 560)
+        Me.Label225.Name = "Label225"
+        Me.Label225.Size = New System.Drawing.Size(191, 18)
+        Me.Label225.TabIndex = 37
+        Me.Label225.Text = "www.vav.nl (max d=600)"
+        '
+        'Label224
+        '
+        Me.Label224.AutoSize = True
+        Me.Label224.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label224.Location = New System.Drawing.Point(24, 95)
+        Me.Label224.Name = "Label224"
+        Me.Label224.Size = New System.Drawing.Size(230, 18)
+        Me.Label224.TabIndex = 36
+        Me.Label224.Text = "Trough liner use Polyethylene"
+        '
+        'Label223
+        '
+        Me.Label223.AutoSize = True
+        Me.Label223.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label223.Location = New System.Drawing.Point(24, 20)
+        Me.Label223.Name = "Label223"
+        Me.Label223.Size = New System.Drawing.Size(211, 18)
+        Me.Label223.TabIndex = 35
+        Me.Label223.Text = "Shaftless screw conveyors"
+        '
         'Label222
         '
         Me.Label222.AutoSize = True
@@ -6849,55 +6906,58 @@ Partial Class Form1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'Label223
+        'CheckBox9
         '
-        Me.Label223.AutoSize = True
-        Me.Label223.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label223.Location = New System.Drawing.Point(24, 20)
-        Me.Label223.Name = "Label223"
-        Me.Label223.Size = New System.Drawing.Size(211, 18)
-        Me.Label223.TabIndex = 35
-        Me.Label223.Text = "Shaftless screw conveyors"
+        Me.CheckBox9.AutoSize = True
+        Me.CheckBox9.Location = New System.Drawing.Point(6, 18)
+        Me.CheckBox9.Name = "CheckBox9"
+        Me.CheckBox9.Size = New System.Drawing.Size(59, 17)
+        Me.CheckBox9.TabIndex = 34
+        Me.CheckBox9.Text = "Chutes"
+        Me.CheckBox9.UseVisualStyleBackColor = True
         '
-        'Label224
+        'GroupBox35
         '
-        Me.Label224.AutoSize = True
-        Me.Label224.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label224.Location = New System.Drawing.Point(24, 95)
-        Me.Label224.Name = "Label224"
-        Me.Label224.Size = New System.Drawing.Size(230, 18)
-        Me.Label224.TabIndex = 36
-        Me.Label224.Text = "Trough liner use Polyethylene"
+        Me.GroupBox35.Controls.Add(Me.CheckBox13)
+        Me.GroupBox35.Controls.Add(Me.CheckBox12)
+        Me.GroupBox35.Controls.Add(Me.CheckBox11)
+        Me.GroupBox35.Controls.Add(Me.CheckBox9)
+        Me.GroupBox35.Location = New System.Drawing.Point(846, 486)
+        Me.GroupBox35.Name = "GroupBox35"
+        Me.GroupBox35.Size = New System.Drawing.Size(131, 108)
+        Me.GroupBox35.TabIndex = 35
+        Me.GroupBox35.TabStop = False
+        Me.GroupBox35.Text = "Print options"
         '
-        'Label225
+        'CheckBox11
         '
-        Me.Label225.AutoSize = True
-        Me.Label225.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label225.Location = New System.Drawing.Point(696, 560)
-        Me.Label225.Name = "Label225"
-        Me.Label225.Size = New System.Drawing.Size(191, 18)
-        Me.Label225.TabIndex = 37
-        Me.Label225.Text = "www.vav.nl (max d=600)"
+        Me.CheckBox11.AutoSize = True
+        Me.CheckBox11.Location = New System.Drawing.Point(6, 38)
+        Me.CheckBox11.Name = "CheckBox11"
+        Me.CheckBox11.Size = New System.Drawing.Size(55, 17)
+        Me.CheckBox11.TabIndex = 35
+        Me.CheckBox11.Text = "Loads"
+        Me.CheckBox11.UseVisualStyleBackColor = True
         '
-        'Label226
+        'CheckBox12
         '
-        Me.Label226.AutoSize = True
-        Me.Label226.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label226.Location = New System.Drawing.Point(696, 581)
-        Me.Label226.Name = "Label226"
-        Me.Label226.Size = New System.Drawing.Size(248, 18)
-        Me.Label226.TabIndex = 38
-        Me.Label226.Text = "www.dutchspiral.nl (max d=700)"
+        Me.CheckBox12.AutoSize = True
+        Me.CheckBox12.Location = New System.Drawing.Point(6, 58)
+        Me.CheckBox12.Name = "CheckBox12"
+        Me.CheckBox12.Size = New System.Drawing.Size(55, 17)
+        Me.CheckBox12.TabIndex = 36
+        Me.CheckBox12.Text = "Stress"
+        Me.CheckBox12.UseVisualStyleBackColor = True
         '
-        'Label227
+        'CheckBox13
         '
-        Me.Label227.AutoSize = True
-        Me.Label227.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label227.Location = New System.Drawing.Point(24, 70)
-        Me.Label227.Name = "Label227"
-        Me.Label227.Size = New System.Drawing.Size(309, 18)
-        Me.Label227.TabIndex = 39
-        Me.Label227.Text = "Maximum filling 25% (info Dutch Spriral)"
+        Me.CheckBox13.AutoSize = True
+        Me.CheckBox13.Location = New System.Drawing.Point(6, 78)
+        Me.CheckBox13.Name = "CheckBox13"
+        Me.CheckBox13.Size = New System.Drawing.Size(62, 17)
+        Me.CheckBox13.TabIndex = 37
+        Me.CheckBox13.Text = "Checks"
+        Me.CheckBox13.UseVisualStyleBackColor = True
         '
         'Form1
         '
@@ -6907,7 +6967,7 @@ Partial Class Form1
         Me.Controls.Add(Me.TabControl1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Form1"
-        Me.Text = "Screw conveyors 3.0g"
+        Me.Text = "Screw conveyors 3.0H"
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage1.PerformLayout
@@ -7068,6 +7128,8 @@ Partial Class Form1
         Me.TabPage13.PerformLayout
         CType(Me.PictureBox10, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).EndInit
+        Me.GroupBox35.ResumeLayout(False)
+        Me.GroupBox35.PerformLayout
         Me.ResumeLayout(False)
 
     End Sub
@@ -7632,4 +7694,9 @@ Partial Class Form1
     Friend WithEvents Label224 As Label
     Friend WithEvents Label223 As Label
     Friend WithEvents Label227 As Label
+    Friend WithEvents GroupBox35 As GroupBox
+    Friend WithEvents CheckBox9 As CheckBox
+    Friend WithEvents CheckBox11 As CheckBox
+    Friend WithEvents CheckBox12 As CheckBox
+    Friend WithEvents CheckBox13 As CheckBox
 End Class

@@ -2302,211 +2302,218 @@ Public Class Form1
         oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
 
         '-------------Dimensions inlets-------------------------------
-        'Insert a table, fill it with data and change the column widths.
-        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 4, 3)
-        oTable.Range.ParagraphFormat.SpaceAfter = 1
-        oTable.Range.Font.Size = font_sizze
-        oTable.Range.Font.Bold = CInt(False)
-        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+        If CheckBox9.Checked Then
 
-        row = 1
-        oTable.Cell(row, 1).Range.Text = "Inlets chutes"
-        oTable.Cell(row, 2).Range.Text = ""
-        oTable.Cell(row, 3).Range.Text = ""
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Chute #1 size and location"
-        oTable.Cell(row, 2).Range.Text = ComboBox11.Text & " x " & (NumericUpDown31.Value * 1000).ToString("0") & " @ " & (NumericUpDown16.Value * 1000).ToString
-        oTable.Cell(row, 3).Range.Text = "[mm]"
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Chute #2 size and location"
-        oTable.Cell(row, 2).Range.Text = ComboBox11.Text & " x " & (NumericUpDown32.Value * 1000).ToString("0") & " @ " & (NumericUpDown24.Value * 1000).ToString
-        oTable.Cell(row, 3).Range.Text = "[mm]"
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Chute #3 size and location"
-        oTable.Cell(row, 2).Range.Text = ComboBox11.Text & " x " & (NumericUpDown22.Value * 1000).ToString("0") & " @ " & (NumericUpDown28.Value * 1000).ToString
-        oTable.Cell(row, 3).Range.Text = "[mm]"
+            'Insert a table, fill it with data and change the column widths.
+            oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 4, 3)
+            oTable.Range.ParagraphFormat.SpaceAfter = 1
+            oTable.Range.Font.Size = font_sizze
+            oTable.Range.Font.Bold = CInt(False)
+            oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
 
-        oTable.Columns(1).Width = oWord.InchesToPoints(2.0)
-        oTable.Columns(2).Width = oWord.InchesToPoints(1.8)
-        oTable.Columns(3).Width = oWord.InchesToPoints(1.5)
+            row = 1
+            oTable.Cell(row, 1).Range.Text = "Inlets chutes"
+            oTable.Cell(row, 2).Range.Text = ""
+            oTable.Cell(row, 3).Range.Text = ""
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Chute #1 size and location"
+            oTable.Cell(row, 2).Range.Text = ComboBox11.Text & " x " & (NumericUpDown31.Value * 1000).ToString("0") & " @ " & (NumericUpDown16.Value * 1000).ToString
+            oTable.Cell(row, 3).Range.Text = "[mm]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Chute #2 size and location"
+            oTable.Cell(row, 2).Range.Text = ComboBox11.Text & " x " & (NumericUpDown32.Value * 1000).ToString("0") & " @ " & (NumericUpDown24.Value * 1000).ToString
+            oTable.Cell(row, 3).Range.Text = "[mm]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Chute #3 size and location"
+            oTable.Cell(row, 2).Range.Text = ComboBox11.Text & " x " & (NumericUpDown22.Value * 1000).ToString("0") & " @ " & (NumericUpDown28.Value * 1000).ToString
+            oTable.Cell(row, 3).Range.Text = "[mm]"
 
-        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
-        oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+            oTable.Columns(1).Width = oWord.InchesToPoints(2.0)
+            oTable.Columns(2).Width = oWord.InchesToPoints(1.8)
+            oTable.Columns(3).Width = oWord.InchesToPoints(1.5)
+
+            oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+            oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+        End If
         '-------------Loads-------------------------------
         'Insert a table, fill it with data and change the column widths.
-        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 9, 3)
-        oTable.Range.ParagraphFormat.SpaceAfter = 1
-        oTable.Range.Font.Size = font_sizze
-        oTable.Range.Font.Bold = CInt(False)
-        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+        If CheckBox11.Checked Then
+            oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 9, 3)
+            oTable.Range.ParagraphFormat.SpaceAfter = 1
+            oTable.Range.Font.Size = font_sizze
+            oTable.Range.Font.Bold = CInt(False)
+            oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
 
-        row = 1
-        oTable.Cell(row, 1).Range.Text = "Chute loads"
-        oTable.Cell(row, 2).Range.Text = ""
-        oTable.Cell(row, 3).Range.Text = ""
+            row = 1
+            oTable.Cell(row, 1).Range.Text = "Chute loads"
+            oTable.Cell(row, 2).Range.Text = ""
+            oTable.Cell(row, 3).Range.Text = ""
 
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Chute #1 material column"
-        oTable.Cell(row, 2).Range.Text = NumericUpDown19.Value.ToString
-        oTable.Cell(row, 3).Range.Text = "[m]"
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Chute #1 Force"
-        oTable.Cell(row, 2).Range.Text = TextBox115.Text
-        oTable.Cell(row, 3).Range.Text = "[N]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Chute #1 material column"
+            oTable.Cell(row, 2).Range.Text = NumericUpDown19.Value.ToString
+            oTable.Cell(row, 3).Range.Text = "[m]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Chute #1 Force"
+            oTable.Cell(row, 2).Range.Text = TextBox115.Text
+            oTable.Cell(row, 3).Range.Text = "[N]"
 
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Chute #2 material column"
-        oTable.Cell(row, 2).Range.Text = NumericUpDown36.Value.ToString
-        oTable.Cell(row, 3).Range.Text = "[m]"
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Chute #2 Force"
-        oTable.Cell(row, 2).Range.Text = TextBox116.Text
-        oTable.Cell(row, 3).Range.Text = "[N]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Chute #2 material column"
+            oTable.Cell(row, 2).Range.Text = NumericUpDown36.Value.ToString
+            oTable.Cell(row, 3).Range.Text = "[m]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Chute #2 Force"
+            oTable.Cell(row, 2).Range.Text = TextBox116.Text
+            oTable.Cell(row, 3).Range.Text = "[N]"
 
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Chute #3 material column"
-        oTable.Cell(row, 2).Range.Text = NumericUpDown37.Value.ToString
-        oTable.Cell(row, 3).Range.Text = "[m]"
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Chute #3 Force"
-        oTable.Cell(row, 2).Range.Text = TextBox117.Text
-        oTable.Cell(row, 3).Range.Text = "[N]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Chute #3 material column"
+            oTable.Cell(row, 2).Range.Text = NumericUpDown37.Value.ToString
+            oTable.Cell(row, 3).Range.Text = "[m]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Chute #3 Force"
+            oTable.Cell(row, 2).Range.Text = TextBox117.Text
+            oTable.Cell(row, 3).Range.Text = "[N]"
 
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Uniform material load"
-        oTable.Cell(row, 2).Range.Text = TextBox118.Text
-        oTable.Cell(row, 3).Range.Text = "[N/m]"
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Pipe and flight weight only"
-        oTable.Cell(row, 2).Range.Text = TextBox22.Text
-        oTable.Cell(row, 3).Range.Text = "[N/m]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Uniform material load"
+            oTable.Cell(row, 2).Range.Text = TextBox118.Text
+            oTable.Cell(row, 3).Range.Text = "[N/m]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Pipe and flight weight only"
+            oTable.Cell(row, 2).Range.Text = TextBox22.Text
+            oTable.Cell(row, 3).Range.Text = "[N/m]"
 
-        oTable.Columns(1).Width = oWord.InchesToPoints(2.0)
-        oTable.Columns(2).Width = oWord.InchesToPoints(1.8)
-        oTable.Columns(3).Width = oWord.InchesToPoints(1.5)
+            oTable.Columns(1).Width = oWord.InchesToPoints(2.0)
+            oTable.Columns(2).Width = oWord.InchesToPoints(1.8)
+            oTable.Columns(3).Width = oWord.InchesToPoints(1.5)
 
-        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
-        oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
-
+            oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+            oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+        End If
         '------------- Results----------------------
         'Insert a 5 x 3 table, fill it with data and change the column widths.
-        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 8, 3)
-        oTable.Range.ParagraphFormat.SpaceAfter = 1
-        oTable.Range.Font.Size = font_sizze
-        oTable.Range.Font.Bold = CInt(False)
-        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
-        oTable.Rows.Item(1).Range.Font.Size = font_sizze + 2
-        row = 1
-        oTable.Cell(row, 1).Range.Text = "Calculation Results"
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Bending Stress"
-        oTable.Cell(row, 2).Range.Text = TextBox09.Text
-        oTable.Cell(row, 3).Range.Text = "[N/mm2]"
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Max. Torque Stress"
-        oTable.Cell(row, 2).Range.Text = TextBox12.Text
-        oTable.Cell(row, 3).Range.Text = "[N/mm2]"
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Combined Stress"
-        oTable.Cell(row, 2).Range.Text = TextBox21.Text
-        oTable.Cell(row, 3).Range.Text = "[N/mm2]"
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Selected steel"
-        oTable.Cell(row, 2).Range.Text = ComboBox2.Text
-        oTable.Cell(row, 3).Range.Text = "[-]"
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Max. allowed Fatique stress"
-        oTable.Cell(row, 2).Range.Text = TextBox08.Text
-        oTable.Cell(row, 3).Range.Text = "[N/mm2]"
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Maximum Flex"
-        oTable.Cell(row, 2).Range.Text = TextBox20.Text
-        oTable.Cell(row, 3).Range.Text = "[mm]"
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Maximum Flex @"
-        oTable.Cell(row, 2).Range.Text = TextBox38.Text
-        oTable.Cell(row, 3).Range.Text = "[m]"
-        row += 1
-        oTable.Columns(1).Width = oWord.InchesToPoints(2.0)
-        oTable.Columns(2).Width = oWord.InchesToPoints(1.8)
-        oTable.Columns(3).Width = oWord.InchesToPoints(1.5)
-        oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+        If CheckBox12.Checked Then
+            oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 8, 3)
+            oTable.Range.ParagraphFormat.SpaceAfter = 1
+            oTable.Range.Font.Size = font_sizze
+            oTable.Range.Font.Bold = CInt(False)
+            oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+            oTable.Rows.Item(1).Range.Font.Size = font_sizze + 2
+            row = 1
+            oTable.Cell(row, 1).Range.Text = "Calculation Results"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Bending Stress"
+            oTable.Cell(row, 2).Range.Text = TextBox09.Text
+            oTable.Cell(row, 3).Range.Text = "[N/mm2]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Max. Torque Stress"
+            oTable.Cell(row, 2).Range.Text = TextBox12.Text
+            oTable.Cell(row, 3).Range.Text = "[N/mm2]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Combined Stress"
+            oTable.Cell(row, 2).Range.Text = TextBox21.Text
+            oTable.Cell(row, 3).Range.Text = "[N/mm2]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Selected steel"
+            oTable.Cell(row, 2).Range.Text = ComboBox2.Text
+            oTable.Cell(row, 3).Range.Text = "[-]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Max. allowed Fatique stress"
+            oTable.Cell(row, 2).Range.Text = TextBox08.Text
+            oTable.Cell(row, 3).Range.Text = "[N/mm2]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Maximum Flex"
+            oTable.Cell(row, 2).Range.Text = TextBox20.Text
+            oTable.Cell(row, 3).Range.Text = "[mm]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Maximum Flex @"
+            oTable.Cell(row, 2).Range.Text = TextBox38.Text
+            oTable.Cell(row, 3).Range.Text = "[m]"
+            row += 1
+            oTable.Columns(1).Width = oWord.InchesToPoints(2.0)
+            oTable.Columns(2).Width = oWord.InchesToPoints(1.8)
+            oTable.Columns(3).Width = oWord.InchesToPoints(1.5)
+            oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
 
-        '------------------save picture #1---------------- 
-        Draw_chart1()
-        Chart1.SaveImage(dirpath_Home_GP & "ShearChart.gif", System.Drawing.Imaging.ImageFormat.Gif)
-        opara3 = oDoc.Content.Paragraphs.Add
-        opara3.Alignment = Word.WdParagraphAlignment.wdAlignParagraphThaiJustify
-        opara3.Range.InlineShapes.AddPicture(dirpath_Home_GP & "ShearChart.gif")
-        opara3.Range.InlineShapes.Item(1).LockAspectRatio = CType(True, Microsoft.Office.Core.MsoTriState)
-        opara3.Range.InlineShapes.Item(1).ScaleWidth = 30       'Size
-        opara3.Range.InsertParagraphAfter()
+            '------------------save picture #1---------------- 
+            Draw_chart1()
+            Chart1.SaveImage(dirpath_Home_GP & "ShearChart.gif", System.Drawing.Imaging.ImageFormat.Gif)
+            opara3 = oDoc.Content.Paragraphs.Add
+            opara3.Alignment = Word.WdParagraphAlignment.wdAlignParagraphThaiJustify
+            opara3.Range.InlineShapes.AddPicture(dirpath_Home_GP & "ShearChart.gif")
+            opara3.Range.InlineShapes.Item(1).LockAspectRatio = CType(True, Microsoft.Office.Core.MsoTriState)
+            opara3.Range.InlineShapes.Item(1).ScaleWidth = 30       'Size
+            opara3.Range.InsertParagraphAfter()
 
-        '------------------save picture #2 ---------------- 
-        Draw_chart2()
-        Chart2.SaveImage(dirpath_Home_GP & "DeflectionradChart.gif", System.Drawing.Imaging.ImageFormat.Gif)
-        opara3 = oDoc.Content.Paragraphs.Add
-        opara3.Alignment = Word.WdParagraphAlignment.wdAlignParagraphThaiJustify
-        opara3.Range.InlineShapes.AddPicture(dirpath_Home_GP & "DeflectionradChart.gif")
-        opara3.Range.InlineShapes.Item(1).LockAspectRatio = CType(True, Microsoft.Office.Core.MsoTriState)
-        opara3.Range.InlineShapes.Item(1).ScaleWidth = 30       'Size
-        opara3.Range.InsertParagraphAfter()
+            '------------------save picture #2 ---------------- 
+            Draw_chart2()
+            Chart2.SaveImage(dirpath_Home_GP & "DeflectionradChart.gif", System.Drawing.Imaging.ImageFormat.Gif)
+            opara3 = oDoc.Content.Paragraphs.Add
+            opara3.Alignment = Word.WdParagraphAlignment.wdAlignParagraphThaiJustify
+            opara3.Range.InlineShapes.AddPicture(dirpath_Home_GP & "DeflectionradChart.gif")
+            opara3.Range.InlineShapes.Item(1).LockAspectRatio = CType(True, Microsoft.Office.Core.MsoTriState)
+            opara3.Range.InlineShapes.Item(1).ScaleWidth = 30       'Size
+            opara3.Range.InsertParagraphAfter()
 
-        '------------------save picture #3 ---------------- 
-        Draw_chart3()
-        Chart3.SaveImage(dirpath_Home_GP & "DeflectionmmChart.gif", System.Drawing.Imaging.ImageFormat.Gif)
-        opara3 = oDoc.Content.Paragraphs.Add
-        opara3.Alignment = Word.WdParagraphAlignment.wdAlignParagraphThaiJustify
-        opara3.Range.InlineShapes.AddPicture(dirpath_Home_GP & "DeflectionmmChart.gif")
-        opara3.Range.InlineShapes.Item(1).LockAspectRatio = CType(True, Microsoft.Office.Core.MsoTriState)
-        opara3.Range.InlineShapes.Item(1).ScaleWidth = 30       'Size
-        opara3.Range.InsertParagraphAfter()
-
-        ''-------------- Checks-------
-        'Insert a 5 x 1 table, fill it with data and change the column widths.
-        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 6, 1)
-        oTable.Range.ParagraphFormat.SpaceAfter = 1
-        oTable.Range.Font.Size = font_sizze
-        oTable.Range.Font.Bold = CInt(False)
-        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
-        oTable.Rows.Item(1).Range.Font.Size = font_sizze + 2
-        row = 1
-        oTable.Cell(row, 1).Range.Text = "Checks "
-        row += 1
-
-        Double.TryParse(TextBox11.Text, speed)
-        If (speed > 1.0) Then
-            oTable.Cell(row, 1).Range.Text = "NOK, for ATEX, Flight speed > 1 m/s"
-        Else
-            oTable.Cell(row, 1).Range.Text = "OK, Flight speed for ATEX applications"
+            '------------------save picture #3 ---------------- 
+            Draw_chart3()
+            Chart3.SaveImage(dirpath_Home_GP & "DeflectionmmChart.gif", System.Drawing.Imaging.ImageFormat.Gif)
+            opara3 = oDoc.Content.Paragraphs.Add
+            opara3.Alignment = Word.WdParagraphAlignment.wdAlignParagraphThaiJustify
+            opara3.Range.InlineShapes.AddPicture(dirpath_Home_GP & "DeflectionmmChart.gif")
+            opara3.Range.InlineShapes.Item(1).LockAspectRatio = CType(True, Microsoft.Office.Core.MsoTriState)
+            opara3.Range.InlineShapes.Item(1).ScaleWidth = 30       'Size
+            opara3.Range.InsertParagraphAfter()
         End If
-        row += 1
-        If NumericUpDown7.BackColor = Color.Red Then
-            oTable.Cell(row, 1).Range.Text = "NOK, Rotational speed > 45 rpm, too fast"
-        Else
-            oTable.Cell(row, 1).Range.Text = "OK, Rotational speed"
-        End If
-        row += 1
-        If TextBox01.BackColor = Color.Red Then
-            oTable.Cell(row, 1).Range.Text = "NOK, Filling percentage > 45%"
-        Else
-            oTable.Cell(row, 1).Range.Text = "OK, Filling percentage"
-        End If
-        row += 1
-        If TextBox21.BackColor = Color.Red Then
-            oTable.Cell(row, 1).Range.Text = "NOK, Combined pipe stress too high"
-        Else
-            oTable.Cell(row, 1).Range.Text = "OK, Combined pipe stress"
-        End If
-        row += 1
-        If TextBox20.BackColor = Color.Red Then
-            oTable.Cell(row, 1).Range.Text = "NOK, Deflection pipe too high"
-        Else
-            oTable.Cell(row, 1).Range.Text = "OK, Deflection pipe stress"
-        End If
-        oTable.Columns(1).Width = oWord.InchesToPoints(4.0)
-        oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
 
+        '-------------- Checks-------
+        If CheckBox13.Checked Then
+            'Insert a 5 x 1 table, fill it with data and change the column widths.
+            oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 6, 1)
+            oTable.Range.ParagraphFormat.SpaceAfter = 1
+            oTable.Range.Font.Size = font_sizze
+            oTable.Range.Font.Bold = CInt(False)
+            oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+            oTable.Rows.Item(1).Range.Font.Size = font_sizze + 2
+            row = 1
+            oTable.Cell(row, 1).Range.Text = "Checks "
+            row += 1
+
+            Double.TryParse(TextBox11.Text, speed)
+            If (speed > 1.0) Then
+                oTable.Cell(row, 1).Range.Text = "NOK, for ATEX, Flight speed > 1 m/s"
+            Else
+                oTable.Cell(row, 1).Range.Text = "OK, Flight speed for ATEX applications"
+            End If
+            row += 1
+            If NumericUpDown7.BackColor = Color.Red Then
+                oTable.Cell(row, 1).Range.Text = "NOK, Rotational speed > 45 rpm, too fast"
+            Else
+                oTable.Cell(row, 1).Range.Text = "OK, Rotational speed"
+            End If
+            row += 1
+            If TextBox01.BackColor = Color.Red Then
+                oTable.Cell(row, 1).Range.Text = "NOK, Filling percentage > 45%"
+            Else
+                oTable.Cell(row, 1).Range.Text = "OK, Filling percentage"
+            End If
+            row += 1
+            If TextBox21.BackColor = Color.Red Then
+                oTable.Cell(row, 1).Range.Text = "NOK, Combined pipe stress too high"
+            Else
+                oTable.Cell(row, 1).Range.Text = "OK, Combined pipe stress"
+            End If
+            row += 1
+            If TextBox20.BackColor = Color.Red Then
+                oTable.Cell(row, 1).Range.Text = "NOK, Deflection pipe too high"
+            Else
+                oTable.Cell(row, 1).Range.Text = "OK, Deflection pipe stress"
+            End If
+            oTable.Columns(1).Width = oWord.InchesToPoints(4.0)
+            oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+        End If
         '--------------Save file word file------------------
         'See https://msdn.microsoft.com/en-us/library/63w57f4b.aspx
 
