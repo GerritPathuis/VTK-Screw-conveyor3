@@ -847,7 +847,14 @@ Public Class Form1
             TextBox152.Text &= words(0) & vbTab & Trim(words(1)) & vbTab & Trim(words(2)) & vbTab & Trim(words(3)) & vbCrLf
         Next hh
 
-        Screw_combo_init()
+        '------- TextBox156.Text -----------------
+        '------- Flight diamters -----------------
+        TextBox156.Text = "Preferred" & vbCrLf & "Flight" & vbCrLf & "diameters" & vbCrLf & vbCrLf
+        For hh = 1 To Flight_dia.Length - 1
+            words = Flight_dia(hh).Split(CType(";", Char()))
+            TextBox156.Text &= words(0) & vbCrLf
+        Next hh
+
         Pipe_dia_combo_init()
         Motorreductor()
         Coupling_combo()
@@ -857,13 +864,12 @@ Public Class Form1
         Pakking_combo()
     End Sub
     Private Sub Calc_sequence()
-        Screw_dia_combo()
         Calculate_cap()
         Calulate_stress_1()
         Costing_material()
         Screen_contrast()
     End Sub
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles NumericUpDown9.ValueChanged, NumericUpDown7.ValueChanged, NumericUpDown6.ValueChanged, NumericUpDown5.ValueChanged, NumericUpDown4.ValueChanged, NumericUpDown3.ValueChanged, NumericUpDown2.ValueChanged, Button1.Click, TabPage1.Enter, ComboBox11.SelectedValueChanged, NumericUpDown8.ValueChanged, NumericUpDown40.ValueChanged, NumericUpDown39.ValueChanged
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles NumericUpDown9.ValueChanged, NumericUpDown7.ValueChanged, NumericUpDown6.ValueChanged, NumericUpDown5.ValueChanged, NumericUpDown4.ValueChanged, NumericUpDown3.ValueChanged, NumericUpDown2.ValueChanged, Button1.Click, TabPage1.Enter, NumericUpDown8.ValueChanged, NumericUpDown40.ValueChanged, NumericUpDown39.ValueChanged, NumericUpDown58.ValueChanged
         Calc_sequence()
     End Sub
 
@@ -885,96 +891,95 @@ Public Class Form1
         Dim cap_under_angle As Double
         Dim filling_perc As Double      'Conveyor horizontal
         Dim filling_perc_incl As Double 'Conveyor horizontal
-        Dim tmp As Double
 
         '-------------- get data----------
         Double.TryParse(CType(ComboBox3.SelectedItem, String), _pipe_OD)
         _pipe_OD /= 1000                                    '[m]
-        Label177.Text = _pipe_OD.ToString
-        If ComboBox11.SelectedIndex > -1 Then
-            Double.TryParse(ComboBox11.Text, tmp)
-            _diam_flight = tmp / 1000                        '[mm] -> [m]
-            pitch = _diam_flight * NumericUpDown2.Value     '[m]
-            _angle = NumericUpDown4.Value                   '[degree]
-            speed = NumericUpDown7.Value                    '[rpm]
-            progress_resistance = NumericUpDown9.Value      '[-]
-            density = NumericUpDown6.Value                  '[kg/m3] Density
-            _λ6 = NumericUpDown3.Value                      '[m] lengte van de trog/schroef 
+        Label177.Text = _pipe_OD.ToString                   '[mm]
 
-            '------- Flight speed (ATEX < 1 [m/s])-----------
-            flight_speed = speed / 60 * PI * _diam_flight   '[m/s]
+        _diam_flight = NumericUpDown58.Value / 1000         '[mm] -> [m]
+        TextBox17.Text = _diam_flight.ToString("F0")        '[mm]
+        pitch = _diam_flight * NumericUpDown2.Value         '[m]
+        _angle = NumericUpDown4.Value                       '[degree]
+        speed = NumericUpDown7.Value                        '[rpm]
+        progress_resistance = NumericUpDown9.Value          '[-]
+        density = NumericUpDown6.Value                      '[kg/m3] Density
+        _λ6 = NumericUpDown3.Value                          '[m] lengte van de trog/schroef 
 
-            '------- Required Volumetric capacity --------
-            _regu_flow_kg_hr = NumericUpDown5.Value * 1000  '[kg/hr] required flow
-            actual_cap_m3 = _regu_flow_kg_hr / density      '[m3/hr] required flow
+        '------- Flight speed (ATEX < 1 [m/s])-----------
+        flight_speed = speed / 60 * PI * _diam_flight   '[m/s]
 
-            '-------- Volumetric Capacity [m3/hr] ---------------
-            '-------- Of the selected diameter ------------------
-            cap_hr_100 = PI / 4 * (_diam_flight ^ 2 - _pipe_OD ^ 2) * pitch * speed * 60    ' [m3/hr]
+        '------- Required Volumetric capacity --------
+        _regu_flow_kg_hr = NumericUpDown5.Value * 1000  '[kg/hr] required flow
+        actual_cap_m3 = _regu_flow_kg_hr / density      '[m3/hr] required flow
 
-            '-------- Inclination factor ------------------------
-            cap_under_angle = -0.0213 * _angle + 1.0        'Inclination capacity factor
-            cap_hr_100_in = cap_hr_100 * cap_under_angle    'capacity loss due to inclination 
+        '-------- Volumetric Capacity [m3/hr] ---------------
+        '-------- Of the selected diameter ------------------
+        cap_hr_100 = PI / 4 * (_diam_flight ^ 2 - _pipe_OD ^ 2) * pitch * speed * 60    ' [m3/hr]
 
-            '--------------- now calc in [kg/hr] ---------------
-            filling_perc = actual_cap_m3 / cap_hr_100 * 100             'Horizontal
+        '-------- Inclination factor ------------------------
+        cap_under_angle = -0.0213 * _angle + 1.0        'Inclination capacity factor
+        cap_hr_100_in = cap_hr_100 * cap_under_angle    'capacity loss due to inclination 
+
+        '--------------- now calc in [kg/hr] ---------------
+        filling_perc = actual_cap_m3 / cap_hr_100 * 100             'Horizontal
             filling_perc_incl = actual_cap_m3 / cap_hr_100_in * 100     'Inclined
 
 
 
-            Select Case RadioButton9.Checked
-                Case True   'Transport screw
-                    TextBox01.BackColor = CType(IIf(filling_perc > 45, Color.Red, Color.LightGreen), Color)
-                Case False  'Metering screw
-                    TextBox01.BackColor = CType(IIf(filling_perc > 75, Color.Red, Color.LightGreen), Color)
-            End Select
+        Select Case RadioButton9.Checked
+            Case True   'Transport screw
+                TextBox01.BackColor = CType(IIf(filling_perc > 45, Color.Red, Color.LightGreen), Color)
+            Case False  'Metering screw
+                TextBox01.BackColor = CType(IIf(filling_perc > 75, Color.Red, Color.LightGreen), Color)
+        End Select
 
-            '--------------- ISO 7119 power calc -----------------
-            height = _λ6 * Sin(_angle / 360 * 2 * PI)
+        '--------------- ISO 7119 power calc -----------------
+        height = _λ6 * Sin(_angle / 360 * 2 * PI)
 
-            iso_forward = _regu_flow_kg_hr * _λ6 * 9.91 * progress_resistance / (3600 * 1000)    'Forwards [kW]
-            iso_incline = _regu_flow_kg_hr * height * 9.81 / (3600 * 1000)                       'Uphill [kW]
+        iso_forward = _regu_flow_kg_hr * _λ6 * 9.91 * progress_resistance / (3600 * 1000)    'Forwards [kW]
+        iso_incline = _regu_flow_kg_hr * height * 9.81 / (3600 * 1000)                       'Uphill [kW]
             iso_no_product = _diam_flight * _λ6 / 20                                     'Power for seals 0. + bearings [kW]
-            iso_power = iso_forward + iso_incline + iso_no_product
+        iso_power = iso_forward + iso_incline + iso_no_product
 
-            '--------------- MEKOG power calc -----------------
-            mekog_pow = Round(_regu_flow_kg_hr * _λ6 / (40 * 1.36 * 1000), 1)    '[kW]
-            mekog_pow *= 1.6 'Based on current measurement Q19.1165 (Borouge 4) dd 12/09/2019
-            mekog_torque = mekog_pow * 1000 / (speed * 2 * PI / 60)
+        '--------------- MEKOG power calc -----------------
+        mekog_pow = Round(_regu_flow_kg_hr * _λ6 / (40 * 1.36 * 1000), 1)    '[kW]
+        mekog_pow *= 1.6 'Based on current measurement Q19.1165 (Borouge 4) dd 12/09/2019
+        mekog_torque = mekog_pow * 1000 / (speed * 2 * PI / 60)
 
-            ' Debug.WriteLine("_regu_flow_kg_hr= " & _regu_flow_kg_hr.ToString)
-            'Debug.WriteLine(" _λ6= " & _λ6.ToString)
+        ' Debug.WriteLine("_regu_flow_kg_hr= " & _regu_flow_kg_hr.ToString)
+        'Debug.WriteLine(" _λ6= " & _λ6.ToString)
 
-            '--------------- NON asperen chart ----------------
-            NON_torque = Calc_NON_Torque((_diam_flight * 1000), _λ6)    '[Nm]
-            NON_pow = NON_torque * (speed * 2 * PI / 60) / 1000         '[kW]
-            NON_pow /= 0.8                                              '[kW] (efficiency gearbox)
+        '--------------- NON asperen chart ----------------
+        NON_torque = Calc_NON_Torque((_diam_flight * 1000), _λ6)    '[Nm]
+        NON_pow = NON_torque * (speed * 2 * PI / 60) / 1000         '[kW]
+        NON_pow /= 0.8                                              '[kW] (efficiency gearbox)
 
-            '-------------- Retention time --------------------
-            r_time = _λ6 / (speed / 60 * pitch)                         '[sec]
+        '-------------- Retention time --------------------
+        r_time = _λ6 / (speed / 60 * pitch)                         '[sec]
 
-            '--------------- present results------------
-            TextBox19.Text = _λ6.ToString
-            TextBox11.Text = flight_speed.ToString("F2") 'Flight speed [m/s]
-            TextBox18.Text = CType(_diam_flight * CDbl(1000.ToString), String)
-            TextBox16.Text = CType(_pipe_OD * CDbl(1000.ToString), String)  'Pipe diameter [m]
-            TextBox01.Text = filling_perc.ToString("F1")
-            TextBox127.Text = filling_perc_incl.ToString("F1")  'Inclination factor
-            TextBox03.Text = iso_power.ToString("F1")           '[kW]
-            TextBox04.Text = mekog_pow.ToString("F1")           '[kW]
-            TextBox137.Text = mekog_torque.ToString("F0")       '[Nm] gearbox
-            TextBox139.Text = NON_pow.ToString("F1")            '[Nm] power
-            TextBox138.Text = NON_torque.ToString("F0")         '[Nm] gearbox
+        '--------------- present results------------
+        TextBox19.Text = _λ6.ToString
+        TextBox11.Text = flight_speed.ToString("F2") 'Flight speed [m/s]
+        TextBox18.Text = CType(_diam_flight * CDbl(1000.ToString), String)
+        TextBox16.Text = CType(_pipe_OD * CDbl(1000.ToString), String)  'Pipe diameter [m]
+        TextBox01.Text = filling_perc.ToString("F1")
+        TextBox127.Text = filling_perc_incl.ToString("F1")  'Inclination factor
+        TextBox03.Text = iso_power.ToString("F1")           '[kW]
+        TextBox04.Text = mekog_pow.ToString("F1")           '[kW]
+        TextBox137.Text = mekog_torque.ToString("F0")       '[Nm] gearbox
+        TextBox139.Text = NON_pow.ToString("F1")            '[Nm] power
+        TextBox138.Text = NON_torque.ToString("F0")         '[Nm] gearbox
 
-            TextBox110.Text = r_time.ToString("F0")
-            TextBox123.Text = cap_hr_100.ToString("F0")        '[m3/hr] @ 100% filling horizontal
-            TextBox126.Text = cap_under_angle.ToString("F2")  'Inclination factor
-            TextBox124.Text = actual_cap_m3.ToString("F1") '[m3/hr] 
+        TextBox110.Text = r_time.ToString("F0")
+        TextBox123.Text = cap_hr_100.ToString("F0")        '[m3/hr] @ 100% filling horizontal
+        TextBox126.Text = cap_under_angle.ToString("F2")  'Inclination factor
+        TextBox124.Text = actual_cap_m3.ToString("F1") '[m3/hr] 
 
-            '--------------- checks ---------------------
-            NumericUpDown7.BackColor = CType(IIf(speed > 45, Color.Red, Color.Yellow), Color)
-            Label135.Visible = CBool(IIf(flight_speed > 1.0, True, False))
-        End If
+        '--------------- checks ---------------------
+        NumericUpDown7.BackColor = CType(IIf(speed > 45, Color.Red, Color.Yellow), Color)
+        Label135.Visible = CBool(IIf(flight_speed > 1.0, True, False))
+
     End Sub
 
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown10.ValueChanged, NumericUpDown25.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox4.SelectedIndexChanged, ComboBox13.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox8.CheckedChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, CheckBox4.CheckedChanged, CheckBox7.CheckedChanged, CheckBox6.CheckedChanged, TabPage4.Enter, CheckBox5.CheckedChanged
@@ -1356,16 +1361,7 @@ Public Class Form1
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click, NumericUpDown11.ValueChanged, ComboBox2.SelectedIndexChanged, NumericUpDown13.ValueChanged, TabPage2.Enter, NumericUpDown17.ValueChanged, NumericUpDown16.ValueChanged, ComboBox5.SelectedIndexChanged, RadioButton3.CheckedChanged, RadioButton2.CheckedChanged, RadioButton1.CheckedChanged, CheckBox1.CheckedChanged, NumericUpDown18.ValueChanged, NumericUpDown19.ValueChanged, NumericUpDown24.ValueChanged, NumericUpDown28.ValueChanged, CheckBox10.CheckedChanged, NumericUpDown29.ValueChanged, NumericUpDown37.ValueChanged, NumericUpDown36.ValueChanged, NumericUpDown32.ValueChanged, NumericUpDown31.ValueChanged, NumericUpDown22.ValueChanged, NumericUpDown57.ValueChanged
         Calc_sequence()
     End Sub
-    Private Sub Screw_dia_combo()
-        Dim tmp As Double
 
-        If (ComboBox11.SelectedIndex > -1) Then      'Prevent exceptions
-            Double.TryParse(ComboBox11.Text, tmp)
-            _diam_flight = tmp / 1000                    'Trough width[m]
-
-            TextBox18.Text = (_diam_flight * 1000).ToString("F0")
-        End If
-    End Sub
 
     Private Sub Pipe_dia_combo_init()
         Dim words(), tmp As String
@@ -1498,7 +1494,7 @@ Public Class Form1
         oTable.Cell(row, 1).Range.Text = "Input Data"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Diameter Flight"
-        oTable.Cell(row, 3).Range.Text = ComboBox11.Text
+        oTable.Cell(row, 3).Range.Text = NumericUpDown58.Value.ToString("F0")
         oTable.Cell(row, 2).Range.Text = "[mm]"
 
         row += 1
@@ -1977,17 +1973,7 @@ Public Class Form1
         ComboBox13.SelectedIndex = 1
     End Sub
 
-    Private Sub Screw_combo_init()
-        Dim words() As String
 
-        ComboBox11.Items.Clear()
-        '-------Fill combobox------------------
-        For hh = 1 To Flight_dia.Length - 1                'Fill combobox 11 with flight data
-            words = Flight_dia(hh).Split(CType(";", Char()))
-            ComboBox11.Items.Add(words(0))
-        Next hh
-        ComboBox11.SelectedIndex = 2
-    End Sub
     Private Sub Paint_combo()
         Dim words() As String
 
@@ -2234,7 +2220,7 @@ Public Class Form1
 
         row += 1
         oTable.Cell(row, 1).Range.Text = "Diameter flight"
-        oTable.Cell(row, 2).Range.Text = ComboBox11.Text
+        oTable.Cell(row, 2).Range.Text = NumericUpDown58.Value.ToString("F0")
         oTable.Cell(row, 3).Range.Text = "[mm]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Diameter pipe"
@@ -2300,21 +2286,22 @@ Public Class Form1
             oTable.Range.Font.Bold = CInt(False)
             oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
 
+            Dim width As Double = NumericUpDown58.Value
             row = 1
             oTable.Cell(row, 1).Range.Text = "Inlets chutes"
             oTable.Cell(row, 2).Range.Text = ""
             oTable.Cell(row, 3).Range.Text = ""
             row += 1
             oTable.Cell(row, 1).Range.Text = "Chute #1 size and location"
-            oTable.Cell(row, 2).Range.Text = ComboBox11.Text & " x " & (NumericUpDown31.Value * 1000).ToString("0") & " @ " & (NumericUpDown16.Value * 1000).ToString
+            oTable.Cell(row, 2).Range.Text = width.ToString("F0") & " x " & (NumericUpDown31.Value * 1000).ToString("0") & " @ " & (NumericUpDown16.Value * 1000).ToString
             oTable.Cell(row, 3).Range.Text = "[mm]"
             row += 1
             oTable.Cell(row, 1).Range.Text = "Chute #2 size and location"
-            oTable.Cell(row, 2).Range.Text = ComboBox11.Text & " x " & (NumericUpDown32.Value * 1000).ToString("0") & " @ " & (NumericUpDown24.Value * 1000).ToString
+            oTable.Cell(row, 2).Range.Text = width.ToString("F0") & " x " & (NumericUpDown32.Value * 1000).ToString("0") & " @ " & (NumericUpDown24.Value * 1000).ToString
             oTable.Cell(row, 3).Range.Text = "[mm]"
             row += 1
             oTable.Cell(row, 1).Range.Text = "Chute #3 size and location"
-            oTable.Cell(row, 2).Range.Text = ComboBox11.Text & " x " & (NumericUpDown22.Value * 1000).ToString("0") & " @ " & (NumericUpDown28.Value * 1000).ToString
+            oTable.Cell(row, 2).Range.Text = width.ToString("F0") & " x " & (NumericUpDown22.Value * 1000).ToString("0") & " @ " & (NumericUpDown28.Value * 1000).ToString
             oTable.Cell(row, 3).Range.Text = "[mm]"
 
             oTable.Columns(1).Width = oWord.InchesToPoints(2.0)
