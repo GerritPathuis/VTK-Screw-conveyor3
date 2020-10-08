@@ -895,11 +895,12 @@ Public Class Form1
         '-------------- get data----------
         Double.TryParse(CType(ComboBox3.SelectedItem, String), _pipe_OD)
         _pipe_OD /= 1000                                    '[m]
-        Label177.Text = _pipe_OD.ToString                   '[mm]
+
 
         _diam_flight = NumericUpDown58.Value / 1000         '[mm] -> [m]
         TextBox17.Text = _diam_flight.ToString("F0")        '[mm]
         pitch = _diam_flight * NumericUpDown2.Value         '[m]
+        TextBox157.Text = (pitch * 1000).ToString("F0")     '[mm]
         _angle = NumericUpDown4.Value                       '[degree]
         speed = NumericUpDown7.Value                        '[rpm]
         progress_resistance = NumericUpDown9.Value          '[-]
