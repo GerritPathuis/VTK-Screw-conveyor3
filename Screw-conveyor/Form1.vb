@@ -2859,18 +2859,35 @@ Public Class Form1
     End Sub
 
     Private Sub PictureBox11_Click(sender As Object, e As EventArgs) Handles PictureBox11.Click
+        Show_B36_10()
+    End Sub
+
+    Private Sub PictureBox12_Click(sender As Object, e As EventArgs) Handles PictureBox12.Click
+        Show_DIN_ISO()
+    End Sub
+
+    Private Sub PictureBox13_Click(sender As Object, e As EventArgs) Handles PictureBox13.Click
+        Show_B36_10()
+    End Sub
+
+    Private Sub PictureBox14_Click(sender As Object, e As EventArgs) Handles PictureBox14.Click
+        Show_DIN_ISO()
+    End Sub
+
+    Private Sub Show_DIN_ISO()
+        Form2.Text = "DIN ISO Piping"
+        Form2.PictureBox1.Image = Screw_conveyor.My.Resources.Resources.DIN_ISO
+        Form2.Size = New Size(1400, 900)
+        Form2.Show()
+    End Sub
+    Private Sub Show_B36_10()
         Form2.Text = "ASME B36.10 Piping"
         Form2.PictureBox1.Image = Screw_conveyor.My.Resources.Resources.B36_10
         Form2.Size = New Size(1222, 734)
         Form2.Show()
     End Sub
 
-    Private Sub PictureBox12_Click(sender As Object, e As EventArgs) Handles PictureBox12.Click
-        Form2.Text = "DIN ISO Piping"
-        Form2.PictureBox1.Image = Screw_conveyor.My.Resources.Resources.DIN_ISO
-        Form2.Size = New Size(1400, 900)
-        Form2.Show()
-    End Sub
+
 
     Private Sub Draw_chart1()
         Dim hh As Integer

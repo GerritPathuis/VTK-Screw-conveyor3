@@ -24,17 +24,18 @@ Partial Class Form1
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
-        Dim ChartArea13 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend13 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series13 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea14 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend14 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series14 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea15 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend15 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series15 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea7 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend7 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series7 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea8 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend8 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series8 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea9 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend9 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series9 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.TextBox156 = New System.Windows.Forms.TextBox()
         Me.GroupBox33 = New System.Windows.Forms.GroupBox()
         Me.TextBox138 = New System.Windows.Forms.TextBox()
         Me.TextBox03 = New System.Windows.Forms.TextBox()
@@ -74,6 +75,7 @@ Partial Class Form1
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.NumericUpDown58 = New System.Windows.Forms.NumericUpDown()
         Me.Label177 = New System.Windows.Forms.Label()
         Me.TextBox127 = New System.Windows.Forms.TextBox()
         Me.Label176 = New System.Windows.Forms.Label()
@@ -600,8 +602,8 @@ Partial Class Form1
         Me.PictureBox10 = New System.Windows.Forms.PictureBox()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
-        Me.NumericUpDown58 = New System.Windows.Forms.NumericUpDown()
-        Me.TextBox156 = New System.Windows.Forms.TextBox()
+        Me.PictureBox13 = New System.Windows.Forms.PictureBox()
+        Me.PictureBox14 = New System.Windows.Forms.PictureBox()
         Me.TabControl1.SuspendLayout
         Me.TabPage1.SuspendLayout
         Me.GroupBox33.SuspendLayout
@@ -612,6 +614,7 @@ Partial Class Form1
         CType(Me.NumericUpDown6, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NumericUpDown5, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox1.SuspendLayout
+        CType(Me.NumericUpDown58, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NumericUpDown40, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NumericUpDown39, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NumericUpDown8, System.ComponentModel.ISupportInitialize).BeginInit
@@ -725,7 +728,8 @@ Partial Class Form1
         Me.TabPage13.SuspendLayout
         CType(Me.PictureBox10, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NumericUpDown58, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.PictureBox13, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.PictureBox14, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
         'TabControl1
@@ -752,6 +756,8 @@ Partial Class Form1
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.PictureBox14)
+        Me.TabPage1.Controls.Add(Me.PictureBox13)
         Me.TabPage1.Controls.Add(Me.TextBox156)
         Me.TabPage1.Controls.Add(Me.GroupBox33)
         Me.TabPage1.Controls.Add(Me.GroupBox17)
@@ -768,6 +774,15 @@ Partial Class Form1
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Conveyor"
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'TextBox156
+        '
+        Me.TextBox156.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox156.Location = New System.Drawing.Point(853, 206)
+        Me.TextBox156.Multiline = True
+        Me.TextBox156.Name = "TextBox156"
+        Me.TextBox156.Size = New System.Drawing.Size(104, 236)
+        Me.TextBox156.TabIndex = 78
         '
         'GroupBox33
         '
@@ -1219,6 +1234,20 @@ Partial Class Form1
         Me.GroupBox1.TabIndex = 11
         Me.GroupBox1.TabStop = False
         Me.GroupBox1.Text = "Conveyor data"
+        '
+        'NumericUpDown58
+        '
+        Me.NumericUpDown58.BackColor = System.Drawing.Color.Yellow
+        Me.NumericUpDown58.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.NumericUpDown58.Increment = New Decimal(New Integer() {10, 0, 0, 0})
+        Me.NumericUpDown58.Location = New System.Drawing.Point(208, 19)
+        Me.NumericUpDown58.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
+        Me.NumericUpDown58.Minimum = New Decimal(New Integer() {10, 0, 0, 0})
+        Me.NumericUpDown58.Name = "NumericUpDown58"
+        Me.NumericUpDown58.Size = New System.Drawing.Size(65, 24)
+        Me.NumericUpDown58.TabIndex = 45
+        Me.NumericUpDown58.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.NumericUpDown58.Value = New Decimal(New Integer() {400, 0, 0, 0})
         '
         'Label177
         '
@@ -5674,17 +5703,17 @@ Partial Class Form1
         '
         'Chart3
         '
-        ChartArea13.Name = "ChartArea1"
-        Me.Chart3.ChartAreas.Add(ChartArea13)
+        ChartArea7.Name = "ChartArea1"
+        Me.Chart3.ChartAreas.Add(ChartArea7)
         Me.Chart3.Dock = System.Windows.Forms.DockStyle.Top
-        Legend13.Name = "Legend1"
-        Me.Chart3.Legends.Add(Legend13)
+        Legend7.Name = "Legend1"
+        Me.Chart3.Legends.Add(Legend7)
         Me.Chart3.Location = New System.Drawing.Point(176, 401)
         Me.Chart3.Name = "Chart3"
-        Series13.ChartArea = "ChartArea1"
-        Series13.Legend = "Legend1"
-        Series13.Name = "Series1"
-        Me.Chart3.Series.Add(Series13)
+        Series7.ChartArea = "ChartArea1"
+        Series7.Legend = "Legend1"
+        Series7.Name = "Series1"
+        Me.Chart3.Series.Add(Series7)
         Me.Chart3.Size = New System.Drawing.Size(808, 199)
         Me.Chart3.TabIndex = 4
         Me.Chart3.Text = "Chart3"
@@ -5701,34 +5730,34 @@ Partial Class Form1
         '
         'Chart2
         '
-        ChartArea14.Name = "ChartArea1"
-        Me.Chart2.ChartAreas.Add(ChartArea14)
+        ChartArea8.Name = "ChartArea1"
+        Me.Chart2.ChartAreas.Add(ChartArea8)
         Me.Chart2.Dock = System.Windows.Forms.DockStyle.Top
-        Legend14.Name = "Legend1"
-        Me.Chart2.Legends.Add(Legend14)
+        Legend8.Name = "Legend1"
+        Me.Chart2.Legends.Add(Legend8)
         Me.Chart2.Location = New System.Drawing.Point(176, 202)
         Me.Chart2.Name = "Chart2"
-        Series14.ChartArea = "ChartArea1"
-        Series14.Legend = "Legend1"
-        Series14.Name = "Series1"
-        Me.Chart2.Series.Add(Series14)
+        Series8.ChartArea = "ChartArea1"
+        Series8.Legend = "Legend1"
+        Series8.Name = "Series1"
+        Me.Chart2.Series.Add(Series8)
         Me.Chart2.Size = New System.Drawing.Size(808, 199)
         Me.Chart2.TabIndex = 3
         Me.Chart2.Text = "Chart2"
         '
         'Chart1
         '
-        ChartArea15.Name = "ChartArea1"
-        Me.Chart1.ChartAreas.Add(ChartArea15)
+        ChartArea9.Name = "ChartArea1"
+        Me.Chart1.ChartAreas.Add(ChartArea9)
         Me.Chart1.Dock = System.Windows.Forms.DockStyle.Top
-        Legend15.Name = "Legend1"
-        Me.Chart1.Legends.Add(Legend15)
+        Legend9.Name = "Legend1"
+        Me.Chart1.Legends.Add(Legend9)
         Me.Chart1.Location = New System.Drawing.Point(176, 3)
         Me.Chart1.Name = "Chart1"
-        Series15.ChartArea = "ChartArea1"
-        Series15.Legend = "Legend1"
-        Series15.Name = "Series1"
-        Me.Chart1.Series.Add(Series15)
+        Series9.ChartArea = "ChartArea1"
+        Series9.Legend = "Legend1"
+        Series9.Name = "Series1"
+        Me.Chart1.Series.Add(Series9)
         Me.Chart1.Size = New System.Drawing.Size(808, 199)
         Me.Chart1.TabIndex = 1
         Me.Chart1.Text = "Chart1"
@@ -6993,28 +7022,25 @@ Partial Class Form1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'NumericUpDown58
+        'PictureBox13
         '
-        Me.NumericUpDown58.BackColor = System.Drawing.Color.Yellow
-        Me.NumericUpDown58.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.NumericUpDown58.Increment = New Decimal(New Integer() {10, 0, 0, 0})
-        Me.NumericUpDown58.Location = New System.Drawing.Point(208, 19)
-        Me.NumericUpDown58.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
-        Me.NumericUpDown58.Minimum = New Decimal(New Integer() {10, 0, 0, 0})
-        Me.NumericUpDown58.Name = "NumericUpDown58"
-        Me.NumericUpDown58.Size = New System.Drawing.Size(65, 24)
-        Me.NumericUpDown58.TabIndex = 45
-        Me.NumericUpDown58.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.NumericUpDown58.Value = New Decimal(New Integer() {400, 0, 0, 0})
+        Me.PictureBox13.Image = Global.Screw_conveyor.My.Resources.Resources.B36_10
+        Me.PictureBox13.Location = New System.Drawing.Point(400, 493)
+        Me.PictureBox13.Name = "PictureBox13"
+        Me.PictureBox13.Size = New System.Drawing.Size(66, 36)
+        Me.PictureBox13.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox13.TabIndex = 79
+        Me.PictureBox13.TabStop = False
         '
-        'TextBox156
+        'PictureBox14
         '
-        Me.TextBox156.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox156.Location = New System.Drawing.Point(853, 206)
-        Me.TextBox156.Multiline = True
-        Me.TextBox156.Name = "TextBox156"
-        Me.TextBox156.Size = New System.Drawing.Size(104, 236)
-        Me.TextBox156.TabIndex = 78
+        Me.PictureBox14.Image = Global.Screw_conveyor.My.Resources.Resources.DIN_ISO
+        Me.PictureBox14.Location = New System.Drawing.Point(482, 493)
+        Me.PictureBox14.Name = "PictureBox14"
+        Me.PictureBox14.Size = New System.Drawing.Size(57, 36)
+        Me.PictureBox14.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox14.TabIndex = 80
+        Me.PictureBox14.TabStop = False
         '
         'Form1
         '
@@ -7041,6 +7067,7 @@ Partial Class Form1
         CType(Me.NumericUpDown5, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout
+        CType(Me.NumericUpDown58, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NumericUpDown40, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NumericUpDown39, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NumericUpDown8, System.ComponentModel.ISupportInitialize).EndInit
@@ -7191,7 +7218,8 @@ Partial Class Form1
         Me.TabPage13.PerformLayout
         CType(Me.PictureBox10, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NumericUpDown58, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.PictureBox13, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.PictureBox14, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
 
     End Sub
@@ -7765,4 +7793,6 @@ Partial Class Form1
     Friend WithEvents TextBox155 As TextBox
     Friend WithEvents NumericUpDown58 As NumericUpDown
     Friend WithEvents TextBox156 As TextBox
+    Friend WithEvents PictureBox14 As PictureBox
+    Friend WithEvents PictureBox13 As PictureBox
 End Class
