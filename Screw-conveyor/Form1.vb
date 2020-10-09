@@ -14,7 +14,7 @@ Public Structure Conveyor_struct    'For conveyors
     Public pipe_od As Double        '[mm]
     Public pipe_ID As Double        '[mm]
     Public pitch As Double          '[mm]
-    Public flight_thick As Double   '[mm]
+    Public Flight_short_side As Double   '[mm]
     Public flight_weight As Double  '[kg] weight of one 360 degree flight
     Public cap_1rev As Double       '[ltr/rev]
     Public cap_sys As Double        '[kg/hr] capacity system
@@ -924,7 +924,7 @@ Public Class Form1
 
         '--------------- now calc in [kg/hr] ---------------
         filling_perc = actual_cap_m3 / cap_hr_100 * 100             'Horizontal
-            filling_perc_incl = actual_cap_m3 / cap_hr_100_in * 100     'Inclined
+        filling_perc_incl = actual_cap_m3 / cap_hr_100_in * 100     'Inclined
 
 
 
@@ -940,7 +940,7 @@ Public Class Form1
 
         iso_forward = _regu_flow_kg_hr * _λ6 * 9.91 * progress_resistance / (3600 * 1000)    'Forwards [kW]
         iso_incline = _regu_flow_kg_hr * height * 9.81 / (3600 * 1000)                       'Uphill [kW]
-            iso_no_product = _diam_flight * _λ6 / 20                                     'Power for seals 0. + bearings [kW]
+        iso_no_product = _diam_flight * _λ6 / 20                                     'Power for seals 0. + bearings [kW]
         iso_power = iso_forward + iso_incline + iso_no_product
 
         '--------------- MEKOG power calc -----------------
@@ -2008,11 +2008,11 @@ Public Class Form1
         Dim blank_cost As Double    '[euro] material cost
 
         conv.flight_OD = NumericUpDown43.Value / 1000           '[m] OD flight
-        Double.TryParse(ComboBox14.Text, conv.pipe_id)          '[mm] OD pipe
-        conv.pipe_id /= 1000                                    '[m] OD pipe
+        Double.TryParse(ComboBox14.Text, conv.pipe_ID)          '[mm] OD pipe
+        conv.pipe_ID /= 1000                                    '[m] OD pipe
 
         conv.pitch = NumericUpDown42.Value * conv.pipe_od       '[m] pitch
-        conv.flight_thick = NumericUpDown41.Value / 1000        '[m] flight thickness
+        conv.Flight_short_side = NumericUpDown41.Value / 1000        '[m] flight thickness
 
 
         ' Debug.WriteLine("conv.pipe_od= " & conv.pipe_od.ToString)
@@ -2022,7 +2022,7 @@ Public Class Form1
 
         'Debug.WriteLine(" blank_Dia= " & blank_Dia.ToString)
 
-        blank_wgt = blank_Dia ^ 2 * conv.flight_thick * 7850    '[kg]
+        blank_wgt = blank_Dia ^ 2 * conv.Flight_short_side * 7850    '[kg]
         blank_cost = blank_wgt * NumericUpDown45.Value          '[e]
 
         '---------- weight of one 360 degree flight -----
@@ -2043,7 +2043,7 @@ Public Class Form1
         hoek_spoed = Atan(c.pitch / (PI * c.flight_OD))            '[rad]  
         tip_length = Sqrt(c.pitch ^ 2 + c.flight_OD ^ 2)           '[m]
 
-        c.flight_weight = PI / 4 * 7850 * c.flight_thick * no_f * (c.flight_OD ^ 2 - c.pipe_od ^ 2) / Cos(hoek_spoed)
+        c.flight_weight = PI / 4 * 7850 * c.Flight_short_side * no_f * (c.flight_OD ^ 2 - c.pipe_od ^ 2) / Cos(hoek_spoed)
 
         'Debug.WriteLine("============== ")
         'Debug.WriteLine("pitch= " & c.pitch.ToString)
@@ -2888,7 +2888,111 @@ Public Class Form1
         Form2.Show()
     End Sub
 
+    Private Sub Button15_Click(sender As Object, e As EventArgs) Handles Button15.Click, NumericUpDown64.ValueChanged, NumericUpDown62.ValueChanged, NumericUpDown61.ValueChanged, NumericUpDown60.ValueChanged, NumericUpDown59.ValueChanged, NumericUpDown67.ValueChanged, NumericUpDown66.ValueChanged, NumericUpDown65.ValueChanged, NumericUpDown63.ValueChanged
 
+        Calc_flex()
+    End Sub
+    Private Sub Calc_flex()
+        Dim ΔL As Double                                    '[mm]
+        Dim Pitch As Double                                 '[mm]
+        Dim Conve_OD As Double = NumericUpDown59.Value      '[mm]
+        Dim Flight_short_side As Double = NumericUpDown61.Value  '[mm]
+        Dim Flight_long_side As Double = NumericUpDown62.Value  '[mm]
+        Dim Conve_length As Double = NumericUpDown63.Value  '[mm]
+        Dim speed As Double = NumericUpDown64.Value         '[rpm]
+        Dim capacity As Double = NumericUpDown65.Value      '[kg/h]
+        Dim friction As Double = NumericUpDown66.Value      '[-]
+        Dim density As Double = NumericUpDown67.Value       '[kg/m3]
+        Dim vol_flow As Double                              '[m3/h]
+        Dim vol_100_cap As Double                           '[m3/h]
+        Dim strip_length As Double                          '[mm]
+        Dim coil_length As Double                           '[mm]
+        Dim retention_time As Double                        '[s] time in screw
+        Dim filling_perc As Double                          '[%] Filling percentage
+        Dim weight_in_screw As Double
+        Dim force As Double
+
+        Dim ab As Double = Flight_long_side / Flight_short_side
+        Dim beta As Double
+        Dim J2ma As Double              'Second moment of area
+        Dim d_equ As Double             'Equivalent diamter spring wire
+        Dim K_spring As Double          '[N/mm]
+        Dim g_mod As Double = 30000     '[N/mm2]
+        Dim N As Double                 'aantal windingen
+
+        Pitch = Conve_OD * NumericUpDown60.Value            '[mm]
+        retention_time = Conve_length / (speed / 60 * Pitch)
+        weight_in_screw = capacity * retention_time / 3600  '[kg]
+        force = weight_in_screw * friction * 9.81           '[N]
+        '----------- coil length over one pitch
+        coil_length = Sqrt((PI * Conve_OD) ^ 2 + Pitch ^ 2)
+        N = Conve_length / Pitch
+        strip_length = N * coil_length
+
+        vol_flow = capacity / density                       '[m3/h]
+        vol_100_cap = PI / 4 * (Conve_OD / 1000) ^ 2 * (Pitch / 1000) * speed * 60 '[m3/h]
+        filling_perc = vol_flow / vol_100_cap * 100         '[%] Filling percentage
+        'http://icozct.tudelft.nl/TUD_CT/CT3109/collegestof/invloedslijnen/files/VGN-UK.pdf
+        'https://nl.wikipedia.org/wiki/Oppervlaktetraagheidsmoment
+        'http://faculty.mercer.edu/jenkins_he/documents/SpringsCh10Compression.pdf
+
+        'Use Castigliano’s method to relate force and deflection
+        'U= (T^2*L/(2*g*J) + (F^2*L/(2*A*G))
+        'U= deflection
+        'F=force
+        'T= F*D/2
+        'D= Diameter Coil
+        'd=dia spring wire
+        'L=PI*D*N
+        'J= PI*d^4/32 (torsion cirkel shape)
+        'J= PI*d^4/32 (rectangle)
+        'A= PU*d^2/4 (area cirkel)
+        'G= Modulus of rigidity 80000 [N/mm2]
+
+        '=============== Omzetten flight rechthoek naar cirkel ====
+        'https://en.wikipedia.org/wiki/Torsion_constant
+        'J= beta * a.b^2 (a=short side, b=long side}
+        'beta (a/b=1) = 0.141
+        'beta (a/b=1.5) = 0.196
+        'beta (a/b=2) = 0.229
+        'beta (a/b=3) = 0.263
+        'beta (a/b=4) = 0.281
+        'beta (a/b=6) = 0.299
+        'beta (oneindig) = 0.333
+
+        '=============== K spring  ====
+        'k=d^4*G/(8*D^3*N)
+
+        beta = 0.00398664520360148 * ab ^ 3 - 0.0478544429397592 * ab ^ 2 + 0.200763301564578 * ab - 0.0140695761044305
+        J2ma = beta * Flight_short_side * Flight_long_side ^ 3
+        d_equ = (J2ma * 43 / PI) ^ 0.25         '[mm]
+        K_spring = d_equ ^ 4 * g_mod / (8 * Conve_OD ^ 3 * N)
+
+        ΔL = force / K_spring
+
+        '=============== Checks ====================
+        If ab < 1 Then
+            NumericUpDown61.BackColor = Color.Red
+            NumericUpDown62.BackColor = Color.Red
+        Else
+            NumericUpDown61.BackColor = Color.Yellow
+            NumericUpDown62.BackColor = Color.Yellow
+        End If
+
+        TextBox158.Text = Pitch.ToString("F0")                  '[mm]
+        TextBox159.Text = N.ToString("F1")                      '[-] no  Coils
+        TextBox160.Text = K_spring.ToString("F0")               '[mm4]
+        TextBox161.Text = ΔL.ToString("F0")                     '[mm]
+        TextBox162.Text = (coil_length / 1000).ToString("F1")   '[m]
+        TextBox163.Text = (coil_length / 1000).ToString("F1")   '[m]
+        TextBox164.Text = (force).ToString("F1")                '[N]
+        TextBox165.Text = filling_perc.ToString("F0")           '[%]
+        TextBox167.Text = d_equ.ToString("F1")                  '[mm]
+    End Sub
+
+    Private Sub TextBox162_TextChanged(sender As Object, e As EventArgs) Handles TextBox162.TextChanged
+
+    End Sub
 
     Private Sub Draw_chart1()
         Dim hh As Integer
