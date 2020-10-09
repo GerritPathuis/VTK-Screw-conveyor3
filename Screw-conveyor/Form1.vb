@@ -2889,7 +2889,6 @@ Public Class Form1
     End Sub
 
     Private Sub Button15_Click(sender As Object, e As EventArgs) Handles Button15.Click, NumericUpDown64.ValueChanged, NumericUpDown62.ValueChanged, NumericUpDown61.ValueChanged, NumericUpDown60.ValueChanged, NumericUpDown59.ValueChanged, NumericUpDown67.ValueChanged, NumericUpDown66.ValueChanged, NumericUpDown65.ValueChanged, NumericUpDown63.ValueChanged
-
         Calc_flex()
     End Sub
     Private Sub Calc_flex()
@@ -2919,11 +2918,13 @@ Public Class Form1
         Dim K_spring As Double          '[N/mm]
         Dim g_mod As Double = 30000     '[N/mm2]
         Dim N As Double                 'aantal windingen
+        Dim τ_stress As Double          '[N/mm2] Shear stress
 
         Pitch = Conve_OD * NumericUpDown60.Value            '[mm]
-        retention_time = Conve_length / (speed / 60 * Pitch)
+        retention_time = Conve_length / (speed / 60 * Pitch) '[s]
         weight_in_screw = capacity * retention_time / 3600  '[kg]
         force = weight_in_screw * friction * 9.81           '[N]
+
         '----------- coil length over one pitch
         coil_length = Sqrt((PI * Conve_OD) ^ 2 + Pitch ^ 2)
         N = Conve_length / Pitch
@@ -2945,13 +2946,12 @@ Public Class Form1
         'd=dia spring wire
         'L=PI*D*N
         'J= PI*d^4/32 (torsion cirkel shape)
-        'J= PI*d^4/32 (rectangle)
         'A= PU*d^2/4 (area cirkel)
         'G= Modulus of rigidity 80000 [N/mm2]
 
         '=============== Omzetten flight rechthoek naar cirkel ====
         'https://en.wikipedia.org/wiki/Torsion_constant
-        'J= beta * a.b^2 (a=short side, b=long side}
+        'J= beta * a.b^3 (a=short side, b=long side) [mm4]
         'beta (a/b=1) = 0.141
         'beta (a/b=1.5) = 0.196
         'beta (a/b=2) = 0.229
@@ -2964,11 +2964,17 @@ Public Class Form1
         'k=d^4*G/(8*D^3*N)
 
         beta = 0.00398664520360148 * ab ^ 3 - 0.0478544429397592 * ab ^ 2 + 0.200763301564578 * ab - 0.0140695761044305
-        J2ma = beta * Flight_short_side * Flight_long_side ^ 3
-        d_equ = (J2ma * 43 / PI) ^ 0.25         '[mm]
-        K_spring = d_equ ^ 4 * g_mod / (8 * Conve_OD ^ 3 * N)
+        If beta > 0.3 Then beta = 0.3
 
+        J2ma = beta * Flight_short_side * Flight_long_side ^ 3      '[mm4]
+        d_equ = (J2ma * 32 / PI) ^ 0.25                             '[mm]
+        K_spring = d_equ ^ 4 * g_mod / (8 * Conve_OD ^ 3 * N)
         ΔL = force / K_spring
+
+        '======= shear stress ======
+        'DIN 2090 rectangle springs
+        'https://roymech.org/Useful_Tables/Springs/Springs_helical.html
+        τ_stress = 8 * force * Conve_OD * K_spring / (PI * d_equ ^ 3)
 
         '=============== Checks ====================
         If ab < 1 Then
@@ -2979,15 +2985,23 @@ Public Class Form1
             NumericUpDown62.BackColor = Color.Yellow
         End If
 
+        'τ = 0.58 Rp0.2, voor taaie materialen (staal)volgens het von Misess
+        'Basen shaftles material ss 304 uss Rp0.2=155 [N/mm2]
+        TextBox170.BackColor = CType(IIf(τ_stress < (0.58 * 155), Color.LightGreen, Color.Red), Color)
+
+        '-------------- present ------------------
         TextBox158.Text = Pitch.ToString("F0")                  '[mm]
         TextBox159.Text = N.ToString("F1")                      '[-] no  Coils
         TextBox160.Text = K_spring.ToString("F0")               '[mm4]
         TextBox161.Text = ΔL.ToString("F0")                     '[mm]
         TextBox162.Text = (coil_length / 1000).ToString("F1")   '[m]
-        TextBox163.Text = (coil_length / 1000).ToString("F1")   '[m]
+        TextBox163.Text = weight_in_screw.ToString("F0")        '[kg]
         TextBox164.Text = (force).ToString("F1")                '[N]
         TextBox165.Text = filling_perc.ToString("F0")           '[%]
         TextBox167.Text = d_equ.ToString("F1")                  '[mm]
+        TextBox168.Text = J2ma.ToString("F0")                   '[mm4]
+        TextBox169.Text = beta.ToString("F2")                   '[-]
+        TextBox170.Text = τ_stress.ToString("F0")               '[N/mm2] shear stress
     End Sub
 
     Private Sub TextBox162_TextChanged(sender As Object, e As EventArgs) Handles TextBox162.TextChanged
