@@ -2937,6 +2937,7 @@ Public Class Form1
         'https://nl.wikipedia.org/wiki/Oppervlaktetraagheidsmoment
         'http://faculty.mercer.edu/jenkins_he/documents/SpringsCh10Compression.pdf
         'https://github.com/dlontine/Roarks_Stress_Strain/blob/master/Roark's%20formulas%20for%20stress%20and%20strain.pdf
+        'https://apps.dtic.mil/dtic/tr/fulltext/u2/a077113.pdf
 
         '======= Roark's 8 edition page 416 =======
         Dim teller, noemer As Double
@@ -2985,10 +2986,13 @@ Public Class Form1
             NumericUpDown61.BackColor = Color.Yellow
             NumericUpDown62.BackColor = Color.Yellow
         End If
+        NumericUpDown64.BackColor = CType(IIf(speed <= 30, Color.Yellow, Color.Red), Color)
 
         'τ = 0.58 Rp0.2, voor taaie materialen (staal)volgens het von Misess
         'Basen shaftles material ss 304 uss Rp0.2=155 [N/mm2]
         TextBox170.BackColor = CType(IIf(τ_stress < (0.58 * 155), Color.LightGreen, Color.Red), Color)
+        TextBox165.BackColor = CType(IIf(filling_perc < 30, Color.LightGreen, Color.Red), Color)
+
 
         '-------------- present ------------------
         TextBox158.Text = Pitch.ToString("F0")                  '[mm]
@@ -2998,7 +3002,7 @@ Public Class Form1
         TextBox162.Text = (coil_length / 1000).ToString("F1")   '[m]
         TextBox163.Text = weight_in_screw.ToString("F0")        '[kg]
         TextBox164.Text = (force).ToString("F1")                '[N]
-        TextBox165.Text = filling_perc.ToString("F0")           '[%]
+        TextBox165.Text = filling_perc.ToString("F1")           '[%]
         TextBox167.Text = d_equ.ToString("F1")                  '[mm]
         TextBox168.Text = J2ma.ToString("F0")                   '[mm4]
         TextBox169.Text = beta.ToString("F2")                   '[-]
