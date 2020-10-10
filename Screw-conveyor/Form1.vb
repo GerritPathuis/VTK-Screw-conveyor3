@@ -2895,8 +2895,8 @@ Public Class Form1
         Dim ΔL As Double                                    '[mm]
         Dim Pitch As Double                                 '[mm]
         Dim Conve_OD As Double = NumericUpDown59.Value      '[mm]
-        Dim Flight_short_side As Double = NumericUpDown61.Value  '[mm]
-        Dim Flight_long_side As Double = NumericUpDown62.Value  '[mm]
+        Dim Flight_short_side As Double = NumericUpDown61.Value  '[mm] short side
+        Dim Flight_long_side As Double = NumericUpDown62.Value  '[mm] long side
         Dim Conve_length As Double = NumericUpDown63.Value  '[mm]
         Dim speed As Double = NumericUpDown64.Value         '[rpm]
         Dim capacity As Double = NumericUpDown65.Value      '[kg/h]
@@ -2916,7 +2916,7 @@ Public Class Form1
         Dim J2ma As Double              'Second moment of area
         Dim d_equ As Double             'Equivalent diamter spring wire
         Dim K_spring As Double          '[N/mm]
-        Dim g_mod As Double = 30000     '[N/mm2]
+        Dim g_mod As Double = 80000     'Modulus of rigidity 80000 [N/mm2]
         Dim N As Double                 'aantal windingen
         Dim τ_stress As Double          '[N/mm2] Shear stress
 
@@ -2936,45 +2936,46 @@ Public Class Form1
         'http://icozct.tudelft.nl/TUD_CT/CT3109/collegestof/invloedslijnen/files/VGN-UK.pdf
         'https://nl.wikipedia.org/wiki/Oppervlaktetraagheidsmoment
         'http://faculty.mercer.edu/jenkins_he/documents/SpringsCh10Compression.pdf
+        'https://github.com/dlontine/Roarks_Stress_Strain/blob/master/Roark's%20formulas%20for%20stress%20and%20strain.pdf
 
-        'Use Castigliano’s method to relate force and deflection
-        'U= (T^2*L/(2*g*J) + (F^2*L/(2*A*G))
-        'U= deflection
-        'F=force
-        'T= F*D/2
-        'D= Diameter Coil
-        'd=dia spring wire
-        'L=PI*D*N
-        'J= PI*d^4/32 (torsion cirkel shape)
-        'A= PU*d^2/4 (area cirkel)
-        'G= Modulus of rigidity 80000 [N/mm2]
+        '======= Roark's 8 edition page 416 =======
+        Dim teller, noemer As Double
+        Dim a As Double = NumericUpDown62.Value / 2     '[mm] long side
+        Dim b As Double = NumericUpDown61.Value / 2     '[mm] short side
+        Dim R As Double = Conve_OD / 2 - b          '[mm]
+        Dim c As Double = R / b                     '[-]
+        Dim P As Double = force                     '[N]
 
-        '=============== Omzetten flight rechthoek naar cirkel ====
-        'https://en.wikipedia.org/wiki/Torsion_constant
-        'J= beta * a.b^3 (a=short side, b=long side) [mm4]
-        'beta (a/b=1) = 0.141
-        'beta (a/b=1.5) = 0.196
-        'beta (a/b=2) = 0.229
-        'beta (a/b=3) = 0.263
-        'beta (a/b=4) = 0.281
-        'beta (a/b=6) = 0.299
-        'beta (oneindig) = 0.333
+        TextBox171.Text = "A=" & a.ToString("F0") & ", B=" & b.ToString("F1") & ", N=" & N.ToString("F0")
+        TextBox171.Text &= ", R=" & R.ToString("F0") & ", C=" & c.ToString("F1") & ", P=" & P.ToString("F0")
 
-        '=============== K spring  ====
-        'k=d^4*G/(8*D^3*N)
+        teller = 3 * PI * P * R ^ 3 * N
+        noemer = 8 * g_mod * b ^ 4 * (a / b - 0.627 * (Atan(PI * b / (2 * a)) + 0.004))
+        ΔL = teller / noemer
 
-        beta = 0.00398664520360148 * ab ^ 3 - 0.0478544429397592 * ab ^ 2 + 0.200763301564578 * ab - 0.0140695761044305
-        If beta > 0.3 Then beta = 0.3
+        Select Case True
+            Case c > 5
+                a = NumericUpDown62.Value / 2     '[mm] long side
+                b = NumericUpDown61.Value / 2     '[mm] short side
+                τ_stress = P * R * (3 * b + 1.8 * a) / (8 * a ^ 2 * b ^ 2) * (1 + 1.2 / c + 0.56 / c ^ 2 + 0.5 / c ^ 3)
+                TextBox172.Text = "c > 5" & ", A=" & a.ToString("F0") & ", B=" & b.ToString("F1")
+            Case c >= 3 And c <= 5
+                a = NumericUpDown61.Value / 2     '[mm] long side
+                b = NumericUpDown62.Value / 2     '[mm] short side
+                τ_stress = P * R * (3 * b + 1.8 * a) / (8 * a ^ 2 * b ^ 2) * (1 + 1.2 / c + 0.56 / c ^ 2 + 0.5 / c ^ 3)
+                TextBox172.Text = "c > 3 And c <= 5" & ", A=" & a.ToString("F0") & ", B=" & b.ToString("F1")
+            Case Else
+                Dim T As Double = force * R         '[N.mm] Twist moment
+                Dim q As Double = b / a
+                TextBox172.Text = "c < 3 (ordinary formula)"
+                τ_stress = 3 * T / (8 * a * b ^ 2) * (1 + 0.6095 * q + 0.8865 * q ^ 2 - 1.8023 * q ^ 3 + 0.91 * q ^ 4)
+        End Select
 
-        J2ma = beta * Flight_short_side * Flight_long_side ^ 3      '[mm4]
-        d_equ = (J2ma * 32 / PI) ^ 0.25                             '[mm]
-        K_spring = d_equ ^ 4 * g_mod / (8 * Conve_OD ^ 3 * N)
-        ΔL = force / K_spring
+        K_spring = Abs(P / ΔL)      '[N/mm]
 
         '======= shear stress ======
         'DIN 2090 rectangle springs
         'https://roymech.org/Useful_Tables/Springs/Springs_helical.html
-        τ_stress = 8 * force * Conve_OD * K_spring / (PI * d_equ ^ 3)
 
         '=============== Checks ====================
         If ab < 1 Then
@@ -2993,7 +2994,7 @@ Public Class Form1
         TextBox158.Text = Pitch.ToString("F0")                  '[mm]
         TextBox159.Text = N.ToString("F1")                      '[-] no  Coils
         TextBox160.Text = K_spring.ToString("F0")               '[mm4]
-        TextBox161.Text = ΔL.ToString("F0")                     '[mm]
+        TextBox161.Text = ΔL.ToString("F1")                     '[mm]
         TextBox162.Text = (coil_length / 1000).ToString("F1")   '[m]
         TextBox163.Text = weight_in_screw.ToString("F0")        '[kg]
         TextBox164.Text = (force).ToString("F1")                '[N]
@@ -3001,7 +3002,8 @@ Public Class Form1
         TextBox167.Text = d_equ.ToString("F1")                  '[mm]
         TextBox168.Text = J2ma.ToString("F0")                   '[mm4]
         TextBox169.Text = beta.ToString("F2")                   '[-]
-        TextBox170.Text = τ_stress.ToString("F0")               '[N/mm2] shear stress
+        TextBox170.Text = τ_stress.ToString("F1")               '[N/mm2] shear stress
+
     End Sub
 
     Private Sub TextBox162_TextChanged(sender As Object, e As EventArgs) Handles TextBox162.TextChanged
