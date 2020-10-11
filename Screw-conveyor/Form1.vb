@@ -2662,7 +2662,7 @@ Public Class Form1
         oTable.Cell(row, 3).Range.Text = "[%]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Motor (MEKOG)"
-        oTable.Cell(row, 2).Range.Text = TextBox129.Text
+        oTable.Cell(row, 2).Range.Text = TextBox178.Text
         oTable.Cell(row, 3).Range.Text = "[kW]"
 
         oTable.Columns(1).Width = oWord.InchesToPoints(2.0)
@@ -3229,9 +3229,6 @@ Public Class Form1
         TextBox163.Text = weight_in_screw.ToString("F0")        '[kg]
         TextBox164.Text = (force).ToString("F1")                '[N]
         TextBox165.Text = SL_filling_perc.ToString("F1")           '[%]
-        TextBox167.Text = d_equ.ToString("F1")                  '[mm]
-        TextBox168.Text = J2ma.ToString("F0")                   '[mm4]
-        TextBox169.Text = beta.ToString("F2")                   '[-]
         TextBox170.Text = τ_stress.ToString("F1")               '[N/mm2] shear stress
         TextBox173.Text = coil_weight.ToString("F1")            '[kg] total coil weight
 
