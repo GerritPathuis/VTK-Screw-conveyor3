@@ -944,8 +944,10 @@ Public Class Form1
         iso_power = iso_forward + iso_incline + iso_no_product
 
         '--------------- MEKOG power calc -----------------
-        mekog_pow = Round(_regu_flow_kg_hr * _λ6 / (40 * 1.36 * 1000), 1)    '[kW]
-        mekog_pow *= 1.6 'Based on current measurement Q19.1165 (Borouge 4) dd 12/09/2019
+        'mekog_pow = Round(_regu_flow_kg_hr * _λ6 / (40 * 1.36 * 1000), 1)    '[kW]
+        'mekog_pow *= 1.6 'Based on current measurement Q19.1165 (Borouge 4) dd 12/09/2019
+
+        mekog_pow = Calc_mekog(_regu_flow_kg_hr, _λ6)
         mekog_torque = mekog_pow * 1000 / (speed * 2 * PI / 60)
 
         ' Debug.WriteLine("_regu_flow_kg_hr= " & _regu_flow_kg_hr.ToString)
@@ -982,6 +984,13 @@ Public Class Form1
         Label135.Visible = CBool(IIf(flight_speed > 1.0, True, False))
 
     End Sub
+
+    Private Function Calc_mekog(m_flow As Double, Length As Double) As Double
+        Dim mekog As Double
+        mekog = _regu_flow_kg_hr * Length / (40 * 1.36 * 1000)    '[kW]
+        mekog *= 1.6 'Based on current measurement Q19.1165 (Borouge 4) dd 12/09/2019
+        Return (mekog)
+    End Function
 
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown10.ValueChanged, NumericUpDown25.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox4.SelectedIndexChanged, ComboBox13.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox8.CheckedChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, CheckBox4.CheckedChanged, CheckBox7.CheckedChanged, CheckBox6.CheckedChanged, TabPage4.Enter, CheckBox5.CheckedChanged
         Calc_sequence()
@@ -2097,14 +2106,14 @@ Public Class Form1
         Return (torque)
     End Function
     Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
-        Print_word()
+        Print_word1()
     End Sub
 
     Private Sub Button14_Click(sender As Object, e As EventArgs) Handles Button14.Click
         Print_vertical_screw()
     End Sub
 
-    Private Sub Print_word()
+    Private Sub Print_word1()
         Dim oWord As Word.Application ' = Nothing
         Dim oDoc As Word.Document
         Dim oTable As Word.Table
@@ -2502,11 +2511,281 @@ Public Class Form1
             ufilename = dirpath_Home_GP & ufilename
         End If
         oWord.ActiveDocument.SaveAs(ufilename.ToString)
-
-
     End Sub
+    Private Sub Button16_Click(sender As Object, e As EventArgs) Handles Button16.Click
+        Print_word_shaftless()
+    End Sub
+    Private Sub Print_word_shaftless()
+        Dim oWord As Word.Application ' = Nothing
+        Dim oDoc As Word.Document
+        Dim oTable As Word.Table
+        Dim oPara1, oPara2, opara3 As Word.Paragraph
+        Dim row, font_sizze As Integer
+        Dim ufilename, str As String
+        Dim speed As Double
+
+        oWord = New Word.Application()
+
+        'Start Word and open the document template. 
+        font_sizze = 8
+        oWord = CType(CreateObject("Word.Application"), Word.Application)
+        oWord.Visible = True
+        oDoc = oWord.Documents.Add
+        oDoc.PageSetup.TopMargin = 35
+        oDoc.PageSetup.BottomMargin = 20
+        oDoc.PageSetup.RightMargin = 20
+        oDoc.PageSetup.Orientation = Word.WdOrientation.wdOrientPortrait
+        oDoc.PageSetup.PaperSize = Word.WdPaperSize.wdPaperA4
+
+        'Insert a paragraph at the beginning of the document. 
+        oPara1 = oDoc.Content.Paragraphs.Add
+        oPara1.Range.Text = "VTK Engineering"
+        oPara1.Range.Font.Name = "Arial"
+        oPara1.Range.Font.Size = font_sizze + 3
+        oPara1.Range.Font.Bold = CInt(True)
+        oPara1.Format.SpaceAfter = 1                '24 pt spacing after paragraph. 
+        oPara1.Range.InsertParagraphAfter()
+
+        oPara2 = oDoc.Content.Paragraphs.Add(oDoc.Bookmarks.Item("\endofdoc").Range)
+        oPara2.Range.Font.Size = font_sizze + 1
+        oPara2.Format.SpaceAfter = 1
+        oPara2.Range.Font.Bold = CInt(False)
+        oPara2.Range.Text = "Shaft less Screw Conveyor Stress calculation " & vbCrLf
+        oPara2.Range.InsertParagraphAfter()
+
+        '----------------------------------------------
+        'Insert a table, fill it with data and change the column widths.
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 5, 2)
+        oTable.Range.ParagraphFormat.SpaceAfter = 0
+        oTable.Range.Font.Size = font_sizze
+        oTable.Range.Font.Bold = CInt(False)
+        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+
+        row = 1
+        oTable.Cell(row, 1).Range.Text = "Project number "
+        oTable.Cell(row, 2).Range.Text = TextBox66.Text
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Project Name"
+        oTable.Cell(row, 2).Range.Text = TextBox65.Text
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Machine Id "
+        oTable.Cell(row, 2).Range.Text = TextBox67.Text
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Author "
+        oTable.Cell(row, 2).Range.Text = Environment.UserName
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Date "
+        oTable.Cell(row, 2).Range.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+
+        oTable.Columns(1).Width = oWord.InchesToPoints(2.5)   'Change width of columns 1 & 2.
+        oTable.Columns(2).Width = oWord.InchesToPoints(2)
+
+        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+        oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+
+        'Insert a table, fill it with data and change the column widths.
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 5, 3)
+        oTable.Range.ParagraphFormat.SpaceAfter = 0
+        oTable.Range.Font.Size = font_sizze
+        oTable.Range.Font.Bold = CInt(False)
+        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+
+        row = 1
+        oTable.Cell(row, 1).Range.Text = "Material"
+        row += 1
+
+        oTable.Cell(row, 1).Range.Text = "Product"
+        str = ComboBox1.Text
+        If Len(str) > 22 Then str = str.Substring(0, 22)
+        oTable.Cell(row, 2).Range.Text = str
+
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Product Flow"
+        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown5.Value, String)
+        oTable.Cell(row, 3).Range.Text = "[ton/hr]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Product Density"
+        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown6.Value, String)
+        oTable.Cell(row, 3).Range.Text = "[kg/m3]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Forward resistance"
+        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown9.Value, String)
+        oTable.Cell(row, 3).Range.Text = "[-]"
+
+        oTable.Columns(1).Width = oWord.InchesToPoints(2.0)
+        oTable.Columns(2).Width = oWord.InchesToPoints(1.8)
+        oTable.Columns(3).Width = oWord.InchesToPoints(1.5)
+
+        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+        oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+
+        '----------------------------------------------
+        'Insert a 16 x 3 table, fill it with data and change the column widths.
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 12, 3)
+        oTable.Range.ParagraphFormat.SpaceAfter = 1
+        oTable.Range.Font.Size = font_sizze
+        oTable.Range.Font.Bold = CInt(False)
+        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+        oTable.Rows.Item(1).Range.Font.Size = font_sizze + 2
+        row = 1
+        oTable.Cell(row, 1).Range.Text = "Conveyor Data"
+
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Diameter flight"
+        oTable.Cell(row, 2).Range.Text = NumericUpDown58.Value.ToString("F0")
+        oTable.Cell(row, 3).Range.Text = "[mm]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Diameter pipe"
+        oTable.Cell(row, 2).Range.Text = ComboBox3.Text & " x " & NumericUpDown57.Value.ToString("F1")
+        oTable.Cell(row, 3).Range.Text = "[mm]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Pitch"
+        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown2.Value, String)
+        oTable.Cell(row, 3).Range.Text = "[-]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Blade thickness"
+        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown8.Value, String)
+        oTable.Cell(row, 3).Range.Text = "[mm]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Length"
+        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown3.Value, String)
+        oTable.Cell(row, 3).Range.Text = "[m]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Inclination angle"
+        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown4.Value, String)
+        oTable.Cell(row, 3).Range.Text = "[degree]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Speed"
+        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown7.Value, String)
+        oTable.Cell(row, 3).Range.Text = "[rpm]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Flight tip speed"
+        oTable.Cell(row, 2).Range.Text = TextBox11.Text
+        oTable.Cell(row, 3).Range.Text = "[m/s]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Filling "
+        oTable.Cell(row, 2).Range.Text = TextBox01.Text
+        oTable.Cell(row, 3).Range.Text = "[%]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Power ISO 7119"
+        oTable.Cell(row, 2).Range.Text = TextBox03.Text
+        oTable.Cell(row, 3).Range.Text = "[kW]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Power MEKOG"
+        oTable.Cell(row, 2).Range.Text = TextBox04.Text
+        oTable.Cell(row, 3).Range.Text = "[kW]"
+
+        oTable.Columns(1).Width = oWord.InchesToPoints(2.0)
+        oTable.Columns(2).Width = oWord.InchesToPoints(1.8)
+        oTable.Columns(3).Width = oWord.InchesToPoints(1.5)
+        oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
 
 
+        '------------- Results----------------------
+        'Insert a 5 x 3 table, fill it with data and change the column widths.
+
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 8, 3)
+            oTable.Range.ParagraphFormat.SpaceAfter = 1
+            oTable.Range.Font.Size = font_sizze
+            oTable.Range.Font.Bold = CInt(False)
+            oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+            oTable.Rows.Item(1).Range.Font.Size = font_sizze + 2
+            row = 1
+            oTable.Cell(row, 1).Range.Text = "Calculation Results"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Bending Stress"
+            oTable.Cell(row, 2).Range.Text = TextBox09.Text
+            oTable.Cell(row, 3).Range.Text = "[N/mm2]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Max. Torque Stress"
+            oTable.Cell(row, 2).Range.Text = TextBox12.Text
+            oTable.Cell(row, 3).Range.Text = "[N/mm2]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Combined Stress"
+            oTable.Cell(row, 2).Range.Text = TextBox21.Text
+            oTable.Cell(row, 3).Range.Text = "[N/mm2]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Selected steel"
+            oTable.Cell(row, 2).Range.Text = ComboBox2.Text
+            oTable.Cell(row, 3).Range.Text = "[-]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Max. allowed Fatique stress"
+            oTable.Cell(row, 2).Range.Text = TextBox08.Text
+            oTable.Cell(row, 3).Range.Text = "[N/mm2]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Maximum Flex"
+            oTable.Cell(row, 2).Range.Text = TextBox20.Text
+            oTable.Cell(row, 3).Range.Text = "[mm]"
+            row += 1
+            oTable.Cell(row, 1).Range.Text = "Maximum Flex @"
+            oTable.Cell(row, 2).Range.Text = TextBox38.Text
+            oTable.Cell(row, 3).Range.Text = "[m]"
+            row += 1
+            oTable.Columns(1).Width = oWord.InchesToPoints(2.0)
+            oTable.Columns(2).Width = oWord.InchesToPoints(1.8)
+            oTable.Columns(3).Width = oWord.InchesToPoints(1.5)
+            oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+
+
+        '-------------- Checks-------
+
+        'Insert a 5 x 1 table, fill it with data and change the column widths.
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 6, 1)
+            oTable.Range.ParagraphFormat.SpaceAfter = 1
+            oTable.Range.Font.Size = font_sizze
+            oTable.Range.Font.Bold = CInt(False)
+            oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+            oTable.Rows.Item(1).Range.Font.Size = font_sizze + 2
+            row = 1
+            oTable.Cell(row, 1).Range.Text = "Checks "
+            row += 1
+
+            Double.TryParse(TextBox11.Text, speed)
+            If (speed > 1.0) Then
+                oTable.Cell(row, 1).Range.Text = "NOK, for ATEX, Flight speed > 1 m/s"
+            Else
+                oTable.Cell(row, 1).Range.Text = "OK, Flight speed for ATEX applications"
+            End If
+            row += 1
+            If NumericUpDown7.BackColor = Color.Red Then
+                oTable.Cell(row, 1).Range.Text = "NOK, Rotational speed > 45 rpm, too fast"
+            Else
+                oTable.Cell(row, 1).Range.Text = "OK, Rotational speed"
+            End If
+            row += 1
+            If TextBox01.BackColor = Color.Red Then
+                oTable.Cell(row, 1).Range.Text = "NOK, Filling percentage > 45%"
+            Else
+                oTable.Cell(row, 1).Range.Text = "OK, Filling percentage"
+            End If
+            row += 1
+            If TextBox21.BackColor = Color.Red Then
+                oTable.Cell(row, 1).Range.Text = "NOK, Combined pipe stress too high"
+            Else
+                oTable.Cell(row, 1).Range.Text = "OK, Combined pipe stress"
+            End If
+            row += 1
+            If TextBox20.BackColor = Color.Red Then
+                oTable.Cell(row, 1).Range.Text = "NOK, Deflection pipe too high"
+            Else
+                oTable.Cell(row, 1).Range.Text = "OK, Deflection pipe stress"
+            End If
+            oTable.Columns(1).Width = oWord.InchesToPoints(4.0)
+            oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+
+
+        '--------------Save file word file------------------
+        'See https://msdn.microsoft.com/en-us/library/63w57f4b.aspx
+
+        ufilename = "Conveyor_report_" & DateTime.Now.ToString("yyyy_MM_dd__HH_mm_ss") & ".docx"
+
+        If Directory.Exists(dirpath_Rap) Then
+            ufilename = dirpath_Rap & ufilename
+        Else
+            ufilename = dirpath_Home_GP & ufilename
+        End If
+        oWord.ActiveDocument.SaveAs(ufilename.ToString)
+    End Sub
 
     Private Sub Costing_material()
         Dim rho_staal, rho_kunststof As Double
@@ -2887,6 +3166,12 @@ Public Class Form1
         Form2.Size = New Size(1222, 734)
         Form2.Show()
     End Sub
+    Private Sub Show_shaftless()
+        Form2.Text = "https://www.vav-nl.com/media/2101/asloze-spiralen.pdf"
+        Form2.PictureBox1.Image = Screw_conveyor.My.Resources.Resources.Shaftless
+        Form2.Size = New Size(870, 734)
+        Form2.Show()
+    End Sub
 
     Private Sub Button15_Click(sender As Object, e As EventArgs) Handles Button15.Click, NumericUpDown64.ValueChanged, NumericUpDown62.ValueChanged, NumericUpDown61.ValueChanged, NumericUpDown60.ValueChanged, NumericUpDown59.ValueChanged, NumericUpDown67.ValueChanged, NumericUpDown66.ValueChanged, NumericUpDown65.ValueChanged, NumericUpDown63.ValueChanged
         Calc_flex()
@@ -2902,14 +3187,15 @@ Public Class Form1
         Dim capacity As Double = NumericUpDown65.Value      '[kg/h]
         Dim friction As Double = NumericUpDown66.Value      '[-]
         Dim density As Double = NumericUpDown67.Value       '[kg/m3]
-        Dim vol_flow As Double                              '[m3/h]
+        Dim vol_flow As Double                              '[m3/h] material volume flo
         Dim vol_100_cap As Double                           '[m3/h]
         Dim strip_length As Double                          '[mm]
         Dim coil_length As Double                           '[mm]
         Dim retention_time As Double                        '[s] time in screw
-        Dim filling_perc As Double                          '[%] Filling percentage
-        Dim weight_in_screw As Double
-        Dim force As Double
+        Dim SL_filling_perc As Double                       '[%] Filling percentage
+        Dim weight_in_screw As Double                       '[kg] Material weight in trough
+        Dim force As Double                                 '[N] axial force on spring
+        Dim coil_weight As Double                           '[kg] total coil weight
 
         Dim ab As Double = Flight_long_side / Flight_short_side
         Dim beta As Double
@@ -2919,30 +3205,40 @@ Public Class Form1
         Dim g_mod As Double = 80000     'Modulus of rigidity 80000 [N/mm2]
         Dim N As Double                 'aantal windingen
         Dim τ_stress As Double          '[N/mm2] Shear stress
+        Dim flight_area As Double       '[m2] floght area
+        Dim flight_id As Double         '[mm] floght area
 
-        Pitch = Conve_OD * NumericUpDown60.Value            '[mm]
-        retention_time = Conve_length / (speed / 60 * Pitch) '[s]
-        weight_in_screw = capacity * retention_time / 3600  '[kg]
-        force = weight_in_screw * friction * 9.81           '[N]
+
+
+        Pitch = Conve_OD * NumericUpDown60.Value                '[mm]
+        retention_time = Conve_length / (speed / 60 * Pitch)    '[s]
+        weight_in_screw = capacity * retention_time / 3600      '[kg]
+        force = weight_in_screw * friction * 9.81               '[N]
 
         '----------- coil length over one pitch
-        coil_length = Sqrt((PI * Conve_OD) ^ 2 + Pitch ^ 2)
-        N = Conve_length / Pitch
-        strip_length = N * coil_length
+        coil_length = Sqrt((PI * Conve_OD) ^ 2 + Pitch ^ 2)     '[mm]
+        N = Conve_length / Pitch                                '[mm]
+        strip_length = N * coil_length                          '[mm]
+        coil_weight = strip_length * Flight_short_side * Flight_long_side * 7850 / 10 ^ 9   '[kg]
 
-        vol_flow = capacity / density                       '[m3/h]
-        vol_100_cap = PI / 4 * (Conve_OD / 1000) ^ 2 * (Pitch / 1000) * speed * 60 '[m3/h]
-        filling_perc = vol_flow / vol_100_cap * 100         '[%] Filling percentage
+        '----------- filling percentage --------
+        'Material can fall back with narraw flights !!
+        vol_flow = capacity / density                           '[m3/h]
+        flight_id = Conve_OD - 2 * Flight_long_side             '[mm]
+        If flight_id < 0 Then flight_id = 0                     'Cannot be negative
+        flight_area = PI / 4 * ((Conve_OD / 1000) ^ 2 - (flight_id / 1000) ^ 2)      '[m2]
+        vol_100_cap = flight_area * (Pitch / 1000) * speed * 60 '[m3/h]
+        SL_filling_perc = vol_flow / vol_100_cap * 100          '[%] Filling percentage
         'http://icozct.tudelft.nl/TUD_CT/CT3109/collegestof/invloedslijnen/files/VGN-UK.pdf
         'https://nl.wikipedia.org/wiki/Oppervlaktetraagheidsmoment
         'http://faculty.mercer.edu/jenkins_he/documents/SpringsCh10Compression.pdf
-        'https://github.com/dlontine/Roarks_Stress_Strain/blob/master/Roark's%20formulas%20for%20stress%20and%20strain.pdf
         'https://apps.dtic.mil/dtic/tr/fulltext/u2/a077113.pdf
 
         '======= Roark's 8 edition page 416 =======
+        'https://github.com/dlontine/Roarks_Stress_Strain/blob/master/Roark's%20formulas%20for%20stress%20and%20strain.pdf
         Dim teller, noemer As Double
-        Dim a As Double = NumericUpDown62.Value / 2     '[mm] long side
-        Dim b As Double = NumericUpDown61.Value / 2     '[mm] short side
+        Dim a As Double = NumericUpDown62.Value / 2     '[mm] flight long side
+        Dim b As Double = NumericUpDown61.Value / 2     '[mm] flight short side
         Dim R As Double = Conve_OD / 2 - b          '[mm]
         Dim c As Double = R / b                     '[-]
         Dim P As Double = force                     '[N]
@@ -2991,7 +3287,7 @@ Public Class Form1
         'τ = 0.58 Rp0.2, voor taaie materialen (staal)volgens het von Misess
         'Basen shaftles material ss 304 uss Rp0.2=155 [N/mm2]
         TextBox170.BackColor = CType(IIf(τ_stress < (0.58 * 155), Color.LightGreen, Color.Red), Color)
-        TextBox165.BackColor = CType(IIf(filling_perc < 30, Color.LightGreen, Color.Red), Color)
+        TextBox165.BackColor = CType(IIf(SL_filling_perc < 30, Color.LightGreen, Color.Red), Color)
 
 
         '-------------- present ------------------
@@ -3002,17 +3298,20 @@ Public Class Form1
         TextBox162.Text = (coil_length / 1000).ToString("F1")   '[m]
         TextBox163.Text = weight_in_screw.ToString("F0")        '[kg]
         TextBox164.Text = (force).ToString("F1")                '[N]
-        TextBox165.Text = filling_perc.ToString("F1")           '[%]
+        TextBox165.Text = SL_filling_perc.ToString("F1")           '[%]
         TextBox167.Text = d_equ.ToString("F1")                  '[mm]
         TextBox168.Text = J2ma.ToString("F0")                   '[mm4]
         TextBox169.Text = beta.ToString("F2")                   '[-]
         TextBox170.Text = τ_stress.ToString("F1")               '[N/mm2] shear stress
-
+        TextBox173.Text = coil_weight.ToString("F1")            '[kg] total coil weight
     End Sub
 
-    Private Sub TextBox162_TextChanged(sender As Object, e As EventArgs) Handles TextBox162.TextChanged
 
+    Private Sub PictureBox10_Click(sender As Object, e As EventArgs) Handles PictureBox10.Click
+        Show_shaftless()
     End Sub
+
+
 
     Private Sub Draw_chart1()
         Dim hh As Integer
