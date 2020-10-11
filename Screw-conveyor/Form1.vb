@@ -2620,7 +2620,7 @@ Public Class Form1
 
         '--------------Screw data  -------------------
         'Insert a table, fill it with data and change the column widths.
-        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 10, 3)
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 12, 3)
         oTable.Range.ParagraphFormat.SpaceAfter = 0
         oTable.Range.Font.Size = font_sizze
         oTable.Range.Font.Bold = CInt(False)
@@ -2637,6 +2637,10 @@ Public Class Form1
         oTable.Cell(row, 2).Range.Text = TextBox158.Text
         oTable.Cell(row, 3).Range.Text = "[mm]"
         row += 1
+        oTable.Cell(row, 1).Range.Text = "No coils"
+        oTable.Cell(row, 2).Range.Text = TextBox159.Text
+        oTable.Cell(row, 3).Range.Text = "[rpm]"
+        row += 1
         oTable.Cell(row, 1).Range.Text = "Flight short side"
         oTable.Cell(row, 2).Range.Text = CType(NumericUpDown61.Value, String)
         oTable.Cell(row, 3).Range.Text = "[rpm]"
@@ -2649,6 +2653,11 @@ Public Class Form1
         oTable.Cell(row, 2).Range.Text = CType(NumericUpDown63.Value, String)
         oTable.Cell(row, 3).Range.Text = "[mm]"
         row += 1
+        oTable.Cell(row, 1).Range.Text = "Flight weight"
+        oTable.Cell(row, 2).Range.Text = TextBox173.Text
+        oTable.Cell(row, 3).Range.Text = "[kg]"
+        row += 1
+
         oTable.Cell(row, 1).Range.Text = "Screw speed"
         oTable.Cell(row, 2).Range.Text = CType(NumericUpDown64.Value, String)
         oTable.Cell(row, 3).Range.Text = "[rpm]"
@@ -3120,9 +3129,6 @@ Public Class Form1
         Dim coil_weight As Double                           '[kg] total coil weight
 
         Dim ab As Double = Flight_long_side / Flight_short_side
-        Dim beta As Double
-        Dim J2ma As Double                      'Second moment of area
-        Dim d_equ As Double                     'Equivalent diamter spring wire
         Dim K_spring As Double                  '[N/mm]
         Dim g_mod As Double = 80000             'Modulus of rigidity 80000 [N/mm2]
         Dim N As Double                         'aantal windingen
@@ -3168,9 +3174,6 @@ Public Class Form1
         Dim c As Double = R / b                     '[-]
         Dim P As Double = force                     '[N]
 
-        TextBox171.Text = "A=" & a.ToString("F0") & ", B=" & b.ToString("F1") & ", N=" & N.ToString("F0")
-        TextBox171.Text &= ", R=" & R.ToString("F0") & ", C=" & c.ToString("F1") & ", P=" & P.ToString("F0")
-
         teller = 3 * PI * P * R ^ 3 * N
         noemer = 8 * g_mod * b ^ 4 * (a / b - 0.627 * (Atan(PI * b / (2 * a)) + 0.004))
         ΔL = teller / noemer
@@ -3179,17 +3182,17 @@ Public Class Form1
             Case c > 5
                 a = NumericUpDown62.Value / 2     '[mm] long side
                 b = NumericUpDown61.Value / 2     '[mm] short side
-                τ_stress = P * R * (3 * b + 1.8 * a) / (8 * a ^ 2 * b ^ 2) * (1 + 1.2 / c + 0.56 / c ^ 2 + 0.5 / c ^ 3)
+                τ_stress = P * R * (3 * b + 1.8 * a) / (8 * a ^ 2 * b ^ 2) * (1 + (1.2 / c) + (0.56 / c ^ 2) + (0.5 / c ^ 3))
                 TextBox172.Text = "c > 5" & ", A=" & a.ToString("F0") & ", B=" & b.ToString("F1")
             Case c >= 3 And c <= 5
                 a = NumericUpDown61.Value / 2     '[mm] long side
                 b = NumericUpDown62.Value / 2     '[mm] short side
-                τ_stress = P * R * (3 * b + 1.8 * a) / (8 * a ^ 2 * b ^ 2) * (1 + 1.2 / c + 0.56 / c ^ 2 + 0.5 / c ^ 3)
+                τ_stress = P * R * (3 * b + 1.8 * a) / (8 * a ^ 2 * b ^ 2) * (1 + (1.2 / c) + (0.56 / c ^ 2) + (0.5 / c ^ 3))
                 TextBox172.Text = "c > 3 And c <= 5" & ", A=" & a.ToString("F0") & ", B=" & b.ToString("F1")
             Case Else
                 Dim T As Double = force * R         '[N.mm] Twist moment
                 Dim q As Double = b / a
-                TextBox172.Text = "c < 3 (ordinary formula)"
+                TextBox172.Text = "c < 3 (Table 10.7.5, page 418)"
                 τ_stress = 3 * T / (8 * a * b ^ 2) * (1 + 0.6095 * q + 0.8865 * q ^ 2 - 1.8023 * q ^ 3 + 0.91 * q ^ 4)
         End Select
 
@@ -3219,7 +3222,6 @@ Public Class Form1
         TextBox170.BackColor = CType(IIf(τ_stress < (0.58 * 155 / 1.5), Color.LightGreen, Color.Red), Color)
         TextBox165.BackColor = CType(IIf(SL_filling_perc < 30, Color.LightGreen, Color.Red), Color)
 
-
         '-------------- present ------------------
         TextBox158.Text = Pitch.ToString("F0")                  '[mm]
         TextBox159.Text = N.ToString("F1")                      '[-] no  Coils
@@ -3229,14 +3231,15 @@ Public Class Form1
         TextBox163.Text = weight_in_screw.ToString("F0")        '[kg]
         TextBox164.Text = (force).ToString("F1")                '[N]
         TextBox165.Text = SL_filling_perc.ToString("F1")           '[%]
+        TextBox167.Text = vol_flow.ToString("F1")               '[m3/h]
         TextBox170.Text = τ_stress.ToString("F1")               '[N/mm2] shear stress
         TextBox173.Text = coil_weight.ToString("F1")            '[kg] total coil weight
-
-        TextBox177.Text = sl_mekog_torque.ToString("F1")               '[Nm] Mekog torque
-        TextBox178.Text = sl_mekog_pow.ToString("F1")            '[kW] Mekog power
-
-        TextBox174.Text = sl_NON_torque.ToString("F1")               '[Nm] NON torque
+        TextBox177.Text = sl_mekog_torque.ToString("F0")        '[Nm] Mekog torque
+        TextBox178.Text = sl_mekog_pow.ToString("F1")           '[kW] Mekog power
+        TextBox174.Text = sl_NON_torque.ToString("F0")          '[Nm] NON torque
         TextBox176.Text = sl_NON_pow.ToString("F1")            '[kW] NON power
+        TextBox171.Text = "A=" & a.ToString("F0") & ", B=" & b.ToString("F1") & ", N=" & N.ToString("F0")
+        TextBox171.Text &= ", R=" & R.ToString("F0") & ", C=" & c.ToString("F1") & ", P=" & P.ToString("F0")
     End Sub
 
 
