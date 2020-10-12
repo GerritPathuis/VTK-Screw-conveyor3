@@ -2617,11 +2617,11 @@ Public Class Form1
 
         row += 1
         oTable.Cell(row, 1).Range.Text = "Product Flow"
-        oTable.Cell(row, 2).Range.Text = TextBox65.Text
+        oTable.Cell(row, 2).Range.Text = TextBox182.Text
         oTable.Cell(row, 3).Range.Text = "[kg/hr]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Product Density"
-        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown67.Value, String)
+        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown6.Value, String)
         oTable.Cell(row, 3).Range.Text = "[kg/m3]"
 
         oTable.Columns(1).Width = oWord.InchesToPoints(2.0)
@@ -3125,7 +3125,7 @@ Public Class Form1
         Form2.Show()
     End Sub
 
-    Private Sub Button15_Click(sender As Object, e As EventArgs) Handles Button15.Click, NumericUpDown64.ValueChanged, NumericUpDown62.ValueChanged, NumericUpDown61.ValueChanged, NumericUpDown60.ValueChanged, NumericUpDown59.ValueChanged, NumericUpDown67.ValueChanged, NumericUpDown66.ValueChanged, NumericUpDown65.ValueChanged, NumericUpDown63.ValueChanged
+    Private Sub Button15_Click(sender As Object, e As EventArgs) Handles Button15.Click, NumericUpDown64.ValueChanged, NumericUpDown62.ValueChanged, NumericUpDown61.ValueChanged, NumericUpDown60.ValueChanged, NumericUpDown59.ValueChanged, NumericUpDown66.ValueChanged, NumericUpDown63.ValueChanged
         Calc_flex()
     End Sub
     Private Sub Calc_flex()
@@ -3135,10 +3135,10 @@ Public Class Form1
         Dim Flight_short_side As Double = NumericUpDown61.Value  '[mm] short side
         Dim Flight_long_side As Double = NumericUpDown62.Value  '[mm] long side
         Dim Conve_length As Double = NumericUpDown63.Value  '[mm]
-        Dim rpm As Double = NumericUpDown64.Value         '[rpm]
-        Dim capacity As Double = NumericUpDown65.Value      '[kg/h]
+        Dim rpm As Double = NumericUpDown64.Value           '[rpm]
+        Dim capacity As Double = NumericUpDown5.Value * 1000      '[kg/h]
         Dim friction As Double = NumericUpDown66.Value      '[-]
-        Dim density As Double = NumericUpDown67.Value       '[kg/m3]
+        Dim density As Double = NumericUpDown6.Value        '[kg/m3]
         Dim vol_flow As Double                              '[m3/h] material volume flo
         Dim vol_100_cap As Double                           '[m3/h]
         Dim strip_length As Double                          '[mm]
@@ -3276,6 +3276,8 @@ Public Class Form1
         TextBox176.Text = sl_NON_pow.ToString("F1")            '[kW] NON power
         TextBox171.Text = "A=" & a.ToString("F0") & ", B=" & b.ToString("F1") & ", N=" & N.ToString("F0")
         TextBox171.Text &= ", R=" & R.ToString("F0") & ", C=" & c.ToString("F1") & ", P=" & P.ToString("F0")
+        TextBox181.Text = density.ToString("F0")
+        TextBox182.Text = capacity.ToString("F0")
     End Sub
 
 
