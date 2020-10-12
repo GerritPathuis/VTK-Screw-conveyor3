@@ -66,7 +66,7 @@ Public Class Form1
     Public Shared inlet_length, product_density As Double
 
     Public Shared _angle As Double
-    Public Shared speed As Double
+    Public Shared _rpm_hor As Double            '[rpm] horizontal screws
     Public Shared _regu_flow_kg_hr As Double
     Public Shared density As Double
 
@@ -838,6 +838,21 @@ Public Class Form1
         TextBox149.Text &= "weight 886 kg, 247rpm, 30kW" & vbCrLf
         TextBox149.Text &= "Chain drive" & vbCrLf
 
+        TextBox179.Text = "General" & vbCrLf
+        TextBox179.Text &= "Maximum speed 30 rpm (prevent jumping)" & vbCrLf
+        TextBox179.Text &= "Maximum filling 25% (info Dutch Spriral)" & vbCrLf
+        TextBox179.Text &= "Aid-spriral to reduce fall back." & vbCrLf
+        TextBox179.Text &= "Spriral is shorter during operation and shortens over time." & vbCrLf
+        TextBox179.Text &= " " & vbCrLf
+
+        TextBox180.Text = "Trough liner" & vbCrLf
+        TextBox180.Text &= "Trough liner (6-8mm) use HD Polyethylene  " & vbCrLf
+        TextBox180.Text &= "Not suitable for food (crevices) " & vbCrLf
+        TextBox180.Text &= "Not suitable for ATEX (static electricity) " & vbCrLf
+        TextBox180.Text &= "Alternative stainless sheet (6-8mm)" & vbCrLf
+        TextBox180.Text &= "Sheet-flight use different ss type (binding)" & vbCrLf
+        TextBox180.Text &= "Prevent running dry with stainless liners" & vbCrLf
+
         '------- TextBox152.Text -----------------
         'Vertical screw conveyors ----------------
         TextBox152.Text = "Stortgoed    " & vbTab & "Density" & vbTab & "KS" & vbTab & "Taludhoek" & vbCrLf
@@ -902,13 +917,13 @@ Public Class Form1
         pitch = _diam_flight * NumericUpDown2.Value         '[m]
         TextBox157.Text = (pitch * 1000).ToString("F0")     '[mm]
         _angle = NumericUpDown4.Value                       '[degree]
-        speed = NumericUpDown7.Value                        '[rpm]
+        _rpm_hor = NumericUpDown7.Value                        '[rpm]
         progress_resistance = NumericUpDown9.Value          '[-]
         density = NumericUpDown6.Value                      '[kg/m3] Density
         _λ6 = NumericUpDown3.Value                          '[m] lengte van de trog/schroef 
 
         '------- Flight speed (ATEX < 1 [m/s])-----------
-        flight_speed = speed / 60 * PI * _diam_flight   '[m/s]
+        flight_speed = _rpm_hor / 60 * PI * _diam_flight   '[m/s]
 
         '------- Required Volumetric capacity --------
         _regu_flow_kg_hr = NumericUpDown5.Value * 1000  '[kg/hr] required flow
@@ -916,7 +931,7 @@ Public Class Form1
 
         '-------- Volumetric Capacity [m3/hr] ---------------
         '-------- Of the selected diameter ------------------
-        cap_hr_100 = PI / 4 * (_diam_flight ^ 2 - _pipe_OD ^ 2) * pitch * speed * 60    ' [m3/hr]
+        cap_hr_100 = PI / 4 * (_diam_flight ^ 2 - _pipe_OD ^ 2) * pitch * _rpm_hor * 60    ' [m3/hr]
 
         '-------- Inclination factor ------------------------
         cap_under_angle = -0.0213 * _angle + 1.0        'Inclination capacity factor
@@ -948,17 +963,17 @@ Public Class Form1
         'mekog_pow *= 1.6 'Based on current measurement Q19.1165 (Borouge 4) dd 12/09/2019
 
         mekog_pow = Calc_mekog(_regu_flow_kg_hr, _λ6)
-        mekog_torque = mekog_pow * 1000 / (speed * 2 * PI / 60)
+        mekog_torque = mekog_pow * 1000 / (_rpm_hor * 2 * PI / 60)
 
         ' Debug.WriteLine("_regu_flow_kg_hr= " & _regu_flow_kg_hr.ToString)
         'Debug.WriteLine(" _λ6= " & _λ6.ToString)
 
         '--------------- NON asperen chart ----------------
         NON_torque = Calc_NON_Torque((_diam_flight * 1000), _λ6)    '[Nm]
-        NON_pow = NON_torque * (speed * 2 * PI / 60) / 1000         '[kW]
+        NON_pow = NON_torque * (_rpm_hor * 2 * PI / 60) / 1000         '[kW]
 
         '-------------- Retention time --------------------
-        r_time = _λ6 / (speed / 60 * pitch)                         '[sec]
+        r_time = _λ6 / (_rpm_hor / 60 * pitch)                         '[sec]
 
         '--------------- present results------------
         TextBox19.Text = _λ6.ToString
@@ -975,11 +990,11 @@ Public Class Form1
 
         TextBox110.Text = r_time.ToString("F0")
         TextBox123.Text = cap_hr_100.ToString("F0")        '[m3/hr] @ 100% filling horizontal
-        TextBox126.Text = cap_under_angle.ToString("F2")  'Inclination factor
-        TextBox124.Text = actual_cap_m3.ToString("F1") '[m3/hr] 
+        TextBox126.Text = cap_under_angle.ToString("F2")    'Inclination factor
+        TextBox124.Text = actual_cap_m3.ToString("F1")      '[m3/hr] 
 
         '--------------- checks ---------------------
-        NumericUpDown7.BackColor = CType(IIf(speed > 45, Color.Red, Color.Yellow), Color)
+        NumericUpDown7.BackColor = CType(IIf(_rpm_hor > 45, Color.Red, Color.Yellow), Color)
         Label135.Visible = CBool(IIf(flight_speed > 1.0, True, False))
 
     End Sub
@@ -2523,7 +2538,6 @@ Public Class Form1
         Dim row, font_sizze As Integer
         'Dim ufilename As String
         Dim str As String
-        'Dim speed As Double
 
         oWord = New Word.Application()
 
@@ -2584,8 +2598,7 @@ Public Class Form1
         oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
         oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
 
-
-        '--------------Material -------------------
+        '-------------- Product -------------------
         'Insert a table, fill it with data and change the column widths.
         oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 4, 3)
         oTable.Range.ParagraphFormat.SpaceAfter = 0
@@ -2594,7 +2607,7 @@ Public Class Form1
         oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
 
         row = 1
-        oTable.Cell(row, 1).Range.Text = "Material"
+        oTable.Cell(row, 1).Range.Text = "Product"
         row += 1
 
         oTable.Cell(row, 1).Range.Text = "Product"
@@ -2620,7 +2633,7 @@ Public Class Form1
 
         '--------------Screw data  -------------------
         'Insert a table, fill it with data and change the column widths.
-        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 12, 3)
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 14, 3)
         oTable.Range.ParagraphFormat.SpaceAfter = 0
         oTable.Range.Font.Size = font_sizze
         oTable.Range.Font.Bold = CInt(False)
@@ -2661,6 +2674,14 @@ Public Class Form1
         oTable.Cell(row, 1).Range.Text = "Screw speed"
         oTable.Cell(row, 2).Range.Text = CType(NumericUpDown64.Value, String)
         oTable.Cell(row, 3).Range.Text = "[rpm]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Tip speed"
+        oTable.Cell(row, 2).Range.Text = TextBox169.Text
+        oTable.Cell(row, 3).Range.Text = "[m/s]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "ATEX"
+        oTable.Cell(row, 2).Range.Text = TextBox168.Text
+        oTable.Cell(row, 3).Range.Text = "[-]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Friction coef"
         oTable.Cell(row, 2).Range.Text = CType(NumericUpDown66.Value, String)
@@ -3114,7 +3135,7 @@ Public Class Form1
         Dim Flight_short_side As Double = NumericUpDown61.Value  '[mm] short side
         Dim Flight_long_side As Double = NumericUpDown62.Value  '[mm] long side
         Dim Conve_length As Double = NumericUpDown63.Value  '[mm]
-        Dim speed As Double = NumericUpDown64.Value         '[rpm]
+        Dim rpm As Double = NumericUpDown64.Value         '[rpm]
         Dim capacity As Double = NumericUpDown65.Value      '[kg/h]
         Dim friction As Double = NumericUpDown66.Value      '[-]
         Dim density As Double = NumericUpDown67.Value       '[kg/m3]
@@ -3135,14 +3156,18 @@ Public Class Form1
         Dim τ_stress As Double                  '[N/mm2] Shear stress
         Dim flight_area As Double               '[m2] floght area
         Dim flight_id As Double                 '[mm] floght area
-        Dim sl_NON_pow, sl_NON_torque As Double
-        Dim sl_mekog_pow, sl_mekog_torque As Double
-
+        Dim sl_NON_pow As Double                '[kW]
+        Dim sl_NON_torque As Double             '[Nm]
+        Dim sl_mekog_pow As Double              '[kW]
+        Dim sl_mekog_torque As Double           '[Nm]
+        Dim c_speed As Double                   '[m/s] circumfetrential speed
+        Dim omega As Double                     '[rad/s]
 
         Pitch = Conve_OD * NumericUpDown60.Value                '[mm]
-        retention_time = Conve_length / (speed / 60 * Pitch)    '[s]
+        retention_time = Conve_length / (rpm / 60 * Pitch)    '[s]
         weight_in_screw = capacity * retention_time / 3600      '[kg]
         force = weight_in_screw * friction * 9.81               '[N]
+        c_speed = rpm / 60 * PI * (Conve_OD / 1000)             '[m/s]
 
         '----------- coil length over one pitch
         coil_length = Sqrt((PI * Conve_OD) ^ 2 + Pitch ^ 2)     '[mm]
@@ -3156,7 +3181,7 @@ Public Class Form1
         flight_id = Conve_OD - 2 * Flight_long_side             '[mm]
         If flight_id < 0 Then flight_id = 0                     'Cannot be negative
         flight_area = PI / 4 * ((Conve_OD / 1000) ^ 2 - (flight_id / 1000) ^ 2)      '[m2]
-        vol_100_cap = flight_area * (Pitch / 1000) * speed * 60 '[m3/h]
+        vol_100_cap = flight_area * (Pitch / 1000) * rpm * 60 '[m3/h]
         SL_filling_perc = vol_flow / vol_100_cap * 100          '[%] Filling percentage
         'http://icozct.tudelft.nl/TUD_CT/CT3109/collegestof/invloedslijnen/files/VGN-UK.pdf
         'https://nl.wikipedia.org/wiki/Oppervlaktetraagheidsmoment
@@ -3199,12 +3224,13 @@ Public Class Form1
         K_spring = Abs(P / ΔL)                                          '[N/mm]
 
         '=============== Power ====================
+        omega = (rpm * 2 * PI / 60)                                     '[rad/s]
         sl_mekog_pow = Calc_mekog(_regu_flow_kg_hr, _λ6)                '[kW]
-        sl_mekog_torque = sl_mekog_pow * 1000 / (speed * 2 * PI / 60)   '[Nm]
+        sl_mekog_torque = sl_mekog_pow * 1000 / omega                   '[Nm]
 
         '--------------- NON asperen chart ----------------
         sl_NON_torque = Calc_NON_Torque((_diam_flight * 1000), _λ6)     '[Nm]
-        sl_NON_pow = sl_NON_torque * (speed * 2 * PI / 60) / 1000       '[kW]
+        sl_NON_pow = sl_NON_torque * omega / 1000                       '[kW]
 
         '=============== Checks ====================
         If ab < 1 Then
@@ -3214,13 +3240,21 @@ Public Class Form1
             NumericUpDown61.BackColor = Color.Yellow
             NumericUpDown62.BackColor = Color.Yellow
         End If
-        NumericUpDown64.BackColor = CType(IIf(speed <= 30, Color.Yellow, Color.Red), Color)
+        NumericUpDown64.BackColor = CType(IIf(rpm <= 30, Color.Yellow, Color.Red), Color)
 
         'τ = 0.58 Rp0.2, voor taaie materialen (staal)volgens het von Misess
         'Basen shaftles material ss 304 uss Rp0.2=155 [N/mm2]
         'safety factor 1.5
         TextBox170.BackColor = CType(IIf(τ_stress < (0.58 * 155 / 1.5), Color.LightGreen, Color.Red), Color)
         TextBox165.BackColor = CType(IIf(SL_filling_perc < 30, Color.LightGreen, Color.Red), Color)
+
+        If c_speed <= 1 Then
+            TextBox168.Text = "OK"      '[-]ATEX
+            TextBox168.BackColor = Color.LightGreen
+        Else
+            TextBox168.Text = "NOK"      '[-]ATEX
+            TextBox168.BackColor = Color.Red
+        End If
 
         '-------------- present ------------------
         TextBox158.Text = Pitch.ToString("F0")                  '[mm]
@@ -3229,14 +3263,16 @@ Public Class Form1
         TextBox161.Text = ΔL.ToString("F1")                     '[mm]
         TextBox162.Text = (coil_length / 1000).ToString("F1")   '[m]
         TextBox163.Text = weight_in_screw.ToString("F0")        '[kg]
-        TextBox164.Text = (force).ToString("F1")                '[N]
-        TextBox165.Text = SL_filling_perc.ToString("F1")           '[%]
+        TextBox164.Text = (force).ToString("F0")                '[N]
+        TextBox165.Text = SL_filling_perc.ToString("F1")        '[%]
         TextBox167.Text = vol_flow.ToString("F1")               '[m3/h]
+        TextBox169.Text = c_speed.ToString("F2")                '[m/s]
         TextBox170.Text = τ_stress.ToString("F1")               '[N/mm2] shear stress
         TextBox173.Text = coil_weight.ToString("F1")            '[kg] total coil weight
         TextBox177.Text = sl_mekog_torque.ToString("F0")        '[Nm] Mekog torque
         TextBox178.Text = sl_mekog_pow.ToString("F1")           '[kW] Mekog power
         TextBox174.Text = sl_NON_torque.ToString("F0")          '[Nm] NON torque
+        TextBox175.Text = retention_time.ToString("F0")         '[s] retention time
         TextBox176.Text = sl_NON_pow.ToString("F1")            '[kW] NON power
         TextBox171.Text = "A=" & a.ToString("F0") & ", B=" & b.ToString("F1") & ", N=" & N.ToString("F0")
         TextBox171.Text &= ", R=" & R.ToString("F0") & ", C=" & c.ToString("F1") & ", P=" & P.ToString("F0")
@@ -3453,7 +3489,6 @@ Public Class Form1
         Dim row, font_sizze As Integer
         'Dim ufilename As String
         Dim str As String
-        'Dim speed As Double
 
         oWord = New Word.Application()
 
@@ -3551,8 +3586,6 @@ Public Class Form1
 
         oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
         oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
-
-
 
         '--------------Screw data  -------------------
         'Insert a table, fill it with data and change the column widths.
