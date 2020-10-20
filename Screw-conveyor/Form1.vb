@@ -3125,7 +3125,7 @@ Public Class Form1
         Form2.Show()
     End Sub
 
-    Private Sub Button15_Click(sender As Object, e As EventArgs) Handles Button15.Click, NumericUpDown64.ValueChanged, NumericUpDown62.ValueChanged, NumericUpDown61.ValueChanged, NumericUpDown60.ValueChanged, NumericUpDown59.ValueChanged, NumericUpDown66.ValueChanged, NumericUpDown63.ValueChanged
+    Private Sub Button15_Click(sender As Object, e As EventArgs) Handles Button15.Click, NumericUpDown64.ValueChanged, NumericUpDown62.ValueChanged, NumericUpDown61.ValueChanged, NumericUpDown60.ValueChanged, NumericUpDown59.ValueChanged, NumericUpDown66.ValueChanged, NumericUpDown63.ValueChanged, TabPage13.Enter
         Calc_flex()
     End Sub
     Private Sub Calc_flex()

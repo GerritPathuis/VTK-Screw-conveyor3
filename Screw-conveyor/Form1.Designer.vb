@@ -619,6 +619,8 @@ Partial Class Form1
         Me.Label234 = New System.Windows.Forms.Label()
         Me.TextBox166 = New System.Windows.Forms.TextBox()
         Me.GroupBox38 = New System.Windows.Forms.GroupBox()
+        Me.TextBox182 = New System.Windows.Forms.TextBox()
+        Me.TextBox181 = New System.Windows.Forms.TextBox()
         Me.Label257 = New System.Windows.Forms.Label()
         Me.TextBox175 = New System.Windows.Forms.TextBox()
         Me.Label255 = New System.Windows.Forms.Label()
@@ -665,8 +667,6 @@ Partial Class Form1
         Me.PictureBox10 = New System.Windows.Forms.PictureBox()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
-        Me.TextBox181 = New System.Windows.Forms.TextBox()
-        Me.TextBox182 = New System.Windows.Forms.TextBox()
         Me.TabControl1.SuspendLayout
         Me.TabPage1.SuspendLayout
         CType(Me.PictureBox14, System.ComponentModel.ISupportInitialize).BeginInit
@@ -7314,6 +7314,24 @@ Partial Class Form1
         Me.GroupBox38.TabStop = False
         Me.GroupBox38.Text = "Load"
         '
+        'TextBox182
+        '
+        Me.TextBox182.Enabled = False
+        Me.TextBox182.Location = New System.Drawing.Point(190, 15)
+        Me.TextBox182.Name = "TextBox182"
+        Me.TextBox182.Size = New System.Drawing.Size(65, 20)
+        Me.TextBox182.TabIndex = 81
+        Me.TextBox182.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'TextBox181
+        '
+        Me.TextBox181.Enabled = False
+        Me.TextBox181.Location = New System.Drawing.Point(190, 39)
+        Me.TextBox181.Name = "TextBox181"
+        Me.TextBox181.Size = New System.Drawing.Size(65, 20)
+        Me.TextBox181.TabIndex = 80
+        Me.TextBox181.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
         'Label257
         '
         Me.Label257.AutoSize = True
@@ -7790,24 +7808,6 @@ Partial Class Form1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'TextBox181
-        '
-        Me.TextBox181.Enabled = False
-        Me.TextBox181.Location = New System.Drawing.Point(190, 39)
-        Me.TextBox181.Name = "TextBox181"
-        Me.TextBox181.Size = New System.Drawing.Size(65, 20)
-        Me.TextBox181.TabIndex = 80
-        Me.TextBox181.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
-        'TextBox182
-        '
-        Me.TextBox182.Enabled = False
-        Me.TextBox182.Location = New System.Drawing.Point(190, 15)
-        Me.TextBox182.Name = "TextBox182"
-        Me.TextBox182.Size = New System.Drawing.Size(65, 20)
-        Me.TextBox182.TabIndex = 81
-        Me.TextBox182.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -7816,7 +7816,7 @@ Partial Class Form1
         Me.Controls.Add(Me.TabControl1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Form1"
-        Me.Text = "Screw conveyors 3.0 K"
+        Me.Text = "Screw conveyors 3.0 L"
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage1.PerformLayout
