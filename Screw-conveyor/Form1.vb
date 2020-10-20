@@ -1001,12 +1001,12 @@ Public Class Form1
 
     Private Function Calc_mekog(m_flow As Double, Length As Double) As Double
         Dim mekog As Double
-        mekog = _regu_flow_kg_hr * Length / (40 * 1.36 * 1000)    '[kW]
+        mekog = m_flow * Length / (40 * 1.36 * 1000)    '[kW]
         mekog *= 1.6 'Based on current measurement Q19.1165 (Borouge 4) dd 12/09/2019
         Return (mekog)
     End Function
 
-    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown10.ValueChanged, NumericUpDown25.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox4.SelectedIndexChanged, ComboBox13.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox8.CheckedChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, CheckBox4.CheckedChanged, CheckBox7.CheckedChanged, CheckBox6.CheckedChanged, TabPage4.Enter, CheckBox5.CheckedChanged
+    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown10.ValueChanged, NumericUpDown25.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox4.SelectedIndexChanged, ComboBox13.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox8.CheckedChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, CheckBox4.CheckedChanged, CheckBox7.CheckedChanged, CheckBox6.CheckedChanged, TabPage4.Enter, CheckBox5.CheckedChanged, NumericUpDown68.ValueChanged, NumericUpDown67.ValueChanged
         Calc_sequence()
     End Sub
 
@@ -1021,7 +1021,7 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click, TabPage5.Enter, NumericUpDown34.ValueChanged, NumericUpDown33.ValueChanged, NumericUpDown30.ValueChanged, NumericUpDown27.ValueChanged, NumericUpDown48.ValueChanged, TextBox99.VisibleChanged, RadioButton11.CheckedChanged, NumericUpDown50.ValueChanged, NumericUpDown49.ValueChanged
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click, TabPage5.Enter, NumericUpDown34.ValueChanged, NumericUpDown33.ValueChanged, NumericUpDown30.ValueChanged, NumericUpDown27.ValueChanged, NumericUpDown48.ValueChanged, TextBox99.VisibleChanged, NumericUpDown50.ValueChanged, NumericUpDown49.ValueChanged, NumericUpDown65.ValueChanged
         Calc_sequence()
     End Sub
     'Please note complete calculation in [m] not [mm]
@@ -1465,13 +1465,13 @@ Public Class Form1
         oPara1 = oDoc.Content.Paragraphs.Add
         oPara1.Range.Text = "VTK Engineering"
         oPara1.Range.Font.Name = "Arial"
-        oPara1.Range.Font.Size = font_sizze + 3
+        oPara1.Range.Font.Size = font_sizze + 2
         oPara1.Range.Font.Bold = CInt(True)
         oPara1.Format.SpaceAfter = 1                '24 pt spacing after paragraph. 
         oPara1.Range.InsertParagraphAfter()
 
         oPara2 = oDoc.Content.Paragraphs.Add(oDoc.Bookmarks.Item("\endofdoc").Range)
-        oPara2.Range.Font.Size = font_sizze + 1
+        oPara2.Range.Font.Size = font_sizze
         oPara2.Format.SpaceAfter = 1
         oPara2.Range.Font.Bold = CInt(False)
         oPara2.Range.Text = "Screw conveyor cost calculation" & vbCrLf
@@ -1513,7 +1513,7 @@ Public Class Form1
         oTable.Range.Font.Size = font_sizze
         oTable.Range.Font.Bold = CInt(False)
         oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
-        oTable.Rows.Item(1).Range.Font.Size = font_sizze + 2
+        oTable.Rows.Item(1).Range.Font.Size = font_sizze
         row = 1
         oTable.Cell(row, 1).Range.Text = "Input Data"
         row += 1
@@ -1581,20 +1581,22 @@ Public Class Form1
         oTable.Cell(row, 3).Range.Text = CType(NumericUpDown5.Value, String)
         oTable.Cell(row, 2).Range.Text = "[ton/hr]"
 
-        oTable.Columns.Item(1).Width = oWord.InchesToPoints(2.4)   'Change width of columns 1 & 2.
+        oTable.Columns.Item(1).Width = oWord.InchesToPoints(2.4)
         oTable.Columns.Item(2).Width = oWord.InchesToPoints(0.6)
         oTable.Columns.Item(3).Width = oWord.InchesToPoints(1.6)
         oTable.Columns.Item(4).Width = oWord.InchesToPoints(0.4)
         oTable.Columns.Item(5).Width = oWord.InchesToPoints(0.6)
-
         oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+
+
+        '============================================
         'Insert a 16 x 3 table, fill it with data and change the column widths.
         oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 12, 5)
         oTable.Range.ParagraphFormat.SpaceAfter = 1
         oTable.Range.Font.Size = font_sizze
         oTable.Range.Font.Bold = CInt(False)
         oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
-        oTable.Rows.Item(1).Range.Font.Size = font_sizze + 2
+        oTable.Rows.Item(1).Range.Font.Size = font_sizze
         row = 1
         oTable.Cell(row, 1).Range.Text = "Input data"
         row += 1
@@ -1657,21 +1659,58 @@ Public Class Form1
         oTable.Columns.Item(3).Width = oWord.InchesToPoints(1.6)
         oTable.Columns.Item(4).Width = oWord.InchesToPoints(0.4)
         oTable.Columns.Item(5).Width = oWord.InchesToPoints(0.6)
-
         oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+        '======================================================
+
         'Insert a 16 x 3 table, fill it with data and change the column widths.
-        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 14, 8)
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 6, 5)
         oTable.Range.ParagraphFormat.SpaceAfter = 1
         oTable.Range.Font.Size = font_sizze
         oTable.Range.Font.Bold = CInt(False)
         oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
-        oTable.Rows.Item(1).Range.Font.Size = font_sizze + 2
+        oTable.Rows.Item(1).Range.Font.Size = font_sizze
         row = 1
-        oTable.Cell(row, 1).Range.Text = "Costs"
+        oTable.Cell(row, 1).Range.Text = "Costs Material"
         row += 1
-        oTable.Rows.Item(2).Range.Font.Bold = CInt(True)
-        oTable.Cell(row, 6).Range.Text = "Material"
-        oTable.Cell(row, 1).Range.Text = "Labour"
+        oTable.Cell(row, 1).Range.Text = "Total cost material "
+        oTable.Cell(row, 2).Range.Text = TextBox103.Text
+        oTable.Cell(row, 3).Range.Text = "[€]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Percentage labour "
+        oTable.Cell(row, 2).Range.Text = TextBox101.Text
+        oTable.Cell(row, 3).Range.Text = "[%]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Percentage material"
+        oTable.Cell(row, 2).Range.Text = TextBox100.Text
+        oTable.Cell(row, 3).Range.Text = "[%]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = TextBox183.Text
+        oTable.Cell(row, 2).Range.Text = NumericUpDown67.Value.ToString("F0")
+        oTable.Cell(row, 3).Range.Text = "[€]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = TextBox184.Text
+        oTable.Cell(row, 2).Range.Text = NumericUpDown68.Value.ToString("F0")
+        oTable.Cell(row, 3).Range.Text = "[€]"
+
+
+        oTable.Columns.Item(1).Width = oWord.InchesToPoints(2.4)
+        oTable.Columns.Item(2).Width = oWord.InchesToPoints(0.6)
+        oTable.Columns.Item(3).Width = oWord.InchesToPoints(1.6)
+        oTable.Columns.Item(4).Width = oWord.InchesToPoints(0.4)
+        oTable.Columns.Item(5).Width = oWord.InchesToPoints(0.6)
+
+        oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+
+        '======================================================
+        'Insert a 16 x 3 table, fill it with data and change the column widths.
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 10, 8)
+        oTable.Range.ParagraphFormat.SpaceAfter = 1
+        oTable.Range.Font.Size = font_sizze
+        oTable.Range.Font.Bold = CInt(False)
+        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+        oTable.Rows.Item(1).Range.Font.Size = font_sizze
+        row = 1
+        oTable.Cell(row, 1).Range.Text = "Costs Labour"
 
         row += 1
         oTable.Cell(row, 1).Range.Text = "Work preparation"
@@ -1686,6 +1725,7 @@ Public Class Form1
         oTable.Cell(row, 3).Range.Text = CType(NumericUpDown30.Value, String)
         oTable.Cell(row, 4).Range.Text = "[€]"
         oTable.Cell(row, 5).Range.Text = TextBox55.Text
+
         row += 1
         oTable.Cell(row, 1).Range.Text = "Project man."
         oTable.Cell(row, 3).Range.Text = CType(NumericUpDown33.Value, String)
@@ -1699,22 +1739,13 @@ Public Class Form1
         oTable.Cell(row, 2).Range.Text = "[hr]"
         oTable.Cell(row, 5).Range.Text = TextBox72.Text
         oTable.Cell(row, 4).Range.Text = "[€]"
+
         row += 1
         oTable.Cell(row, 1).Range.Text = "Total hours"
         oTable.Cell(row, 3).Range.Text = TextBox106.Text
         oTable.Cell(row, 2).Range.Text = "[hr]"
         oTable.Cell(row, 5).Range.Text = TextBox98.Text
         oTable.Cell(row, 4).Range.Text = "[€]"
-        oTable.Cell(row, 6).Range.Text = "Total cost material"
-        oTable.Cell(row, 8).Range.Text = TextBox103.Text
-        oTable.Cell(row, 7).Range.Text = "[€]"
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Percentage labour "
-        oTable.Cell(row, 5).Range.Text = TextBox101.Text
-        oTable.Cell(row, 4).Range.Text = "[%]"
-        oTable.Cell(row, 6).Range.Text = "Percentage material"
-        oTable.Cell(row, 8).Range.Text = TextBox100.Text
-        oTable.Cell(row, 7).Range.Text = "[%]"
 
         row += 1
         oTable.Cell(row, 1).Range.Text = "Total cost price"
@@ -1732,9 +1763,7 @@ Public Class Form1
         oTable.Cell(row, 4).Range.Text = "[€]"
 
         row += 1
-        oTable.Rows.Item(12).Range.Font.Bold = CInt(True)
-        oTable.Rows.Item(12).Range.Font.Size = font_sizze + 1
-        oTable.Cell(row, 1).Range.Text = "Total sale price"
+        oTable.Cell(row, 1).Range.Text = "Total sales price"
         oTable.Cell(row, 5).Range.Text = TextBox75.Text
         oTable.Cell(row, 4).Range.Text = "[€]"
 
@@ -2880,7 +2909,6 @@ Public Class Form1
         diam_schroef = _diam_flight - 2 * speling_trog
         oppb_deksel = 2 * _λ6 * (_diam_flight + 0.075)                  'zowel inwendig als uitwendig
 
-        ' NumericUpDown12.Value = NumericUpDown8.Value                    'Dikte schroefblad bij tab1 opgegeven
         spoed = diam_schroef * NumericUpDown2.Value
         nr_flights = _λ6 / spoed
         hoek_spoed = Atan(spoed / (PI * diam_schroef))                  '[rad]    
@@ -2906,7 +2934,6 @@ Public Class Form1
         oppb_inlaat = 1             '[m2]
         oppb_uitlaat = 1            '[m2]
         oppb_voet = 0.5             '[m2]
-        'oppb_afschermkap = 1        '[m2]
 
         '----------------------------------------COST CALCULATION-----------------------------------------------
         '-------------------------------------------------------------------------------------------------------
@@ -2917,6 +2944,7 @@ Public Class Form1
         Dim kgprijs(9) As Double
         Dim totaal_gew As Double
         Dim marge_factor As Double
+        Dim vrije_regel As Double
 
         'TABBLAD COSTING ---------------------------------------------------------------------------------------
         'STEEL SUBGROUP ----------------------------------------------------------------------------------------
@@ -2974,7 +3002,8 @@ Public Class Form1
         If Not CheckBox7.Checked Then cost_transport = 0 'enable
         subtotalCost_Misc = cost_lining + cost_painting + cost_transport
 
-        total_cost = subtotalCost_Steel + subtotalCost_Components + subtotalCost_Options + subtotalCost_Misc
+        vrije_regel = NumericUpDown67.Value + NumericUpDown68.Value
+        total_cost = subtotalCost_Steel + subtotalCost_Components + subtotalCost_Options + subtotalCost_Misc + vrije_regel
 
         'FILL TEXTBOXES STEEL SUBGROUP ----------------------------------------------------------------------------------------
         TextBox42.Text = (2 * kg_kopstaartplaat).ToString("F1")   'kopstaartplaat kg (twee kopplaten)
@@ -3045,20 +3074,23 @@ Public Class Form1
 
         prijs_wvb = uren_wvb * wvb_prijs_uur                                'Wvb cost
         prijs_eng = uren_eng * eng_prijs_uur                                'Engineering cost
-        prijs_pro = uren_pro * project_prijs_uur                        'Project management cost
-        prijs_fab = uren_fab * fabriek_prijs_uur                       'Fabriek cost
+        prijs_pro = uren_pro * project_prijs_uur                            'Project management cost
+        prijs_fab = uren_fab * fabriek_prijs_uur                            'Fabriek cost
 
         tot_prijsarbeid = prijs_wvb + prijs_eng + prijs_pro + prijs_fab     'Totale prijs arbeid
 
         certificate_cost = 50 * NumericUpDown27.Value                       'Certificaat cost
-        geheel_totprijs = total_cost + tot_prijsarbeid                      'Totaal prijs
+
+
+        geheel_totprijs = total_cost + tot_prijsarbeid        'Totaal prijs
+
         perc_mater = 100 * total_cost / geheel_totprijs                     'Percentage materiaal
         perc_arbeid = 100 * tot_prijsarbeid / geheel_totprijs               'Percentage arbeid
         dekking = geheel_totprijs * (1 / 0.96 - 1)                          'Risco Dekking 4%
 
 
         '------- normal customer OR intercompany -------------
-        marge_factor = CDbl(IIf(RadioButton11.Checked, 0.82, 0.85))         'Marge factor
+        marge_factor = NumericUpDown65.Value                                'Marge factor
         marge_cost = (geheel_totprijs + dekking) * (1 / marge_factor - 1)   'Marge
         packing = NumericUpDown49.Value                                     'packing
         shipping = NumericUpDown50.Value                                    'Shipping
