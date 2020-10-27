@@ -1006,7 +1006,7 @@ Public Class Form1
         Return (mekog)
     End Function
 
-    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown10.ValueChanged, NumericUpDown25.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox4.SelectedIndexChanged, ComboBox13.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox8.CheckedChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, CheckBox4.CheckedChanged, CheckBox7.CheckedChanged, CheckBox6.CheckedChanged, TabPage4.Enter, CheckBox5.CheckedChanged, NumericUpDown68.ValueChanged, NumericUpDown67.ValueChanged
+    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown10.ValueChanged, NumericUpDown25.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox4.SelectedIndexChanged, ComboBox13.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox8.CheckedChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, CheckBox4.CheckedChanged, CheckBox7.CheckedChanged, CheckBox6.CheckedChanged, TabPage4.Enter, CheckBox5.CheckedChanged, NumericUpDown68.ValueChanged, NumericUpDown67.ValueChanged, NumericUpDown79.ValueChanged, NumericUpDown78.ValueChanged, NumericUpDown77.ValueChanged, NumericUpDown76.ValueChanged, NumericUpDown75.ValueChanged, NumericUpDown74.ValueChanged, NumericUpDown73.ValueChanged, NumericUpDown72.ValueChanged, NumericUpDown71.ValueChanged, NumericUpDown70.ValueChanged, NumericUpDown69.ValueChanged
         Calc_sequence()
     End Sub
 
@@ -2810,36 +2810,46 @@ Public Class Form1
 
         Select Case True
             Case (RadioButton6.Checked)         'staal, s235JR
-                rho_staal = 7850
-                TextBox93.Text = "0.78"         'kop staart  [€/kg]
-                TextBox96.Text = "0.78"         'trog
-                TextBox97.Text = "0.78"         'deksel
-                TextBox113.Text = "0.78"        'inlaat,uitlaat,voet, schermkap [€/kg]
-                TextBox94.Text = CType(IIf(Not CheckBox5.Checked, "2.00", "3.00"), String) 'schroefpijp staal (seam/seamless)
-                TextBox95.Text = "8.00"         'schroefblad
-                TextBox92.Text = "2.09"         'astap ronde staf afm 60
+                TextBox93.Text = NumericUpDown69.Value.ToString("0.00")         'kop staart  [€/kg]
+                TextBox96.Text = NumericUpDown69.Value.ToString("0.00")         'trog
+                TextBox97.Text = NumericUpDown69.Value.ToString("0.00")         'deksel
+                TextBox113.Text = NumericUpDown69.Value.ToString("0.00")        'inlaat,uitlaat,voet, schermkap [€/kg]
+                If CheckBox5.Checked Then 'schroefpijp staal (seam/seamless)
+                    TextBox94.Text = NumericUpDown76.Value.ToString("0.00")
+                Else
+                    TextBox94.Text = NumericUpDown75.Value.ToString("0.00")
+                End If
+                TextBox95.Text = NumericUpDown72.Value.ToString("0.00")         'schroefblad
+                TextBox92.Text = NumericUpDown74.Value.ToString("0.00")         'astap ronde staf afm 60
                 CheckBox6.Checked = True        'Paint
             Case (RadioButton7.Checked)         'rvs304, (Koud + 2B)
-                rho_staal = 7950
-                TextBox93.Text = "2.75"         'kop staart 
-                TextBox96.Text = "2.75"         'trog
-                TextBox97.Text = "2.75"         'deksel
-                TextBox113.Text = "2.75"        'inlaat,uitlaat,voet, schermkap [€/kg]
-                TextBox94.Text = CType(IIf(Not CheckBox5.Checked, "3.45", "6.25"), String) 'schroefpijp 304 (seam/seamless)
-                TextBox95.Text = "10.0"         'schroefblad
-                TextBox92.Text = "1.52"         'astap [€/kg] materiaal is standaard van staal
+                TextBox93.Text = NumericUpDown70.Value.ToString("0.00")         'kop staart 
+                TextBox96.Text = NumericUpDown70.Value.ToString("0.00")         'trog
+                TextBox97.Text = NumericUpDown70.Value.ToString("0.00")         'deksel
+                TextBox113.Text = NumericUpDown70.Value.ToString("0.00")        'inlaat,uitlaat,voet, schermkap [€/kg]
+                If CheckBox5.Checked Then 'schroefpijp staal (seam/seamless)
+                    TextBox94.Text = NumericUpDown77.Value.ToString("0.00")
+                Else
+                    TextBox94.Text = NumericUpDown78.Value.ToString("0.00")
+                End If
+                TextBox95.Text = NumericUpDown73.Value.ToString("0.00")         'schroefblad
+                TextBox92.Text = NumericUpDown79.Value.ToString("0.00")         'astap [€/kg] materiaal is standaard van staal
                 CheckBox6.Checked = False       'Paint
             Case (RadioButton8.Checked)         'rvs316, (Koud + 2B)
-                rho_staal = 8000
-                TextBox93.Text = "3.97"         'kop staart 
-                TextBox96.Text = "3.97"         'trog
-                TextBox97.Text = "3.97"         'deksel
-                TextBox113.Text = "3.97"        'inlaat,uitlaat,voet, schermkap [€/kg]
-                TextBox94.Text = CType(IIf(Not CheckBox5.Checked, "4.45", "8.20"), String) 'schroefpijp 316 (seam/seamless)
-                TextBox95.Text = "10.00"        'schroefblad
-                TextBox92.Text = "1.52"         'astap [€/kg] materiaal is standaard van staal
+                TextBox93.Text = NumericUpDown71.Value.ToString("0.00")         'kop staart 
+                TextBox96.Text = NumericUpDown71.Value.ToString("0.00")         'trog
+                TextBox97.Text = NumericUpDown71.Value.ToString("0.00")         'deksel
+                TextBox113.Text = NumericUpDown71.Value.ToString("0.00")        'inlaat,uitlaat,voet, schermkap [€/kg]
+                If CheckBox5.Checked Then 'schroefpijp staal (seam/seamless)
+                    TextBox94.Text = NumericUpDown77.Value.ToString("0.00")
+                Else
+                    TextBox94.Text = NumericUpDown78.Value.ToString("0.00")
+                End If
+                TextBox95.Text = NumericUpDown73.Value.ToString("0.00")         'schroefblad
+                TextBox92.Text = NumericUpDown79.Value.ToString("0.00")         'astap [€/kg] materiaal is standaard van staal
                 CheckBox6.Checked = False       'Paint
         End Select
+        rho_staal = 7950
 
         If ComboBox4.SelectedIndex > -1 And ComboBox7.SelectedIndex > -1 And ComboBox8.SelectedIndex > -1 And
             ComboBox10.SelectedIndex > -1 And ComboBox12.SelectedIndex > -1 Then
@@ -3015,8 +3025,8 @@ Public Class Form1
         TextBox46.Text = kg_schroefblad.ToString("F1")      'schroefblad kg
         TextBox45.Text = kg_pipe.ToString("F1")             'pijp kg
         TextBox54.Text = kg_astap.ToString("F1")            'astap kg
-        TextBox134.Text = totaal_gew.ToString("F0")         'totaal gewicht
-        TextBox135.Text = gew_inuitvoet.ToString("F0")      'inlaat, uitlaat+voet
+        TextBox134.Text = totaal_gew.ToString("F1")         'totaal gewicht
+        TextBox135.Text = gew_inuitvoet.ToString("F1")      'inlaat, uitlaat+voet
 
         TextBox61.Text = cost_trog.ToString("F0")           'trog cost
         TextBox62.Text = cost_deksel.ToString("F0")         'deksel cost
@@ -3353,6 +3363,9 @@ Public Class Form1
             Chart1.Series(1).Points.AddXY(_d(hh), -_m(hh)) 'Moment line
         Next
     End Sub
+
+
+
     Private Sub Draw_chart2()
         Dim hh As Integer
 
