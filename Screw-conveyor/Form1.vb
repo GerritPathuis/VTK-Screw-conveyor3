@@ -3473,7 +3473,7 @@ Public Class Form1
             End If
         Next
     End Sub
-    Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click, TabPage12.Enter, NumericUpDown53.ValueChanged, NumericUpDown52.ValueChanged, NumericUpDown51.ValueChanged, NumericUpDown46.ValueChanged, NumericUpDown55.ValueChanged, NumericUpDown54.ValueChanged
+    Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click, TabPage12.Enter, NumericUpDown53.ValueChanged, NumericUpDown52.ValueChanged, NumericUpDown51.ValueChanged, NumericUpDown46.ValueChanged, NumericUpDown55.ValueChanged, NumericUpDown54.ValueChanged, NumericUpDown56.ValueChanged
         Dim Qv As Double            '[m3/h] capacity 
         Dim Qm As Double            '[kg/h] capacity 
         Dim g As Double = 9.81      '[kg/m/s^2]Gravitatie
