@@ -3147,6 +3147,12 @@ Public Class Form1
     Private Sub PictureBox14_Click(sender As Object, e As EventArgs) Handles PictureBox14.Click
         Show_DIN_ISO()
     End Sub
+    Private Sub PictureBox15_Click(sender As Object, e As EventArgs) Handles PictureBox15.Click
+        Show_Tail_end()
+    End Sub
+    Private Sub PictureBox16_Click(sender As Object, e As EventArgs) Handles PictureBox16.Click
+        Show_Top_end()
+    End Sub
 
     Private Sub Show_DIN_ISO()
         Form2.Text = "DIN ISO Piping"
@@ -3166,6 +3172,38 @@ Public Class Form1
         Form2.Size = New Size(870, 734)
         Form2.Show()
     End Sub
+    Private Sub Show_Tail_end()
+        Form2.Text = "Tail end VTK vertical screw (P16.0102)"
+        Form2.PictureBox1.Image = Screw_conveyor.My.Resources.Resources.Tail_end
+        Form2.Size = New Size(670, 734)
+        Form2.Show()
+    End Sub
+    Private Sub Show_Top_end()
+
+        '  
+        Form2.Text = "Top end VTK vertical screw (P16.0102) Problems 1)Shrink fit bearing 2) Access very limited"
+        Form2.Size = New Size(870, 734)
+        Form2.PictureBox1.Image = Screw_conveyor.My.Resources.Resources.Top_end
+
+        Dim newTB As New TextBox With {
+            .Name = "Textboxq",
+            .Multiline = True,
+            .Text = "Problems" & vbCrLf & "1) Shrink fit bearing is unsuitable " & vbCrLf & "2) Maintenance access very limited",
+            .Visible = True,
+            .Size = New Size(270, 60),
+            .BackColor = Color.Yellow,
+            .Font = New Font("Microsoft Sans Serif", 10, FontStyle.Bold),
+            .Location = New Point(10, 20)
+                 }
+        Form2.Controls.Add(newTB)
+        newTB.BringToFront()
+        Form2.Show()
+        Form2.ActiveControl = Form2.PictureBox1
+    End Sub
+
+    Private Function vbNull() As Object
+        Throw New NotImplementedException()
+    End Function
 
     Private Sub Button15_Click(sender As Object, e As EventArgs) Handles Button15.Click, NumericUpDown64.ValueChanged, NumericUpDown62.ValueChanged, NumericUpDown61.ValueChanged, NumericUpDown60.ValueChanged, NumericUpDown59.ValueChanged, NumericUpDown66.ValueChanged, NumericUpDown63.ValueChanged, TabPage13.Enter
         Calc_flex()
@@ -3363,8 +3401,6 @@ Public Class Form1
             Chart1.Series(1).Points.AddXY(_d(hh), -_m(hh)) 'Moment line
         Next
     End Sub
-
-
 
     Private Sub Draw_chart2()
         Dim hh As Integer
