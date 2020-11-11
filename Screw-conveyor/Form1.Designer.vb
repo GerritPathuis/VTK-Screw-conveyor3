@@ -23,18 +23,20 @@ Partial Class Form1
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim ChartArea7 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend7 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series7 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea8 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend8 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series8 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea9 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend9 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series9 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
+        Dim ChartArea1 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend1 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series1 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea2 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend2 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series2 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea3 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend3 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series3 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.PictureBox14 = New System.Windows.Forms.PictureBox()
+        Me.PictureBox13 = New System.Windows.Forms.PictureBox()
         Me.TextBox156 = New System.Windows.Forms.TextBox()
         Me.GroupBox33 = New System.Windows.Forms.GroupBox()
         Me.TextBox138 = New System.Windows.Forms.TextBox()
@@ -259,9 +261,13 @@ Partial Class Form1
         Me.TextBox07 = New System.Windows.Forms.TextBox()
         Me.TextBox06 = New System.Windows.Forms.TextBox()
         Me.ComboBox2 = New System.Windows.Forms.ComboBox()
+        Me.PictureBox12 = New System.Windows.Forms.PictureBox()
+        Me.PictureBox11 = New System.Windows.Forms.PictureBox()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
+        Me.PictureBox2 = New System.Windows.Forms.PictureBox()
         Me.TextBox125 = New System.Windows.Forms.TextBox()
         Me.GroupBox28 = New System.Windows.Forms.GroupBox()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.TextBox34 = New System.Windows.Forms.TextBox()
         Me.TextBox33 = New System.Windows.Forms.TextBox()
         Me.TextBox32 = New System.Windows.Forms.TextBox()
@@ -426,16 +432,12 @@ Partial Class Form1
         Me.TabPage5 = New System.Windows.Forms.TabPage()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.GroupBox34 = New System.Windows.Forms.GroupBox()
-        Me.TextBox143 = New System.Windows.Forms.TextBox()
         Me.Label202 = New System.Windows.Forms.Label()
         Me.Label201 = New System.Windows.Forms.Label()
-        Me.TextBox105 = New System.Windows.Forms.TextBox()
         Me.Label96 = New System.Windows.Forms.Label()
         Me.Label110 = New System.Windows.Forms.Label()
-        Me.TextBox69 = New System.Windows.Forms.TextBox()
         Me.Label93 = New System.Windows.Forms.Label()
         Me.Label111 = New System.Windows.Forms.Label()
-        Me.TextBox71 = New System.Windows.Forms.TextBox()
         Me.Label98 = New System.Windows.Forms.Label()
         Me.Label112 = New System.Windows.Forms.Label()
         Me.Button6 = New System.Windows.Forms.Button()
@@ -534,9 +536,13 @@ Partial Class Form1
         Me.NumericUpDown38 = New System.Windows.Forms.NumericUpDown()
         Me.Label166 = New System.Windows.Forms.Label()
         Me.TabPage8 = New System.Windows.Forms.TabPage()
+        Me.PictureBox4 = New System.Windows.Forms.PictureBox()
+        Me.PictureBox3 = New System.Windows.Forms.PictureBox()
         Me.TabPage9 = New System.Windows.Forms.TabPage()
         Me.Label179 = New System.Windows.Forms.Label()
         Me.Label178 = New System.Windows.Forms.Label()
+        Me.PictureBox6 = New System.Windows.Forms.PictureBox()
+        Me.PictureBox5 = New System.Windows.Forms.PictureBox()
         Me.TabPage10 = New System.Windows.Forms.TabPage()
         Me.TextBox133 = New System.Windows.Forms.TextBox()
         Me.GroupBox31 = New System.Windows.Forms.GroupBox()
@@ -576,7 +582,12 @@ Partial Class Form1
         Me.NumericUpDown44 = New System.Windows.Forms.NumericUpDown()
         Me.Label194 = New System.Windows.Forms.Label()
         Me.Label193 = New System.Windows.Forms.Label()
+        Me.PictureBox7 = New System.Windows.Forms.PictureBox()
         Me.TabPage12 = New System.Windows.Forms.TabPage()
+        Me.Label264 = New System.Windows.Forms.Label()
+        Me.Label263 = New System.Windows.Forms.Label()
+        Me.PictureBox16 = New System.Windows.Forms.PictureBox()
+        Me.PictureBox15 = New System.Windows.Forms.PictureBox()
         Me.Button14 = New System.Windows.Forms.Button()
         Me.TextBox153 = New System.Windows.Forms.TextBox()
         Me.Label218 = New System.Windows.Forms.Label()
@@ -609,6 +620,8 @@ Partial Class Form1
         Me.Label211 = New System.Windows.Forms.Label()
         Me.Label212 = New System.Windows.Forms.Label()
         Me.NumericUpDown52 = New System.Windows.Forms.NumericUpDown()
+        Me.PictureBox9 = New System.Windows.Forms.PictureBox()
+        Me.PictureBox8 = New System.Windows.Forms.PictureBox()
         Me.TabPage13 = New System.Windows.Forms.TabPage()
         Me.TextBox180 = New System.Windows.Forms.TextBox()
         Me.TextBox179 = New System.Windows.Forms.TextBox()
@@ -679,28 +692,17 @@ Partial Class Form1
         Me.Label230 = New System.Windows.Forms.Label()
         Me.Label226 = New System.Windows.Forms.Label()
         Me.Label225 = New System.Windows.Forms.Label()
-        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
-        Me.PictureBox14 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox13 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox12 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox11 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox2 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox4 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox3 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox6 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox5 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox7 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox16 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox15 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox9 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox8 = New System.Windows.Forms.PictureBox()
         Me.PictureBox10 = New System.Windows.Forms.PictureBox()
+        Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
-        Me.Label263 = New System.Windows.Forms.Label()
-        Me.Label264 = New System.Windows.Forms.Label()
+        Me.NumericUpDown80 = New System.Windows.Forms.NumericUpDown()
+        Me.NumericUpDown81 = New System.Windows.Forms.NumericUpDown()
+        Me.NumericUpDown82 = New System.Windows.Forms.NumericUpDown()
+        Me.NumericUpDown83 = New System.Windows.Forms.NumericUpDown()
         Me.TabControl1.SuspendLayout
         Me.TabPage1.SuspendLayout
+        CType(Me.PictureBox14, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.PictureBox13, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox33.SuspendLayout
         Me.GroupBox17.SuspendLayout
         Me.GroupBox7.SuspendLayout
@@ -748,8 +750,12 @@ Partial Class Form1
         Me.GroupBox3.SuspendLayout
         CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NumericUpDown11, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.PictureBox12, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.PictureBox11, System.ComponentModel.ISupportInitialize).BeginInit
         Me.TabPage3.SuspendLayout
+        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox28.SuspendLayout
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.TabPage4.SuspendLayout
         Me.GroupBox42.SuspendLayout
         CType(Me.NumericUpDown75, System.ComponentModel.ISupportInitialize).BeginInit
@@ -803,7 +809,11 @@ Partial Class Form1
         CType(Me.NumericUpDown26, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NumericUpDown38, System.ComponentModel.ISupportInitialize).BeginInit
         Me.TabPage8.SuspendLayout
+        CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).BeginInit
         Me.TabPage9.SuspendLayout
+        CType(Me.PictureBox6, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).BeginInit
         Me.TabPage10.SuspendLayout
         Me.GroupBox31.SuspendLayout
         CType(Me.NumericUpDown45, System.ComponentModel.ISupportInitialize).BeginInit
@@ -816,7 +826,10 @@ Partial Class Form1
         CType(Me.NumericUpDown47, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NumericUpDown12, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NumericUpDown44, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.PictureBox7, System.ComponentModel.ISupportInitialize).BeginInit
         Me.TabPage12.SuspendLayout
+        CType(Me.PictureBox16, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.PictureBox15, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox30.SuspendLayout
         CType(Me.NumericUpDown56, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NumericUpDown55, System.ComponentModel.ISupportInitialize).BeginInit
@@ -825,6 +838,8 @@ Partial Class Form1
         CType(Me.NumericUpDown46, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NumericUpDown51, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NumericUpDown52, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.PictureBox9, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).BeginInit
         Me.TabPage13.SuspendLayout
         Me.GroupBox40.SuspendLayout
         Me.GroupBox39.SuspendLayout
@@ -838,23 +853,12 @@ Partial Class Form1
         CType(Me.NumericUpDown61, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NumericUpDown59, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NumericUpDown62, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.PictureBox14, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.PictureBox13, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.PictureBox12, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.PictureBox11, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.PictureBox6, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.PictureBox7, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.PictureBox16, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.PictureBox15, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.PictureBox9, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.PictureBox10, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NumericUpDown80, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NumericUpDown81, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NumericUpDown82, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.NumericUpDown83, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
         'TabControl1
@@ -899,6 +903,28 @@ Partial Class Form1
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Conveyor"
         Me.TabPage1.UseVisualStyleBackColor = True
+        '
+        'PictureBox14
+        '
+        Me.PictureBox14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox14.Image = Global.Screw_conveyor.My.Resources.Resources.DIN_ISO
+        Me.PictureBox14.Location = New System.Drawing.Point(853, 85)
+        Me.PictureBox14.Name = "PictureBox14"
+        Me.PictureBox14.Size = New System.Drawing.Size(89, 61)
+        Me.PictureBox14.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox14.TabIndex = 80
+        Me.PictureBox14.TabStop = False
+        '
+        'PictureBox13
+        '
+        Me.PictureBox13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox13.Image = Global.Screw_conveyor.My.Resources.Resources.B36_10
+        Me.PictureBox13.Location = New System.Drawing.Point(853, 23)
+        Me.PictureBox13.Name = "PictureBox13"
+        Me.PictureBox13.Size = New System.Drawing.Size(89, 52)
+        Me.PictureBox13.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox13.TabIndex = 79
+        Me.PictureBox13.TabStop = False
         '
         'TextBox156
         '
@@ -2171,21 +2197,21 @@ Partial Class Form1
         Me.GroupBox5.Controls.Add(Me.RadioButton3)
         Me.GroupBox5.Controls.Add(Me.RadioButton2)
         Me.GroupBox5.Controls.Add(Me.RadioButton1)
-        Me.GroupBox5.Location = New System.Drawing.Point(651, 436)
+        Me.GroupBox5.Location = New System.Drawing.Point(651, 433)
         Me.GroupBox5.Name = "GroupBox5"
         Me.GroupBox5.Size = New System.Drawing.Size(328, 44)
         Me.GroupBox5.TabIndex = 22
         Me.GroupBox5.TabStop = False
-        Me.GroupBox5.Text = "Maximum Sag 1:"
+        Me.GroupBox5.Text = "Maximum allowed Sag"
         '
         'RadioButton3
         '
         Me.RadioButton3.AutoSize = True
         Me.RadioButton3.Location = New System.Drawing.Point(182, 19)
         Me.RadioButton3.Name = "RadioButton3"
-        Me.RadioButton3.Size = New System.Drawing.Size(49, 17)
+        Me.RadioButton3.Size = New System.Drawing.Size(58, 17)
         Me.RadioButton3.TabIndex = 2
-        Me.RadioButton3.Text = "1000"
+        Me.RadioButton3.Text = "1:1000"
         Me.RadioButton3.UseVisualStyleBackColor = True
         '
         'RadioButton2
@@ -2193,9 +2219,9 @@ Partial Class Form1
         Me.RadioButton2.AutoSize = True
         Me.RadioButton2.Location = New System.Drawing.Point(103, 19)
         Me.RadioButton2.Name = "RadioButton2"
-        Me.RadioButton2.Size = New System.Drawing.Size(43, 17)
+        Me.RadioButton2.Size = New System.Drawing.Size(52, 17)
         Me.RadioButton2.TabIndex = 1
-        Me.RadioButton2.Text = "800"
+        Me.RadioButton2.Text = "1:800"
         Me.RadioButton2.UseVisualStyleBackColor = True
         '
         'RadioButton1
@@ -2204,10 +2230,10 @@ Partial Class Form1
         Me.RadioButton1.Checked = True
         Me.RadioButton1.Location = New System.Drawing.Point(21, 19)
         Me.RadioButton1.Name = "RadioButton1"
-        Me.RadioButton1.Size = New System.Drawing.Size(43, 17)
+        Me.RadioButton1.Size = New System.Drawing.Size(52, 17)
         Me.RadioButton1.TabIndex = 0
         Me.RadioButton1.TabStop = True
-        Me.RadioButton1.Text = "500"
+        Me.RadioButton1.Text = "1:500"
         Me.RadioButton1.UseVisualStyleBackColor = True
         '
         'GroupBox12
@@ -3361,6 +3387,28 @@ Partial Class Form1
         Me.ComboBox2.Size = New System.Drawing.Size(121, 21)
         Me.ComboBox2.TabIndex = 0
         '
+        'PictureBox12
+        '
+        Me.PictureBox12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox12.Image = Global.Screw_conveyor.My.Resources.Resources.DIN_ISO
+        Me.PictureBox12.Location = New System.Drawing.Point(421, 655)
+        Me.PictureBox12.Name = "PictureBox12"
+        Me.PictureBox12.Size = New System.Drawing.Size(57, 36)
+        Me.PictureBox12.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox12.TabIndex = 37
+        Me.PictureBox12.TabStop = False
+        '
+        'PictureBox11
+        '
+        Me.PictureBox11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox11.Image = Global.Screw_conveyor.My.Resources.Resources.B36_10
+        Me.PictureBox11.Location = New System.Drawing.Point(349, 655)
+        Me.PictureBox11.Name = "PictureBox11"
+        Me.PictureBox11.Size = New System.Drawing.Size(66, 36)
+        Me.PictureBox11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox11.TabIndex = 36
+        Me.PictureBox11.TabStop = False
+        '
         'TabPage3
         '
         Me.TabPage3.Controls.Add(Me.PictureBox2)
@@ -3383,6 +3431,18 @@ Partial Class Form1
         Me.TabPage3.Text = "Background Information"
         Me.TabPage3.UseVisualStyleBackColor = True
         '
+        'PictureBox2
+        '
+        Me.PictureBox2.ErrorImage = CType(resources.GetObject("PictureBox2.ErrorImage"), System.Drawing.Image)
+        Me.PictureBox2.Image = CType(resources.GetObject("PictureBox2.Image"), System.Drawing.Image)
+        Me.PictureBox2.InitialImage = CType(resources.GetObject("PictureBox2.InitialImage"), System.Drawing.Image)
+        Me.PictureBox2.Location = New System.Drawing.Point(578, 6)
+        Me.PictureBox2.Name = "PictureBox2"
+        Me.PictureBox2.Size = New System.Drawing.Size(401, 227)
+        Me.PictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox2.TabIndex = 19
+        Me.PictureBox2.TabStop = False
+        '
         'TextBox125
         '
         Me.TextBox125.Location = New System.Drawing.Point(487, 243)
@@ -3402,6 +3462,18 @@ Partial Class Form1
         Me.GroupBox28.TabIndex = 17
         Me.GroupBox28.TabStop = False
         Me.GroupBox28.Text = "Conveyor loads"
+        '
+        'PictureBox1
+        '
+        Me.PictureBox1.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
+        Me.PictureBox1.InitialImage = CType(resources.GetObject("PictureBox1.InitialImage"), System.Drawing.Image)
+        Me.PictureBox1.Location = New System.Drawing.Point(3, 19)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(309, 105)
+        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox1.TabIndex = 16
+        Me.PictureBox1.TabStop = False
         '
         'TextBox34
         '
@@ -5186,33 +5258,24 @@ Partial Class Form1
         '
         'GroupBox34
         '
-        Me.GroupBox34.Controls.Add(Me.TextBox143)
+        Me.GroupBox34.Controls.Add(Me.NumericUpDown83)
+        Me.GroupBox34.Controls.Add(Me.NumericUpDown82)
+        Me.GroupBox34.Controls.Add(Me.NumericUpDown81)
+        Me.GroupBox34.Controls.Add(Me.NumericUpDown80)
         Me.GroupBox34.Controls.Add(Me.Label202)
         Me.GroupBox34.Controls.Add(Me.Label201)
-        Me.GroupBox34.Controls.Add(Me.TextBox105)
         Me.GroupBox34.Controls.Add(Me.Label96)
         Me.GroupBox34.Controls.Add(Me.Label110)
-        Me.GroupBox34.Controls.Add(Me.TextBox69)
         Me.GroupBox34.Controls.Add(Me.Label93)
         Me.GroupBox34.Controls.Add(Me.Label111)
-        Me.GroupBox34.Controls.Add(Me.TextBox71)
         Me.GroupBox34.Controls.Add(Me.Label98)
         Me.GroupBox34.Controls.Add(Me.Label112)
         Me.GroupBox34.Location = New System.Drawing.Point(14, 409)
         Me.GroupBox34.Name = "GroupBox34"
-        Me.GroupBox34.Size = New System.Drawing.Size(346, 136)
+        Me.GroupBox34.Size = New System.Drawing.Size(346, 123)
         Me.GroupBox34.TabIndex = 57
         Me.GroupBox34.TabStop = False
         Me.GroupBox34.Text = "Labour rates"
-        '
-        'TextBox143
-        '
-        Me.TextBox143.Enabled = False
-        Me.TextBox143.Location = New System.Drawing.Point(236, 19)
-        Me.TextBox143.Name = "TextBox143"
-        Me.TextBox143.Size = New System.Drawing.Size(56, 20)
-        Me.TextBox143.TabIndex = 139
-        Me.TextBox143.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label202
         '
@@ -5228,20 +5291,11 @@ Partial Class Form1
         '
         Me.Label201.AutoSize = True
         Me.Label201.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label201.Location = New System.Drawing.Point(11, 17)
+        Me.Label201.Location = New System.Drawing.Point(12, 21)
         Me.Label201.Name = "Label201"
         Me.Label201.Size = New System.Drawing.Size(86, 16)
         Me.Label201.TabIndex = 143
         Me.Label201.Text = "Wvb prijs/uur"
-        '
-        'TextBox105
-        '
-        Me.TextBox105.Enabled = False
-        Me.TextBox105.Location = New System.Drawing.Point(236, 45)
-        Me.TextBox105.Name = "TextBox105"
-        Me.TextBox105.Size = New System.Drawing.Size(56, 20)
-        Me.TextBox105.TabIndex = 57
-        Me.TextBox105.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label96
         '
@@ -5257,20 +5311,11 @@ Partial Class Form1
         '
         Me.Label110.AutoSize = True
         Me.Label110.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label110.Location = New System.Drawing.Point(11, 43)
+        Me.Label110.Location = New System.Drawing.Point(12, 43)
         Me.Label110.Name = "Label110"
         Me.Label110.Size = New System.Drawing.Size(130, 16)
         Me.Label110.TabIndex = 81
         Me.Label110.Text = "Engineering prijs/uur"
-        '
-        'TextBox69
-        '
-        Me.TextBox69.Enabled = False
-        Me.TextBox69.Location = New System.Drawing.Point(236, 68)
-        Me.TextBox69.Name = "TextBox69"
-        Me.TextBox69.Size = New System.Drawing.Size(56, 20)
-        Me.TextBox69.TabIndex = 77
-        Me.TextBox69.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'Label93
         '
@@ -5286,26 +5331,17 @@ Partial Class Form1
         '
         Me.Label111.AutoSize = True
         Me.Label111.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label111.Location = New System.Drawing.Point(11, 65)
+        Me.Label111.Location = New System.Drawing.Point(12, 65)
         Me.Label111.Name = "Label111"
         Me.Label111.Size = New System.Drawing.Size(100, 16)
         Me.Label111.TabIndex = 82
         Me.Label111.Text = "Project prijs/uur"
         '
-        'TextBox71
-        '
-        Me.TextBox71.Enabled = False
-        Me.TextBox71.Location = New System.Drawing.Point(236, 94)
-        Me.TextBox71.Name = "TextBox71"
-        Me.TextBox71.Size = New System.Drawing.Size(56, 20)
-        Me.TextBox71.TabIndex = 78
-        Me.TextBox71.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        '
         'Label98
         '
         Me.Label98.AutoSize = True
         Me.Label98.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label98.Location = New System.Drawing.Point(214, 97)
+        Me.Label98.Location = New System.Drawing.Point(214, 95)
         Me.Label98.Name = "Label98"
         Me.Label98.Size = New System.Drawing.Size(15, 16)
         Me.Label98.TabIndex = 69
@@ -5315,7 +5351,7 @@ Partial Class Form1
         '
         Me.Label112.AutoSize = True
         Me.Label112.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label112.Location = New System.Drawing.Point(13, 92)
+        Me.Label112.Location = New System.Drawing.Point(12, 87)
         Me.Label112.Name = "Label112"
         Me.Label112.Size = New System.Drawing.Size(111, 16)
         Me.Label112.TabIndex = 83
@@ -6127,17 +6163,17 @@ Partial Class Form1
         '
         'Chart3
         '
-        ChartArea7.Name = "ChartArea1"
-        Me.Chart3.ChartAreas.Add(ChartArea7)
+        ChartArea1.Name = "ChartArea1"
+        Me.Chart3.ChartAreas.Add(ChartArea1)
         Me.Chart3.Dock = System.Windows.Forms.DockStyle.Top
-        Legend7.Name = "Legend1"
-        Me.Chart3.Legends.Add(Legend7)
+        Legend1.Name = "Legend1"
+        Me.Chart3.Legends.Add(Legend1)
         Me.Chart3.Location = New System.Drawing.Point(176, 401)
         Me.Chart3.Name = "Chart3"
-        Series7.ChartArea = "ChartArea1"
-        Series7.Legend = "Legend1"
-        Series7.Name = "Series1"
-        Me.Chart3.Series.Add(Series7)
+        Series1.ChartArea = "ChartArea1"
+        Series1.Legend = "Legend1"
+        Series1.Name = "Series1"
+        Me.Chart3.Series.Add(Series1)
         Me.Chart3.Size = New System.Drawing.Size(808, 199)
         Me.Chart3.TabIndex = 4
         Me.Chart3.Text = "Chart3"
@@ -6154,34 +6190,34 @@ Partial Class Form1
         '
         'Chart2
         '
-        ChartArea8.Name = "ChartArea1"
-        Me.Chart2.ChartAreas.Add(ChartArea8)
+        ChartArea2.Name = "ChartArea1"
+        Me.Chart2.ChartAreas.Add(ChartArea2)
         Me.Chart2.Dock = System.Windows.Forms.DockStyle.Top
-        Legend8.Name = "Legend1"
-        Me.Chart2.Legends.Add(Legend8)
+        Legend2.Name = "Legend1"
+        Me.Chart2.Legends.Add(Legend2)
         Me.Chart2.Location = New System.Drawing.Point(176, 202)
         Me.Chart2.Name = "Chart2"
-        Series8.ChartArea = "ChartArea1"
-        Series8.Legend = "Legend1"
-        Series8.Name = "Series1"
-        Me.Chart2.Series.Add(Series8)
+        Series2.ChartArea = "ChartArea1"
+        Series2.Legend = "Legend1"
+        Series2.Name = "Series1"
+        Me.Chart2.Series.Add(Series2)
         Me.Chart2.Size = New System.Drawing.Size(808, 199)
         Me.Chart2.TabIndex = 3
         Me.Chart2.Text = "Chart2"
         '
         'Chart1
         '
-        ChartArea9.Name = "ChartArea1"
-        Me.Chart1.ChartAreas.Add(ChartArea9)
+        ChartArea3.Name = "ChartArea1"
+        Me.Chart1.ChartAreas.Add(ChartArea3)
         Me.Chart1.Dock = System.Windows.Forms.DockStyle.Top
-        Legend9.Name = "Legend1"
-        Me.Chart1.Legends.Add(Legend9)
+        Legend3.Name = "Legend1"
+        Me.Chart1.Legends.Add(Legend3)
         Me.Chart1.Location = New System.Drawing.Point(176, 3)
         Me.Chart1.Name = "Chart1"
-        Series9.ChartArea = "ChartArea1"
-        Series9.Legend = "Legend1"
-        Series9.Name = "Series1"
-        Me.Chart1.Series.Add(Series9)
+        Series3.ChartArea = "ChartArea1"
+        Series3.Legend = "Legend1"
+        Series3.Name = "Series1"
+        Me.Chart1.Series.Add(Series3)
         Me.Chart1.Size = New System.Drawing.Size(808, 199)
         Me.Chart1.TabIndex = 1
         Me.Chart1.Text = "Chart1"
@@ -6387,6 +6423,32 @@ Partial Class Form1
         Me.TabPage8.UseVisualStyleBackColor = True
         Me.TabPage8.UseWaitCursor = True
         '
+        'PictureBox4
+        '
+        Me.PictureBox4.ErrorImage = CType(resources.GetObject("PictureBox4.ErrorImage"), System.Drawing.Image)
+        Me.PictureBox4.Image = CType(resources.GetObject("PictureBox4.Image"), System.Drawing.Image)
+        Me.PictureBox4.InitialImage = CType(resources.GetObject("PictureBox4.InitialImage"), System.Drawing.Image)
+        Me.PictureBox4.Location = New System.Drawing.Point(444, 15)
+        Me.PictureBox4.Name = "PictureBox4"
+        Me.PictureBox4.Size = New System.Drawing.Size(410, 274)
+        Me.PictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox4.TabIndex = 21
+        Me.PictureBox4.TabStop = False
+        Me.PictureBox4.UseWaitCursor = True
+        '
+        'PictureBox3
+        '
+        Me.PictureBox3.ErrorImage = CType(resources.GetObject("PictureBox3.ErrorImage"), System.Drawing.Image)
+        Me.PictureBox3.Image = CType(resources.GetObject("PictureBox3.Image"), System.Drawing.Image)
+        Me.PictureBox3.InitialImage = CType(resources.GetObject("PictureBox3.InitialImage"), System.Drawing.Image)
+        Me.PictureBox3.Location = New System.Drawing.Point(8, 15)
+        Me.PictureBox3.Name = "PictureBox3"
+        Me.PictureBox3.Size = New System.Drawing.Size(410, 274)
+        Me.PictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox3.TabIndex = 20
+        Me.PictureBox3.TabStop = False
+        Me.PictureBox3.UseWaitCursor = True
+        '
         'TabPage9
         '
         Me.TabPage9.Controls.Add(Me.Label179)
@@ -6420,6 +6482,32 @@ Partial Class Form1
         Me.Label178.Size = New System.Drawing.Size(112, 16)
         Me.Label178.TabIndex = 23
         Me.Label178.Text = "FIXED PITCH"
+        '
+        'PictureBox6
+        '
+        Me.PictureBox6.ErrorImage = CType(resources.GetObject("PictureBox6.ErrorImage"), System.Drawing.Image)
+        Me.PictureBox6.Image = CType(resources.GetObject("PictureBox6.Image"), System.Drawing.Image)
+        Me.PictureBox6.InitialImage = CType(resources.GetObject("PictureBox6.InitialImage"), System.Drawing.Image)
+        Me.PictureBox6.Location = New System.Drawing.Point(496, 97)
+        Me.PictureBox6.Name = "PictureBox6"
+        Me.PictureBox6.Size = New System.Drawing.Size(410, 274)
+        Me.PictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox6.TabIndex = 22
+        Me.PictureBox6.TabStop = False
+        Me.PictureBox6.UseWaitCursor = True
+        '
+        'PictureBox5
+        '
+        Me.PictureBox5.ErrorImage = CType(resources.GetObject("PictureBox5.ErrorImage"), System.Drawing.Image)
+        Me.PictureBox5.Image = CType(resources.GetObject("PictureBox5.Image"), System.Drawing.Image)
+        Me.PictureBox5.InitialImage = CType(resources.GetObject("PictureBox5.InitialImage"), System.Drawing.Image)
+        Me.PictureBox5.Location = New System.Drawing.Point(36, 97)
+        Me.PictureBox5.Name = "PictureBox5"
+        Me.PictureBox5.Size = New System.Drawing.Size(410, 274)
+        Me.PictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox5.TabIndex = 21
+        Me.PictureBox5.TabStop = False
+        Me.PictureBox5.UseWaitCursor = True
         '
         'TabPage10
         '
@@ -6871,6 +6959,19 @@ Partial Class Form1
         Me.Label193.TabIndex = 23
         Me.Label193.Text = "Noord-Oost Nederland, Asperen"
         '
+        'PictureBox7
+        '
+        Me.PictureBox7.ErrorImage = CType(resources.GetObject("PictureBox7.ErrorImage"), System.Drawing.Image)
+        Me.PictureBox7.Image = Global.Screw_conveyor.My.Resources.Resources.NonvanAsperen
+        Me.PictureBox7.InitialImage = CType(resources.GetObject("PictureBox7.InitialImage"), System.Drawing.Image)
+        Me.PictureBox7.Location = New System.Drawing.Point(35, 86)
+        Me.PictureBox7.Name = "PictureBox7"
+        Me.PictureBox7.Size = New System.Drawing.Size(673, 555)
+        Me.PictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox7.TabIndex = 22
+        Me.PictureBox7.TabStop = False
+        Me.PictureBox7.UseWaitCursor = True
+        '
         'TabPage12
         '
         Me.TabPage12.Controls.Add(Me.Label264)
@@ -6893,6 +6994,46 @@ Partial Class Form1
         Me.TabPage12.TabIndex = 11
         Me.TabPage12.Text = "Vertical screw"
         Me.TabPage12.UseVisualStyleBackColor = True
+        '
+        'Label264
+        '
+        Me.Label264.AutoSize = True
+        Me.Label264.Location = New System.Drawing.Point(141, 589)
+        Me.Label264.Name = "Label264"
+        Me.Label264.Size = New System.Drawing.Size(48, 13)
+        Me.Label264.TabIndex = 83
+        Me.Label264.Text = "Top End"
+        '
+        'Label263
+        '
+        Me.Label263.AutoSize = True
+        Me.Label263.Location = New System.Drawing.Point(53, 589)
+        Me.Label263.Name = "Label263"
+        Me.Label263.Size = New System.Drawing.Size(46, 13)
+        Me.Label263.TabIndex = 82
+        Me.Label263.Text = "Tail End"
+        '
+        'PictureBox16
+        '
+        Me.PictureBox16.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox16.Image = Global.Screw_conveyor.My.Resources.Resources.Top_end
+        Me.PictureBox16.Location = New System.Drawing.Point(139, 605)
+        Me.PictureBox16.Name = "PictureBox16"
+        Me.PictureBox16.Size = New System.Drawing.Size(57, 52)
+        Me.PictureBox16.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox16.TabIndex = 81
+        Me.PictureBox16.TabStop = False
+        '
+        'PictureBox15
+        '
+        Me.PictureBox15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.PictureBox15.Image = Global.Screw_conveyor.My.Resources.Resources.Tail_end
+        Me.PictureBox15.Location = New System.Drawing.Point(52, 605)
+        Me.PictureBox15.Name = "PictureBox15"
+        Me.PictureBox15.Size = New System.Drawing.Size(57, 52)
+        Me.PictureBox15.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox15.TabIndex = 80
+        Me.PictureBox15.TabStop = False
         '
         'Button14
         '
@@ -7270,6 +7411,28 @@ Partial Class Form1
         Me.NumericUpDown52.TabIndex = 28
         Me.NumericUpDown52.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         Me.NumericUpDown52.Value = New Decimal(New Integer() {400, 0, 0, 0})
+        '
+        'PictureBox9
+        '
+        Me.PictureBox9.Image = Global.Screw_conveyor.My.Resources.Resources.Vert_inlet
+        Me.PictureBox9.InitialImage = CType(resources.GetObject("PictureBox9.InitialImage"), System.Drawing.Image)
+        Me.PictureBox9.Location = New System.Drawing.Point(629, 409)
+        Me.PictureBox9.Name = "PictureBox9"
+        Me.PictureBox9.Size = New System.Drawing.Size(355, 272)
+        Me.PictureBox9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox9.TabIndex = 32
+        Me.PictureBox9.TabStop = False
+        '
+        'PictureBox8
+        '
+        Me.PictureBox8.Image = Global.Screw_conveyor.My.Resources.Resources.Vertical_screw
+        Me.PictureBox8.InitialImage = CType(resources.GetObject("PictureBox8.InitialImage"), System.Drawing.Image)
+        Me.PictureBox8.Location = New System.Drawing.Point(391, 409)
+        Me.PictureBox8.Name = "PictureBox8"
+        Me.PictureBox8.Size = New System.Drawing.Size(230, 272)
+        Me.PictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox8.TabIndex = 31
+        Me.PictureBox8.TabStop = False
         '
         'TabPage13
         '
@@ -8035,187 +8198,6 @@ Partial Class Form1
         Me.Label225.TabIndex = 37
         Me.Label225.Text = "www.vav.nl (max d=600)"
         '
-        'OpenFileDialog1
-        '
-        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
-        '
-        'PictureBox14
-        '
-        Me.PictureBox14.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox14.Image = Global.Screw_conveyor.My.Resources.Resources.DIN_ISO
-        Me.PictureBox14.Location = New System.Drawing.Point(853, 85)
-        Me.PictureBox14.Name = "PictureBox14"
-        Me.PictureBox14.Size = New System.Drawing.Size(89, 61)
-        Me.PictureBox14.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox14.TabIndex = 80
-        Me.PictureBox14.TabStop = False
-        '
-        'PictureBox13
-        '
-        Me.PictureBox13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox13.Image = Global.Screw_conveyor.My.Resources.Resources.B36_10
-        Me.PictureBox13.Location = New System.Drawing.Point(853, 23)
-        Me.PictureBox13.Name = "PictureBox13"
-        Me.PictureBox13.Size = New System.Drawing.Size(89, 52)
-        Me.PictureBox13.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox13.TabIndex = 79
-        Me.PictureBox13.TabStop = False
-        '
-        'PictureBox12
-        '
-        Me.PictureBox12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox12.Image = Global.Screw_conveyor.My.Resources.Resources.DIN_ISO
-        Me.PictureBox12.Location = New System.Drawing.Point(421, 655)
-        Me.PictureBox12.Name = "PictureBox12"
-        Me.PictureBox12.Size = New System.Drawing.Size(57, 36)
-        Me.PictureBox12.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox12.TabIndex = 37
-        Me.PictureBox12.TabStop = False
-        '
-        'PictureBox11
-        '
-        Me.PictureBox11.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox11.Image = Global.Screw_conveyor.My.Resources.Resources.B36_10
-        Me.PictureBox11.Location = New System.Drawing.Point(349, 655)
-        Me.PictureBox11.Name = "PictureBox11"
-        Me.PictureBox11.Size = New System.Drawing.Size(66, 36)
-        Me.PictureBox11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox11.TabIndex = 36
-        Me.PictureBox11.TabStop = False
-        '
-        'PictureBox2
-        '
-        Me.PictureBox2.ErrorImage = CType(resources.GetObject("PictureBox2.ErrorImage"), System.Drawing.Image)
-        Me.PictureBox2.Image = CType(resources.GetObject("PictureBox2.Image"), System.Drawing.Image)
-        Me.PictureBox2.InitialImage = CType(resources.GetObject("PictureBox2.InitialImage"), System.Drawing.Image)
-        Me.PictureBox2.Location = New System.Drawing.Point(578, 6)
-        Me.PictureBox2.Name = "PictureBox2"
-        Me.PictureBox2.Size = New System.Drawing.Size(401, 227)
-        Me.PictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox2.TabIndex = 19
-        Me.PictureBox2.TabStop = False
-        '
-        'PictureBox1
-        '
-        Me.PictureBox1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
-        Me.PictureBox1.InitialImage = CType(resources.GetObject("PictureBox1.InitialImage"), System.Drawing.Image)
-        Me.PictureBox1.Location = New System.Drawing.Point(3, 19)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(309, 105)
-        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox1.TabIndex = 16
-        Me.PictureBox1.TabStop = False
-        '
-        'PictureBox4
-        '
-        Me.PictureBox4.ErrorImage = CType(resources.GetObject("PictureBox4.ErrorImage"), System.Drawing.Image)
-        Me.PictureBox4.Image = CType(resources.GetObject("PictureBox4.Image"), System.Drawing.Image)
-        Me.PictureBox4.InitialImage = CType(resources.GetObject("PictureBox4.InitialImage"), System.Drawing.Image)
-        Me.PictureBox4.Location = New System.Drawing.Point(444, 15)
-        Me.PictureBox4.Name = "PictureBox4"
-        Me.PictureBox4.Size = New System.Drawing.Size(410, 274)
-        Me.PictureBox4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox4.TabIndex = 21
-        Me.PictureBox4.TabStop = False
-        Me.PictureBox4.UseWaitCursor = True
-        '
-        'PictureBox3
-        '
-        Me.PictureBox3.ErrorImage = CType(resources.GetObject("PictureBox3.ErrorImage"), System.Drawing.Image)
-        Me.PictureBox3.Image = CType(resources.GetObject("PictureBox3.Image"), System.Drawing.Image)
-        Me.PictureBox3.InitialImage = CType(resources.GetObject("PictureBox3.InitialImage"), System.Drawing.Image)
-        Me.PictureBox3.Location = New System.Drawing.Point(8, 15)
-        Me.PictureBox3.Name = "PictureBox3"
-        Me.PictureBox3.Size = New System.Drawing.Size(410, 274)
-        Me.PictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox3.TabIndex = 20
-        Me.PictureBox3.TabStop = False
-        Me.PictureBox3.UseWaitCursor = True
-        '
-        'PictureBox6
-        '
-        Me.PictureBox6.ErrorImage = CType(resources.GetObject("PictureBox6.ErrorImage"), System.Drawing.Image)
-        Me.PictureBox6.Image = CType(resources.GetObject("PictureBox6.Image"), System.Drawing.Image)
-        Me.PictureBox6.InitialImage = CType(resources.GetObject("PictureBox6.InitialImage"), System.Drawing.Image)
-        Me.PictureBox6.Location = New System.Drawing.Point(496, 97)
-        Me.PictureBox6.Name = "PictureBox6"
-        Me.PictureBox6.Size = New System.Drawing.Size(410, 274)
-        Me.PictureBox6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox6.TabIndex = 22
-        Me.PictureBox6.TabStop = False
-        Me.PictureBox6.UseWaitCursor = True
-        '
-        'PictureBox5
-        '
-        Me.PictureBox5.ErrorImage = CType(resources.GetObject("PictureBox5.ErrorImage"), System.Drawing.Image)
-        Me.PictureBox5.Image = CType(resources.GetObject("PictureBox5.Image"), System.Drawing.Image)
-        Me.PictureBox5.InitialImage = CType(resources.GetObject("PictureBox5.InitialImage"), System.Drawing.Image)
-        Me.PictureBox5.Location = New System.Drawing.Point(36, 97)
-        Me.PictureBox5.Name = "PictureBox5"
-        Me.PictureBox5.Size = New System.Drawing.Size(410, 274)
-        Me.PictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox5.TabIndex = 21
-        Me.PictureBox5.TabStop = False
-        Me.PictureBox5.UseWaitCursor = True
-        '
-        'PictureBox7
-        '
-        Me.PictureBox7.ErrorImage = CType(resources.GetObject("PictureBox7.ErrorImage"), System.Drawing.Image)
-        Me.PictureBox7.Image = Global.Screw_conveyor.My.Resources.Resources.NonvanAsperen
-        Me.PictureBox7.InitialImage = CType(resources.GetObject("PictureBox7.InitialImage"), System.Drawing.Image)
-        Me.PictureBox7.Location = New System.Drawing.Point(35, 86)
-        Me.PictureBox7.Name = "PictureBox7"
-        Me.PictureBox7.Size = New System.Drawing.Size(673, 555)
-        Me.PictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox7.TabIndex = 22
-        Me.PictureBox7.TabStop = False
-        Me.PictureBox7.UseWaitCursor = True
-        '
-        'PictureBox16
-        '
-        Me.PictureBox16.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox16.Image = Global.Screw_conveyor.My.Resources.Resources.Top_end
-        Me.PictureBox16.Location = New System.Drawing.Point(139, 605)
-        Me.PictureBox16.Name = "PictureBox16"
-        Me.PictureBox16.Size = New System.Drawing.Size(57, 52)
-        Me.PictureBox16.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox16.TabIndex = 81
-        Me.PictureBox16.TabStop = False
-        '
-        'PictureBox15
-        '
-        Me.PictureBox15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.PictureBox15.Image = Global.Screw_conveyor.My.Resources.Resources.Tail_end
-        Me.PictureBox15.Location = New System.Drawing.Point(52, 605)
-        Me.PictureBox15.Name = "PictureBox15"
-        Me.PictureBox15.Size = New System.Drawing.Size(57, 52)
-        Me.PictureBox15.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox15.TabIndex = 80
-        Me.PictureBox15.TabStop = False
-        '
-        'PictureBox9
-        '
-        Me.PictureBox9.Image = Global.Screw_conveyor.My.Resources.Resources.Vert_inlet
-        Me.PictureBox9.InitialImage = CType(resources.GetObject("PictureBox9.InitialImage"), System.Drawing.Image)
-        Me.PictureBox9.Location = New System.Drawing.Point(629, 409)
-        Me.PictureBox9.Name = "PictureBox9"
-        Me.PictureBox9.Size = New System.Drawing.Size(355, 272)
-        Me.PictureBox9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox9.TabIndex = 32
-        Me.PictureBox9.TabStop = False
-        '
-        'PictureBox8
-        '
-        Me.PictureBox8.Image = Global.Screw_conveyor.My.Resources.Resources.Vertical_screw
-        Me.PictureBox8.InitialImage = CType(resources.GetObject("PictureBox8.InitialImage"), System.Drawing.Image)
-        Me.PictureBox8.Location = New System.Drawing.Point(391, 409)
-        Me.PictureBox8.Name = "PictureBox8"
-        Me.PictureBox8.Size = New System.Drawing.Size(230, 272)
-        Me.PictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox8.TabIndex = 31
-        Me.PictureBox8.TabStop = False
-        '
         'PictureBox10
         '
         Me.PictureBox10.Image = Global.Screw_conveyor.My.Resources.Resources.Shaftless
@@ -8227,23 +8209,53 @@ Partial Class Form1
         Me.PictureBox10.TabIndex = 33
         Me.PictureBox10.TabStop = False
         '
-        'Label263
+        'OpenFileDialog1
         '
-        Me.Label263.AutoSize = True
-        Me.Label263.Location = New System.Drawing.Point(53, 589)
-        Me.Label263.Name = "Label263"
-        Me.Label263.Size = New System.Drawing.Size(46, 13)
-        Me.Label263.TabIndex = 82
-        Me.Label263.Text = "Tail End"
+        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'Label264
+        'NumericUpDown80
         '
-        Me.Label264.AutoSize = True
-        Me.Label264.Location = New System.Drawing.Point(141, 589)
-        Me.Label264.Name = "Label264"
-        Me.Label264.Size = New System.Drawing.Size(48, 13)
-        Me.Label264.TabIndex = 83
-        Me.Label264.Text = "Top End"
+        Me.NumericUpDown80.BackColor = System.Drawing.Color.Yellow
+        Me.NumericUpDown80.Location = New System.Drawing.Point(233, 19)
+        Me.NumericUpDown80.Maximum = New Decimal(New Integer() {200, 0, 0, 0})
+        Me.NumericUpDown80.Name = "NumericUpDown80"
+        Me.NumericUpDown80.Size = New System.Drawing.Size(56, 20)
+        Me.NumericUpDown80.TabIndex = 184
+        Me.NumericUpDown80.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.NumericUpDown80.Value = New Decimal(New Integer() {70, 0, 0, 0})
+        '
+        'NumericUpDown81
+        '
+        Me.NumericUpDown81.BackColor = System.Drawing.Color.Yellow
+        Me.NumericUpDown81.Location = New System.Drawing.Point(233, 43)
+        Me.NumericUpDown81.Maximum = New Decimal(New Integer() {200, 0, 0, 0})
+        Me.NumericUpDown81.Name = "NumericUpDown81"
+        Me.NumericUpDown81.Size = New System.Drawing.Size(56, 20)
+        Me.NumericUpDown81.TabIndex = 185
+        Me.NumericUpDown81.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.NumericUpDown81.Value = New Decimal(New Integer() {67, 0, 0, 0})
+        '
+        'NumericUpDown82
+        '
+        Me.NumericUpDown82.BackColor = System.Drawing.Color.Yellow
+        Me.NumericUpDown82.Location = New System.Drawing.Point(233, 67)
+        Me.NumericUpDown82.Maximum = New Decimal(New Integer() {200, 0, 0, 0})
+        Me.NumericUpDown82.Name = "NumericUpDown82"
+        Me.NumericUpDown82.Size = New System.Drawing.Size(56, 20)
+        Me.NumericUpDown82.TabIndex = 186
+        Me.NumericUpDown82.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.NumericUpDown82.Value = New Decimal(New Integer() {93, 0, 0, 0})
+        '
+        'NumericUpDown83
+        '
+        Me.NumericUpDown83.BackColor = System.Drawing.Color.Yellow
+        Me.NumericUpDown83.Location = New System.Drawing.Point(233, 91)
+        Me.NumericUpDown83.Maximum = New Decimal(New Integer() {200, 0, 0, 0})
+        Me.NumericUpDown83.Name = "NumericUpDown83"
+        Me.NumericUpDown83.Size = New System.Drawing.Size(56, 20)
+        Me.NumericUpDown83.TabIndex = 187
+        Me.NumericUpDown83.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.NumericUpDown83.Value = New Decimal(New Integer() {55, 0, 0, 0})
         '
         'Form1
         '
@@ -8253,10 +8265,12 @@ Partial Class Form1
         Me.Controls.Add(Me.TabControl1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Form1"
-        Me.Text = "Screw conveyors 3.0 M"
+        Me.Text = "Screw conveyors 3.0 N"
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage1.PerformLayout
+        CType(Me.PictureBox14, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.PictureBox13, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox33.ResumeLayout(False)
         Me.GroupBox33.PerformLayout
         Me.GroupBox17.ResumeLayout(False)
@@ -8324,9 +8338,13 @@ Partial Class Form1
         Me.GroupBox3.PerformLayout
         CType(Me.NumericUpDown1, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NumericUpDown11, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.PictureBox12, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.PictureBox11, System.ComponentModel.ISupportInitialize).EndInit
         Me.TabPage3.ResumeLayout(False)
         Me.TabPage3.PerformLayout
+        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox28.ResumeLayout(False)
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit
         Me.TabPage4.ResumeLayout(False)
         Me.GroupBox42.ResumeLayout(False)
         Me.GroupBox42.PerformLayout
@@ -8394,8 +8412,12 @@ Partial Class Form1
         CType(Me.NumericUpDown26, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NumericUpDown38, System.ComponentModel.ISupportInitialize).EndInit
         Me.TabPage8.ResumeLayout(False)
+        CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).EndInit
         Me.TabPage9.ResumeLayout(False)
         Me.TabPage9.PerformLayout
+        CType(Me.PictureBox6, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).EndInit
         Me.TabPage10.ResumeLayout(False)
         Me.TabPage10.PerformLayout
         Me.GroupBox31.ResumeLayout(False)
@@ -8413,8 +8435,11 @@ Partial Class Form1
         CType(Me.NumericUpDown47, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NumericUpDown12, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NumericUpDown44, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.PictureBox7, System.ComponentModel.ISupportInitialize).EndInit
         Me.TabPage12.ResumeLayout(False)
         Me.TabPage12.PerformLayout
+        CType(Me.PictureBox16, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.PictureBox15, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox30.ResumeLayout(False)
         Me.GroupBox30.PerformLayout
         CType(Me.NumericUpDown56, System.ComponentModel.ISupportInitialize).EndInit
@@ -8424,6 +8449,8 @@ Partial Class Form1
         CType(Me.NumericUpDown46, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NumericUpDown51, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NumericUpDown52, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.PictureBox9, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).EndInit
         Me.TabPage13.ResumeLayout(False)
         Me.TabPage13.PerformLayout
         Me.GroupBox40.ResumeLayout(False)
@@ -8443,23 +8470,12 @@ Partial Class Form1
         CType(Me.NumericUpDown61, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NumericUpDown59, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NumericUpDown62, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.PictureBox14, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.PictureBox13, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.PictureBox12, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.PictureBox11, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.PictureBox4, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.PictureBox3, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.PictureBox6, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.PictureBox5, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.PictureBox7, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.PictureBox16, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.PictureBox15, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.PictureBox9, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.PictureBox8, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.PictureBox10, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NumericUpDown80, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NumericUpDown81, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NumericUpDown82, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.NumericUpDown83, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
 
     End Sub
@@ -8718,8 +8734,6 @@ Partial Class Form1
     Friend WithEvents Label112 As Label
     Friend WithEvents Label111 As Label
     Friend WithEvents Label110 As Label
-    Friend WithEvents TextBox71 As TextBox
-    Friend WithEvents TextBox69 As TextBox
     Friend WithEvents TextBox55 As TextBox
     Friend WithEvents NumericUpDown34 As NumericUpDown
     Friend WithEvents NumericUpDown33 As NumericUpDown
@@ -8734,7 +8748,6 @@ Partial Class Form1
     Friend WithEvents TextBox72 As TextBox
     Friend WithEvents TextBox70 As TextBox
     Friend WithEvents TextBox88 As TextBox
-    Friend WithEvents TextBox105 As TextBox
     Friend WithEvents TextBox109 As TextBox
     Friend WithEvents Label125 As Label
     Friend WithEvents Label126 As Label
@@ -8960,7 +8973,6 @@ Partial Class Form1
     Friend WithEvents TextBox140 As TextBox
     Friend WithEvents NumericUpDown48 As NumericUpDown
     Friend WithEvents Label202 As Label
-    Friend WithEvents TextBox143 As TextBox
     Friend WithEvents Label204 As Label
     Friend WithEvents Label203 As Label
     Friend WithEvents GroupBox34 As GroupBox
@@ -9130,4 +9142,8 @@ Partial Class Form1
     Friend WithEvents PictureBox15 As PictureBox
     Friend WithEvents Label264 As Label
     Friend WithEvents Label263 As Label
+    Friend WithEvents NumericUpDown80 As NumericUpDown
+    Friend WithEvents NumericUpDown83 As NumericUpDown
+    Friend WithEvents NumericUpDown82 As NumericUpDown
+    Friend WithEvents NumericUpDown81 As NumericUpDown
 End Class

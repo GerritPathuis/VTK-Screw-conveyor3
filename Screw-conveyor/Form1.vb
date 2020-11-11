@@ -1021,7 +1021,7 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click, TabPage5.Enter, NumericUpDown34.ValueChanged, NumericUpDown33.ValueChanged, NumericUpDown30.ValueChanged, NumericUpDown27.ValueChanged, NumericUpDown48.ValueChanged, TextBox99.VisibleChanged, NumericUpDown50.ValueChanged, NumericUpDown49.ValueChanged, NumericUpDown65.ValueChanged
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click, TabPage5.Enter, NumericUpDown34.ValueChanged, NumericUpDown33.ValueChanged, NumericUpDown30.ValueChanged, NumericUpDown27.ValueChanged, NumericUpDown48.ValueChanged, TextBox99.VisibleChanged, NumericUpDown50.ValueChanged, NumericUpDown49.ValueChanged, NumericUpDown65.ValueChanged, NumericUpDown83.ValueChanged, NumericUpDown82.ValueChanged, NumericUpDown81.ValueChanged, NumericUpDown80.ValueChanged
         Calc_sequence()
     End Sub
     'Please note complete calculation in [m] not [mm]
@@ -2154,8 +2154,6 @@ Public Class Form1
         Print_word1()
     End Sub
 
-
-
     Private Sub Print_word1()
         Dim oWord As Word.Application ' = Nothing
         Dim oDoc As Word.Document
@@ -2224,6 +2222,7 @@ Public Class Form1
         oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
         oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
 
+        '----------------------------------------------------
         'Insert a table, fill it with data and change the column widths.
         oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 5, 3)
         oTable.Range.ParagraphFormat.SpaceAfter = 0
@@ -2234,12 +2233,10 @@ Public Class Form1
         row = 1
         oTable.Cell(row, 1).Range.Text = "Material"
         row += 1
-
         oTable.Cell(row, 1).Range.Text = "Product"
         str = ComboBox1.Text
         If Len(str) > 22 Then str = str.Substring(0, 22)
         oTable.Cell(row, 2).Range.Text = str
-
         row += 1
         oTable.Cell(row, 1).Range.Text = "Product Flow"
         oTable.Cell(row, 2).Range.Text = CType(NumericUpDown5.Value, String)
@@ -2260,17 +2257,42 @@ Public Class Form1
         oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
         oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
 
+        '----------------------------------------------------
+        'Insert a table, fill it with data and change the column widths.
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 3, 3)
+        oTable.Range.ParagraphFormat.SpaceAfter = 0
+        oTable.Range.Font.Size = font_sizze
+        oTable.Range.Font.Bold = CInt(False)
+        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+
+        row = 1
+        oTable.Cell(row, 1).Range.Text = "Filling data"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Filling "
+        oTable.Cell(row, 2).Range.Text = TextBox01.Text
+        oTable.Cell(row, 3).Range.Text = "[%]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Inclination angle"
+        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown4.Value, String)
+        oTable.Cell(row, 3).Range.Text = "[degree]"
+
+        oTable.Columns(1).Width = oWord.InchesToPoints(2.0)
+        oTable.Columns(2).Width = oWord.InchesToPoints(1.8)
+        oTable.Columns(3).Width = oWord.InchesToPoints(1.5)
+
+        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+        oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+
         '----------------------------------------------
         'Insert a 16 x 3 table, fill it with data and change the column widths.
-        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 14, 3)
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 6, 3)
         oTable.Range.ParagraphFormat.SpaceAfter = 1
         oTable.Range.Font.Size = font_sizze
         oTable.Range.Font.Bold = CInt(False)
         oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
-        oTable.Rows.Item(1).Range.Font.Size = font_sizze + 2
+        oTable.Rows.Item(1).Range.Font.Size = font_sizze
         row = 1
-        oTable.Cell(row, 1).Range.Text = "Conveyor Data"
-
+        oTable.Cell(row, 1).Range.Text = "Dimensions"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Diameter flight"
         oTable.Cell(row, 2).Range.Text = NumericUpDown58.Value.ToString("F0")
@@ -2280,33 +2302,36 @@ Public Class Form1
         oTable.Cell(row, 2).Range.Text = ComboBox3.Text & " x " & NumericUpDown57.Value.ToString("F1")
         oTable.Cell(row, 3).Range.Text = "[mm]"
         row += 1
-        oTable.Cell(row, 1).Range.Text = "Pitch"
+        oTable.Cell(row, 1).Range.Text = "Flight Pitch"
         oTable.Cell(row, 2).Range.Text = CType(NumericUpDown2.Value, String)
         oTable.Cell(row, 3).Range.Text = "[-]"
         row += 1
-        oTable.Cell(row, 1).Range.Text = "Blade thickness"
+        oTable.Cell(row, 1).Range.Text = "Flight thickness"
         oTable.Cell(row, 2).Range.Text = CType(NumericUpDown8.Value, String)
         oTable.Cell(row, 3).Range.Text = "[mm]"
         row += 1
-        oTable.Cell(row, 1).Range.Text = "Length"
+        oTable.Cell(row, 1).Range.Text = "Trough Length"
         oTable.Cell(row, 2).Range.Text = CType(NumericUpDown3.Value, String)
         oTable.Cell(row, 3).Range.Text = "[m]"
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Inclination angle"
-        oTable.Cell(row, 2).Range.Text = CType(NumericUpDown4.Value, String)
-        oTable.Cell(row, 3).Range.Text = "[degree]"
+
+        oTable.Columns(1).Width = oWord.InchesToPoints(2.0)
+        oTable.Columns(2).Width = oWord.InchesToPoints(1.8)
+        oTable.Columns(3).Width = oWord.InchesToPoints(1.5)
+        oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+        '----------------------------------------------------
+        'Insert a table, fill it with data and change the column widths.
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 6, 3)
+        oTable.Range.ParagraphFormat.SpaceAfter = 0
+        oTable.Range.Font.Size = font_sizze
+        oTable.Range.Font.Bold = CInt(False)
+        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+
+        row = 1
+        oTable.Cell(row, 1).Range.Text = "Drive info"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Speed"
         oTable.Cell(row, 2).Range.Text = CType(NumericUpDown7.Value, String)
         oTable.Cell(row, 3).Range.Text = "[rpm]"
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Flight tip speed"
-        oTable.Cell(row, 2).Range.Text = TextBox11.Text
-        oTable.Cell(row, 3).Range.Text = "[m/s]"
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Filling "
-        oTable.Cell(row, 2).Range.Text = TextBox01.Text
-        oTable.Cell(row, 3).Range.Text = "[%]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Power ISO 7119"
         oTable.Cell(row, 2).Range.Text = TextBox03.Text
@@ -2327,6 +2352,8 @@ Public Class Form1
         oTable.Columns(1).Width = oWord.InchesToPoints(2.0)
         oTable.Columns(2).Width = oWord.InchesToPoints(1.8)
         oTable.Columns(3).Width = oWord.InchesToPoints(1.5)
+
+        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
         oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
 
         '-------------Dimensions inlets-------------------------------
@@ -3077,10 +3104,10 @@ Public Class Form1
         TextBox147.Text = uren_ratio(3).ToString("F2")
 
         '---------- labour -------------- 
-        wvb_prijs_uur = 70              'labour rate
-        eng_prijs_uur = 67              'labour rate
-        project_prijs_uur = 93          'labour rate
-        fabriek_prijs_uur = 55          'labour rate
+        wvb_prijs_uur = NumericUpDown80.Value               'labour rate
+        eng_prijs_uur = NumericUpDown81.Value               'labour rate
+        project_prijs_uur = NumericUpDown82.Value           'labour rate
+        fabriek_prijs_uur = NumericUpDown83.Value           'labour rate
 
         prijs_wvb = uren_wvb * wvb_prijs_uur                                'Wvb cost
         prijs_eng = uren_eng * eng_prijs_uur                                'Engineering cost
@@ -3092,7 +3119,7 @@ Public Class Form1
         certificate_cost = 50 * NumericUpDown27.Value                       'Certificaat cost
 
 
-        geheel_totprijs = total_cost + tot_prijsarbeid        'Totaal prijs
+        geheel_totprijs = total_cost + tot_prijsarbeid                      'Totaal prijs
 
         perc_mater = 100 * total_cost / geheel_totprijs                     'Percentage materiaal
         perc_arbeid = 100 * tot_prijsarbeid / geheel_totprijs               'Percentage arbeid
@@ -3112,13 +3139,13 @@ Public Class Form1
         TextBox109.Text = total_kg_plaat.ToString("F0")                     'Totaal gewicht plaat
         TextBox68.Text = (cost_kopstaartplaat + cost_trog + cost_deksel + cost_cutting).ToString("F0")
 
-        TextBox143.Text = wvb_prijs_uur.ToString("F0")              'Wvb uren
+        NumericUpDown80.Value = CDec(wvb_prijs_uur)                 'Wvb uren
         TextBox140.Text = prijs_wvb.ToString("F0")                  'Wvb cost
-        TextBox105.Text = eng_prijs_uur.ToString("F0")              'Engineering uren
+        NumericUpDown81.Value = CDec(eng_prijs_uur)                 'Engineering uren
         TextBox55.Text = prijs_eng.ToString("F0")                   'Engineering cost
-        TextBox69.Text = project_prijs_uur.ToString("F0")           'Project management uren
+        NumericUpDown82.Value = CDec(project_prijs_uur)             'Project management uren
         TextBox70.Text = prijs_pro.ToString("F0")                   'Project management cost
-        TextBox71.Text = fabriek_prijs_uur.ToString("F0")           'Fabriek uren
+        NumericUpDown83.Value = CDec(fabriek_prijs_uur)             'Fabriek uren
         TextBox72.Text = prijs_fab.ToString("F0")                   'Fabriek cost
         TextBox106.Text = tot_uren.ToString("F0")                   'Totaal aantal uren
         TextBox111.Text = total_cost.ToString("F0")                 'Totale prijs materiaal
@@ -3201,7 +3228,7 @@ Public Class Form1
         Form2.ActiveControl = Form2.PictureBox1
     End Sub
 
-    Private Function vbNull() As Object
+    Private Function VbNull() As Object
         Throw New NotImplementedException()
     End Function
 
