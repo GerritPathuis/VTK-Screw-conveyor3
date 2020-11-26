@@ -57,6 +57,7 @@ Partial Class Form1
         Me.TextBox67 = New System.Windows.Forms.TextBox()
         Me.Label83 = New System.Windows.Forms.Label()
         Me.GroupBox7 = New System.Windows.Forms.GroupBox()
+        Me.Label40 = New System.Windows.Forms.Label()
         Me.Label267 = New System.Windows.Forms.Label()
         Me.Label266 = New System.Windows.Forms.Label()
         Me.Label265 = New System.Windows.Forms.Label()
@@ -699,7 +700,6 @@ Partial Class Form1
         Me.PictureBox10 = New System.Windows.Forms.PictureBox()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
-        Me.Label40 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout
         Me.TabPage1.SuspendLayout
         CType(Me.PictureBox14, System.ComponentModel.ISupportInitialize).BeginInit
@@ -1137,6 +1137,16 @@ Partial Class Form1
         Me.GroupBox7.TabIndex = 24
         Me.GroupBox7.TabStop = False
         Me.GroupBox7.Text = "NOTES"
+        '
+        'Label40
+        '
+        Me.Label40.AutoSize = True
+        Me.Label40.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label40.Location = New System.Drawing.Point(18, 124)
+        Me.Label40.Name = "Label40"
+        Me.Label40.Size = New System.Drawing.Size(213, 16)
+        Me.Label40.TabIndex = 28
+        Me.Label40.Text = "6) Speed flight tip Ribbon 0.5 [m/s] "
         '
         'Label267
         '
@@ -1662,7 +1672,7 @@ Partial Class Form1
         Me.NumericUpDown2.Size = New System.Drawing.Size(65, 22)
         Me.NumericUpDown2.TabIndex = 8
         Me.NumericUpDown2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.NumericUpDown2.Value = New Decimal(New Integer() {75, 0, 0, 131072})
+        Me.NumericUpDown2.Value = New Decimal(New Integer() {100, 0, 0, 131072})
         '
         'NumericUpDown4
         '
@@ -8260,16 +8270,6 @@ Partial Class Form1
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
-        '
-        'Label40
-        '
-        Me.Label40.AutoSize = True
-        Me.Label40.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label40.Location = New System.Drawing.Point(18, 124)
-        Me.Label40.Name = "Label40"
-        Me.Label40.Size = New System.Drawing.Size(213, 16)
-        Me.Label40.TabIndex = 28
-        Me.Label40.Text = "6) Speed flight tip Ribbon 0.5 [m/s] "
         '
         'Form1
         '

@@ -1510,14 +1510,52 @@ Public Class Form1
         oTable.Cell(row, 1).Range.Text = "Date "
         oTable.Cell(row, 2).Range.Text = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
 
-        oTable.Columns.Item(1).Width = oWord.InchesToPoints(2.5)   'Change width of columns 1 & 2.
+        oTable.Columns.Item(1).Width = oWord.InchesToPoints(2.4)   'Change width of columns 1 & 2.
         oTable.Columns.Item(2).Width = oWord.InchesToPoints(2)
         oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
         oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
 
+
+        '----------------------------------------------
+        'Insert a table, fill it with data and change the column widths.
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 6, 3)
+        oTable.Range.ParagraphFormat.SpaceAfter = 1
+        oTable.Range.Font.Size = font_sizze
+        oTable.Range.Font.Bold = CInt(False)
+        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+
+        row = 1
+        oTable.Cell(row, 1).Range.Text = "Process"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Capacity"
+        oTable.Cell(row, 2).Range.Text = "[ton/h]"
+        oTable.Cell(row, 3).Range.Text = NumericUpDown5.Value.ToString("F1")
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Density"
+        oTable.Cell(row, 2).Range.Text = "[kg/h]"
+        oTable.Cell(row, 3).Range.Text = NumericUpDown6.Value.ToString("F0")
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Pitch"
+        oTable.Cell(row, 2).Range.Text = "[-]"
+        oTable.Cell(row, 3).Range.Text = NumericUpDown2.Value.ToString("F1")
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Conveyor speed"
+        oTable.Cell(row, 3).Range.Text = NumericUpDown7.Value.ToString("F0")
+        oTable.Cell(row, 2).Range.Text = "[rpm]"
+        row += 1
+        oTable.Cell(row, 1).Range.Text = "Installed Power"
+        oTable.Cell(row, 3).Range.Text = ComboBox5.SelectedItem.ToString
+        oTable.Cell(row, 2).Range.Text = "[kW]"
+
+        oTable.Columns.Item(1).Width = oWord.InchesToPoints(2.4)
+        oTable.Columns.Item(2).Width = oWord.InchesToPoints(0.6)
+        oTable.Columns.Item(3).Width = oWord.InchesToPoints(1.6)
+
+        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+        oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
         '----------------------------------------------
         'Insert a 14 x 5 table, fill it with data and change the column widths.
-        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 14, 5)
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 11, 5)
         oTable.Range.ParagraphFormat.SpaceAfter = 1
         oTable.Range.Font.Size = font_sizze
         oTable.Range.Font.Bold = CInt(False)
@@ -1542,24 +1580,11 @@ Public Class Form1
         oTable.Cell(row, 2).Range.Text = "[mm]"
 
         row += 1
-        oTable.Cell(row, 1).Range.Text = "Pitch"
-        oTable.Cell(row, 3).Range.Text = CType(NumericUpDown2.Value, String)
-        oTable.Cell(row, 2).Range.Text = "[-]"
-        row += 1
         oTable.Cell(row, 1).Range.Text = "Flight thickness"
         oTable.Cell(row, 3).Range.Text = CType(NumericUpDown8.Value, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
         oTable.Cell(row, 5).Range.Text = TextBox46.Text
         oTable.Cell(row, 4).Range.Text = "[kg]"
-        row += 1
-
-        oTable.Cell(row, 1).Range.Text = "Conveyor speed"
-        oTable.Cell(row, 3).Range.Text = CType(NumericUpDown7.Value, String)
-        oTable.Cell(row, 2).Range.Text = "[rpm]"
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Installed Power"
-        oTable.Cell(row, 3).Range.Text = CType(ComboBox5.SelectedItem, String)
-        oTable.Cell(row, 2).Range.Text = "[kW]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Service factor"
         oTable.Cell(row, 3).Range.Text = CType(NumericUpDown18.Value, String)
@@ -1584,11 +1609,6 @@ Public Class Form1
         oTable.Cell(row, 1).Range.Text = "Product type"
         oTable.Cell(row, 3).Range.Text = CType(ComboBox1.SelectedItem, String)
         oTable.Cell(row, 2).Range.Text = "[-]"
-        row += 1
-        '---- -----
-        oTable.Cell(row, 1).Range.Text = "Capacity"
-        oTable.Cell(row, 3).Range.Text = CType(NumericUpDown5.Value, String)
-        oTable.Cell(row, 2).Range.Text = "[ton/hr]"
 
         oTable.Columns.Item(1).Width = oWord.InchesToPoints(2.4)
         oTable.Columns.Item(2).Width = oWord.InchesToPoints(0.6)
@@ -1692,15 +1712,20 @@ Public Class Form1
         oTable.Cell(row, 1).Range.Text = "Percentage material"
         oTable.Cell(row, 2).Range.Text = TextBox100.Text
         oTable.Cell(row, 3).Range.Text = "[%]"
-        row += 1
-        oTable.Cell(row, 1).Range.Text = TextBox183.Text
-        oTable.Cell(row, 2).Range.Text = NumericUpDown67.Value.ToString("F0")
-        oTable.Cell(row, 3).Range.Text = "[€]"
-        row += 1
-        oTable.Cell(row, 1).Range.Text = TextBox184.Text
-        oTable.Cell(row, 2).Range.Text = NumericUpDown68.Value.ToString("F0")
-        oTable.Cell(row, 3).Range.Text = "[€]"
 
+        If TextBox183.Text.Length > 0 Then
+            row += 1
+            oTable.Cell(row, 1).Range.Text = TextBox183.Text
+            oTable.Cell(row, 2).Range.Text = NumericUpDown67.Value.ToString("F0")
+            oTable.Cell(row, 3).Range.Text = "[€]"
+        End If
+
+        If TextBox184.Text.Length > 0 Then
+            row += 1
+            oTable.Cell(row, 1).Range.Text = TextBox184.Text
+            oTable.Cell(row, 2).Range.Text = NumericUpDown68.Value.ToString("F0")
+            oTable.Cell(row, 3).Range.Text = "[€]"
+        End If
 
         oTable.Columns.Item(1).Width = oWord.InchesToPoints(2.4)
         oTable.Columns.Item(2).Width = oWord.InchesToPoints(0.6)
