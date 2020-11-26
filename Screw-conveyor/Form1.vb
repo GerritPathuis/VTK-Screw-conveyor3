@@ -965,9 +965,6 @@ Public Class Form1
         mekog_pow = Calc_mekog(_regu_flow_kg_hr, _λ6)
         mekog_torque = mekog_pow * 1000 / (_rpm_hor * 2 * PI / 60)
 
-        ' Debug.WriteLine("_regu_flow_kg_hr= " & _regu_flow_kg_hr.ToString)
-        'Debug.WriteLine(" _λ6= " & _λ6.ToString)
-
         '--------------- NON asperen chart ----------------
         NON_torque = Calc_NON_Torque((_diam_flight * 1000), _λ6)    '[Nm]
         NON_pow = NON_torque * (_rpm_hor * 2 * PI / 60) / 1000         '[kW]
@@ -977,7 +974,7 @@ Public Class Form1
 
         '--------------- present results------------
         TextBox19.Text = _λ6.ToString
-        TextBox11.Text = flight_speed.ToString("F2") 'Flight speed [m/s]
+        TextBox11.Text = flight_speed.ToString("F1") 'Flight speed [m/s]
         TextBox18.Text = CType(_diam_flight * CDbl(1000.ToString), String)
         TextBox16.Text = CType(_pipe_OD * CDbl(1000.ToString), String)  'Pipe diameter [m]
         TextBox01.Text = filling_perc.ToString("F1")
@@ -994,8 +991,20 @@ Public Class Form1
         TextBox124.Text = actual_cap_m3.ToString("F1")      '[m3/hr] 
 
         '--------------- checks ---------------------
-        NumericUpDown7.BackColor = CType(IIf(_rpm_hor > 45, Color.Red, Color.Yellow), Color)
+        NumericUpDown7.BackColor = CType(IIf(_rpm_hor > 75, Color.Red, Color.Yellow), Color)
         Label135.Visible = CBool(IIf(flight_speed > 1.0, True, False))
+
+        Select Case True
+            Case flight_speed < 1.4
+                TextBox11.BackColor = Color.LightSalmon
+            Case flight_speed >= 1.4 And flight_speed <= 1.6
+                TextBox11.BackColor = Color.LightGreen
+            Case flight_speed > 1.6
+                TextBox11.BackColor = Color.Red
+            Case Else
+                TextBox11.BackColor = Color.White
+        End Select
+
 
     End Sub
 
@@ -2545,7 +2554,7 @@ Public Class Form1
             End If
             row += 1
             If NumericUpDown7.BackColor = Color.Red Then
-                oTable.Cell(row, 1).Range.Text = "NOK, Rotational speed > 45 rpm, too fast"
+                oTable.Cell(row, 1).Range.Text = "NOK, Rotational speed > 75 rpm, too fast"
             Else
                 oTable.Cell(row, 1).Range.Text = "OK, Rotational speed"
             End If
@@ -3115,10 +3124,7 @@ Public Class Form1
         prijs_fab = uren_fab * fabriek_prijs_uur                            'Fabriek cost
 
         tot_prijsarbeid = prijs_wvb + prijs_eng + prijs_pro + prijs_fab     'Totale prijs arbeid
-
         certificate_cost = 50 * NumericUpDown27.Value                       'Certificaat cost
-
-
         geheel_totprijs = total_cost + tot_prijsarbeid                      'Totaal prijs
 
         perc_mater = 100 * total_cost / geheel_totprijs                     'Percentage materiaal
