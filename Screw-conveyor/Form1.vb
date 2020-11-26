@@ -974,7 +974,7 @@ Public Class Form1
 
         '--------------- present results------------
         TextBox19.Text = _λ6.ToString
-        TextBox11.Text = flight_speed.ToString("F1") 'Flight speed [m/s]
+        TextBox11.Text = flight_speed.ToString("F2") 'Flight speed [m/s]
         TextBox18.Text = CType(_diam_flight * CDbl(1000.ToString), String)
         TextBox16.Text = CType(_pipe_OD * CDbl(1000.ToString), String)  'Pipe diameter [m]
         TextBox01.Text = filling_perc.ToString("F1")
