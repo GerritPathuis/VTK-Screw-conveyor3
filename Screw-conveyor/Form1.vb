@@ -44,7 +44,7 @@ Public Class Form1
     ReadOnly dirpath_Home_GP As String = "C:\Temp\"
 
     Public conv As Conveyor_struct   'Conveyors data
-    Public part(20) As Price_struct  'Part cost price info
+    Public part(30) As Price_struct  'Part cost price info
 
     Public _steps As Integer = 150   'Calculation _steps
     Public _d(_steps) As Double      '[m] Distance to drive plate
@@ -824,8 +824,10 @@ Public Class Form1
             part(14).P_name = "Drive"
             part(15).P_name = "Paint/Pickling"
             part(16).P_name = "Flange gasket"
-            part(17).P_name = "Packing"
-            part(18).P_name = "Shipping"
+            part(17).P_name = "Inter transport"
+            part(18).P_name = "Packing"
+            part(19).P_name = "Shipping"
+            part(20).P_name = "Sum"
         End With
 
         For hh = 0 To (UBound(_inputs) - 1)              'Fill combobox1
@@ -2862,9 +2864,9 @@ Public Class Form1
         Dim nr_flights, spoed As Double
         Dim lengte_astap As Double
         Dim tot_opperv_paint As Double
-        Dim cost_paint, cost_painting, cost_cutting As Double
+        Dim cost_cutting As Double
         Dim cost_motorreductor, cost_koppeling As Double
-        Dim cost_pakking, cost_hang, cost_transport As Double
+        Dim cost_pakking, cost_hang As Double
         Dim cost_stopbus As Double
         Dim certificate_cost, total_cost As Double
         Dim uren_wvb, uren_eng, uren_pro, uren_fab, tot_uren As Double
@@ -2952,8 +2954,6 @@ Public Class Form1
         part(4).P_dikte = NumericUpDown85.Value         '[mm] Schroefblad 
         part(5).P_dikte = NumericUpDown86.Value         '[mm] astap
 
-
-
         '---------------Aantalen---------------
         part(0).P_no = 2        'Eindplaten
         part(1).P_no = 1        'Trog    
@@ -2970,10 +2970,10 @@ Public Class Form1
         part(12).P_no = 1       'Coupling
         part(13).P_no = CInt(NumericUpDown88.Value)        'Coupling guard
         part(14).P_no = 1       'Drive
-        part(15).P_no = 1       'Paint/Pickling
-        part(16).P_no = 1       'Flange gasket
-        part(17).P_no = 1       'Packing
-        part(18).P_no = 1       'Shipping
+        part(15).P_no = CInt(IIf(CheckBox6.Checked, 0, 1))       'Paint/Pickling
+        part(16).P_no = 2      'Flange gasket
+        part(17).P_no = CInt(IIf(CheckBox4.Checked, 0, 1)) 'Packing
+        part(18).P_no = CInt(IIf(CheckBox4.Checked, 0, 1))       'Shipping
 
 
         '--------------staal Oppervlaktes -------
@@ -3055,7 +3055,7 @@ Public Class Form1
         part(3).P_cost = 300    'inlaat chute
         part(4).P_cost = 300    'Uitlaat chute
         part(5).P_cost = 100    'Conveyor supports
-
+        part(17).P_cost = 400   'intern transport
 
         '----------------------------------------COST CALCULATION-----------------------------------------------
         '-------------------------------------------------------------------------------------------------------
@@ -3068,24 +3068,11 @@ Public Class Form1
         Dim marge_factor As Double
         Dim vrije_regel As Double
 
-        'TABBLAD COSTING ---------------------------------------------------------------------------------------
-        'STEEL SUBGROUP ----------------------------------------------------------------------------------------
-
         '======== Onderdelen van plaat die gesneden worden ==========
         'gew_inuitvoet = kg_inlaat + kg_uitlaat + kg_voet + kg_afschermkap
 
-
-        subtotalCost_Steel = 0
-        For i = 0 To part.Length - 1
-            part(i).P_cost = part(i).P_no * part(i).P_wght * part(i).P_kgcost
-            subtotalCost_Steel += part(i).P_cost
-        Next
-
-
         '======= SubTotal calculation =======
         subtotalCost_Components = cost_motorreductor + cost_koppeling + part(10).P_cost + cost_hang + cost_stopbus + cost_pakking
-
-        'OPTIONS SUBGROUP ---------------------------------------------------------------------------------------
 
         'MISC SUBGROUP ---------------------------------------------------------------------------------------
         tot_opperv_paint = 0
@@ -3093,19 +3080,21 @@ Public Class Form1
             tot_opperv_paint += part(i).P_area
         Next
 
-        cost_painting = cost_paint * tot_opperv_paint   'verf m2*prijs
-        cost_transport = 400                             'intern transport
-        If Not CheckBox7.Checked Then cost_transport = 0 'enable
-        '  subtotalCost_Misc = cost_lining + cost_painting + cost_transport
+        part(15).P_cost = part(15).P_each * part(15).P_area   'verf m2*prijs
 
         vrije_regel = NumericUpDown67.Value + NumericUpDown68.Value
         total_cost = subtotalCost_Steel + subtotalCost_Components + subtotalCost_Options + subtotalCost_Misc + vrije_regel
 
+        subtotalCost_Steel = 0
+        For i = 0 To part.Length - 1
+            part(i).P_cost = part(i).P_no * part(i).P_wght * part(i).P_kgcost
+            subtotalCost_Steel += part(i).P_cost
+        Next
 
         'FILL TEXTBOXES MSIC SUBGROUP ----------------------------------------------------------------------------------------
-        TextBox108.Text = tot_opperv_paint.ToString("F1")        'Verf m2
-        TextBox107.Text = cost_painting.ToString("F2")           'Verf cost
-        TextBox112.Text = cost_transport.ToString("F2")          'Transport cost
+        TextBox108.Text = part(15).P_area.ToString("F1")    'Verf m2
+        TextBox107.Text = part(15).P_cost.ToString("F2")    'Verf cost
+        TextBox112.Text = part(17).P_cost.ToString("F2")    'Intern Transport cost
         'TABBLAD SALES PRICE ---------------------------------------------------------------------------------------
 
         'CALCULATE ----------------------------------------------------------------------------------------
