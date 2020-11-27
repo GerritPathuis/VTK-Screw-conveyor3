@@ -10,7 +10,7 @@ Imports System.Windows.Forms
 Public Structure Conveyor_struct    'For conveyors
     Public Tag As String            '[T4400]
     Public no_screws As Integer     '[-]
-    Public flight_OD As Double     '[mm] 
+    Public flight_OD As Double      '[mm] 
     Public pipe_od As Double        '[mm]
     Public pipe_ID As Double        '[mm]
     Public pitch As Double          '[mm]
@@ -23,6 +23,16 @@ Public Structure Conveyor_struct    'For conveyors
     Public rpm As Double            '[rpm]
 End Structure
 
+Public Structure Price_struct       'Cost price info
+    Public P_name As String         'Trof/eindplaat/...
+    Public P_no As Integer          '[-] aantal
+    Public P_tag As Double          ' 
+    Public P_dikte As Double        '[mm]
+    Public P_wght As Double         '[kg]
+    Public P_kgcost As Double       '[€/kg]
+    Public P_cost As Double         '[€] 
+End Structure
+
 Public Class Form1
     'Use icon convert site https://icoconvert.com/ 
     '----------- directory's-----------
@@ -31,6 +41,7 @@ Public Class Form1
     ReadOnly dirpath_Home_GP As String = "C:\Temp\"
 
     Public conv As Conveyor_struct   'Conveyors data
+    Public part(30) As Price_struct  'Part cost price info
 
     Public _steps As Integer = 150   'Calculation _steps
     Public _d(_steps) As Double      '[m] Distance to drive plate
@@ -74,485 +85,485 @@ Public Class Form1
 
     'Materials name; CEMA Material code; Conveyor loading; Component group, density min, Density max, HP Material
     Public Shared _inputs() As String = {
-"--          ; 0000;30A;2B;500;500;1.0",
-" 250 [kg/m3]; 0000;30A;2B;250;250;1.0",
-" 300 [kg/m3]; 0000;30A;2B;300;300;1.0",
-" 350 [kg/m3]; 0000;30A;2B;350;350;1.0",
-" 400 [kg/m3]; 0000;30A;2B;400;400;1.0",
-" 450 [kg/m3]; 0000;30A;2B;450;450;1.0",
-" 500 [kg/m3]; 0000;30A;2B;500;500;1.0",
-" 550 [kg/m3]; 0000;30A;2B;550;550;1.0",
-" 600 [kg/m3]; 0000;30A;2B;600;600;1.0",
-" 650 [kg/m3]; 0000;30A;2B;650;650;1.0",
-" 700 [kg/m3]; 0000;30A;2B;700;700;1.0",
-" 750 [kg/m3]; 0000;30A;2B;750;750;1.0",
-" 800 [kg/m3]; 0000;30A;2B;800;800;1.0",
-" 850 [kg/m3]; 0000;30A;2B;850;850;1.0",
-" 900 [kg/m3]; 0000;30A;2B;900;900;1.0",
-" 950 [kg/m3]; 0000;30A;2B;950;950;1.0",
-"1000 [kg/m3]; 0000;30A;2B;1000;1000;1.0",
-"1100 [kg/m3]; 0000;30A;2B;1100;1100;1.0",
-"1200 [kg/m3]; 0000;30A;2B;1200;1200;1.0",
-"1300 [kg/m3]; 0000;30A;2B;1300;1300;1.0",
-"1400 [kg/m3]; 0000;30A;2B;1400;1400;1.0",
-"1500 [kg/m3]; 0000;30A;2B;1500;1500;1.0",
-"1600 [kg/m3]; 0000;30A;2B;1600;1600;1.0",
-"1700 [kg/m3]; 0000;30A;2B;1700;1700;1.0",
-"1800 [kg/m3]; 0000;30A;2B;1800;1800;1.0",
-"1900 [kg/m3]; 0000;30A;2B;1900;1900;1.0",
-"2000 [kg/m3]; 0000;30A;2B;2000;2000;1.0",
-"Adipic-Acid;45A35;30A;2B;720;720;0.5",
-"Alfalfa Meal;18B45WY;30A;2D;220;350;0.6",
-"Alfalfa Pellets;42C25;45;2D;660;690;0.5",
-"Alfalfa Seed;13B15N;45;1A,1B,1C;160;240;0.4",
-"Almonds Broken;29C35Q;30A;2D;430;480;0.9",
-"Almonds Whole Shelled;29C35Q;30A;2D;450;480;0.9",
-"Alum Fine;48B35U;30A;3D;720;800;0.6",
-"Alum, Lumps;55B25;45;2A,2B;800;960;1.4",
-"Alumina;58B27MY;15;3D;880;1040;1.8",
-"Alumina Fines;35A27MY;15;3D;560;560;1.6",
-"Alumina Sized or Briquette;65D37;15;3D;1040;1040;2",
-"Aluminate Gel (Aluminate Hydroxide);45B35;30B;2D;720;720;1.7",
-"Aluminum Chips, Dry;11E45V;30A;2D;110;240;1.2",
-"Aluminum Chips, Oily;11E45VY;30A;2D;110;240;0.8",
-"Aluminum Hydrate;17C35;30A;1A,1B,1C;210;320;1.4",
-"Aluminum Oxide;90A17MN;15;3D;960;1920;1.8",
-"Aluminum Silicate (Andalusite);49C35S;45;3A,3B;780;780;0.7",
-"Aluminum Sulfate;52C25;45;1A,1B,1C;720;930;1.3",
-"Ammonium Chloride, Crystalline;49A45FRS;30A;1A,1B,1C;720;830;1",
-"Ammonium Nitrate;54A35NTU;30A;3D;720;990;1.6",
-"Ammonium Sulfate;52C35FOTU;30A;1A,1B,1C;720;930;1",
-"Apple Pomace, Dry;15C45Y;30B;2D;240;240;1",
-"Arsenate of Lead (Lead Arsenate);72A35R;30A;1A,1B,1C;1150;1150;1.4",
-"Arsenic Pulverized;30A25R;45;2D;480;480;1",
-"Asbestos-Rock (Ore);81D37R;15;3D;1300;1300;2",
-"Asbestos-Shredded;30E46XY;30B;2D;320;640;1",
-"Ash, Black Ground;105B35;30A;1A,1B,1C;1680;1680;2.5",
-"Ashes, Coal, dry, 1/2 inch;40C46TY;30B;3D;560;720;3",
-"Ashes, Coal, dry, 3 inch;38D46T;30B;3D;560;640;2.5",
-"Ashes, Coal, Wet, 1/2 inch;48C46T;30B;3D;720;800;3",
-"Ashes, Coal, Wet, 3 inch;48D46T;30B;3D;720;800;4",
-"Ashes, Fly (Fly Ash);38A36M;30B;3D;480;720;2",
-"Aspartic Acid;42A35XPLO;30A;1A,1B,1C;530;820;1.5",
-"Asphalt, Crushed, 1/2 inch;45C45;30A;1A,1B,1C;720;720;2",
-"Bagasse;9E45RVXY;30A;2A,2B,2C;110;160;1.5",
-"Bakelite, Fine;38B25;45;1A,1B,1C;480;720;1.4",
-"Baking Powder;48A35;30A;1B;640;880;0.6",
-"Baking Soda (Sodium Bicarbonate);48A25;45;1B;640;880;0.6",
-"Barite (Barium Sulfate), 1/2 to 3 inch;150D36;30B;3D;1920;2880;2.6",
-"Barite, Powder;150A35X;30A;2D;1920;2880;2",
-"Barium Carbonate;72A45R;30A;2D;1150;1150;1.6",
-"Bark Wood, Refuse;15E45TVY;30A;3D;160;320;2",
-"Barley Fine, Ground;31B35;30A;1A,1B,1C;380;610;0.4",
-"Barley Malted;31C35;30A;1A,1B,1C;500;500;0.4",
-"Barley Meal;28C35;30A;1A,1B,1C;450;450;0.4",
-"Barley Whole;42B25N;45;1A,1B,1C;580;770;0.5",
-"Basalt;93B27;15;3D;1280;1680;1.8",
-"Bauxite, Crushed, 3 inch (Aluminum Ore);80D36;30B;3D;1200;1360;2.5",
-"Bauxite Dry, Ground(Aluminum Ore);68B25;45;2D;1090;1090;1.8",
-"Beans Castor, Meal;38B35W;30A;1A,1B,1C;560;640;0.8",
-"Beans Castor, Whole Shelled;36C15W;45;1A,1B,1C;580;580;0.5",
-"Beans Navy, Dry;48C15;45;1A,1B,1C;770;770;0.5",
-"Beans Navy, Steeped;60C25;45;1A,1B,1C;960;960;0.8",
-"Bentonite 100 Mesh;55A25MXY;45;2D;800;960;0.7",
-"Bentonite Crude;37D45X;30A;2D;540;640;1.2",
-"Benzene Hexachloride;56A45R;30A;1A,1B,1C;900;900;0.6",
-"Bicarbonate of Soda (Baking Soda);48A25;45;1B;640;880;0.6",
-"Blood Dried;40D45U;30A;2D;560;720;2",
-"Blood Ground, Dried;30A35U;30A;1A,1B;480;480;1",
-"Bone Ash (Tricalcium Phosphate);45A45;30A;1A,1B;640;800;1.6",
-"Boneblack;23A25Y;45;1A,1B;320;400;1.5",
-"Bonechar;34B35;30A;1A,1B;430;640;1.6",
-"Bonemeal;55B35;30A;2D;800;960;1.7",
-"Bones Crushed;43D45;30A;2D;560;800;2",
-"Bones Ground;50B35;30A;2D;800;800;1.7",
-"Bones Whole**;43E45V;30A;2D;560;800;3",
-"Borate of Lime;60A35;30A;1A,1B,1C;960;960;0.6",
-"Borax Screening, 1/2 inch;58C35;30A;2D;880;960;1.5",
-"Borax 1-1/2  to 2 inch Lump;58D35;30A;2D;880;960;1.8",
-"Borax 2 to 3 inch Lump;65D35;30A;2D;960;1120;2",
-"Borax Fine;50B25T;45;3D;720;880;0.7",
-"Boric Acid, Fine;55B25T;45;3D;880;880;0.8",
-"Boron;75A37;15;2D;1200;1200;1",
-"Bran, Rice-Rye-Wheat;18B355NY;30A;1A,1B,1C;260;320;0.5",
-"Braunite (Manganese Oxide);120A36;30B;2D;1920;1920;2",
-"Bread Crumbs;23B35PQ;30A;1A,1B,1C;320;400;0.6",
-"Brewers Grain, spent, dry;22C45;30A;1A,1B,1C;220;480;0.5",
-"Brewers Grain, spent, wet;58C45T;30A;2A,2B;880;960;0.8",
-"Brick, Ground, 1/8 inch;110B37;15;3D;1600;1920;2.2",
-"Bronze Chips;40B45;30A;2D;480;800;2",
-"Buckwheat;40B25N;45;1A,1B,1C;590;670;0.4",
-"Calcine, Flour;80A35;30A;1A,1B,1C;1200;1360;0.7",
-"Calcium Carbide;80D25N;30A;2D;1120;1440;2",
-"Calcium Hydrate (Lime, Hydrated);40B35LM;30A;2D;640;640;0.8",
-"Calcium Hydroxide (Lime, Hydrated);40B35LM;30A;2D;640;640;0.8",
-"Calcium Lactate;28D45QTR;30A;2A,2B;420;460;0.6",
-"Calcium Oxide (Lime, unslaked);63B35U;30A;1A,1B,1C;960;1040;0.6",
-"Calcium Phosphate;45A45;30A;1A,1B,1C;640;800;1.6",
-"Canola Meal (Rape Seed Meal)**;38;?;?;540;660;0.8",
-"Carborundum;100D27;15;3D;1600;1600;3",
-"Casein;36B35;30A;2D;580;580;1.6",
-"Cashew Nuts;35C45;30A;2D;510;590;0.7",
-"Cast Iron, Chips;165C45;30A;2D;2080;3200;4",
-"Caustic Soda (Sodium Hydroxide);88B35RSU;30A;3D;1410;1410;1.8",
-"Caustic Soda, Flakes;47C45RSUX;30A;3A,3B;750;750;1.5",
-"Celite (Diatomaceous Earth);14A36Y;30B;3D;180;270;1.6",
-"Cellulose with TBA;VTK;30B;2D;960;800;1.6",
-"Cement, Aerated (Portland);68A16M;30B;2D;960;1200;1.4",
-"Cement, Clinker;85D36;30B;3D;1200;1520;1.8",
-"Cement, Mortar;133B35Q;30A;3D;2130;2130;3",
-"Cement, Portland;94A26M;30B;2D;1510;1510;1.4",
-"Cerrusite (Lead Carbonate);250A35R;30A;2D;3840;4160;1",
-"Chalk, Crushed;85D25;30A;2D;1200;1520;1.9",
-"Chalk, Pulverized;71A25MXY;45;2D;1070;1200;1.4",
-"Charcoal, Ground;23A45;30A;2D;290;450;1.2",
-"Charcoal, Lumps;23D45Q;30A;2D;290;450;1.4",
-"Chocolate, Cake Pressed;43D25;30A;2B;640;720;1.5",
-"Chrome Ore;133D36;30B;3D;2000;2240;2.5",
-"Cinders, Blast Furnace;57D36T;30B;3D;910;910;1.9",
-"Cinders, Coal;40D36T;30B;3D;640;640;1.8",
-"Clay (Marl);80D36;30B;2D;1280;1280;1.6",
-"Clay, Brick, Dry, Fines;110C36;30B;3D;1600;1920;2",
-"Clay, Calcined;90B36;30B;3D;1280;1600;2.4",
-"Clay, Ceramic, Dry, Fines;70A35P;30A;1A,1B,1C;960;1280;1.5",
-"Clay, Dry, Lumpy;68D35;30A;2D;960;1200;1.8",
-"Clinker, Cement (Cement Clinker);85D36;30B;3D;1200;1520;1.8",
-"Clover Seed;47B25N;45;1A,1B,1C;720;770;0.4",
-"Coal, Anthracite (River & Culm);58B35TY;30A;2A,2B;880;980;1",
-"Coal, Anthracite, Sized, 1/2 inch;55C25;45;2A,2B;780;980;1",
-"Coal, Bituminous, Mined;50D35LNYX;30A;1A,1B;640;960;1",
-"Coal, Bituminous, Mined, Sized;48D35QV;30A;1A,1B;720;800;1",
-"Coal, Bituminous, Mined, Slack;47C45T;30A;2A,2B;690;800;0.9",
-"Coal, Lignite;41D35T;30A;2D;590;720;1",
-"Cocoa Beans;38C25Q;30A;1A,1B;480;720;0.5",
-"Cocoa, Nibs;35C25;45;2D;560;560;0.5",
-"Cocoa, Powdered;33A45XY;30A;1B;480;560;0.9",
-"Coconut, Shredded;2.1E+46;30B;2B;320;350;1.5",
-"Coffee, Chaff;20B25FZMY;45;1A,1B;320;320;1",
-"Coffee, Green Bean;29C25PQ;45;1A,1B;400;510;0.5",
-"Coffee, Ground, Dry;25A35P;30A;1A,1B;400;400;0.6",
-"Coffee, Ground, Wet;40A45X;30A;1A,1B;560;720;0.6",
-"Coffee, Roasted Bean;25C25PQ;45;1B;320;480;0.4",
-"Coffee, Soluble;19A35PUY;30A;1B;300;300;0.4",
-"Coke, Breeze;30C37;15;3D;400;560;1.2",
-"Coke, Loose;30D37;15;3D;400;560;1.2",
-"Coke, Petrol, Calcined;40D37;15;3D;560;720;1.3",
-"Compost;40D45TV;30A;3A,3B;480;800;1",
-"Concrete, Pre-Mix,;103C36U;30B;3D;1360;1920;3",
-"Copper Ore;135D36;30B;3D;1920;2400;4",
-"Copper Ore, Crushed;125D36;30B;3D;1600;2400;4",
-"Copper Sulphate, (Bluestone, Cupric Sulphate);85C35S;30A;2A,2B,2C;1200;1520;1",
-"Copperas (Ferrous Sulphate);63C35U;30A;2D;800;1200;1",
-"Copra, Cake Ground;43B45HW;30A;1A,1B,1C;640;720;0.7",
-"Copra, Cake, Lumpy;28D35HW;30A;2A,2B,2C;400;480;0.8",
-"Copra, Lumpy;22E35HW;30A;2A,2B,2C;350;350;1",
-"Copra, Meal;43B35HW;30A;2D;640;720;0.7",
-"Cork, Fine Ground;10B35JNY;30A;1A,1B,1C;80;240;0.5",
-"Cork, Granulated;14C35JY;30A;1A,1B,1C;190;240;0.5",
-"Corn Cobs, Ground;17C25Y;45;1A,1B,1C;270;270;0.6",
-"Corn Fiber, Dry;14B46P;30B;1A,1B,1C;190;240;1",
-"Corn Fiber, Wet;33B46P;30B;1A,1B,1C;240;800;1.5",
-"Corn Oil, Cake;25D45HW;30A;1A,1B;400;400;0.6",
-"Corn, Cracked;45B25P;45;1A,1B,1C;640;800;0.7",
-"Corn, Germ, Dry;21B35PY;30A;1A,1B,1C;340;340;0.4",
-"Corn, Germ, Wet (50%, moisture);30B35PY;30A;1A,1B,1C;480;480;0.4",
-"Corn, Grits;43B35P;30A;1A,1B,1C;640;720;0.5",
-"Corn, Seed;45C25PQ;45;1A,1B,1C;720;720;0.4",
-"Corn, Shelled;45C25;45;1A,1B,1C;720;720;0.4",
-"Corn, Starch*;38A15MN;45;1A,1B,1C;400;800;1",
-"Corn, Sugar;33B35PU;30A;1B;480;560;1.3",
-"Cornmeal;36B35P;30A;1A,1B;510;640;0.5",
-"Cottonseed, Cake;43C45HW;30A;1A,1B;640;720;1",
-"Cottonseed, Dry, Delinted;31C25X;45;1A,1B;350;640;0.6",
-"Cottonseed, Dry, Not Delinted;22C45XY;30A;1A,1B;290;400;0.9",
-"Cottonseed, Flakes;23C35HWY;30A;1A,1B;320;400;0.8",
-"Cottonseed, Hulls;12B35Y;30A;1A,1B;190;190;0.9",
-"Cottonseed, Meal, Expeller;28B45HW;30A;3A,3B;400;480;0.5",
-"Cottonseed, Meal, Extracted;38B45HW;30A;1A,1B;560;640;0.5",
-"Cottonseed, Meats, Dry;40B35HW;30A;1A,1B;640;640;0.6",
-"Cottonseed, Meats, Rolled;38C45HW;30A;1A,1B;560;640;0.6",
-"Cracklings, Crushed;45D45HW;30A;2A,2B,2C;640;800;1.3",
-"Cryolite, Dust (Sodium Aluminum Fluoride);83A36V;30B;2D;1200;1440;2",
-"Cryolite, Lumpy (Kryalith);100D36;30B;2D;1440;1760;2.1",
-"Cullet, Fine;100C37;15;3D;1280;1920;2",
-"Cullet, Lump;100D37;15;3D;1280;1920;2.5",
-"Culm, (Coal, Anthracite);58B35TY;30A;2A,2B;880;980;1",
-"Cupric Sulphate (Copper Sulfate);85C35S;30A;2A,2B,2C;1200;1520;1",
-"Diatomaceous Earth (Filter Aid, Precoat);14A36Y;30B;3D;180;270;1.6",
-"Dicalcium Phosphate;45A35;30A;1A,1B,1C;640;800;1.6",
-"Disodium Phosphate;28A35;30A;3D;400;500;0.5",
-"Distillers Grain, Spent Wet;50C45V;30A;3A,3B;640;960;0.8",
-"Distillers Grain, Spent Wet w/Syrup;56C45VXOH;30A;3A,3B;690;1090;1.2",
-"Distillers Grain-Spent Dry;30B35;30A;2D;480;480;0.5",
-"Dolomite, Crushed;90C36;30B;2D;1280;1600;2",
-"Dolomite, Lumpy;95D36;30B;2D;1440;1600;2",
-"Earth, Loam, Dry, Loose;76C36;30B;2D;1220;1220;1.2",
-"Ebonite, Crushed;67C35;30A;1A,1B,1C;1010;1120;0.8",
-"Egg Powder;16A35MPY;30A;1B;260;260;1",
-"Epsom Salts (Magnesium Sulfate);45A35U;30A;1A,1B,1C;640;800;0.8",
-"Feldspar, Ground;73A37;15;2D;1040;1280;2",
-"Feldspar, Lumps;95D37;15;2D;1440;1600;2",
-"Feldspar, Powder;100A36;30B;2D;1600;1600;2",
-"Felspar, Screenings;78C37;15;2D;1200;1280;2",
-"Ferrous Sulfide, 1/2 inch (Iron Sulfide, Pyrites);128C26;30B;1A,1B,1C;1920;2160;2",
-"Ferrous Sulfide, 100M (Iron Sulfide, Pyrites);113A36;30B;1A,1B,1C;1680;1920;2",
-"Ferrous Sulphate (Iron Sulphate, Copperas);63C35U;30A;2D;800;1200;1",
-"Filter-Aid (Diatomaceous Earth, Precoat);14A36Y;30B;3D;180;270;1.6",
-"Fish Meal;38C45HP;30A;1A,1B,1C;560;640;1",
-"Fish Scrap;45D45H;30A;2A,2B,2C;640;800;1.5",
-"Flaxseed;44B35X;30A;1A,1B,1C;690;720;0.4",
-"Flaxseed Cake (Linseed Cake);49D45W;30A;2A,2B;770;800;0.7",
-"Flaxseed Meal (Linseed Meal);35B45W;30A;1A,1B;400;720;0.4",
-"Flour Wheat;37A45LP;30A;1B;530;640;0.6",
-"Flue Dust, Basic Oxygen Furnace;53A36LM;30B;3D;720;960;3.5",
-"Flue Dust, Blast Furnace;118A36;30B;3D;1760;2000;3.5",
-"Flue Dust, Boiler H. Dry;38A36LM;30B;3D;480;720;2",
-"Fluorspar, Fine (Calcium Floride);90B36;30B;2D;1280;1600;2",
-"Fluorspar, Lumps;100D36;30B;2D;1440;1760;2",
-"Flyash;38A36M;30B;3D;480;720;2",
-"Foundry Sand, Dry (Sand);95D37Z;15;3D;1440;1600;2.6",
-"Fuller™s Earth, Calcined;40A25;45;3D;640;640;2",
-"Fuller™s Earth, Dry, Raw (Bleach Clay);35A25;45;2D;480;640;2",
-"Fuller™s Earth, Oily, Spent (Spent Bleach Clay);63C45OW;30A;3D;960;1040;2",
-"Galena (Lead Sulfide);250A35R;30A;2D;3840;4160;5",
-"Gelatine, Granulated;32B35PU;30A;1B;510;510;0.8",
-"Gilsonite;37C35;30A;3D;590;590;1.5",
-"Glass, Batch;90C37;15;3D;1280;1600;2.5", "Glue, Ground;40B45U;30A;2D;640;640;1.7",
-"Glue, Pearl;40C35U;30A;1A,1B,1C;640;640;0.5",
-"Glue, Veg. Powdered;40A45U;30A;1A,1B,1C;640;640;0.6",
-"Gluten, Meal (Dry Corn Gluten);40B35P;30A;1B;640;640;0.6",
-"Gluten, Meal (Dry Corn Gluten) Syral;40B35P;30A;1B;500;500;0.6",
-"Gluten, Meal (Wet Corn Gluten);43B35OPH;30A;1B;690;690;2.2",
-"Granite, Fine;85C27;15;3D;1280;1440;2.5",
-"Grape, Pomace;18D45U;30A;2D;240;320;1.4",
-"Graphite Flake (Plumago);40B25LP;45;1A,1B,1C;640;640;0.5",
-"Graphite Flour;28A35LMP;30A;1A,1B,1C;450;450;0.5",
-"Graphite Ore;70D35L;30A;2D;1040;1200;1",
-"Guano Dry**;70C35;30A;3A,3B;1120;1120;2",
-"Gypsum, Calcined (Plaster of Paris);58B35U;30A;2D;880;960;1.6",
-"Gypsum, Calcined, Powdered (Plaster of Paris);70A35U;30A;2D;960;1280;2",
-"Gypsum, Raw 1 inch(Calc.Sulfate, Plast.of Paris);75D25;30A;2D;1120;1280;2",
-"Hay, Chopped **;10C35JY;30A;2A, 2B;130;190;1.6",
-"Hexanedioic Acid (Adipic Acid);45A35;30A;2B;720;720;0.5",
-"Hisarna Granulaat;--;--;--,--,--;--;2000;4",                       'Toegevoegd 25-6-2016
-"Hominy, Dry;43C25D;30A;1A,1B,1C;560;800;0.4",
-"Hops, Spend, Dry;35D35;30A;2A,2B,2C;560;560;1",
-"Hops, Spent, Wet;53D45V;30A;2A,2B;800;880;1.5",
-"Ice, Crushed;40D35O;30A;2A,2B;560;720;0.4",
-"Ice, Cubes;34D35O;30A;1B;530;560;0.4",
-"Ice, Flaked**;43C35O;30A;1B;640;720;0.6",
-"Ice, Shell;34D45O;30A;1B;530;560;0.4",
-"Ilmenite Ore (Titanium Dioxide);150D37;15;3D;2240;2560;2",
-"Iron Ore Concentrate;150A37;15;3D;1920;2880;2.2",
-"Iron Oxide Pigment;25A36LMP;30B;1A,1B,1C;400;400;1",
-"Iron Oxide, Millscale;75C36;30B;2D;1200;1200;1.6",
-"Iron Sulphate (Ferrous Sulfate);63C35U;30A;2D;800;1200;1",
-"Iron Vitriol (Ferrous Sulfate);63C35U;30A;2D;800;1200;1",
-"Kafir (Corn);43C25;45;3D;640;720;0.5",
-"Kaolin Clay;63D25;30A;2D;1010;1010;2",
-"Kaolin Clay (Tale);49A35LMP;30A;2D;670;900;2",
-"Lactose;32A35PU;30A;1B;510;510;0.6",
-"Lead Arsenate;72A35R;30A;1A,1B,1C;1150;1150;1.4",
-"Lead Carbonate (Cerrusite);250A35R;30A;2D;3840;4160;1",
-"Lead Ore, 1/2 inch;205C36;30B;3D;2880;3680;1.4",
-"Lead Ore, 1/8 inch;235B35;30A;3D;3200;4320;1.4",
-"Lead Oxide (Red Lead, Litharge) 100 Mesh;90A35P;30A;2D;480;2400;1.2",
-"Lead Oxide (Red Lead, Litharge) 200 Mesh;105A35LP;30A;2D;480;2880;1.2",
-"Lignite (Coal Lignite);41D35T;30A;2D;590;720;1",
-"Limanite, Ore, Brown;120C47;15;3D;1920;1920;1.7",
-"Lime Hydrated (Calcium Hydrate, Hydroxide);40B35LM;30A;2D;640;640;0.8",
-"Lime Pebble;55C25HU;45;2A,2B;850;900;2",
-"Lime, Ground, Unslaked (Quicklime);63B35U;30A;1A,1B,1C;960;1040;0.6",
-"Lime, Hydrated, Pulverized;36A35LM;30A;1A,1B;510;640;0.6",
-"Limestone, Agricultural (Calcium Carbonate);68B35;30A;2D;1090;1090;2",
-"Limestone, Crushed (Calcium Carbonate); 88D36;30B;2D;1360;1440;2",
-"Limestone, Dust (Calcium Carbonate);75A46MY;30B;2D;880;1520;1.8",
-"Lindane (Benzene Hexachloride);56A45R;30A;1A,1B,1C;900;900;0.6",
-"Linseed (Flaxseed);44B35X;30A;1A,1B,1C;690;720;0.4",
-"Lithopone;48A35MR;30A;1A,1B;720;800;1",
-"Magnesium Chloride (Magnesite);33C45;30A;1A,1B,1C;530;530;1",
-"Maize (Milo);43B15N;45;1A,1B,1C;640;720;0.4",
-"Malt, Dry Whole;25C35N;30A;1A,1B,1C;320;480;0.5",
-"Malt, Dry, Ground;25C35N;30A;1A,1B,1C;320;480;0.5",
-"Malt, Meal;38B25P;30A;1A,1B,1C;580;640;0.4",
-"Malt, Sprouts;14C35P;30A;1A,1B,1C;210;240;0.4",
-"Manganese Dioxide**;78A35NRT;30A;2A,2B;1120;1360;1.5",
-"Manganese Ore;133D37;15;3D;2000;2240;2",
-"Manganese Oxide;120A36;30B;2D;1920;1920;2",
-"Manganese Sulfate;70C37;15;3D;1120;1120;2.4",
-"Marble, Crushed;88B37;15;3D;1280;1520;2",
-"Marl (Clay);80D36;30B;2D;1280;1280;1.6",
-"Meat, Ground;53E45HQTX;30A;2A;800;880;1.5",
-"Meat, Scrap (W/bone);40E46H;30B;2B;640;640;1.5",
-"Mica, Flakes;20B16MY;30B;2D;270;350;1",
-"Mica, Ground;14B36;30B;2D;210;240;0.9",
-"Mica, Pulverized;14A36M;30B;2D;210;240;1",
-"Milk, Dried, Flake;6B35PUY;30A;1B;80;100;0.4",
-"Milk, Malted;29A45PX;30A;1B;430;480;0.9",
-"Milk, Powdered;33B25PM;45;1B;320;720;0.5",
-"Milk, Sugar;32A35PX;30A;1B;510;510;0.6",
-"Milk, Whole, Powdered;28B35PUX;30A;1B;320;580;0.5",
-"Mill Scale (Steel);123E46T;30B;3D;1920;2000;3",
-"Milo Maize (Kafir);43B15N;45;1A,1B,1C;640;720;0.4",
-"Milo, Ground (Sorghum Seed, Kafir);34B25;45;1A,1B,1C;510;580;0.5",
-"Molybdenite Powder;107B26;30B;2D;1710;1710;1.5",
-"Motar, Wet**;150E46T;30B;3D;2400;2400;3",
-"Mustard Seed;45B15N;45;1A,1B,1C;720;720;0.4",
-"Naphthalene Flakes;45B35;30A;1A,1B,1C;720;720;0.7",
-"Niacin (Nicotinic Acid);35A35P;30A;2D;560;560;0.8",
-"Oat Hulls;10B35NY;30A;1A,1B,1C;130;190;0.5",
-"Oats;26C25MN;45;1A,1B,1C;420;420;0.4",
-"Oats, Crimped;23C35;30A;1A,1B,1C;300;420;0.5",
-"Oats, Crushed;22B45NY;30A;1A,1B,1C;350;350;0.6",
-"Oats, Flour;35A35;30A;1A,1B,1C;560;560;0.5",
-"Oats, Rolled;22C35NY;30A;1A,1B,1C;300;380;0.6",
-"Oleo (Margarine);59E45HKPWX;30A;2A,2B;950;950;0.4",
-"Orange Peel, Dry;1.5E+46;30A;2A,2B;240;240;1.5",
-"Oyster Shells, Ground;55C36T;30B;3D;800;960;1.8",
-"Oyster Shells, Whole;80D36TV;30B;3D;1280;1280;2.3",
-"Paper Pulp (4% Or less);6.2E+46;30A;2A,2B;990;990;1.5",
-"Paper Pulp (6% to 15%);6.2E+46;30A;2A,2B;960;990;1.5",
-"Paraffin Cake, 1/2 inch;45C45K;30A;1A,1B;720;720;0.6",
-"Peanut Meal;30B35P;30A;1B;480;480;0.6",
-"Peanuts, Clean, in shell;18D35Q;30A;2A,2B;240;320;0.6",
-"Peanuts, Raw (Uncleaned, Unshelled);18D36Q;30B;3D;240;320;0.7",
-"Peanuts, Shelled;40C35Q;30A;1B;560;720;0.4",
-"Peas, Dried;48C15NQ;45;1A,1B,1C;720;800;0.5",
-"Perlite, Expanded;10C36;30B;2D;130;190;0.6",
-"Phosphate Acid Fertilizer;60B25T;45;2A,2B;960;960;1.4",
-"Phosphate Disodium (Sodium Phosphate);55A35;30A;1A,1B;800;960;0.9",
-"Phosphate Rock, Broken;80D36;30B;2D;1200;1360;2.1",
-"Phosphate Rock, Pulverized;60B36;30B;2D;960;960;1.7",
-"Phosphate Sand;95B37;15;3D;1440;1600;2",
-"Polyethylene, Resin Pellets;33C45Q;30A;1A,1B;480;560;0.4",
-"Polystyrene Beads;40B35PQ;30A;1B;640;640;0.4",
-"Polyvinyl Chloride Powder (PVC);25A45KT;30A;2B;320;480;1",
-"Polyvinyl, Chloride Pellets;25E45KPQT;30A;1B;320;480;0.6",
-"Potash (Muriate) Dry;70B37;15;3D;1120;1120;2",
-"Potash (Muriate) Mine Run;75D37;15;3D;1200;1200;2.2",
-"Potassium Carbonate;51B36;30B;2D;820;820;1",
-"Potassium Nitrate, 1/2 inch (Saltpeter);76C16NT;30B;3D;1220;1220;1.2",
-"Potassium Nitrate, 1/8 inch (Saltpeter);80B26NT;30B;3D;1280;1280;1.2",
-"Potassium Sulfate;45B46X;30B;2D;670;770;1",
-"Potassium-Chloride Pellets;125C25TU;45;3D;1920;2080;1.6",
-"Potato Flour;48A35MNP;30A;1A,1B;770;770;0.5",
-"PTA Crystal Slurry;VTK;--;--,--;--;1100;2.0",             'Toegevoegd 18-02-2016
-"Pumice, 1/8 inch;45B46;30B;3D;670;770;1.6",
-"Pyrite, Pellets;125C26;30B;3D;1920;2080;2",
-"Quartz, 1/2 inch (Silicon Dioxide);85C27;15;3D;1280;1440;2",
-"Quartz,100 Mesh (Silicon Dioxide);75A27;15;3D;1120;1280;1.7",
-"Rape Seed Meal (Canola);38;?;?;540;660;0.8",
-"Rice, Bran;20B35NY;30A;1A,1B,1C;320;320;0.4",
-"Rice, Grits;44B35P;30A;1A,1B,1C;670;720;0.4",
-"Rice, Hulled;47C25P;45;1A,1B,1C;720;780;0.4",
-"Rice, Hulls;21B35NY;30A;1A,1B,1C;320;340;0.4",
-"Rice, Polished;30C15P;45;1A,1B,1C;480;480;0.4",
-"Rice, Rough;34C35N;30A;1A,1B,1C;510;580;0.6",
-"Rosin, 1/2 inch;67C45Q;30A;1A,1B,1C;1040;1090;1.5",
-"Rubber, Pelleted;53D45;30A;2A,2B,2C;800;880;1.5",
-"Rubber, Reclaimed Ground;37C45;30A;1A,1B,1C;370;800;0.8",
-"Rye;45B15N;45;1A,1B,1C;670;770;0.4",
-"Rye Bran;18B35Y;30A;1A,1B,1C;240;320;0.4",
-"Rye Feed;33B35N;30A;1A,1B,1C;530;530;0.5",
-"Rye Meal;38B35;30A;1A,1B,1C;560;640;0.5",
-"Rye Middlings;42B35;30A;1A,1B;670;670;0.5",
-"Rye, Shorts;33C35;30A;2A,2B;510;530;0.5",
-"Safflower Seed (Saffron);45B15N;45;1A,1B,1C;720;720;0.4",
-"Safflower, Cake (Saffron);50D26;30B;2D;800;800;0.6",
-"Safflower, Meal (Saffron);50B35;30A;1A,1B,1C;800;800;0.6",
-"Sal Ammoniac (Ammonium Chloride);49A45FRS;30A;1A,1B,1C;720;830;0.7",
-"Salicylic Acid;29B37U;15;3D;460;460;0.6",
-"Salt Cake, Dry Coarse (Sodium Sulfate);85B36TU;30B;3D;1360;1360;2.1",
-"Salt Cake, Dry Pulverized (Sodium Sulfate);75B36TU;30B;3D;1040;1360;1.7",
-"Salt, Dry Coarse (Sodium Chloride);53C36TU;30B;3D;720;960;1",
-"Salt, Dry Fine (Sodium Chloride);75B36TU;30B;3D;1120;1280;1.7",
-"Sand (Resin Coated) Silica;104B27;15;3D;1670;1670;2",
-"Sand (Resin Coated) Zircon;115A27;15;3D;1840;1840;2.3",
-"Sand Dry Bank (Damp);120B47;15;3D;1760;2080;2.8",
-"Sand Dry Bank (Dry);100B37;15;3D;1440;1760;1.7",
-"Sand Dry Silica;95B27;15;3D;1440;1600;2",
-"Sand Foundry (Shake Out);95D37Z;15;3D;1440;1600;2.6",
-"Sawdust, Dry;12B45UX;30A;1A,1B,1C;160;210;0.7",
-"Sea-Coal;65B36;30B;2D;1040;1040;1",
-"Sesame Seed;34B26;30B;2D;430;660;0.6",
-"Shale, Crushed;88C36;30B;2D;1360;1440;2",
-"Shellac, Powdered or Granulated;31B35P;30A;1B;500;500;0.6",
-"Silica Gel, 1/2 to 3 inch;45D37HKQU;15;3D;720;720;2",
-"Silica, Flour;80A46;30B;2D;1280;1280;1.5",
-"Slag, Blast Furnace Crushed;155D37Y;15;3D;2080;2880;2.4",
-"Slag, Furnace Granular, Dry;63C37;15;3D;960;1040;2.2",
-"Slate, Crushed, 1/2 inch;85C36;30B;2D;1280;1440;2",
-"Slate, Ground, 1/8 inch;84B36;30B;2D;1310;1360;1.6",
-"Sludge, Sewage, Dried;45E47TW;15;3D;640;800;0.8",
-"Sludge, Sewage, Dry Ground;50B46S;30B;2D;720;880;0.8",
-"Soap Detergent;33B35FQ;30A;1A,1B,1C;240;800;0.8",
-"Soap, Beads or Granules;25B35Q;30A;1A,1B,1C;240;560;0.6",
-"Soap, Chips;20C35Q;30A;1A,1B,1C;240;400;0.6",
-"Soap, Flakes;10B35QXY;30A;1A,1B,1C;80;240;0.6",
-"Soap, Powder;23B25X;45;1A,1B,1C;320;400;0.9",
-"Soapstone, Talc, Fine;45A45XY;30A;1A,1B,1C;640;800;2",
-"Soda Ash, Heavy (Sodium Carbonate);60B36;30B;2D;880;1040;1",
-"Soda Ash, Light (Sodium Carbonate);28A36Y;30B;2D;320;560;0.8",
-"Sodium Aluminate, Ground;72B36;30B;2D;1150;1150;1",
-"Sodium Aluminum Sulphate**;75A36;30B;2D;1200;1200;1",
-"Sodium Bicarbonate (Baking Soda);48A25;45;1B;640;880;0.6",
-"Sodium Nitrate;75D25NS;30A;2A,2B;1120;1280;1.2",
-"Sodium Phosphate;55A35;30A;1A,1B;800;960;0.9",
-"Sodium Sulfite;96B46X;30B;2D;1540;1540;1.5",
-"Soybean Meal Hot;40B35T;30A;2A,2B;640;640;0.5",
-"Soybean Meal, Cold;40B35;30A;1A,1B,1C;640;640;0.5",
-"Soybean, Cake;42D35W;30A;2A,1B,1C;640;690;1",
-"Soybean, Cracked;35C36NW;30B;2D;480;640;0.5",
-"Soybean, Flake, Extracted, Wet;34C35;30A;1A,1B,1C;540;540;0.8",
-"Soybean, Flake, Raw;22C35Y;30A;1A,1B,1C;290;400;0.8",
-"Soybean, Flour;29A35MN;30A;1A,1B,1C;430;480;0.8",
-"Soybeans, Whole;48C26NW;30B;3D;720;800;1",
-"Starch dry patato;38A15M;45;1A,1B,1C;400;500;1",
-"Starch wet patato;38A15M;45;1A,1B,1C;400;750;1",
-"Starch dry wheat;38A15M;45;1A,1B,1C;400;550;1",
-"Steel Turnings, Crushed;125D46WV;30B;3D;1600;2400;3",
-"Sugar Beet, Pulp, Dry;14C26;30B;2D;190;240;0.9",
-"Suga Beet, Pulp, Wet;35C35X;30A;1A,1B,1C;400;720;1.2",
-"Sugar, Powdered;55A35PX;30A;1B;800;960;0.8",
-"Sugar, Raw;60B35PX;30A;1B;880;1040;1.5",
-"Sugar, Refined, Granulated Dry;53B35PU;30A;1B;800;880;1.2",
-"Sugar, Refined, Granulated Wet;60C35P;30A;1B;880;1040;2",
-"Sulphur, Crushed, 1/2 inch;55C35N;30A;1A,1B;800;960;0.8",
-"Sulphur, Lumpy, 3 inch;83D35N;30A;2A,2B;1280;1360;0.8",
-"Sulphur, Powdered;55A35MN;30A;1A,1B;800;960;0.6",
-"Sunflower Seed;29C15;45;1A,1B,1C;300;610;0.5",
-"Sunflower Seed Flakes;28C35;30A;1A,1B,1C;430;450;0.8",
-"Swee Bran Feed;29B45P;30A;1A,1B,1C;340;590;0.6",
-"Talcum Powder;55A36M;30B;2D;800;960;0.8",
-"Talcum, 1/2 ich;85C36;30B;2D;1280;1440;0.9",
-"Tanbark, Ground**;55B45;30A;1A,1B,1C;880;880;0.7",
-"Timothy Seed;36B35NY;30A;1A,1B,1C;580;580;0.6",
-"Titanium Dioxide based pigments (powder);42C36FLO;15;3D;540;800;2",
-"Tobacco, Scraps;20D45Y;30A;2A,2B;240;400;0.8",
-"Tobacco, Snuff;30B45MQ;30A;1A,1B,1C;480;480;0.9",
-"Tricalcium Phosphate;45A45;30A;1A,1B;640;800;1.6",
-"Triple Sugar Phosphate ;53B36RS;30B;3D;800;880;2",
-"Trisodium Phosphate;60C36;30B;2D;960;960;1.7",
-"Trisodium Phosphate Granular;60B36;30B;2D;960;960;1.7",
-"Trisodium Phosphate, Pulverized;50A36;30B;2D;800;800;1.6",
-"Tung Nut Meats, Crushed;28D25W;30A;2A,2B;450;450;0.8",
-"Tung Nuts ;28D15;30A;2A,2B;400;480;0.7",
-"Urea Prills, Coated;45B25;45;1A,1B,1C;690;740;1.2",
-"Vermiculite, Expanded;16C35Y;30A;1A,1B;260;260;0.5",
-"Vermiculite, Ore;80D36;30B;2D;1280;1280;1",
-"Vetch;48B16N;30B;1A,1B,1C;770;770;0.4",
-"Walnut Shells, Crushed;40B36;30B;2D;560;720;1",
-"Wheat; 47C25N;45;1A,1B,1C;720;770;0.4",
-"Wheat Flour;37A45LP;45;1B;530;640;0.6",
-"Wheat, Cracked;43B25N;45;1A,1B,1C;640;720;0.4",
-"Wheat, Germ;23B25;45;1A,1B,1C;290;450;0.4",
-"White Lead, Dry;88A36MR;30B;2D;1200;1600;1",
-"Wood Chips, Screened;20D45VY;30A;2A,2B;160;480;0.6",
-"Wood Flour;26B35N;30A;1A,1B;260;580;0.4",
-"Wood Shavings;12E45VY;30A;2A,2B;130;260;1.5",
-"Zinc Oxide, Heavy;33A45X;30A;1A,1B;480;560;1",
-"Zinc Oxide, Light;13A45XY;30A;1A,1B;160;240;1",
-"Zinc, Concentrate Residue;78B37;15;3D;1200;1280;1"}
+    "--          ; 0000;30A;2B;500;500;1.0",
+    " 250 [kg/m3]; 0000;30A;2B;250;250;1.0",
+    " 300 [kg/m3]; 0000;30A;2B;300;300;1.0",
+    " 350 [kg/m3]; 0000;30A;2B;350;350;1.0",
+    " 400 [kg/m3]; 0000;30A;2B;400;400;1.0",
+    " 450 [kg/m3]; 0000;30A;2B;450;450;1.0",
+    " 500 [kg/m3]; 0000;30A;2B;500;500;1.0",
+    " 550 [kg/m3]; 0000;30A;2B;550;550;1.0",
+    " 600 [kg/m3]; 0000;30A;2B;600;600;1.0",
+    " 650 [kg/m3]; 0000;30A;2B;650;650;1.0",
+    " 700 [kg/m3]; 0000;30A;2B;700;700;1.0",
+    " 750 [kg/m3]; 0000;30A;2B;750;750;1.0",
+    " 800 [kg/m3]; 0000;30A;2B;800;800;1.0",
+    " 850 [kg/m3]; 0000;30A;2B;850;850;1.0",
+    " 900 [kg/m3]; 0000;30A;2B;900;900;1.0",
+    " 950 [kg/m3]; 0000;30A;2B;950;950;1.0",
+    "1000 [kg/m3]; 0000;30A;2B;1000;1000;1.0",
+    "1100 [kg/m3]; 0000;30A;2B;1100;1100;1.0",
+    "1200 [kg/m3]; 0000;30A;2B;1200;1200;1.0",
+    "1300 [kg/m3]; 0000;30A;2B;1300;1300;1.0",
+    "1400 [kg/m3]; 0000;30A;2B;1400;1400;1.0",
+    "1500 [kg/m3]; 0000;30A;2B;1500;1500;1.0",
+    "1600 [kg/m3]; 0000;30A;2B;1600;1600;1.0",
+    "1700 [kg/m3]; 0000;30A;2B;1700;1700;1.0",
+    "1800 [kg/m3]; 0000;30A;2B;1800;1800;1.0",
+    "1900 [kg/m3]; 0000;30A;2B;1900;1900;1.0",
+    "2000 [kg/m3]; 0000;30A;2B;2000;2000;1.0",
+    "Adipic-Acid;45A35;30A;2B;720;720;0.5",
+    "Alfalfa Meal;18B45WY;30A;2D;220;350;0.6",
+    "Alfalfa Pellets;42C25;45;2D;660;690;0.5",
+    "Alfalfa Seed;13B15N;45;1A,1B,1C;160;240;0.4",
+    "Almonds Broken;29C35Q;30A;2D;430;480;0.9",
+    "Almonds Whole Shelled;29C35Q;30A;2D;450;480;0.9",
+    "Alum Fine;48B35U;30A;3D;720;800;0.6",
+    "Alum, Lumps;55B25;45;2A,2B;800;960;1.4",
+    "Alumina;58B27MY;15;3D;880;1040;1.8",
+    "Alumina Fines;35A27MY;15;3D;560;560;1.6",
+    "Alumina Sized or Briquette;65D37;15;3D;1040;1040;2",
+    "Aluminate Gel (Aluminate Hydroxide);45B35;30B;2D;720;720;1.7",
+    "Aluminum Chips, Dry;11E45V;30A;2D;110;240;1.2",
+    "Aluminum Chips, Oily;11E45VY;30A;2D;110;240;0.8",
+    "Aluminum Hydrate;17C35;30A;1A,1B,1C;210;320;1.4",
+    "Aluminum Oxide;90A17MN;15;3D;960;1920;1.8",
+    "Aluminum Silicate (Andalusite);49C35S;45;3A,3B;780;780;0.7",
+    "Aluminum Sulfate;52C25;45;1A,1B,1C;720;930;1.3",
+    "Ammonium Chloride, Crystalline;49A45FRS;30A;1A,1B,1C;720;830;1",
+    "Ammonium Nitrate;54A35NTU;30A;3D;720;990;1.6",
+    "Ammonium Sulfate;52C35FOTU;30A;1A,1B,1C;720;930;1",
+    "Apple Pomace, Dry;15C45Y;30B;2D;240;240;1",
+    "Arsenate of Lead (Lead Arsenate);72A35R;30A;1A,1B,1C;1150;1150;1.4",
+    "Arsenic Pulverized;30A25R;45;2D;480;480;1",
+    "Asbestos-Rock (Ore);81D37R;15;3D;1300;1300;2",
+    "Asbestos-Shredded;30E46XY;30B;2D;320;640;1",
+    "Ash, Black Ground;105B35;30A;1A,1B,1C;1680;1680;2.5",
+    "Ashes, Coal, dry, 1/2 inch;40C46TY;30B;3D;560;720;3",
+    "Ashes, Coal, dry, 3 inch;38D46T;30B;3D;560;640;2.5",
+    "Ashes, Coal, Wet, 1/2 inch;48C46T;30B;3D;720;800;3",
+    "Ashes, Coal, Wet, 3 inch;48D46T;30B;3D;720;800;4",
+    "Ashes, Fly (Fly Ash);38A36M;30B;3D;480;720;2",
+    "Aspartic Acid;42A35XPLO;30A;1A,1B,1C;530;820;1.5",
+    "Asphalt, Crushed, 1/2 inch;45C45;30A;1A,1B,1C;720;720;2",
+    "Bagasse;9E45RVXY;30A;2A,2B,2C;110;160;1.5",
+    "Bakelite, Fine;38B25;45;1A,1B,1C;480;720;1.4",
+    "Baking Powder;48A35;30A;1B;640;880;0.6",
+    "Baking Soda (Sodium Bicarbonate);48A25;45;1B;640;880;0.6",
+    "Barite (Barium Sulfate), 1/2 to 3 inch;150D36;30B;3D;1920;2880;2.6",
+    "Barite, Powder;150A35X;30A;2D;1920;2880;2",
+    "Barium Carbonate;72A45R;30A;2D;1150;1150;1.6",
+    "Bark Wood, Refuse;15E45TVY;30A;3D;160;320;2",
+    "Barley Fine, Ground;31B35;30A;1A,1B,1C;380;610;0.4",
+    "Barley Malted;31C35;30A;1A,1B,1C;500;500;0.4",
+    "Barley Meal;28C35;30A;1A,1B,1C;450;450;0.4",
+    "Barley Whole;42B25N;45;1A,1B,1C;580;770;0.5",
+    "Basalt;93B27;15;3D;1280;1680;1.8",
+    "Bauxite, Crushed, 3 inch (Aluminum Ore);80D36;30B;3D;1200;1360;2.5",
+    "Bauxite Dry, Ground(Aluminum Ore);68B25;45;2D;1090;1090;1.8",
+    "Beans Castor, Meal;38B35W;30A;1A,1B,1C;560;640;0.8",
+    "Beans Castor, Whole Shelled;36C15W;45;1A,1B,1C;580;580;0.5",
+    "Beans Navy, Dry;48C15;45;1A,1B,1C;770;770;0.5",
+    "Beans Navy, Steeped;60C25;45;1A,1B,1C;960;960;0.8",
+    "Bentonite 100 Mesh;55A25MXY;45;2D;800;960;0.7",
+    "Bentonite Crude;37D45X;30A;2D;540;640;1.2",
+    "Benzene Hexachloride;56A45R;30A;1A,1B,1C;900;900;0.6",
+    "Bicarbonate of Soda (Baking Soda);48A25;45;1B;640;880;0.6",
+    "Blood Dried;40D45U;30A;2D;560;720;2",
+    "Blood Ground, Dried;30A35U;30A;1A,1B;480;480;1",
+    "Bone Ash (Tricalcium Phosphate);45A45;30A;1A,1B;640;800;1.6",
+    "Boneblack;23A25Y;45;1A,1B;320;400;1.5",
+    "Bonechar;34B35;30A;1A,1B;430;640;1.6",
+    "Bonemeal;55B35;30A;2D;800;960;1.7",
+    "Bones Crushed;43D45;30A;2D;560;800;2",
+    "Bones Ground;50B35;30A;2D;800;800;1.7",
+    "Bones Whole**;43E45V;30A;2D;560;800;3",
+    "Borate of Lime;60A35;30A;1A,1B,1C;960;960;0.6",
+    "Borax Screening, 1/2 inch;58C35;30A;2D;880;960;1.5",
+    "Borax 1-1/2  to 2 inch Lump;58D35;30A;2D;880;960;1.8",
+    "Borax 2 to 3 inch Lump;65D35;30A;2D;960;1120;2",
+    "Borax Fine;50B25T;45;3D;720;880;0.7",
+    "Boric Acid, Fine;55B25T;45;3D;880;880;0.8",
+    "Boron;75A37;15;2D;1200;1200;1",
+    "Bran, Rice-Rye-Wheat;18B355NY;30A;1A,1B,1C;260;320;0.5",
+    "Braunite (Manganese Oxide);120A36;30B;2D;1920;1920;2",
+    "Bread Crumbs;23B35PQ;30A;1A,1B,1C;320;400;0.6",
+    "Brewers Grain, spent, dry;22C45;30A;1A,1B,1C;220;480;0.5",
+    "Brewers Grain, spent, wet;58C45T;30A;2A,2B;880;960;0.8",
+    "Brick, Ground, 1/8 inch;110B37;15;3D;1600;1920;2.2",
+    "Bronze Chips;40B45;30A;2D;480;800;2",
+    "Buckwheat;40B25N;45;1A,1B,1C;590;670;0.4",
+    "Calcine, Flour;80A35;30A;1A,1B,1C;1200;1360;0.7",
+    "Calcium Carbide;80D25N;30A;2D;1120;1440;2",
+    "Calcium Hydrate (Lime, Hydrated);40B35LM;30A;2D;640;640;0.8",
+    "Calcium Hydroxide (Lime, Hydrated);40B35LM;30A;2D;640;640;0.8",
+    "Calcium Lactate;28D45QTR;30A;2A,2B;420;460;0.6",
+    "Calcium Oxide (Lime, unslaked);63B35U;30A;1A,1B,1C;960;1040;0.6",
+    "Calcium Phosphate;45A45;30A;1A,1B,1C;640;800;1.6",
+    "Canola Meal (Rape Seed Meal)**;38;?;?;540;660;0.8",
+    "Carborundum;100D27;15;3D;1600;1600;3",
+    "Casein;36B35;30A;2D;580;580;1.6",
+    "Cashew Nuts;35C45;30A;2D;510;590;0.7",
+    "Cast Iron, Chips;165C45;30A;2D;2080;3200;4",
+    "Caustic Soda (Sodium Hydroxide);88B35RSU;30A;3D;1410;1410;1.8",
+    "Caustic Soda, Flakes;47C45RSUX;30A;3A,3B;750;750;1.5",
+    "Celite (Diatomaceous Earth);14A36Y;30B;3D;180;270;1.6",
+    "Cellulose with TBA;VTK;30B;2D;960;800;1.6",
+    "Cement, Aerated (Portland);68A16M;30B;2D;960;1200;1.4",
+    "Cement, Clinker;85D36;30B;3D;1200;1520;1.8",
+    "Cement, Mortar;133B35Q;30A;3D;2130;2130;3",
+    "Cement, Portland;94A26M;30B;2D;1510;1510;1.4",
+    "Cerrusite (Lead Carbonate);250A35R;30A;2D;3840;4160;1",
+    "Chalk, Crushed;85D25;30A;2D;1200;1520;1.9",
+    "Chalk, Pulverized;71A25MXY;45;2D;1070;1200;1.4",
+    "Charcoal, Ground;23A45;30A;2D;290;450;1.2",
+    "Charcoal, Lumps;23D45Q;30A;2D;290;450;1.4",
+    "Chocolate, Cake Pressed;43D25;30A;2B;640;720;1.5",
+    "Chrome Ore;133D36;30B;3D;2000;2240;2.5",
+    "Cinders, Blast Furnace;57D36T;30B;3D;910;910;1.9",
+    "Cinders, Coal;40D36T;30B;3D;640;640;1.8",
+    "Clay (Marl);80D36;30B;2D;1280;1280;1.6",
+    "Clay, Brick, Dry, Fines;110C36;30B;3D;1600;1920;2",
+    "Clay, Calcined;90B36;30B;3D;1280;1600;2.4",
+    "Clay, Ceramic, Dry, Fines;70A35P;30A;1A,1B,1C;960;1280;1.5",
+    "Clay, Dry, Lumpy;68D35;30A;2D;960;1200;1.8",
+    "Clinker, Cement (Cement Clinker);85D36;30B;3D;1200;1520;1.8",
+    "Clover Seed;47B25N;45;1A,1B,1C;720;770;0.4",
+    "Coal, Anthracite (River & Culm);58B35TY;30A;2A,2B;880;980;1",
+    "Coal, Anthracite, Sized, 1/2 inch;55C25;45;2A,2B;780;980;1",
+    "Coal, Bituminous, Mined;50D35LNYX;30A;1A,1B;640;960;1",
+    "Coal, Bituminous, Mined, Sized;48D35QV;30A;1A,1B;720;800;1",
+    "Coal, Bituminous, Mined, Slack;47C45T;30A;2A,2B;690;800;0.9",
+    "Coal, Lignite;41D35T;30A;2D;590;720;1",
+    "Cocoa Beans;38C25Q;30A;1A,1B;480;720;0.5",
+    "Cocoa, Nibs;35C25;45;2D;560;560;0.5",
+    "Cocoa, Powdered;33A45XY;30A;1B;480;560;0.9",
+    "Coconut, Shredded;2.1E+46;30B;2B;320;350;1.5",
+    "Coffee, Chaff;20B25FZMY;45;1A,1B;320;320;1",
+    "Coffee, Green Bean;29C25PQ;45;1A,1B;400;510;0.5",
+    "Coffee, Ground, Dry;25A35P;30A;1A,1B;400;400;0.6",
+    "Coffee, Ground, Wet;40A45X;30A;1A,1B;560;720;0.6",
+    "Coffee, Roasted Bean;25C25PQ;45;1B;320;480;0.4",
+    "Coffee, Soluble;19A35PUY;30A;1B;300;300;0.4",
+    "Coke, Breeze;30C37;15;3D;400;560;1.2",
+    "Coke, Loose;30D37;15;3D;400;560;1.2",
+    "Coke, Petrol, Calcined;40D37;15;3D;560;720;1.3",
+    "Compost;40D45TV;30A;3A,3B;480;800;1",
+    "Concrete, Pre-Mix,;103C36U;30B;3D;1360;1920;3",
+    "Copper Ore;135D36;30B;3D;1920;2400;4",
+    "Copper Ore, Crushed;125D36;30B;3D;1600;2400;4",
+    "Copper Sulphate, (Bluestone, Cupric Sulphate);85C35S;30A;2A,2B,2C;1200;1520;1",
+    "Copperas (Ferrous Sulphate);63C35U;30A;2D;800;1200;1",
+    "Copra, Cake Ground;43B45HW;30A;1A,1B,1C;640;720;0.7",
+    "Copra, Cake, Lumpy;28D35HW;30A;2A,2B,2C;400;480;0.8",
+    "Copra, Lumpy;22E35HW;30A;2A,2B,2C;350;350;1",
+    "Copra, Meal;43B35HW;30A;2D;640;720;0.7",
+    "Cork, Fine Ground;10B35JNY;30A;1A,1B,1C;80;240;0.5",
+    "Cork, Granulated;14C35JY;30A;1A,1B,1C;190;240;0.5",
+    "Corn Cobs, Ground;17C25Y;45;1A,1B,1C;270;270;0.6",
+    "Corn Fiber, Dry;14B46P;30B;1A,1B,1C;190;240;1",
+    "Corn Fiber, Wet;33B46P;30B;1A,1B,1C;240;800;1.5",
+    "Corn Oil, Cake;25D45HW;30A;1A,1B;400;400;0.6",
+    "Corn, Cracked;45B25P;45;1A,1B,1C;640;800;0.7",
+    "Corn, Germ, Dry;21B35PY;30A;1A,1B,1C;340;340;0.4",
+    "Corn, Germ, Wet (50%, moisture);30B35PY;30A;1A,1B,1C;480;480;0.4",
+    "Corn, Grits;43B35P;30A;1A,1B,1C;640;720;0.5",
+    "Corn, Seed;45C25PQ;45;1A,1B,1C;720;720;0.4",
+    "Corn, Shelled;45C25;45;1A,1B,1C;720;720;0.4",
+    "Corn, Starch*;38A15MN;45;1A,1B,1C;400;800;1",
+    "Corn, Sugar;33B35PU;30A;1B;480;560;1.3",
+    "Cornmeal;36B35P;30A;1A,1B;510;640;0.5",
+    "Cottonseed, Cake;43C45HW;30A;1A,1B;640;720;1",
+    "Cottonseed, Dry, Delinted;31C25X;45;1A,1B;350;640;0.6",
+    "Cottonseed, Dry, Not Delinted;22C45XY;30A;1A,1B;290;400;0.9",
+    "Cottonseed, Flakes;23C35HWY;30A;1A,1B;320;400;0.8",
+    "Cottonseed, Hulls;12B35Y;30A;1A,1B;190;190;0.9",
+    "Cottonseed, Meal, Expeller;28B45HW;30A;3A,3B;400;480;0.5",
+    "Cottonseed, Meal, Extracted;38B45HW;30A;1A,1B;560;640;0.5",
+    "Cottonseed, Meats, Dry;40B35HW;30A;1A,1B;640;640;0.6",
+    "Cottonseed, Meats, Rolled;38C45HW;30A;1A,1B;560;640;0.6",
+    "Cracklings, Crushed;45D45HW;30A;2A,2B,2C;640;800;1.3",
+    "Cryolite, Dust (Sodium Aluminum Fluoride);83A36V;30B;2D;1200;1440;2",
+    "Cryolite, Lumpy (Kryalith);100D36;30B;2D;1440;1760;2.1",
+    "Cullet, Fine;100C37;15;3D;1280;1920;2",
+    "Cullet, Lump;100D37;15;3D;1280;1920;2.5",
+    "Culm, (Coal, Anthracite);58B35TY;30A;2A,2B;880;980;1",
+    "Cupric Sulphate (Copper Sulfate);85C35S;30A;2A,2B,2C;1200;1520;1",
+    "Diatomaceous Earth (Filter Aid, Precoat);14A36Y;30B;3D;180;270;1.6",
+    "Dicalcium Phosphate;45A35;30A;1A,1B,1C;640;800;1.6",
+    "Disodium Phosphate;28A35;30A;3D;400;500;0.5",
+    "Distillers Grain, Spent Wet;50C45V;30A;3A,3B;640;960;0.8",
+    "Distillers Grain, Spent Wet w/Syrup;56C45VXOH;30A;3A,3B;690;1090;1.2",
+    "Distillers Grain-Spent Dry;30B35;30A;2D;480;480;0.5",
+    "Dolomite, Crushed;90C36;30B;2D;1280;1600;2",
+    "Dolomite, Lumpy;95D36;30B;2D;1440;1600;2",
+    "Earth, Loam, Dry, Loose;76C36;30B;2D;1220;1220;1.2",
+    "Ebonite, Crushed;67C35;30A;1A,1B,1C;1010;1120;0.8",
+    "Egg Powder;16A35MPY;30A;1B;260;260;1",
+    "Epsom Salts (Magnesium Sulfate);45A35U;30A;1A,1B,1C;640;800;0.8",
+    "Feldspar, Ground;73A37;15;2D;1040;1280;2",
+    "Feldspar, Lumps;95D37;15;2D;1440;1600;2",
+    "Feldspar, Powder;100A36;30B;2D;1600;1600;2",
+    "Felspar, Screenings;78C37;15;2D;1200;1280;2",
+    "Ferrous Sulfide, 1/2 inch (Iron Sulfide, Pyrites);128C26;30B;1A,1B,1C;1920;2160;2",
+    "Ferrous Sulfide, 100M (Iron Sulfide, Pyrites);113A36;30B;1A,1B,1C;1680;1920;2",
+    "Ferrous Sulphate (Iron Sulphate, Copperas);63C35U;30A;2D;800;1200;1",
+    "Filter-Aid (Diatomaceous Earth, Precoat);14A36Y;30B;3D;180;270;1.6",
+    "Fish Meal;38C45HP;30A;1A,1B,1C;560;640;1",
+    "Fish Scrap;45D45H;30A;2A,2B,2C;640;800;1.5",
+    "Flaxseed;44B35X;30A;1A,1B,1C;690;720;0.4",
+    "Flaxseed Cake (Linseed Cake);49D45W;30A;2A,2B;770;800;0.7",
+    "Flaxseed Meal (Linseed Meal);35B45W;30A;1A,1B;400;720;0.4",
+    "Flour Wheat;37A45LP;30A;1B;530;640;0.6",
+    "Flue Dust, Basic Oxygen Furnace;53A36LM;30B;3D;720;960;3.5",
+    "Flue Dust, Blast Furnace;118A36;30B;3D;1760;2000;3.5",
+    "Flue Dust, Boiler H. Dry;38A36LM;30B;3D;480;720;2",
+    "Fluorspar, Fine (Calcium Floride);90B36;30B;2D;1280;1600;2",
+    "Fluorspar, Lumps;100D36;30B;2D;1440;1760;2",
+    "Flyash;38A36M;30B;3D;480;720;2",
+    "Foundry Sand, Dry (Sand);95D37Z;15;3D;1440;1600;2.6",
+    "Fuller™s Earth, Calcined;40A25;45;3D;640;640;2",
+    "Fuller™s Earth, Dry, Raw (Bleach Clay);35A25;45;2D;480;640;2",
+    "Fuller™s Earth, Oily, Spent (Spent Bleach Clay);63C45OW;30A;3D;960;1040;2",
+    "Galena (Lead Sulfide);250A35R;30A;2D;3840;4160;5",
+    "Gelatine, Granulated;32B35PU;30A;1B;510;510;0.8",
+    "Gilsonite;37C35;30A;3D;590;590;1.5",
+    "Glass, Batch;90C37;15;3D;1280;1600;2.5", "Glue, Ground;40B45U;30A;2D;640;640;1.7",
+    "Glue, Pearl;40C35U;30A;1A,1B,1C;640;640;0.5",
+    "Glue, Veg. Powdered;40A45U;30A;1A,1B,1C;640;640;0.6",
+    "Gluten, Meal (Dry Corn Gluten);40B35P;30A;1B;640;640;0.6",
+    "Gluten, Meal (Dry Corn Gluten) Syral;40B35P;30A;1B;500;500;0.6",
+    "Gluten, Meal (Wet Corn Gluten);43B35OPH;30A;1B;690;690;2.2",
+    "Granite, Fine;85C27;15;3D;1280;1440;2.5",
+    "Grape, Pomace;18D45U;30A;2D;240;320;1.4",
+    "Graphite Flake (Plumago);40B25LP;45;1A,1B,1C;640;640;0.5",
+    "Graphite Flour;28A35LMP;30A;1A,1B,1C;450;450;0.5",
+    "Graphite Ore;70D35L;30A;2D;1040;1200;1",
+    "Guano Dry**;70C35;30A;3A,3B;1120;1120;2",
+    "Gypsum, Calcined (Plaster of Paris);58B35U;30A;2D;880;960;1.6",
+    "Gypsum, Calcined, Powdered (Plaster of Paris);70A35U;30A;2D;960;1280;2",
+    "Gypsum, Raw 1 inch(Calc.Sulfate, Plast.of Paris);75D25;30A;2D;1120;1280;2",
+    "Hay, Chopped **;10C35JY;30A;2A, 2B;130;190;1.6",
+    "Hexanedioic Acid (Adipic Acid);45A35;30A;2B;720;720;0.5",
+    "Hisarna Granulaat;--;--;--,--,--;--;2000;4",                       'Toegevoegd 25-6-2016
+    "Hominy, Dry;43C25D;30A;1A,1B,1C;560;800;0.4",
+    "Hops, Spend, Dry;35D35;30A;2A,2B,2C;560;560;1",
+    "Hops, Spent, Wet;53D45V;30A;2A,2B;800;880;1.5",
+    "Ice, Crushed;40D35O;30A;2A,2B;560;720;0.4",
+    "Ice, Cubes;34D35O;30A;1B;530;560;0.4",
+    "Ice, Flaked**;43C35O;30A;1B;640;720;0.6",
+    "Ice, Shell;34D45O;30A;1B;530;560;0.4",
+    "Ilmenite Ore (Titanium Dioxide);150D37;15;3D;2240;2560;2",
+    "Iron Ore Concentrate;150A37;15;3D;1920;2880;2.2",
+    "Iron Oxide Pigment;25A36LMP;30B;1A,1B,1C;400;400;1",
+    "Iron Oxide, Millscale;75C36;30B;2D;1200;1200;1.6",
+    "Iron Sulphate (Ferrous Sulfate);63C35U;30A;2D;800;1200;1",
+    "Iron Vitriol (Ferrous Sulfate);63C35U;30A;2D;800;1200;1",
+    "Kafir (Corn);43C25;45;3D;640;720;0.5",
+    "Kaolin Clay;63D25;30A;2D;1010;1010;2",
+    "Kaolin Clay (Tale);49A35LMP;30A;2D;670;900;2",
+    "Lactose;32A35PU;30A;1B;510;510;0.6",
+    "Lead Arsenate;72A35R;30A;1A,1B,1C;1150;1150;1.4",
+    "Lead Carbonate (Cerrusite);250A35R;30A;2D;3840;4160;1",
+    "Lead Ore, 1/2 inch;205C36;30B;3D;2880;3680;1.4",
+    "Lead Ore, 1/8 inch;235B35;30A;3D;3200;4320;1.4",
+    "Lead Oxide (Red Lead, Litharge) 100 Mesh;90A35P;30A;2D;480;2400;1.2",
+    "Lead Oxide (Red Lead, Litharge) 200 Mesh;105A35LP;30A;2D;480;2880;1.2",
+    "Lignite (Coal Lignite);41D35T;30A;2D;590;720;1",
+    "Limanite, Ore, Brown;120C47;15;3D;1920;1920;1.7",
+    "Lime Hydrated (Calcium Hydrate, Hydroxide);40B35LM;30A;2D;640;640;0.8",
+    "Lime Pebble;55C25HU;45;2A,2B;850;900;2",
+    "Lime, Ground, Unslaked (Quicklime);63B35U;30A;1A,1B,1C;960;1040;0.6",
+    "Lime, Hydrated, Pulverized;36A35LM;30A;1A,1B;510;640;0.6",
+    "Limestone, Agricultural (Calcium Carbonate);68B35;30A;2D;1090;1090;2",
+    "Limestone, Crushed (Calcium Carbonate); 88D36;30B;2D;1360;1440;2",
+    "Limestone, Dust (Calcium Carbonate);75A46MY;30B;2D;880;1520;1.8",
+    "Lindane (Benzene Hexachloride);56A45R;30A;1A,1B,1C;900;900;0.6",
+    "Linseed (Flaxseed);44B35X;30A;1A,1B,1C;690;720;0.4",
+    "Lithopone;48A35MR;30A;1A,1B;720;800;1",
+    "Magnesium Chloride (Magnesite);33C45;30A;1A,1B,1C;530;530;1",
+    "Maize (Milo);43B15N;45;1A,1B,1C;640;720;0.4",
+    "Malt, Dry Whole;25C35N;30A;1A,1B,1C;320;480;0.5",
+    "Malt, Dry, Ground;25C35N;30A;1A,1B,1C;320;480;0.5",
+    "Malt, Meal;38B25P;30A;1A,1B,1C;580;640;0.4",
+    "Malt, Sprouts;14C35P;30A;1A,1B,1C;210;240;0.4",
+    "Manganese Dioxide**;78A35NRT;30A;2A,2B;1120;1360;1.5",
+    "Manganese Ore;133D37;15;3D;2000;2240;2",
+    "Manganese Oxide;120A36;30B;2D;1920;1920;2",
+    "Manganese Sulfate;70C37;15;3D;1120;1120;2.4",
+    "Marble, Crushed;88B37;15;3D;1280;1520;2",
+    "Marl (Clay);80D36;30B;2D;1280;1280;1.6",
+    "Meat, Ground;53E45HQTX;30A;2A;800;880;1.5",
+    "Meat, Scrap (W/bone);40E46H;30B;2B;640;640;1.5",
+    "Mica, Flakes;20B16MY;30B;2D;270;350;1",
+    "Mica, Ground;14B36;30B;2D;210;240;0.9",
+    "Mica, Pulverized;14A36M;30B;2D;210;240;1",
+    "Milk, Dried, Flake;6B35PUY;30A;1B;80;100;0.4",
+    "Milk, Malted;29A45PX;30A;1B;430;480;0.9",
+    "Milk, Powdered;33B25PM;45;1B;320;720;0.5",
+    "Milk, Sugar;32A35PX;30A;1B;510;510;0.6",
+    "Milk, Whole, Powdered;28B35PUX;30A;1B;320;580;0.5",
+    "Mill Scale (Steel);123E46T;30B;3D;1920;2000;3",
+    "Milo Maize (Kafir);43B15N;45;1A,1B,1C;640;720;0.4",
+    "Milo, Ground (Sorghum Seed, Kafir);34B25;45;1A,1B,1C;510;580;0.5",
+    "Molybdenite Powder;107B26;30B;2D;1710;1710;1.5",
+    "Motar, Wet**;150E46T;30B;3D;2400;2400;3",
+    "Mustard Seed;45B15N;45;1A,1B,1C;720;720;0.4",
+    "Naphthalene Flakes;45B35;30A;1A,1B,1C;720;720;0.7",
+    "Niacin (Nicotinic Acid);35A35P;30A;2D;560;560;0.8",
+    "Oat Hulls;10B35NY;30A;1A,1B,1C;130;190;0.5",
+    "Oats;26C25MN;45;1A,1B,1C;420;420;0.4",
+    "Oats, Crimped;23C35;30A;1A,1B,1C;300;420;0.5",
+    "Oats, Crushed;22B45NY;30A;1A,1B,1C;350;350;0.6",
+    "Oats, Flour;35A35;30A;1A,1B,1C;560;560;0.5",
+    "Oats, Rolled;22C35NY;30A;1A,1B,1C;300;380;0.6",
+    "Oleo (Margarine);59E45HKPWX;30A;2A,2B;950;950;0.4",
+    "Orange Peel, Dry;1.5E+46;30A;2A,2B;240;240;1.5",
+    "Oyster Shells, Ground;55C36T;30B;3D;800;960;1.8",
+    "Oyster Shells, Whole;80D36TV;30B;3D;1280;1280;2.3",
+    "Paper Pulp (4% Or less);6.2E+46;30A;2A,2B;990;990;1.5",
+    "Paper Pulp (6% to 15%);6.2E+46;30A;2A,2B;960;990;1.5",
+    "Paraffin Cake, 1/2 inch;45C45K;30A;1A,1B;720;720;0.6",
+    "Peanut Meal;30B35P;30A;1B;480;480;0.6",
+    "Peanuts, Clean, in shell;18D35Q;30A;2A,2B;240;320;0.6",
+    "Peanuts, Raw (Uncleaned, Unshelled);18D36Q;30B;3D;240;320;0.7",
+    "Peanuts, Shelled;40C35Q;30A;1B;560;720;0.4",
+    "Peas, Dried;48C15NQ;45;1A,1B,1C;720;800;0.5",
+    "Perlite, Expanded;10C36;30B;2D;130;190;0.6",
+    "Phosphate Acid Fertilizer;60B25T;45;2A,2B;960;960;1.4",
+    "Phosphate Disodium (Sodium Phosphate);55A35;30A;1A,1B;800;960;0.9",
+    "Phosphate Rock, Broken;80D36;30B;2D;1200;1360;2.1",
+    "Phosphate Rock, Pulverized;60B36;30B;2D;960;960;1.7",
+    "Phosphate Sand;95B37;15;3D;1440;1600;2",
+    "Polyethylene, Resin Pellets;33C45Q;30A;1A,1B;480;560;0.4",
+    "Polystyrene Beads;40B35PQ;30A;1B;640;640;0.4",
+    "Polyvinyl Chloride Powder (PVC);25A45KT;30A;2B;320;480;1",
+    "Polyvinyl, Chloride Pellets;25E45KPQT;30A;1B;320;480;0.6",
+    "Potash (Muriate) Dry;70B37;15;3D;1120;1120;2",
+    "Potash (Muriate) Mine Run;75D37;15;3D;1200;1200;2.2",
+    "Potassium Carbonate;51B36;30B;2D;820;820;1",
+    "Potassium Nitrate, 1/2 inch (Saltpeter);76C16NT;30B;3D;1220;1220;1.2",
+    "Potassium Nitrate, 1/8 inch (Saltpeter);80B26NT;30B;3D;1280;1280;1.2",
+    "Potassium Sulfate;45B46X;30B;2D;670;770;1",
+    "Potassium-Chloride Pellets;125C25TU;45;3D;1920;2080;1.6",
+    "Potato Flour;48A35MNP;30A;1A,1B;770;770;0.5",
+    "PTA Crystal Slurry;VTK;--;--,--;--;1100;2.0",             'Toegevoegd 18-02-2016
+    "Pumice, 1/8 inch;45B46;30B;3D;670;770;1.6",
+    "Pyrite, Pellets;125C26;30B;3D;1920;2080;2",
+    "Quartz, 1/2 inch (Silicon Dioxide);85C27;15;3D;1280;1440;2",
+    "Quartz,100 Mesh (Silicon Dioxide);75A27;15;3D;1120;1280;1.7",
+    "Rape Seed Meal (Canola);38;?;?;540;660;0.8",
+    "Rice, Bran;20B35NY;30A;1A,1B,1C;320;320;0.4",
+    "Rice, Grits;44B35P;30A;1A,1B,1C;670;720;0.4",
+    "Rice, Hulled;47C25P;45;1A,1B,1C;720;780;0.4",
+    "Rice, Hulls;21B35NY;30A;1A,1B,1C;320;340;0.4",
+    "Rice, Polished;30C15P;45;1A,1B,1C;480;480;0.4",
+    "Rice, Rough;34C35N;30A;1A,1B,1C;510;580;0.6",
+    "Rosin, 1/2 inch;67C45Q;30A;1A,1B,1C;1040;1090;1.5",
+    "Rubber, Pelleted;53D45;30A;2A,2B,2C;800;880;1.5",
+    "Rubber, Reclaimed Ground;37C45;30A;1A,1B,1C;370;800;0.8",
+    "Rye;45B15N;45;1A,1B,1C;670;770;0.4",
+    "Rye Bran;18B35Y;30A;1A,1B,1C;240;320;0.4",
+    "Rye Feed;33B35N;30A;1A,1B,1C;530;530;0.5",
+    "Rye Meal;38B35;30A;1A,1B,1C;560;640;0.5",
+    "Rye Middlings;42B35;30A;1A,1B;670;670;0.5",
+    "Rye, Shorts;33C35;30A;2A,2B;510;530;0.5",
+    "Safflower Seed (Saffron);45B15N;45;1A,1B,1C;720;720;0.4",
+    "Safflower, Cake (Saffron);50D26;30B;2D;800;800;0.6",
+    "Safflower, Meal (Saffron);50B35;30A;1A,1B,1C;800;800;0.6",
+    "Sal Ammoniac (Ammonium Chloride);49A45FRS;30A;1A,1B,1C;720;830;0.7",
+    "Salicylic Acid;29B37U;15;3D;460;460;0.6",
+    "Salt Cake, Dry Coarse (Sodium Sulfate);85B36TU;30B;3D;1360;1360;2.1",
+    "Salt Cake, Dry Pulverized (Sodium Sulfate);75B36TU;30B;3D;1040;1360;1.7",
+    "Salt, Dry Coarse (Sodium Chloride);53C36TU;30B;3D;720;960;1",
+    "Salt, Dry Fine (Sodium Chloride);75B36TU;30B;3D;1120;1280;1.7",
+    "Sand (Resin Coated) Silica;104B27;15;3D;1670;1670;2",
+    "Sand (Resin Coated) Zircon;115A27;15;3D;1840;1840;2.3",
+    "Sand Dry Bank (Damp);120B47;15;3D;1760;2080;2.8",
+    "Sand Dry Bank (Dry);100B37;15;3D;1440;1760;1.7",
+    "Sand Dry Silica;95B27;15;3D;1440;1600;2",
+    "Sand Foundry (Shake Out);95D37Z;15;3D;1440;1600;2.6",
+    "Sawdust, Dry;12B45UX;30A;1A,1B,1C;160;210;0.7",
+    "Sea-Coal;65B36;30B;2D;1040;1040;1",
+    "Sesame Seed;34B26;30B;2D;430;660;0.6",
+    "Shale, Crushed;88C36;30B;2D;1360;1440;2",
+    "Shellac, Powdered or Granulated;31B35P;30A;1B;500;500;0.6",
+    "Silica Gel, 1/2 to 3 inch;45D37HKQU;15;3D;720;720;2",
+    "Silica, Flour;80A46;30B;2D;1280;1280;1.5",
+    "Slag, Blast Furnace Crushed;155D37Y;15;3D;2080;2880;2.4",
+    "Slag, Furnace Granular, Dry;63C37;15;3D;960;1040;2.2",
+    "Slate, Crushed, 1/2 inch;85C36;30B;2D;1280;1440;2",
+    "Slate, Ground, 1/8 inch;84B36;30B;2D;1310;1360;1.6",
+    "Sludge, Sewage, Dried;45E47TW;15;3D;640;800;0.8",
+    "Sludge, Sewage, Dry Ground;50B46S;30B;2D;720;880;0.8",
+    "Soap Detergent;33B35FQ;30A;1A,1B,1C;240;800;0.8",
+    "Soap, Beads or Granules;25B35Q;30A;1A,1B,1C;240;560;0.6",
+    "Soap, Chips;20C35Q;30A;1A,1B,1C;240;400;0.6",
+    "Soap, Flakes;10B35QXY;30A;1A,1B,1C;80;240;0.6",
+    "Soap, Powder;23B25X;45;1A,1B,1C;320;400;0.9",
+    "Soapstone, Talc, Fine;45A45XY;30A;1A,1B,1C;640;800;2",
+    "Soda Ash, Heavy (Sodium Carbonate);60B36;30B;2D;880;1040;1",
+    "Soda Ash, Light (Sodium Carbonate);28A36Y;30B;2D;320;560;0.8",
+    "Sodium Aluminate, Ground;72B36;30B;2D;1150;1150;1",
+    "Sodium Aluminum Sulphate**;75A36;30B;2D;1200;1200;1",
+    "Sodium Bicarbonate (Baking Soda);48A25;45;1B;640;880;0.6",
+    "Sodium Nitrate;75D25NS;30A;2A,2B;1120;1280;1.2",
+    "Sodium Phosphate;55A35;30A;1A,1B;800;960;0.9",
+    "Sodium Sulfite;96B46X;30B;2D;1540;1540;1.5",
+    "Soybean Meal Hot;40B35T;30A;2A,2B;640;640;0.5",
+    "Soybean Meal, Cold;40B35;30A;1A,1B,1C;640;640;0.5",
+    "Soybean, Cake;42D35W;30A;2A,1B,1C;640;690;1",
+    "Soybean, Cracked;35C36NW;30B;2D;480;640;0.5",
+    "Soybean, Flake, Extracted, Wet;34C35;30A;1A,1B,1C;540;540;0.8",
+    "Soybean, Flake, Raw;22C35Y;30A;1A,1B,1C;290;400;0.8",
+    "Soybean, Flour;29A35MN;30A;1A,1B,1C;430;480;0.8",
+    "Soybeans, Whole;48C26NW;30B;3D;720;800;1",
+    "Starch dry patato;38A15M;45;1A,1B,1C;400;500;1",
+    "Starch wet patato;38A15M;45;1A,1B,1C;400;750;1",
+    "Starch dry wheat;38A15M;45;1A,1B,1C;400;550;1",
+    "Steel Turnings, Crushed;125D46WV;30B;3D;1600;2400;3",
+    "Sugar Beet, Pulp, Dry;14C26;30B;2D;190;240;0.9",
+    "Suga Beet, Pulp, Wet;35C35X;30A;1A,1B,1C;400;720;1.2",
+    "Sugar, Powdered;55A35PX;30A;1B;800;960;0.8",
+    "Sugar, Raw;60B35PX;30A;1B;880;1040;1.5",
+    "Sugar, Refined, Granulated Dry;53B35PU;30A;1B;800;880;1.2",
+    "Sugar, Refined, Granulated Wet;60C35P;30A;1B;880;1040;2",
+    "Sulphur, Crushed, 1/2 inch;55C35N;30A;1A,1B;800;960;0.8",
+    "Sulphur, Lumpy, 3 inch;83D35N;30A;2A,2B;1280;1360;0.8",
+    "Sulphur, Powdered;55A35MN;30A;1A,1B;800;960;0.6",
+    "Sunflower Seed;29C15;45;1A,1B,1C;300;610;0.5",
+    "Sunflower Seed Flakes;28C35;30A;1A,1B,1C;430;450;0.8",
+    "Swee Bran Feed;29B45P;30A;1A,1B,1C;340;590;0.6",
+    "Talcum Powder;55A36M;30B;2D;800;960;0.8",
+    "Talcum, 1/2 ich;85C36;30B;2D;1280;1440;0.9",
+    "Tanbark, Ground**;55B45;30A;1A,1B,1C;880;880;0.7",
+    "Timothy Seed;36B35NY;30A;1A,1B,1C;580;580;0.6",
+    "Titanium Dioxide based pigments (powder);42C36FLO;15;3D;540;800;2",
+    "Tobacco, Scraps;20D45Y;30A;2A,2B;240;400;0.8",
+    "Tobacco, Snuff;30B45MQ;30A;1A,1B,1C;480;480;0.9",
+    "Tricalcium Phosphate;45A45;30A;1A,1B;640;800;1.6",
+    "Triple Sugar Phosphate ;53B36RS;30B;3D;800;880;2",
+    "Trisodium Phosphate;60C36;30B;2D;960;960;1.7",
+    "Trisodium Phosphate Granular;60B36;30B;2D;960;960;1.7",
+    "Trisodium Phosphate, Pulverized;50A36;30B;2D;800;800;1.6",
+    "Tung Nut Meats, Crushed;28D25W;30A;2A,2B;450;450;0.8",
+    "Tung Nuts ;28D15;30A;2A,2B;400;480;0.7",
+    "Urea Prills, Coated;45B25;45;1A,1B,1C;690;740;1.2",
+    "Vermiculite, Expanded;16C35Y;30A;1A,1B;260;260;0.5",
+    "Vermiculite, Ore;80D36;30B;2D;1280;1280;1",
+    "Vetch;48B16N;30B;1A,1B,1C;770;770;0.4",
+    "Walnut Shells, Crushed;40B36;30B;2D;560;720;1",
+    "Wheat; 47C25N;45;1A,1B,1C;720;770;0.4",
+    "Wheat Flour;37A45LP;45;1B;530;640;0.6",
+    "Wheat, Cracked;43B25N;45;1A,1B,1C;640;720;0.4",
+    "Wheat, Germ;23B25;45;1A,1B,1C;290;450;0.4",
+    "White Lead, Dry;88A36MR;30B;2D;1200;1600;1",
+    "Wood Chips, Screened;20D45VY;30A;2A,2B;160;480;0.6",
+    "Wood Flour;26B35N;30A;1A,1B;260;580;0.4",
+    "Wood Shavings;12E45VY;30A;2A,2B;130;260;1.5",
+    "Zinc Oxide, Heavy;33A45X;30A;1A,1B;480;560;1",
+    "Zinc Oxide, Light;13A45XY;30A;1A,1B;160;240;1",
+    "Zinc, Concentrate Residue;78B37;15;3D;1200;1280;1"}
 
 
     '--- "Oude benaming;Norm:;EN10027-1;Werkstof;[mm/m1/100°C];Poisson ;kg/m3;E [Gpa];Rm (20c);Rp0.2(0c);Rp0.2(20c);Rp(50c);Rp(100c);Rp(150c);Rp(200c);Rp(250c);Rp(300c);Rp(350c);Rp(400c);Equiv-ASTM;Opmerking",
@@ -874,7 +885,7 @@ Public Class Form1
         Motorreductor()
         Coupling_combo()
         Lager_combo()
-        Astap_combo()
+
         Paint_combo()
         Pakking_combo()
     End Sub
@@ -1015,8 +1026,9 @@ Public Class Form1
         Return (mekog)
     End Function
 
-    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown10.ValueChanged, NumericUpDown25.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox4.SelectedIndexChanged, ComboBox13.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox8.CheckedChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, CheckBox4.CheckedChanged, CheckBox7.CheckedChanged, CheckBox6.CheckedChanged, TabPage4.Enter, CheckBox5.CheckedChanged, NumericUpDown68.ValueChanged, NumericUpDown67.ValueChanged, NumericUpDown79.ValueChanged, NumericUpDown78.ValueChanged, NumericUpDown77.ValueChanged, NumericUpDown76.ValueChanged, NumericUpDown75.ValueChanged, NumericUpDown74.ValueChanged, NumericUpDown73.ValueChanged, NumericUpDown72.ValueChanged, NumericUpDown71.ValueChanged, NumericUpDown70.ValueChanged, NumericUpDown69.ValueChanged
+    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown10.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox4.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox8.CheckedChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, CheckBox7.CheckedChanged, CheckBox6.CheckedChanged, TabPage4.Enter, CheckBox5.CheckedChanged, NumericUpDown68.ValueChanged, NumericUpDown67.ValueChanged, NumericUpDown79.ValueChanged, NumericUpDown78.ValueChanged, NumericUpDown77.ValueChanged, NumericUpDown76.ValueChanged, NumericUpDown75.ValueChanged, NumericUpDown74.ValueChanged, NumericUpDown73.ValueChanged, NumericUpDown72.ValueChanged, NumericUpDown71.ValueChanged, NumericUpDown70.ValueChanged, NumericUpDown69.ValueChanged
         Calc_sequence()
+        Present_Datagridview1()
     End Sub
 
     'Materiaal in de conveyor
@@ -1572,7 +1584,7 @@ Public Class Form1
         oTable.Cell(row, 1).Range.Text = "Diameter pipe"
         oTable.Cell(row, 3).Range.Text = CType(ComboBox9.SelectedItem, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
-        oTable.Cell(row, 5).Range.Text = TextBox45.Text
+        '  oTable.Cell(row, 5).Range.Text = TextBox45.Text
         oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Wall thickness pipe"
@@ -1583,7 +1595,7 @@ Public Class Form1
         oTable.Cell(row, 1).Range.Text = "Flight thickness"
         oTable.Cell(row, 3).Range.Text = CType(NumericUpDown8.Value, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
-        oTable.Cell(row, 5).Range.Text = TextBox46.Text
+        '  oTable.Cell(row, 5).Range.Text = TextBox46.Text
         oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Service factor"
@@ -1646,34 +1658,36 @@ Public Class Form1
         oTable.Cell(row, 2).Range.Text = "[-]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Weight end plates"
-        oTable.Cell(row, 3).Range.Text = CType(NumericUpDown10.Value, String)
+        oTable.Cell(row, 3).Range.Text = part(0).P_dikte.ToString
         oTable.Cell(row, 2).Range.Text = "[mm]"
-        oTable.Cell(row, 5).Range.Text = TextBox42.Text
+        oTable.Cell(row, 5).Range.Text = part(0).P_wght.ToString
         oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
-        oTable.Cell(row, 1).Range.Text = "Weight flighting"
-        oTable.Cell(row, 3).Range.Text = CType(NumericUpDown8.Value, String)
-        oTable.Cell(row, 2).Range.Text = "[mm]"
-        oTable.Cell(row, 5).Range.Text = TextBox46.Text
-        oTable.Cell(row, 4).Range.Text = "[kg]"
-        row += 1
+
         oTable.Cell(row, 1).Range.Text = "Weight trough"
-        oTable.Cell(row, 3).Range.Text = CType(NumericUpDown14.Value, String)
+        oTable.Cell(row, 3).Range.Text = part(1).P_dikte.ToString
         oTable.Cell(row, 2).Range.Text = "[mm]"
-        oTable.Cell(row, 5).Range.Text = TextBox47.Text
+        oTable.Cell(row, 5).Range.Text = part(1).P_wght.ToString
         oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Weight cover"
-        oTable.Cell(row, 3).Range.Text = CType(NumericUpDown15.Value, String)
+        oTable.Cell(row, 3).Range.Text = part(2).P_dikte.ToString
         oTable.Cell(row, 2).Range.Text = "[mm]"
-        oTable.Cell(row, 5).Range.Text = TextBox48.Text
+        oTable.Cell(row, 5).Range.Text = part(2).P_wght.ToString
         oTable.Cell(row, 4).Range.Text = "[kg]"
-
         row += 1
-        oTable.Cell(row, 1).Range.Text = "Weight stub shafts"
-        oTable.Cell(row, 3).Range.Text = CType(ComboBox13.SelectedItem, String)
+
+        oTable.Cell(row, 1).Range.Text = "Weight flighting"
+        oTable.Cell(row, 3).Range.Text = part(4).P_dikte.ToString
         oTable.Cell(row, 2).Range.Text = "[mm]"
-        oTable.Cell(row, 5).Range.Text = TextBox54.Text
+        oTable.Cell(row, 5).Range.Text = part(4).P_wght.ToString
+        oTable.Cell(row, 4).Range.Text = "[kg]"
+        row += 1
+
+        oTable.Cell(row, 1).Range.Text = "Weight stub shafts"
+        oTable.Cell(row, 3).Range.Text = part(5).P_dikte.ToString
+        oTable.Cell(row, 2).Range.Text = "[mm]"
+        oTable.Cell(row, 5).Range.Text = part(5).P_wght.ToString
         oTable.Cell(row, 4).Range.Text = "[kg]"
 
         row += 1
@@ -2047,19 +2061,6 @@ Public Class Form1
         TextBox121.Text = acc.ToString("0.0")
         TextBox122.Text = force.ToString("0")
     End Sub
-
-    Private Sub Astap_combo()
-        Dim words() As String
-
-        ComboBox13.Items.Clear()
-        '-------Fill combobox------------------
-        For hh = 1 To astap_dia.Length - 1                'Fill combobox 13 with astap data
-            words = astap_dia(hh).Split(CType(";", Char()))
-            ComboBox13.Items.Add(words(0))
-        Next hh
-        ComboBox13.SelectedIndex = 1
-    End Sub
-
 
     Private Sub Paint_combo()
         Dim words() As String
@@ -2831,19 +2832,16 @@ Public Class Form1
 
     Private Sub Costing_material()
         Dim rho_staal, rho_kunststof As Double
-        Dim opp_trog, opp_kopstaartplaat, kg_kopstaartplaat, kg_trog As Double
+        Dim opp_trog, opp_kopstaartplaat, kg_kopstaartplaat As Double
         Dim kg_pipe, speling_trog, diam_schroef As Double
-        Dim kopstaart_dikte, dikte_deksel, dikte_lining, dikte_trog As Double
-        Dim kg_inlaat, kg_uitlaat, kg_lining As Double
-        Dim kg_deksel, kg_voet, kg_schroefblad, total_kg_plaat As Double
         Dim hoek_spoed As Double
         Dim nr_flights, spoed As Double
-        Dim kg_astap, dia_astap, lengte_astap As Double
+        Dim lengte_astap As Double
         Dim kg_afschermkap As Double
         Dim tot_opperv_paint As Double
         Dim oppb_astap, oppb_voet, oppb_uitlaat, oppb_inlaat As Double
         Dim oppb_deksel, oppb_trog, oppb_kopstaartplaat, oppb_schroefblad, oppb_pipe As Double
-        Dim cost_kopstaartplaat, cost_trog, cost_pipe, cost_deksel, cost_inlaat, cost_uitlaat As Double
+        Dim cost_eindplaten, cost_trog, cost_pipe, cost_deksel, cost_inlaat, cost_uitlaat As Double
         Dim cost_voet, cost_schroefblad, cost_astap, cost_lining, cost_afschermkap As Double
         Dim cost_paint, cost_painting, cost_cutting As Double
         Dim cost_motorreductor, cost_koppeling, cost_lagers As Double
@@ -2855,7 +2853,6 @@ Public Class Form1
         Dim prijs_wvb, prijs_eng, prijs_pro, prijs_fab As Double
         Dim tot_prijsarbeid, geheel_totprijs, dekking, marge_cost, verkoopprijs As Double
         Dim perc_mater, perc_arbeid As Double
-        Dim gew_inuitvoet As Double
         Dim packing, shipping As Double                 'packing, shipping costs
 
         TextBox40.Text = ComboBox2.Text                'materiaalsoort staal
@@ -2866,49 +2863,48 @@ Public Class Form1
 
         '---------------------------------------------- PRICES -----------------------------------------
         '-----------------------------------------------------------------------------------------------
-        TextBox84.Text = "3.25"                 'lining [€/kg]
         TextBox85.Text = "10.00"                'alu afschermkap [€/kg]
 
         Select Case True
             Case (RadioButton6.Checked)         'staal, s235JR
-                TextBox93.Text = NumericUpDown69.Value.ToString("0.00")         'kop staart  [€/kg]
-                TextBox96.Text = NumericUpDown69.Value.ToString("0.00")         'trog
-                TextBox97.Text = NumericUpDown69.Value.ToString("0.00")         'deksel
-                TextBox113.Text = NumericUpDown69.Value.ToString("0.00")        'inlaat,uitlaat,voet, schermkap [€/kg]
-                If CheckBox5.Checked Then 'schroefpijp staal (seam/seamless)
-                    TextBox94.Text = NumericUpDown76.Value.ToString("0.00")
+                part(0).P_kgcost = NumericUpDown69.Value                        'kop staart  [€/kg]
+                part(1).P_kgcost = NumericUpDown69.Value       'trog
+                part(2).P_kgcost = NumericUpDown69.Value        'deksel
+                part(3).P_kgcost = NumericUpDown69.Value        'inlaat,uitlaat,voet, schermkap [€/kg]
+                If CheckBox5.Checked Then                       'schroefpijp staal (seam/seamless)
+                    part(6).P_kgcost = NumericUpDown76.Value
                 Else
-                    TextBox94.Text = NumericUpDown75.Value.ToString("0.00")
+                    part(6).P_kgcost = NumericUpDown75.Value
                 End If
-                TextBox95.Text = NumericUpDown72.Value.ToString("0.00")         'schroefblad
-                TextBox92.Text = NumericUpDown74.Value.ToString("0.00")         'astap ronde staf afm 60
-                CheckBox6.Checked = True        'Paint
-            Case (RadioButton7.Checked)         'rvs304, (Koud + 2B)
-                TextBox93.Text = NumericUpDown70.Value.ToString("0.00")         'kop staart 
-                TextBox96.Text = NumericUpDown70.Value.ToString("0.00")         'trog
-                TextBox97.Text = NumericUpDown70.Value.ToString("0.00")         'deksel
-                TextBox113.Text = NumericUpDown70.Value.ToString("0.00")        'inlaat,uitlaat,voet, schermkap [€/kg]
-                If CheckBox5.Checked Then 'schroefpijp staal (seam/seamless)
-                    TextBox94.Text = NumericUpDown77.Value.ToString("0.00")
+                part(4).P_kgcost = NumericUpDown72.Value       'schroefblad
+                part(5).P_kgcost = NumericUpDown74.Value        'astap ronde staf afm 60
+                CheckBox6.Checked = True                        'Paint
+            Case (RadioButton7.Checked)                         'rvs304, (Koud + 2B)
+                part(0).P_kgcost = NumericUpDown70.Value        'kop staart 
+                part(1).P_kgcost = NumericUpDown70.Value         'trog
+                part(2).P_kgcost = NumericUpDown70.Value        'deksel
+                part(3).P_kgcost = NumericUpDown70.Value        'inlaat,uitlaat,voet, schermkap [€/kg]
+                If CheckBox5.Checked Then                       'schroefpijp staal(seam / seamless)
+                    part(6).P_kgcost = NumericUpDown77.Value
                 Else
-                    TextBox94.Text = NumericUpDown78.Value.ToString("0.00")
+                    part(6).P_kgcost = NumericUpDown78.Value
                 End If
-                TextBox95.Text = NumericUpDown73.Value.ToString("0.00")         'schroefblad
-                TextBox92.Text = NumericUpDown79.Value.ToString("0.00")         'astap [€/kg] materiaal is standaard van staal
-                CheckBox6.Checked = False       'Paint
-            Case (RadioButton8.Checked)         'rvs316, (Koud + 2B)
-                TextBox93.Text = NumericUpDown71.Value.ToString("0.00")         'kop staart 
-                TextBox96.Text = NumericUpDown71.Value.ToString("0.00")         'trog
-                TextBox97.Text = NumericUpDown71.Value.ToString("0.00")         'deksel
-                TextBox113.Text = NumericUpDown71.Value.ToString("0.00")        'inlaat,uitlaat,voet, schermkap [€/kg]
-                If CheckBox5.Checked Then 'schroefpijp staal (seam/seamless)
-                    TextBox94.Text = NumericUpDown77.Value.ToString("0.00")
+                part(4).P_kgcost = NumericUpDown73.Value        'schroefblad
+                part(5).P_kgcost = NumericUpDown79.Value        'astap [€/kg] materiaal is standaard van staal
+                CheckBox6.Checked = False                       'Paint
+            Case (RadioButton8.Checked)                         'rvs316, (Koud + 2B)
+                part(0).P_kgcost = NumericUpDown71.Value        'kop staart 
+                part(1).P_kgcost = NumericUpDown71.Value        'trog
+                part(2).P_kgcost = NumericUpDown71.Value        'deksel
+                part(3).P_kgcost = NumericUpDown71.Value        'inlaat,uitlaat,voet, schermkap [€/kg]
+                If CheckBox5.Checked Then                       'schroefpijp staal (seam/seamless)
+                    part(6).P_kgcost = NumericUpDown77.Value
                 Else
-                    TextBox94.Text = NumericUpDown78.Value.ToString("0.00")
+                    part(6).P_kgcost = NumericUpDown78.Value
                 End If
-                TextBox95.Text = NumericUpDown73.Value.ToString("0.00")         'schroefblad
-                TextBox92.Text = NumericUpDown79.Value.ToString("0.00")         'astap [€/kg] materiaal is standaard van staal
-                CheckBox6.Checked = False       'Paint
+                part(4).P_kgcost = NumericUpDown73.Value        'schroefblad
+                part(5).P_kgcost = NumericUpDown79.Value        'astap [€/kg] materiaal is standaard van staal
+                CheckBox6.Checked = False                       'Paint
         End Select
         rho_staal = 7950
 
@@ -2935,14 +2931,26 @@ Public Class Form1
 
 
         '---------------Plaat diktes---------------
-        dikte_trog = NumericUpDown14.Value / 1000
-        kopstaart_dikte = NumericUpDown10.Value / 1000  '[m]
+        part(0).P_dikte = NumericUpDown10.Value         '[m] Eindplaten
+        part(1).P_dikte = NumericUpDown14.Value         '[mm] Trog    
+
         If RadioButton5.Checked Then
-            dikte_deksel = NumericUpDown15.Value / 1000 'U-trog
+            part(2).P_dikte = NumericUpDown15.Value     'U-trog
         Else
-            dikte_deksel = 0                            'Pijpschroef
+            part(2).P_dikte = 0                         'Pijpschroef
         End If
-        dikte_lining = NumericUpDown25.Value / 1000
+        part(3).P_dikte = NumericUpDown84.Value         '[mm] in/uitlaten  
+        part(4).P_dikte = NumericUpDown85.Value         '[mm] Schroefblad 
+        part(5).P_dikte = NumericUpDown86.Value         '[mm] astap
+
+        '---------------Aantalen---------------
+        part(0).P_no = 2            'Eindplaten
+        part(1).P_no = 1            'Trog    
+        part(2).P_no = 1            'Deksel
+        part(3).P_no = 2            'in/uitlaten  
+        part(4).P_no = 1            'Schroefblad 
+        part(5).P_no = 2            'astap
+        part(6).P_no = 2            'Pijp
 
         '--------------staal Oppervlaktes -------
         opp_trog = PI * _diam_flight * _λ6
@@ -2954,9 +2962,9 @@ Public Class Form1
         oppb_pipe = _pipe_OD / 1000 * PI * _λ6
 
         '-------------- plaat gewichten---------------
-        kg_kopstaartplaat = _diam_flight ^ 2 * kopstaart_dikte * rho_staal
-        kg_trog = _diam_flight * 4 * dikte_trog * _λ6 * rho_staal
-        kg_deksel = _diam_flight * 1.1 * dikte_deksel * _λ6 * rho_staal     '50mm voor de horizontale flens en 25mm voor het stukje naar beneden
+        part(0).P_wght = _diam_flight ^ 2 * part(0).P_dikte * rho_staal 'Eindplaat
+        part(1).P_wght = _diam_flight * 4 * part(1).P_dikte * _λ6 * rho_staal       'Trog
+        part(2).P_wght = _diam_flight * 1.1 * part(2).P_dikte * _λ6 * rho_staal     '50mm voor de horizontale flens en 25mm voor het stukje naar beneden
 
         'Debug.WriteLine(" kg_kopstaartplaat= " & kg_kopstaartplaat.ToString)
         'Debug.WriteLine(" kg_trog= " & kg_trog.ToString)
@@ -2984,22 +2992,19 @@ Public Class Form1
         nr_flights = _λ6 / spoed
         hoek_spoed = Atan(spoed / (PI * diam_schroef))                  '[rad]    
 
-        kg_schroefblad = PI * rho_staal * (NumericUpDown8.Value / 1000) * 0.25 * nr_flights * (diam_schroef ^ 2 - _pipe_OD ^ 2) / Cos(hoek_spoed)         ' DIT IS DE ECHTE FORMULE!!!!!
-        oppb_schroefblad = 2 * (kg_schroefblad / (NumericUpDown8.Value * rho_staal / 1000))
+        part(4).P_wght = PI * rho_staal * (part(4).P_dikte / 1000) * 0.25 * nr_flights * (diam_schroef ^ 2 - _pipe_OD ^ 2) / Cos(hoek_spoed)         ' DIT IS DE ECHTE FORMULE!!!!!
+        oppb_schroefblad = 2 * (part(4).P_wght / (part(4).P_dikte * rho_staal / 1000))
 
-        Double.TryParse(CType(ComboBox13.SelectedItem, String), dia_astap)             '[mm] 
-        dia_astap /= 1000                                           '[m]
         lengte_astap = 1.0                                              'lengte in meters average 1m
-        kg_astap = 7850 * lengte_astap * PI * (dia_astap / 2) ^ 2       'het standaardmateriaal is staal, dit is het totale inkoopmateriaal, wat daarna nog wordt gefreesd/gedraaid
-        oppb_astap = PI * dia_astap * lengte_astap
+        part(5).P_wght = 7850 * lengte_astap * PI * (part(5).P_dikte / 2000) ^ 2       'het standaardmateriaal is staal, dit is het totale inkoopmateriaal, wat daarna nog wordt gefreesd/gedraaid
+        oppb_astap = PI * part(5).P_dikte / 1000 * lengte_astap
         rho_kunststof = 970                                             '[kg/m3] dichtheid HDPE
-        kg_lining = rho_kunststof * (PI * _diam_flight + 0.5 * (0.045 + _diam_flight / 2)) * dikte_lining * _λ6
 
         '---------- estimated weights---------------
-        kg_inlaat = 10              '[kg] inlaat chute
-        kg_uitlaat = 10             '[kg] uitlaat chute
-        kg_voet = 5                 '[kg] conveyor supports
-        kg_afschermkap = 10         '[kg] koppelingkap
+        part(3).P_wght = 10              '[kg] inlaat chute
+        'kg_uitlaat = 10             '[kg] uitlaat chute
+        'kg_voet = 5                 '[kg] conveyor supports
+        'kg_afschermkap = 10         '[kg] koppelingkap
 
         '---------- estimated area's---------------
         oppb_inlaat = 1             '[m2]
@@ -3013,7 +3018,7 @@ Public Class Form1
         Dim subtotalCost_Options As Double
         Dim subtotalCost_Misc As Double
         Dim kgprijs(9) As Double
-        Dim totaal_gew As Double
+        'Dim totaal_gew As Double
         Dim marge_factor As Double
         Dim vrije_regel As Double
 
@@ -3021,31 +3026,23 @@ Public Class Form1
         'STEEL SUBGROUP ----------------------------------------------------------------------------------------
 
         '======== Onderdelen van plaat die gesneden worden ==========
-        gew_inuitvoet = kg_inlaat + kg_uitlaat + kg_voet + kg_afschermkap
-        total_kg_plaat = 2 * kg_kopstaartplaat + kg_trog + kg_deksel + gew_inuitvoet
+        'gew_inuitvoet = kg_inlaat + kg_uitlaat + kg_voet + kg_afschermkap
         tot_opperv_paint = oppb_voet + oppb_uitlaat + oppb_inlaat + oppb_trog        'Buiten Oppervlak paint onderdelen 
-        totaal_gew = total_kg_plaat + kg_astap + kg_pipe + kg_schroefblad
 
-        '+++++++++++++++++++++++ Financieel ++++++++++++++++++++++++++++++
-        Double.TryParse(TextBox93.Text, kgprijs(0))     'kopstaartplaat kg prijs
-        Double.TryParse(TextBox96.Text, kgprijs(1))     'trog kg prijs
-        Double.TryParse(TextBox97.Text, kgprijs(2))     'deksel kg prijs
-        Double.TryParse(TextBox113.Text, kgprijs(3))    'snijkosten kg prijs
-        Double.TryParse(TextBox95.Text, kgprijs(4))     'schroefblad kg prijs
-        Double.TryParse(TextBox94.Text, kgprijs(5))     'pijp kg prijs
-        Double.TryParse(TextBox92.Text, kgprijs(6))     'astap kg prijs
-        Double.TryParse(TextBox85.Text, kgprijs(7))     'Afschermkap schatting
-        Double.TryParse(TextBox84.Text, kgprijs(8))     'lining kg prijs
+        subtotalCost_Steel = 0
+        For i = 0 To 10
+            part(i).P_cost = part(i).P_no * part(i).P_wght * part(i).P_kgcost 'kopstaartplaat kg prijs
+            subtotalCost_Steel += part(i).P_cost
+        Next
 
-        cost_kopstaartplaat = 2 * kg_kopstaartplaat * kgprijs(0)
-        cost_trog = kg_trog * kgprijs(1)
-        cost_deksel = kg_deksel * kgprijs(2)
-        cost_cutting = total_kg_plaat * kgprijs(3)
-        cost_schroefblad = kg_schroefblad * kgprijs(4)      'schroefblad prijs
-        cost_pipe = kg_pipe * kgprijs(5)                    'pijp prijs
-        cost_astap = kg_astap * kgprijs(6)                  'astap prijs
+        cost_eindplaten = part(0).P_cost
+        cost_trog = part(1).P_cost
+        cost_deksel = part(0).P_cost
+        cost_cutting = part(0).P_cost
+        cost_schroefblad = part(0).P_cost      'schroefblad prijs
+        cost_pipe = part(0).P_cost                   'pijp prijs
+        cost_astap = part(0).P_cost                 'astap prijs
 
-        subtotalCost_Steel = cost_kopstaartplaat + cost_trog + cost_deksel + cost_cutting + cost_schroefblad + cost_pipe + cost_astap
 
         '======= COMPONENTS SUBGROUP -Motorreductor-Koppeling-Lagers =======
         cost_hang = NumericUpDown35.Value * 500          'Hangende lagers
@@ -3066,8 +3063,6 @@ Public Class Form1
         subtotalCost_Options = cost_inlaat + cost_uitlaat + cost_voet + cost_afschermkap
 
         'MISC SUBGROUP ---------------------------------------------------------------------------------------
-        cost_lining = kg_lining * kgprijs(8)                 'lining 
-        If Not CheckBox4.Checked Then cost_lining = 0   'enable
         cost_painting = cost_paint * tot_opperv_paint   'verf m2*prijs
         cost_transport = 400                             'intern transport
         If Not CheckBox7.Checked Then cost_transport = 0 'enable
@@ -3077,25 +3072,20 @@ Public Class Form1
         total_cost = subtotalCost_Steel + subtotalCost_Components + subtotalCost_Options + subtotalCost_Misc + vrije_regel
 
         'FILL TEXTBOXES STEEL SUBGROUP ----------------------------------------------------------------------------------------
-        TextBox42.Text = (2 * kg_kopstaartplaat).ToString("F1")   'kopstaartplaat kg (twee kopplaten)
-        TextBox56.Text = cost_kopstaartplaat.ToString("F0")         'kopstaartplaat cost
 
-        TextBox136.Text = NumericUpDown8.Value.ToString     'schroefblad dikte mm
-        TextBox47.Text = kg_trog.ToString("F1")             'trog kg
-        TextBox48.Text = kg_deksel.ToString("F1")           'deksel kg
-        TextBox46.Text = kg_schroefblad.ToString("F1")      'schroefblad kg
-        TextBox45.Text = kg_pipe.ToString("F1")             'pijp kg
-        TextBox54.Text = kg_astap.ToString("F1")            'astap kg
-        TextBox134.Text = totaal_gew.ToString("F1")         'totaal gewicht
-        TextBox135.Text = gew_inuitvoet.ToString("F1")      'inlaat, uitlaat+voet
+        With DataGridView1
 
-        TextBox61.Text = cost_trog.ToString("F0")           'trog cost
-        TextBox62.Text = cost_deksel.ToString("F0")         'deksel cost
-        TextBox43.Text = cost_cutting.ToString("F0")        'snijkosten
-        TextBox60.Text = cost_schroefblad.ToString("F0")    'schroefblad cost
-        TextBox59.Text = cost_pipe.ToString("F0")           'pijp cost
-        TextBox78.Text = cost_astap.ToString("F0")          'astap kg
+            part(0).P_name = "Eind-platen "
+            part(1).P_name = "Trog"
+            part(2).P_name = "Deksel"
+            part(3).P_name = "In-uitlaat "
+            part(4).P_name = "Schroefblad "
+            part(5).P_name = "Astap diameter"
+            part(6).P_name = "Pijp diameter"
 
+            part(0).P_wght = (2 * kg_kopstaartplaat)   'kopstaartplaat kg (twee kopplaten)
+            part(0).P_cost = cost_eindplaten      'kopstaartplaat cost
+        End With
 
         'FILL TEXTBOXES COMPONENTS SUBGROUP ----------------------------------------------------------------------------------------
         TextBox57.Text = cost_motorreductor.ToString("F2")       'Motorreductor
@@ -3113,8 +3103,6 @@ Public Class Form1
         TextBox76.Text = kg_afschermkap.ToString("F0")          'Afschermkap kg
 
         'FILL TEXTBOXES MSIC SUBGROUP ----------------------------------------------------------------------------------------
-        TextBox77.Text = kg_lining.ToString("F2")                'Lining kg
-        TextBox83.Text = cost_lining.ToString("F2")              'Lining cost
         TextBox108.Text = tot_opperv_paint.ToString("F1")        'Verf m2
         TextBox107.Text = cost_painting.ToString("F2")           'Verf cost
         TextBox112.Text = cost_transport.ToString("F2")          'Transport cost
@@ -3167,8 +3155,8 @@ Public Class Form1
 
         'FILL TEXTBOXES ----------------------------------------------------------------------------------------
         TextBox88.Text = certificate_cost.ToString("F2")                    'Certificaat cost
-        TextBox109.Text = total_kg_plaat.ToString("F0")                     'Totaal gewicht plaat
-        TextBox68.Text = (cost_kopstaartplaat + cost_trog + cost_deksel + cost_cutting).ToString("F0")
+        '  TextBox109.Text = total_kg_plaat.ToString("F0")                     'Totaal gewicht plaat
+        TextBox68.Text = (cost_eindplaten + cost_trog + cost_deksel + cost_cutting).ToString("F0")
 
         NumericUpDown80.Value = CDec(wvb_prijs_uur)                 'Wvb uren
         TextBox140.Text = prijs_wvb.ToString("F0")                  'Wvb cost
@@ -3771,5 +3759,46 @@ Public Class Form1
         oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
         oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
     End Sub
+    Private Sub Present_Datagridview1()
+        With DataGridView1
+            .ColumnHeadersDefaultCellStyle.Font = New Font("Tahoma", 8.25F, FontStyle.Regular)
+            .ColumnCount = 12
+            .Rows.Clear()
+            .Rows.Add(50)
+            .RowHeadersVisible = False
+
+            '--------- HeaderText --------------------
+            .Columns(0).HeaderText = "pos"
+            .Columns(1).HeaderText = "Part"
+            .Columns(2).HeaderText = "No"
+            .Columns(3).HeaderText = "[mm]"
+            .Columns(4).HeaderText = "[kg]"
+            .Columns(5).HeaderText = "[€/kg]"
+            .Columns(6).HeaderText = "[€]"
+
+
+            For i = 0 To 10
+                .Rows(i).Cells(0).Value = i.ToString
+                .Rows(i).Cells(1).Value = part(i).P_name
+                .Rows(i).Cells(2).Value = part(i).P_no
+                .Rows(i).Cells(3).Value = part(i).P_dikte
+                .Rows(i).Cells(4).Value = part(i).P_wght
+                .Rows(i).Cells(5).Value = part(i).P_kgcost
+                .Rows(i).Cells(6).Value = part(i).P_cost
+            Next
+
+            '============== Set column width ==============
+            .Columns(0).Width = 30
+            .Columns(1).Width = 100
+            For h = 2 To .Columns.Count - 1
+                .Columns(h).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(h).Width = 50
+            Next
+
+            '============== Water sorption air ==============
+            '.Rows(5).Cells(7).Style.BackColor = CType(IIf(D_step(5).air_RH <= food.air_RH_lim, Color.LightGreen, Color.Red), Color)
+        End With
+    End Sub
+
 
 End Class
