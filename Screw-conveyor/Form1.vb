@@ -33,7 +33,10 @@ Public Structure Price_struct       'Cost price info
     Public P_kg_cost As Double      '[€/kg]
     Public P_m2_cost As Double      '[€/m2]
     Public P_each_cost As Double    '[€ each]
-    Public P_cost As Double         '[€] 
+    Public P_cost_mat As Double     '[€] material
+    Public Lab_rate As Double       '[€/hour]
+    Public Lab_hrs As Double        '[hour]
+    Public Lab_cost As Double       '[€ each]
     Public Remarks As String        '...
 End Structure
 
@@ -829,11 +832,16 @@ Public Class Form1
             part(18).P_name = "Material Cert."
             part(19).P_name = "Packing"
             part(20).P_name = "Shipping"
-            part(21).P_name = "Vrije regel #1"
-            part(22).P_name = "Vrije regel #2"
-            part(23).P_name = "Vrije regel #3"
-            part(24).P_name = "Vrije regel #4"
-            part(25).P_name = "Sum"
+            part(21).P_name = "Manuals"
+            part(22).P_name = "Vrije regel #1"
+            part(23).P_name = "Vrije regel #2"
+            part(24).P_name = "Vrije regel #3"
+            part(25).P_name = "Vrije regel #4"
+            part(26).P_name = "Lab.Eng cost"
+            part(27).P_name = "Lab.Wvb cost"
+            part(28).P_name = "Lab. Proj cost"
+            part(29).P_name = "Lab. Fabriek cost"
+            part(30).P_name = "Sum costs"
         End With
 
         For hh = 0 To (UBound(_inputs) - 1)              'Fill combobox1
@@ -1065,7 +1073,7 @@ Public Class Form1
         Return (mekog)
     End Function
 
-    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown10.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox4.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, CheckBox6.CheckedChanged, TabPage4.Enter, CheckBox5.CheckedChanged, NumericUpDown68.ValueChanged, NumericUpDown67.ValueChanged, NumericUpDown79.ValueChanged, NumericUpDown78.ValueChanged, NumericUpDown77.ValueChanged, NumericUpDown76.ValueChanged, NumericUpDown75.ValueChanged, NumericUpDown74.ValueChanged, NumericUpDown73.ValueChanged, NumericUpDown72.ValueChanged, NumericUpDown71.ValueChanged, NumericUpDown70.ValueChanged, NumericUpDown69.ValueChanged, NumericUpDown89.ValueChanged, NumericUpDown88.ValueChanged, NumericUpDown25.ValueChanged, TextBox43.TextChanged, TextBox42.TextChanged, TextBox184.TextChanged, TextBox183.TextChanged, NumericUpDown97.ValueChanged, NumericUpDown96.ValueChanged, NumericUpDown99.ValueChanged, NumericUpDown98.ValueChanged, NumericUpDown87.ValueChanged, CheckBox7.CheckedChanged
+    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown10.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox4.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, CheckBox6.CheckedChanged, TabPage4.Enter, CheckBox5.CheckedChanged, NumericUpDown68.ValueChanged, NumericUpDown67.ValueChanged, NumericUpDown79.ValueChanged, NumericUpDown78.ValueChanged, NumericUpDown77.ValueChanged, NumericUpDown76.ValueChanged, NumericUpDown75.ValueChanged, NumericUpDown74.ValueChanged, NumericUpDown73.ValueChanged, NumericUpDown72.ValueChanged, NumericUpDown71.ValueChanged, NumericUpDown70.ValueChanged, NumericUpDown69.ValueChanged, NumericUpDown89.ValueChanged, NumericUpDown88.ValueChanged, NumericUpDown25.ValueChanged, TextBox43.TextChanged, TextBox42.TextChanged, TextBox184.TextChanged, TextBox183.TextChanged, NumericUpDown97.ValueChanged, NumericUpDown96.ValueChanged, NumericUpDown99.ValueChanged, NumericUpDown98.ValueChanged, NumericUpDown87.ValueChanged, CheckBox7.CheckedChanged, NumericUpDown86.ValueChanged, NumericUpDown85.ValueChanged, NumericUpDown84.ValueChanged
         Calc_sequence()
         Present_Datagridview1()
     End Sub
@@ -2877,14 +2885,11 @@ Public Class Form1
         Dim nr_flights, spoed As Double
         Dim lengte_astap As Double
 
-        Dim cost_cutting As Double
         Dim total_cost As Double
         Dim uren_wvb, uren_eng, uren_pro, uren_fab, tot_uren As Double
-        Dim eng_prijs_uur, project_prijs_uur, fabriek_prijs_uur, wvb_prijs_uur As Double
         Dim prijs_wvb, prijs_eng, prijs_pro, prijs_fab As Double
         Dim tot_prijsarbeid, geheel_totprijs, dekking, marge_cost, verkoopprijs As Double
         Dim perc_mater, perc_arbeid As Double
-        Dim packing, shipping As Double                 'packing, shipping costs
 
         TextBox40.Text = ComboBox2.Text                'materiaalsoort staal
         TextBox41.Text = (_pipe_OD * 1000).ToString    'diameter pijp
@@ -2978,17 +2983,17 @@ Public Class Form1
 
         part(17).P_each_cost = NumericUpDown95.Value        'intern transport
         part(18).P_each_cost = NumericUpDown98.Value        'Certificaat cost each
-        part(19).P_cost = NumericUpDown49.Value             'Packing
-        part(20).P_cost = NumericUpDown50.Value             'Shipping
-        part(21).P_cost = NumericUpDown67.Value             'Free line #1
-        part(21).P_cost = NumericUpDown68.Value             'Free line #2
-        part(22).P_cost = NumericUpDown96.Value             'Free line #3
-        part(23).P_cost = NumericUpDown97.Value             'Free line #4
+        part(19).P_cost_mat = NumericUpDown49.Value             'Packing
+        part(20).P_cost_mat = NumericUpDown50.Value             'Shipping
+        part(21).P_cost_mat = NumericUpDown67.Value             'Free line #1
+        part(21).P_cost_mat = NumericUpDown68.Value             'Free line #2
+        part(22).P_cost_mat = NumericUpDown96.Value             'Free line #3
+        part(23).P_cost_mat = NumericUpDown97.Value             'Free line #4
 
         '---------------Aantalen---------------
         part(0).P_no = 2                                    'Eindplaten
         part(1).P_no = 1                                    'Trog    
-        part(2).P_no = 1                                    'Deksel
+        part(2).P_no = CInt(NumericUpDown27.Value)          'Deksel
         part(3).P_no = CInt(NumericUpDown20.Value)          'inlaat 
         part(4).P_no = CInt(NumericUpDown21.Value)          'uitlaat
         part(5).P_no = CInt(NumericUpDown23.Value)          'trog voet
@@ -3071,7 +3076,7 @@ Public Class Form1
             Dim words1() As String = lager(ComboBox8.SelectedIndex + 1).Split(CType(";", Char()))
             Dim words5() As String = pakking(ComboBox10.SelectedIndex + 1).Split(CType(";", Char()))
             Dim words4() As String = ppaint(ComboBox12.SelectedIndex + 1).Split(CType(";", Char()))
-            part(10).P_cost = CDbl(words1(1))
+            part(10).P_cost_mat = CDbl(words1(1))
 
             part(12).P_each_cost = CDbl(words2(1)) * CDbl(words2(2)) 'koppeling 
             If Not CheckBox3.Checked Then part(12).P_each_cost = 0
@@ -3085,16 +3090,9 @@ Public Class Form1
             part(16).P_each_cost = CDbl(words5(1))                   'Flange gaskets
         End If
 
-
         '----------------------------------------COST CALCULATION-----------------------------------------------
         '-------------------------------------------------------------------------------------------------------
         Dim marge_factor As Double
-
-        '======= Vrije regels =======
-        part(20).P_name = TextBox183.Text
-        part(21).P_name = TextBox184.Text
-        part(22).P_name = TextBox42.Text
-        part(23).P_name = TextBox43.Text
 
 
 
@@ -3104,55 +3102,74 @@ Public Class Form1
         For i = 0 To part.Length - 1
             paint_area += part(i).P_area
         Next
-        part(15).P_cost = paint_area * part(15).P_m2_cost 'verf m2*prijs
+        part(15).P_cost_mat = paint_area * part(15).P_m2_cost 'verf m2*prijs
 
         '============= Intern transport ========
-        part(17).P_cost = NumericUpDown95.Value                     'Intern Transport cost
+        part(17).P_cost_mat = NumericUpDown95.Value                     'Intern Transport cost
+        part(18).P_cost_mat = part(18).P_no * part(18).P_each_cost      'Certificaat cost
 
-        part(18).P_cost = part(18).P_no * part(18).P_each_cost      'Certificaat cost
+        '============= Manual preparation ========
+        part(21).P_cost_mat = NumericUpDown90.Value                       'Manual preparation
 
+        '======= Vrije regels =======
+        part(22).P_name = TextBox183.Text
+        part(23).P_name = TextBox184.Text
+        part(24).P_name = TextBox42.Text
+        part(25).P_name = TextBox43.Text
+
+        '============= Total weight + area =======
+        Dim total_kg As Double
+
+        For i = 0 To part.Length - 1
+            total_kg += part(i).P_wght
+        Next
 
         '============= Total materials ========
         total_cost = 0
 
         For i = 0 To part.Length - 1
             If part(i).P_wght > 1 Then
-                part(i).P_cost = part(i).P_no * part(i).P_wght * part(i).P_kg_cost
+                part(i).P_cost_mat = part(i).P_no * part(i).P_wght * part(i).P_kg_cost
             Else
-                part(i).P_cost = part(i).P_no * part(i).P_each_cost
+                part(i).P_cost_mat = part(i).P_no * part(i).P_each_cost
             End If
 
-            total_cost += part(i).P_cost
+            total_cost += part(i).P_cost_mat
         Next
 
         '============== UREN CALCULATE =========
-        uren_wvb = NumericUpDown48.Value
-        uren_eng = NumericUpDown30.Value
-        uren_pro = NumericUpDown33.Value
-        uren_fab = NumericUpDown34.Value
-        tot_uren = uren_wvb + uren_eng + uren_pro + uren_fab       'Totaal aantal uren
+        part(26).Lab_hrs = NumericUpDown48.Value    'Eng
+        part(27).Lab_hrs = NumericUpDown30.Value    'Wvb
+        part(28).Lab_hrs = NumericUpDown33.Value    'Project
+        part(29).Lab_hrs = NumericUpDown34.Value    'Fabriek
+        tot_uren = 0
+
+        For i = 0 To part.Length - 1
+            tot_uren += part(i).Lab_rate      'Totaal aantal uren
+        Next
 
         Dim uren_ratio(4) As Double
         uren_ratio(0) = uren_wvb / tot_uren
         uren_ratio(1) = uren_eng / tot_uren
         uren_ratio(2) = uren_pro / tot_uren
         uren_ratio(3) = uren_fab / tot_uren
+
         TextBox144.Text = uren_ratio(0).ToString("F2")
         TextBox145.Text = uren_ratio(1).ToString("F2")
         TextBox146.Text = uren_ratio(2).ToString("F2")
         TextBox147.Text = uren_ratio(3).ToString("F2")
 
-
         '=========== Uur tarief ===========
-        wvb_prijs_uur = NumericUpDown80.Value               'labour rate
-        eng_prijs_uur = NumericUpDown81.Value               'labour rate
-        project_prijs_uur = NumericUpDown82.Value           'labour rate
-        fabriek_prijs_uur = NumericUpDown83.Value           'labour rate
+        part(26).Lab_rate = NumericUpDown80.Value    'Eng
+        part(27).Lab_rate = NumericUpDown81.Value    'Wvb
+        part(28).Lab_rate = NumericUpDown82.Value    'Project
+        part(29).Lab_rate = NumericUpDown83.Value    'Fabriek
 
-        prijs_wvb = uren_wvb * wvb_prijs_uur                                'Wvb cost
-        prijs_eng = uren_eng * eng_prijs_uur                                'Engineering cost
-        prijs_pro = uren_pro * project_prijs_uur                            'Project management cost
-        prijs_fab = uren_fab * fabriek_prijs_uur                            'Fabriek cost
+
+        prijs_wvb = part(26).Lab_hrs * part(26).Lab_rate                 'Wvb cost
+        prijs_eng = part(27).Lab_hrs * part(27).Lab_rate                 'Engineering cost
+        prijs_pro = part(28).Lab_hrs * part(28).Lab_rate                 'Project management cost
+        prijs_fab = part(29).Lab_hrs * part(29).Lab_rate                 'Fabriek cost
 
         tot_prijsarbeid = prijs_wvb + prijs_eng + prijs_pro + prijs_fab     'Totale prijs arbeid
         geheel_totprijs = total_cost + tot_prijsarbeid                      'Totaal prijs
@@ -3164,22 +3181,26 @@ Public Class Form1
         '------- normal customer OR intercompany -------------
         marge_factor = NumericUpDown65.Value                                'Marge factor
         marge_cost = (geheel_totprijs + dekking) * (1 / marge_factor - 1)   'Marge
-        packing = NumericUpDown49.Value                                     'packing
-        shipping = NumericUpDown50.Value                                    'Shipping
         verkoopprijs = geheel_totprijs + dekking + marge_cost               'Verkoopprijs
-        verkoopprijs += packing + shipping                                  'Verkoopprijs
 
 
         'FILL TEXTBOXES ----------------------------------------------------------------------------------------
-        '  TextBox109.Text = total_kg_plaat.ToString("F0")                     'Totaal gewicht plaat
-        TextBox68.Text = (part(0).P_cost + part(1).P_cost + part(2).P_cost + cost_cutting).ToString("F0")
+        TextBox47.Text = total_kg.ToString("F0")                    'Totale weight sheet steel
+        TextBox109.Text = total_kg.ToString("F0")                   'Totale weight sheet steel
+
+        TextBox48.Text = paint_area.ToString("F0")                  'Paint area
+        TextBox108.Text = paint_area.ToString("F1")                 'Paint m2
+
         TextBox140.Text = prijs_wvb.ToString("F0")                  'Wvb cost
         TextBox55.Text = prijs_eng.ToString("F0")                   'Engineering cost
         TextBox70.Text = prijs_pro.ToString("F0")                   'Project management cost
         TextBox72.Text = prijs_fab.ToString("F0")                   'Fabriek cost
         TextBox106.Text = tot_uren.ToString("F0")                   'Totaal aantal uren
+
         TextBox111.Text = total_cost.ToString("F0")                 'Totale prijs materiaal
         TextBox103.Text = total_cost.ToString("F0")                 'Totale prijs materiaal
+        TextBox68.Text = total_cost.ToString("F0")                  'Totale prijs materiaal
+
         TextBox100.Text = perc_mater.ToString("F0")                 'Totale percentage materiaal
         TextBox98.Text = tot_prijsarbeid.ToString("F0")             'Totale prijs arbeid
         TextBox101.Text = perc_arbeid.ToString("F0")                'Totale percentage arbeid
@@ -3187,8 +3208,7 @@ Public Class Form1
         TextBox74.Text = dekking.ToString("F0")                     'Dekking
         TextBox99.Text = marge_cost.ToString("F0")                  'Marge
         TextBox75.Text = verkoopprijs.ToString("F0")                'Verkoopprijs
-        TextBox108.Text = paint_area.ToString("F1")                 'Paint m2
-        TextBox107.Text = part(15).P_cost.ToString("F2")            'Paint cost
+
     End Sub
 
     Private Sub PictureBox11_Click(sender As Object, e As EventArgs) Handles PictureBox11.Click
@@ -3493,6 +3513,7 @@ Public Class Form1
             Chart2.Series(0).Points.AddXY(_d(hh), _α(hh))   'Angle
         Next
     End Sub
+
     Private Sub Draw_chart3()
         Dim hh As Integer
 
@@ -3779,9 +3800,9 @@ Public Class Form1
     Private Sub Present_Datagridview1()
         With DataGridView1
             .ColumnHeadersDefaultCellStyle.Font = New Font("Tahoma", 8.25F, FontStyle.Regular)
-            .ColumnCount = 11
+            .ColumnCount = 13
             .Rows.Clear()
-            .Rows.Add(30)
+            .Rows.Add(part.Length)
             .RowHeadersVisible = False
 
             '--------- HeaderText --------------------
@@ -3790,12 +3811,19 @@ Public Class Form1
             .Columns(2).HeaderText = "No"
             .Columns(3).HeaderText = "[mm]"
             .Columns(4).HeaderText = "[kg]"
+
             .Columns(5).HeaderText = "[€/kg]"
+            .Columns(9).HeaderText = "[€ mat]"
             .Columns(6).HeaderText = "[€/m2]"
-            .Columns(7).HeaderText = "[€ each]"
-            .Columns(8).HeaderText = "[€]"
-            .Columns(9).HeaderText = "Remarks"
-            .Columns(10).HeaderText = "Paint [m2]"
+            .Columns(12).HeaderText = "[m2]"
+
+            .Columns(7).HeaderText = "[hrs]"
+            .Columns(8).HeaderText = "[€/h]"
+
+            .Columns(10).HeaderText = "Σ[€]"
+
+            .Columns(11).HeaderText = "Remarks"
+
 
             For i = 0 To part.Length - 2
                 .Rows(i).Cells(0).Value = i.ToString
@@ -3805,10 +3833,12 @@ Public Class Form1
                 .Rows(i).Cells(4).Value = part(i).P_wght.ToString("F0")
                 .Rows(i).Cells(5).Value = part(i).P_kg_cost.ToString("F2")
                 .Rows(i).Cells(6).Value = part(i).P_m2_cost.ToString("F2")
-                .Rows(i).Cells(7).Value = part(i).P_each_cost.ToString("F2")
-                .Rows(i).Cells(8).Value = part(i).P_cost.ToString("F0")
-                .Rows(i).Cells(9).Value = part(i).Remarks
-                .Rows(i).Cells(10).Value = part(i).P_area.ToString("F2")
+                .Rows(i).Cells(7).Value = part(i).Lab_hrs.ToString("F0")
+                .Rows(i).Cells(8).Value = part(i).Lab_rate.ToString("F2")
+                .Rows(i).Cells(9).Value = part(i).P_each_cost.ToString("F2")
+                .Rows(i).Cells(10).Value = part(i).P_cost_mat.ToString("F0")
+                .Rows(i).Cells(11).Value = part(i).Remarks
+                .Rows(i).Cells(12).Value = part(i).P_area.ToString("F2")
                 If IsNothing(part(i).P_name) Then Exit For
             Next
 
