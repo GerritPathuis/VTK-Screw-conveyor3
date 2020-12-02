@@ -28,7 +28,7 @@ Public Structure Price_struct       'Cost price info
     Public P_no As Integer          '[-] aantal
     Public P_tag As Double          ' 
     Public P_dikte As Double        '[mm]
-    Public P_wght As Double         '[kg]
+    Public P_kg_each As Double      '[kg] each component
     Public P_area As Double         '[m2]
     Public P_kg_cost As Double      '[€/kg]
     Public P_m2_cost As Double      '[€/m2]
@@ -38,6 +38,7 @@ Public Structure Price_struct       'Cost price info
     Public Lab_cost As Double       '[€ each] cost
     Public Σ1_mat_lab As Double    '[€ each] Material + labor 1 component
     Public Remarks As String        '...
+    Public Mat As String            'Material
 End Structure
 
 Public Class Form1
@@ -48,7 +49,7 @@ Public Class Form1
     ReadOnly dirpath_Home_GP As String = "C:\Temp\"
 
     Public conv As Conveyor_struct   'Conveyors data
-    Public part(40) As Price_struct  'Part cost price info
+    Public part(35) As Price_struct  'Part cost price info
 
     Public _steps As Integer = 150   'Calculation _steps
     Public _d(_steps) As Double      '[m] Distance to drive plate
@@ -622,31 +623,31 @@ Public Class Form1
 
 
     Public Shared motorred() As String =
-     {"Description; Speed; power;cost;shaftdia",
-     "0.18 Kw,R27DR63M4;69.5;0.18;253.51;25",
-     "3 Kw, Bauer BG60-11/DHE11XAC-TF;49.5;3;1132;50",
-     "3 Kw, 20rpmR107;20;3;1908.74;70",
-     "3 Kw, R77DRM100L4;29.12;3;896.25;40",
-     "3 Kw, R137R77/II2GD EDRE100LC4;6.2;3;3851.01;90",
-     "1.1 Kw, R77/II2GD EDRE90M4;27;1.1;814.50;40",
-     "0.75 Kw, R87DRE90L6;940;0.75;1003.71;50",
-     "2.2 Kw, R47DRE100M4;14.56;2.2;471.18;30",
-      "1.1 Kw, R97DRN90S4;186;1.1;1340.06;60",
-      "2.2 Kw 15.1023;55;2.2;0;0",
-      "1.5 Kw, 1440 rpm;1440;1.5;0;0",
-      "2.2 Kw, 1440 rpm;1440;2.2;0;0",
-      "3 Kw, 1455 rpm;1455;3;0;0",
-      "4 Kw, 1465 rpm;1465;4;0;0",
-      "5.5 Kw, 1475 rpm;1475;5.5;0;0",
-      "7.5 Kw, 1475 rpm;1475;7.5;0;0",
-      "9.2 Kw, 1475 rpm;1475;9.2;0;0",
-      "11 Kw, 1475 rpm;1475;11;0;0",
-      "15 Kw, 1475 rpm;1475;15;0;0",
-      "18.5 Kw, 1480 rpm;1480;18.5;0;0",
-      "22 Kw, 1482 rpm;1482;22;0;0",
-      "30 Kw, R137DRP225S4/TF/PT;53;30;5802.48;90",
-      "45 Kw, R147DRP250M4/TF/NIB/PT;49;45;8588.74;110",
-      "37 Kw, 1482 rpm;1482;37;0;0"}
+     {"Description; Speed;      power;           cost;  shaftdia",
+     "0.18 Kw,R27DR63M4;                69.5;   0.18;   253.51; 25",
+     "3 Kw, Bauer BG60-11/DHE11XAC-TF;  49.5;   3;      1132;   50",
+     "3 Kw, 20rpmR107;                  20;     3;      1908.74;70",
+     "3 Kw, R77DRM100L4;                29.12;  3;      896.25; 40",
+     "3 Kw, R137R77/II2GD EDRE100LC4;   6.2;    3;      3851.01;90",
+     "1.1 Kw, R77/II2GD EDRE90M4;       27;     1.1;     814.50;40",
+     "0.75 Kw, R87DRE90L6;              940;    0.75    ;1003.71;50",
+     "2.2 Kw, R47DRE100M4;              14.56;  2.2;    471.18; 30",
+      "1.1 Kw, R97DRN90S4;              186;    1.1;    1340.06;60",
+      "2.2 Kw 15.1023;                  55;     2.2;    0;  0",
+      "1.5 Kw, 1440 rpm;                1440;   1.5;    0;  0",
+      "2.2 Kw, 1440 rpm;                1440;   2.2;    0;  0",
+      "3 Kw, 1455 rpm;                  1455;   3;      0;  0",
+      "4 Kw, 1465 rpm;                  1465;   4;      0;  0",
+      "5.5 Kw, 1475 rpm;                1475;   5.5;    0;  0",
+      "7.5 Kw, 1475 rpm;                1475;   7.5;    0;  0",
+      "9.2 Kw, 1475 rpm;                1475;   9.2;    0;  0",
+      "11 Kw, 1475 rpm;                 1475;   11;     0;  0",
+      "15 Kw, 1475 rpm;                 1475;   15;     0;  0",
+      "18.5 Kw, 1480 rpm;               1480;   18.5;   0;  0",
+      "22 Kw, 1482 rpm;                 1482;   22;     0;  0",
+      "30 Kw, R137DRP225S4/TF/PT;       53;     30;     5802.48;90",
+      "45 Kw, R147DRP250M4/TF/NIB/PT;   49;     45;     8588.74;110",
+      "37 Kw, 1482 rpm;                 1482;   37;     0;0"}
 
     Public Shared coupl() As String =
      {"Diameter;cost,percentage na korting",
@@ -682,22 +683,22 @@ Public Class Form1
     Public Shared ppaint() As String =
      {"Description;cost",
       "Pickling + passivating; 0.50",
-      "10-20m2 75um zink compound;13.25",
-      "20-100m2 75um zink compound;12.50",
-      "10-20m2 150um primer en epoxy (binnen);17.0",
-      "20-100m2 150um primer en epoxy (binnen);16.40",
-      "10-20m2 150um primer en polyurethaan (buiten);17.90",
-      "20-100m2 150um primer en polyurethaan (buiten);17.25",
-      "10-20m2 225um primer, midcoat, polyurethaan (buiten);18.60",
-      "20-100m2 225um primer, midcoat, polyurethaan (buiten);18.15",
-      "10-20m2 330um primer, midcoat, polyurethaan (buiten);20.75",
-      "20-100m2 330um primer, midcoat, polyurethaan (buiten);20.0",
-      "10-20m2 75um primer, zincsilicaat -90C/+400C;13.25",
-      "20-100m2 75um primer,  zincsilicaat -90C tot +400C;12.50",
-      "10-20m2 120um primer,  zincsilicaat -90C tot +400C;19.50",
-      "20-100m2 120um primer,  zincsilicaat -90C tot +400C;18.0",
-      "10-20m2 250um primer, midcoat, polyurethaan;23.0",
-      "20-100m2 250um primer, midcoat, polyurethaan;22.0"}
+      "10-20 m2 75um zink compound;13.25",
+      "20-100 m2 75um zink compound;12.50",
+      "10-20 m2 150um primer en epoxy (binnen);17.0",
+      "20-100 m2 150um primer en epoxy (binnen);16.40",
+      "10-20 m2 150um primer en polyurethaan (buiten);17.90",
+      "20-100 m2 150um primer en polyurethaan (buiten);17.25",
+      "10-20 m2 225um primer, midcoat, polyurethaan (buiten);18.60",
+      "20-100 m2 225um primer, midcoat, polyurethaan (buiten);18.15",
+      "10-20 m2 330um primer, midcoat, polyurethaan (buiten);20.75",
+      "20-100 m2 330um primer, midcoat, polyurethaan (buiten);20.0",
+      "10-20 m2 75um primer, zincsilicaat -90C/+400C;13.25",
+      "20-100 m2 75um primer,  zincsilicaat -90C tot +400C;12.50",
+      "10-20 m2 120um primer,  zincsilicaat -90C tot +400C;19.50",
+      "20-100 m2 120um primer,  zincsilicaat -90C tot +400C;18.0",
+      "10-20 m2 250um primer, midcoat, polyurethaan;23.0",
+      "20-100 m2 250um primer, midcoat, polyurethaan;22.0"}
 
 
     Public Shared lager() As String = 'T=trekbus, C=cylindrisch, zie SKFboekje
@@ -812,16 +813,16 @@ Public Class Form1
         Thread.CurrentThread.CurrentUICulture = New CultureInfo("en-US")
 
         With DataGridView1
-            part(0).P_name = "Eind-platen "
+            part(0).P_name = "Eindplaten "
             part(1).P_name = "Trog"
             part(2).P_name = "Deksel"
             part(3).P_name = "Inlaat"
             part(4).P_name = "Uitlaat"
-            part(5).P_name = "Trog_support"
+            part(5).P_name = "Trog voet"
             part(6).P_name = "Schroefblad "
             part(7).P_name = "Astap diam"
             part(8).P_name = "Pijp diam"
-            part(9).P_name = "shaft Seals"
+            part(9).P_name = "Shaft seals"
             part(10).P_name = "End Bearings"
             part(11).P_name = "Hanger Bearings"
             part(12).P_name = "Coupling"
@@ -829,7 +830,7 @@ Public Class Form1
             part(14).P_name = "Drive"
             part(15).P_name = "Paint/Pickling"
             part(16).P_name = "Flange gasket"
-            part(17).P_name = "Inter transport"
+            part(17).P_name = "Intern transp."
             part(18).P_name = "Material Cert."
             part(19).P_name = "Packing"
             part(20).P_name = "Shipping"
@@ -838,10 +839,10 @@ Public Class Form1
             part(23).P_name = "Vrije regel #2"
             part(24).P_name = "Vrije regel #3"
             part(25).P_name = "Vrije regel #4"
-            part(26).P_name = "Lab.Eng cost"
-            part(27).P_name = "Lab.Wvb cost"
-            part(28).P_name = "Lab. Proj cost"
-            part(29).P_name = "Lab. Fabriek cost"
+            part(26).P_name = "Lab. Eng cost"
+            part(27).P_name = "Lab. Wvb cost"
+            part(28).P_name = "Lab. Proj.cost"
+            part(29).P_name = "Lab. Fabr.cost"
             part(30).P_name = "Sum costs"
         End With
 
@@ -861,17 +862,17 @@ Public Class Form1
         ComboBox2.SelectedIndex = 7                     'S355
 
         '-------Fill combobox5, emotor selection------------------
-        For hh = 0 To (UBound(emotor) - 1)               'Fill combobox 5 emotor data
+        For hh = 0 To (UBound(emotor) - 1)               'Fill combobox 5 drive
             words = emotor(hh).Split(CType(";", Char()))
             ComboBox5.Items.Add(words(0))
         Next hh
         ComboBox5.SelectedIndex = 0
 
-
         TextBox46.Text = "Modlog" & vbCrLf
         TextBox46.Text &= "28/11/2020, Tip speed vertical 5 [m/s]" & vbCrLf
         TextBox46.Text &= "28/11/2020, Tip speed horizontal 1.5 [m/s]" & vbCrLf
         TextBox46.Text &= "28/11/2020, Complete overhaul cost section" & vbCrLf
+        TextBox46.Text &= "02/12/2020, Published, print-out and export WIP" & vbCrLf
         TextBox46.Text &= "" & vbCrLf
 
         TextBox133.Text = "Plaat zwart" & vbTab & "1.30 €/kg" & vbCrLf
@@ -1078,7 +1079,7 @@ Public Class Form1
         Return (mekog)
     End Function
 
-    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown10.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox4.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, CheckBox6.CheckedChanged, TabPage4.Enter, CheckBox5.CheckedChanged, NumericUpDown68.ValueChanged, NumericUpDown67.ValueChanged, NumericUpDown79.ValueChanged, NumericUpDown78.ValueChanged, NumericUpDown77.ValueChanged, NumericUpDown76.ValueChanged, NumericUpDown75.ValueChanged, NumericUpDown74.ValueChanged, NumericUpDown73.ValueChanged, NumericUpDown72.ValueChanged, NumericUpDown71.ValueChanged, NumericUpDown70.ValueChanged, NumericUpDown69.ValueChanged, NumericUpDown89.ValueChanged, NumericUpDown88.ValueChanged, NumericUpDown25.ValueChanged, TextBox43.TextChanged, TextBox42.TextChanged, TextBox184.TextChanged, TextBox183.TextChanged, NumericUpDown97.ValueChanged, NumericUpDown96.ValueChanged, NumericUpDown99.ValueChanged, NumericUpDown98.ValueChanged, NumericUpDown87.ValueChanged, NumericUpDown86.ValueChanged, NumericUpDown85.ValueChanged, NumericUpDown84.ValueChanged, NumericUpDown95.ValueChanged, NumericUpDown91.ValueChanged, NumericUpDown90.ValueChanged
+    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown10.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox4.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, TabPage4.Enter, CheckBox5.CheckedChanged, NumericUpDown68.ValueChanged, NumericUpDown67.ValueChanged, NumericUpDown79.ValueChanged, NumericUpDown78.ValueChanged, NumericUpDown77.ValueChanged, NumericUpDown76.ValueChanged, NumericUpDown75.ValueChanged, NumericUpDown74.ValueChanged, NumericUpDown73.ValueChanged, NumericUpDown72.ValueChanged, NumericUpDown71.ValueChanged, NumericUpDown70.ValueChanged, NumericUpDown69.ValueChanged, NumericUpDown89.ValueChanged, NumericUpDown88.ValueChanged, NumericUpDown25.ValueChanged, TextBox43.TextChanged, TextBox42.TextChanged, TextBox184.TextChanged, TextBox183.TextChanged, NumericUpDown97.ValueChanged, NumericUpDown96.ValueChanged, NumericUpDown99.ValueChanged, NumericUpDown98.ValueChanged, NumericUpDown87.ValueChanged, NumericUpDown86.ValueChanged, NumericUpDown85.ValueChanged, NumericUpDown84.ValueChanged, NumericUpDown95.ValueChanged, NumericUpDown91.ValueChanged, NumericUpDown90.ValueChanged, NumericUpDown27.ValueChanged
         Calc_sequence()
         Present_Datagridview1()
     End Sub
@@ -1712,34 +1713,34 @@ Public Class Form1
         oTable.Cell(row, 1).Range.Text = "Weight end plates"
         oTable.Cell(row, 3).Range.Text = part(0).P_dikte.ToString
         oTable.Cell(row, 2).Range.Text = "[mm]"
-        oTable.Cell(row, 5).Range.Text = part(0).P_wght.ToString
+        oTable.Cell(row, 5).Range.Text = part(0).P_kg_each.ToString
         oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
 
         oTable.Cell(row, 1).Range.Text = "Weight trough"
         oTable.Cell(row, 3).Range.Text = part(1).P_dikte.ToString
         oTable.Cell(row, 2).Range.Text = "[mm]"
-        oTable.Cell(row, 5).Range.Text = part(1).P_wght.ToString
+        oTable.Cell(row, 5).Range.Text = part(1).P_kg_each.ToString
         oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Weight cover"
         oTable.Cell(row, 3).Range.Text = part(2).P_dikte.ToString
         oTable.Cell(row, 2).Range.Text = "[mm]"
-        oTable.Cell(row, 5).Range.Text = part(2).P_wght.ToString
+        oTable.Cell(row, 5).Range.Text = part(2).P_kg_each.ToString
         oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
 
         oTable.Cell(row, 1).Range.Text = "Weight flighting"
         oTable.Cell(row, 3).Range.Text = part(4).P_dikte.ToString
         oTable.Cell(row, 2).Range.Text = "[mm]"
-        oTable.Cell(row, 5).Range.Text = part(4).P_wght.ToString
+        oTable.Cell(row, 5).Range.Text = part(4).P_kg_each.ToString
         oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
 
         oTable.Cell(row, 1).Range.Text = "Weight stub shafts"
         oTable.Cell(row, 3).Range.Text = part(5).P_dikte.ToString
         oTable.Cell(row, 2).Range.Text = "[mm]"
-        oTable.Cell(row, 5).Range.Text = part(5).P_wght.ToString
+        oTable.Cell(row, 5).Range.Text = part(5).P_kg_each.ToString
         oTable.Cell(row, 4).Range.Text = "[kg]"
 
         row += 1
@@ -1773,11 +1774,11 @@ Public Class Form1
         row += 1
         oTable.Cell(row, 1).Range.Text = "Percentage labour "
         oTable.Cell(row, 2).Range.Text = TextBox101.Text
-        oTable.Cell(row, 3).Range.Text = "[%]"
+        oTable.Cell(row, 3).Range.Text = ""
         row += 1
         oTable.Cell(row, 1).Range.Text = "Percentage material"
         oTable.Cell(row, 2).Range.Text = TextBox100.Text
-        oTable.Cell(row, 3).Range.Text = "[%]"
+        oTable.Cell(row, 3).Range.Text = ""
 
         If TextBox183.Text.Length > 0 Then
             row += 1
@@ -2908,7 +2909,15 @@ Public Class Form1
                 Case (RadioButton6.Checked)                         'staal, s235JR
                     part(0).P_kg_cost = NumericUpDown69.Value        'kop staart  [€/kg]
                     part(1).P_kg_cost = NumericUpDown69.Value        'trog
-                    part(1).Remarks = "Steel"
+                    part(0).Mat = "CS"
+                    part(1).Mat = "CS"
+                    part(2).Mat = "CS"
+                    part(3).Mat = "CS"
+                    part(4).Mat = "CS"
+                    part(5).Mat = "CS"
+                    part(6).Mat = "CS"
+                    part(7).Mat = "CS"
+                    part(8).Mat = "CS"
                     part(2).P_kg_cost = NumericUpDown69.Value        'deksel
                     part(3).P_kg_cost = NumericUpDown69.Value        'inlaat [€/kg]
                     part(4).P_kg_cost = NumericUpDown69.Value        'Uitlaat,voet, schermkap [€/kg]
@@ -2920,11 +2929,18 @@ Public Class Form1
                     Else
                         part(8).P_kg_cost = NumericUpDown75.Value    'Welded
                     End If
-                    CheckBox6.Checked = True                        'Paint
                 Case (RadioButton7.Checked)                         'rvs304, (Koud + 2B)
                     part(0).P_kg_cost = NumericUpDown70.Value        'kop staart 
                     part(1).P_kg_cost = NumericUpDown70.Value        'trog
-                    part(1).Remarks = "SS304"
+                    part(0).Mat = "304"
+                    part(1).Mat = "304"
+                    part(2).Mat = "304"
+                    part(3).Mat = "304"
+                    part(4).Mat = "304"
+                    part(5).Mat = "304"
+                    part(6).Mat = "304"
+                    part(7).Mat = "CS"
+                    part(8).Mat = "304"
                     part(2).P_kg_cost = NumericUpDown70.Value        'deksel
                     part(3).P_kg_cost = NumericUpDown70.Value        '[€/kg] inlaat 
                     part(4).P_kg_cost = NumericUpDown70.Value        '[€/kg]Uitlaat,voet, schermkap 
@@ -2936,11 +2952,18 @@ Public Class Form1
                     Else
                         part(8).P_kg_cost = NumericUpDown78.Value
                     End If
-                    CheckBox6.Checked = False                       'Paint
                 Case (RadioButton8.Checked)                         'rvs316, (Koud + 2B)
                     part(0).P_kg_cost = NumericUpDown71.Value        'kop staart 
                     part(1).P_kg_cost = NumericUpDown71.Value        'trog
-                    part(1).Remarks = "SS316"
+                    part(0).Mat = "316"
+                    part(1).Mat = "316"
+                    part(2).Mat = "316"
+                    part(3).Mat = "316"
+                    part(4).Mat = "316"
+                    part(5).Mat = "316"
+                    part(6).Mat = "316"
+                    part(7).Mat = "CS"
+                    part(8).Mat = "316"
                     part(2).P_kg_cost = NumericUpDown71.Value        'deksel
                     part(3).P_kg_cost = NumericUpDown71.Value        'inlaat [€/kg]
                     part(4).P_kg_cost = NumericUpDown71.Value        'Uitlaat,voet, schermkap [€/kg]
@@ -2952,11 +2975,8 @@ Public Class Form1
                     Else
                         part(8).P_kg_cost = NumericUpDown78.Value
                     End If
-                    CheckBox6.Checked = False                       'Paint
-
             End Select
             part(13).P_kg_cost = 10                         'Schermkap [€/kg] Aluminium
-
 
             '---------------Plaat diktes---------------
             part(0).P_dikte = NumericUpDown10.Value         '[m] Eindplaten
@@ -2964,8 +2984,10 @@ Public Class Form1
 
             If RadioButton5.Checked Then
                 part(2).P_dikte = NumericUpDown15.Value     '[mm] Deksel
+                part(1).Remarks = "U-trog"
             Else
                 part(2).P_dikte = 0                         '[mm] Deksel
+                part(1).Remarks = "Pijp-trog"
             End If
             part(3).P_dikte = NumericUpDown84.Value         '[mm] inlaten  
             part(4).P_dikte = NumericUpDown84.Value         '[mm] uitlaten 
@@ -3001,7 +3023,6 @@ Public Class Form1
             part(12).P_no = 1                                   'Coupling
             part(13).P_no = CInt(NumericUpDown88.Value)         'Coupling guard
             part(14).P_no = 1                                   'Drive
-            part(15).P_no = CInt(IIf(CheckBox6.Checked, 0, 1))  'Paint/Pickling
             part(16).P_no = 2                                   'Flange gasket
             part(17).P_no = CInt(NumericUpDown91.Value)         'Intern transport
             part(18).P_no = CInt(NumericUpDown99.Value)         'Material Cert
@@ -3027,13 +3048,13 @@ Public Class Form1
             part(8).P_area = _pipe_OD / 1000 * PI * _λ6             'Pipe
 
             '-------------- Gewichten---------------
-            part(0).P_wght = _diam_flight ^ 2 * part(0).P_dikte / 1000 * rho_staal 'Eindplaat
-            part(1).P_wght = _diam_flight * 4 * part(1).P_dikte / 1000 * _λ6 * rho_staal       'Trog
-            part(2).P_wght = _diam_flight * 1.1 * part(2).P_dikte / 1000 * _λ6 * rho_staal     '50mm voor de horizontale flens en 25mm voor het stukje naar beneden
-            part(3).P_wght = 10                                     '[kg] inlaat chute
-            part(4).P_wght = 10                                     '[kg] uitlaat chute
-            part(5).P_wght = 5                                      '[kg] conveyor supports
-            part(13).P_wght = 10                                    '[kg] koppelingkap
+            part(0).P_kg_each = _diam_flight ^ 2 * part(0).P_dikte / 1000 * rho_staal             'Eindplaat
+            part(1).P_kg_each = _diam_flight * 4 * part(1).P_dikte / 1000 * _λ6 * rho_staal       'Trog
+            part(2).P_kg_each = _diam_flight * 1.1 * part(2).P_dikte / 1000 * _λ6 * rho_staal     '50mm voor de horizontale flens en 25mm voor het stukje naar beneden
+            part(3).P_kg_each = 10                                     '[kg] inlaat chute
+            part(4).P_kg_each = 10                                     '[kg] uitlaat chute
+            part(5).P_kg_each = 5                                      '[kg] conveyor supports
+            part(13).P_kg_each = 10                                    '[kg] koppelingkap
 
             '--------------- pipe gewicht (8)-------------------
             Double.TryParse(CType(ComboBox9.SelectedItem, String), _pipe_OD)         ' ComboBox3 = ComboBox9
@@ -3042,7 +3063,7 @@ Public Class Form1
             _pipe_wall = NumericUpDown57.Value      '[mm]
             _pipe_wall /= 1000                      '[m]
             _pipe_ID = (_pipe_OD - 2 * _pipe_wall)
-            part(8).P_wght = rho_staal * PI / 4 * (_pipe_OD ^ 2 - _pipe_ID ^ 2) * _λ6
+            part(8).P_kg_each = rho_staal * PI / 4 * (_pipe_OD ^ 2 - _pipe_ID ^ 2) * _λ6
 
             '--------------- flight gewicht (6)-------------------
             'radiale speling schroef in kuip: tot diam 0.3m 7.5 mm, daarboven 10mm
@@ -3057,13 +3078,13 @@ Public Class Form1
             nr_flights = _λ6 / spoed
             hoek_spoed = Atan(spoed / (PI * diam_schroef))                  '[rad]    
 
-            part(6).P_wght = PI * rho_staal * (part(6).P_dikte / 1000) * 0.25 * nr_flights * (diam_schroef ^ 2 - _pipe_OD ^ 2) / Cos(hoek_spoed)         ' DIT IS DE ECHTE FORMULE!!!!!
-            part(6).P_area = 2 * (part(4).P_wght / (part(6).P_dikte * rho_staal / 1000))
+            part(6).P_kg_each = PI * rho_staal * (part(6).P_dikte / 1000) * 0.25 * nr_flights * (diam_schroef ^ 2 - _pipe_OD ^ 2) / Cos(hoek_spoed)         ' DIT IS DE ECHTE FORMULE!!!!!
+            part(6).P_area = 2 * (part(4).P_kg_each / (part(6).P_dikte * rho_staal / 1000))
 
             '--------------- astap gewicht (7)-------------------
             lengte_astap = 1.0                                              'lengte in meters average 1m
 
-            part(7).P_wght = 7850 * lengte_astap * PI / 4 * (part(7).P_dikte / 1000) ^ 2
+            part(7).P_kg_each = 7850 * lengte_astap * PI / 4 * (part(7).P_dikte / 1000) ^ 2
             part(7).P_area = PI * part(7).P_dikte / 1000 * lengte_astap
 
             '========= End Bearing =======
@@ -3083,8 +3104,7 @@ Public Class Form1
 
             '========= Paint ===========
             Dim words4() As String = ppaint(ComboBox12.SelectedIndex + 1).Split(CType(";", Char()))
-            part(15).P_cost_mat = CDbl(words4(1))                   'Paint
-            If Not CheckBox6.Checked Then part(15).P_cost_mat = 0
+            part(15).P_m2_cost = CDbl(words4(1))                   'Paint
 
             '========= Gasket =======
             Dim words5() As String = pakking(ComboBox10.SelectedIndex + 1).Split(CType(";", Char()))
@@ -3105,14 +3125,17 @@ Public Class Form1
         For i = 0 To part.Length - 1
             paint_area += part(i).P_area
         Next
-        part(15).P_cost_mat = paint_area * part(15).P_m2_cost           'verf m2*prijs
+        paint_area -= part(15).P_area   'Prevent double counting 
+
+        part(15).P_no = CInt(paint_area)
+        part(15).P_cost_mat = part(15).P_no * part(15).P_m2_cost       'verf m2*prijs
 
         '============= Intern transport ========
         part(17).P_cost_mat = part(17).P_no * part(17).Σ1_mat_lab      'Intern Transport cost
         part(18).P_cost_mat = part(18).P_no * part(18).Σ1_mat_lab      'Certificaat cost
 
         '============= Manual preparation ========
-        part(21).P_cost_mat = NumericUpDown90.Value                     'Manual preparation
+        part(21).P_cost_mat = NumericUpDown90.Value                    'Manual preparation
 
         '======= Vrije regels =======
         part(22).P_name = TextBox183.Text       'Vrije regel #1
@@ -3124,17 +3147,21 @@ Public Class Form1
         total_cost = 0
         For i = 0 To part.Length - 1
             'Purchase components are excluded
-            If part(i).P_wght > 0 Then
-                part(i).P_cost_mat = part(i).P_no * part(i).P_wght * part(i).P_kg_cost
+            If part(i).P_kg_each > 0 Then
+                part(i).P_cost_mat = part(i).P_kg_each * part(i).P_kg_cost
             End If
             total_cost += part(i).P_cost_mat * part(i).P_no
         Next
+
+        Debug.WriteLine("Part(0).P_no= " & part(0).P_no.ToString)
+        Debug.WriteLine("Part(0).P_kg_each= " & part(0).P_kg_each.ToString)
+        Debug.WriteLine("Part(0).P_cost_mat= " & part(0).P_cost_mat.ToString)
 
         '============= Total weight + area =======
         Dim total_kg As Double
 
         For i = 0 To part.Length - 1
-            total_kg += part(i).P_wght
+            total_kg += part(i).P_no * part(i).P_kg_each
         Next
 
         If IsNothing(DataGridView1) Then
@@ -3153,19 +3180,24 @@ Public Class Form1
         tot_uren = 0
         For i = 0 To part.Length - 1
             part(i).Lab_cost = part(i).Lab_hrs * part(i).Lab_rate   'Labour cost
-            tot_uren += part(i).Lab_rate                            'Totaal aantal uren
+            tot_uren += part(i).Lab_hrs                           'Totaal aantal uren
         Next
 
-        Dim uren_ratio(4) As Double
-        uren_ratio(0) = uren_wvb / tot_uren
-        uren_ratio(1) = uren_eng / tot_uren
-        uren_ratio(2) = uren_pro / tot_uren
-        uren_ratio(3) = uren_fab / tot_uren
+        uren_wvb = NumericUpDown48.Value
+        uren_eng = NumericUpDown30.Value
+        uren_pro = NumericUpDown33.Value
+        uren_fab = NumericUpDown34.Value
 
-        TextBox144.Text = uren_ratio(0).ToString("F2")
-        TextBox145.Text = uren_ratio(1).ToString("F2")
-        TextBox146.Text = uren_ratio(2).ToString("F2")
-        TextBox147.Text = uren_ratio(3).ToString("F2")
+        Dim uren_ratio(4) As Double
+        uren_ratio(0) = 100 * uren_wvb / tot_uren
+        uren_ratio(1) = 100 * uren_eng / tot_uren
+        uren_ratio(2) = 100 * uren_pro / tot_uren
+        uren_ratio(3) = 100 * uren_fab / tot_uren
+
+        TextBox144.Text = uren_ratio(0).ToString("F0") & "%"
+        TextBox145.Text = uren_ratio(1).ToString("F0") & "%"
+        TextBox146.Text = uren_ratio(2).ToString("F0") & "%"
+        TextBox147.Text = uren_ratio(3).ToString("F0") & "%"
 
         '=========== Uur tarief ===========
         part(26).Lab_rate = NumericUpDown80.Value    'Eng
@@ -3196,8 +3228,8 @@ Public Class Form1
         TextBox47.Text = total_kg.ToString("F0")                    'Totale weight sheet steel
         TextBox109.Text = total_kg.ToString("F0")                   'Totale weight sheet steel
 
-        TextBox48.Text = paint_area.ToString("F0")                  'Paint area
-        TextBox108.Text = paint_area.ToString("F1")                 'Paint m2
+        TextBox108.Text = paint_area.ToString("F1") & " m2"         'Paint m2
+        part(15).P_area = Round(paint_area, 1)                      'Paint m2
 
         TextBox140.Text = prijs_wvb.ToString("F0")                  'Wvb cost
         TextBox55.Text = prijs_eng.ToString("F0")                   'Engineering cost
@@ -3209,8 +3241,8 @@ Public Class Form1
         TextBox103.Text = total_cost.ToString("F0")                 'Totale prijs materiaal
         TextBox68.Text = total_cost.ToString("F0")                  'Totale prijs materiaal
 
-        TextBox100.Text = perc_mater.ToString("F0")                 'Totale percentage materiaal
-        TextBox98.Text = tot_prijsarbeid.ToString("F0")             'Totale prijs arbeid
+        TextBox100.Text = perc_mater.ToString("F0") & "%"           'Totale percentage materiaal
+        TextBox98.Text = tot_prijsarbeid.ToString("F0") & "%"       'Totale prijs arbeid
         TextBox101.Text = perc_arbeid.ToString("F0")                'Totale percentage arbeid
         TextBox73.Text = geheel_totprijs.ToString("F0")             'Geheel totaalprijs
         TextBox74.Text = dekking.ToString("F0")                     'Dekking
@@ -3410,7 +3442,7 @@ Public Class Form1
         NumericUpDown64.BackColor = CType(IIf(rpm <= 30, Color.Yellow, Color.Red), Color)
 
         'τ = 0.58 Rp0.2, voor taaie materialen (staal)volgens het von Misess
-        'Basen shaftles material ss 304 uss Rp0.2=155 [N/mm2]
+        'Based on shaftles material ss 304 uss Rp0.2=155 [N/mm2]
         'safety factor 1.5
         TextBox170.BackColor = CType(IIf(τ_stress < (0.58 * 155 / 1.5), Color.LightGreen, Color.Red), Color)
         TextBox165.BackColor = CType(IIf(SL_filling_perc < 30, Color.LightGreen, Color.Red), Color)
@@ -3554,6 +3586,8 @@ Public Class Form1
             Chart3.Series(0).Points.AddXY(_d(hh), _αv(hh))  'Deflection
         Next
     End Sub
+
+
     Private Sub Screen_contrast()
         '====This fuction is to increase the readability=====
         '==== of the red text ===============================
@@ -3809,29 +3843,30 @@ Public Class Form1
         With DataGridView1
 
             .ColumnHeadersDefaultCellStyle.Font = New Font("Tahoma", 8.25F, FontStyle.Regular)
-            .ColumnCount = 14
+            .ColumnCount = 15
             .Rows.Clear()
             .Rows.Add(part.Length)
             .RowHeadersVisible = False
 
             '--------- HeaderText --------------------
-            .Columns(0).HeaderText = "pos"
+            .Columns(0).HeaderText = "Pos"
             .Columns(1).HeaderText = "Part"
-            .Columns(2).HeaderText = "No"
-            .Columns(3).HeaderText = "[mm]"     'Mat
-            .Columns(4).HeaderText = "[kg]"     'Mat
-            .Columns(5).HeaderText = "[€/kg]"   'Mat
-            .Columns(6).HeaderText = "[€ mat]"  'Mat
+            .Columns(2).HeaderText = "No."
+            .Columns(3).HeaderText = "[mm]"         'Mat
+            .Columns(4).HeaderText = "[kg] each"     'Mat
+            .Columns(5).HeaderText = "[€/kg]"       'Mat
+            .Columns(6).HeaderText = "[€]mat. each" 'Mat
 
-            .Columns(7).HeaderText = "[€/m2]"   'Paint
-            .Columns(8).HeaderText = "[m2]"     'Paint
+            .Columns(7).HeaderText = "Paint [€/m2]" 'Paint
+            .Columns(8).HeaderText = "Paint [m2]"     'Paint
 
-            .Columns(9).HeaderText = "[hrs]"    'Labour
-            .Columns(10).HeaderText = "[€/h]"   'Labour
-            .Columns(11).HeaderText = "[€ lab]"   'Labour
+            .Columns(9).HeaderText = "[hrs]"        'Labour
+            .Columns(10).HeaderText = "[€/hr]"      'Labour
+            .Columns(11).HeaderText = "[€ labor]"   'Labour
 
-            .Columns(12).HeaderText = "Σ[€]"    'Sum
-            .Columns(13).HeaderText = "Remarks"
+            .Columns(12).HeaderText = "Σ[€]"        'Sum
+            .Columns(13).HeaderText = "Mat."        'Sum
+            .Columns(14).HeaderText = "Remarks"
         End With
     End Sub
 
@@ -3840,6 +3875,7 @@ Public Class Form1
 
         If init_done Then
             With DataGridView1
+                .SuspendLayout()    'Speed and flicker
                 '-------- determine the start position ---------
                 If .SelectedCells().Count > 0 Then
                     selRow = DataGridView1.CurrentCell.RowIndex
@@ -3851,7 +3887,7 @@ Public Class Form1
                     .Rows(i).Cells(1).Value = part(i).P_name
                     .Rows(i).Cells(2).Value = part(i).P_no
                     .Rows(i).Cells(3).Value = part(i).P_dikte
-                    .Rows(i).Cells(4).Value = part(i).P_wght.ToString("F0")
+                    .Rows(i).Cells(4).Value = part(i).P_kg_each.ToString("F0")
                     .Rows(i).Cells(5).Value = part(i).P_kg_cost.ToString("F2")
                     .Rows(i).Cells(6).Value = part(i).P_cost_mat.ToString("F0")
                     .Rows(i).Cells(7).Value = part(i).P_m2_cost.ToString("F2")
@@ -3860,7 +3896,8 @@ Public Class Form1
                     .Rows(i).Cells(10).Value = part(i).Lab_rate.ToString("F0")
                     .Rows(i).Cells(11).Value = part(i).Lab_cost.ToString("F0")
                     .Rows(i).Cells(12).Value = part(i).Σ1_mat_lab.ToString("F0")
-                    .Rows(i).Cells(13).Value = part(i).Remarks
+                    .Rows(i).Cells(13).Value = part(i).Mat
+                    .Rows(i).Cells(14).Value = part(i).Remarks
                     If IsNothing(part(i).P_name) Then Exit For
                 Next
 
@@ -3878,6 +3915,7 @@ Public Class Form1
 
                 '------ return to start position --------
                 .CurrentCell = .Rows(selRow).Cells(selCol)
+                .ResumeLayout()
             End With
         End If
     End Sub
