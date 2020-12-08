@@ -1638,7 +1638,7 @@ Public Class Form1
         oTable.Cell(row, 3).Range.Text = CType(ComboBox9.SelectedItem, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
         '  oTable.Cell(row, 5).Range.Text = TextBox45.Text
-        oTable.Cell(row, 4).Range.Text = "[kg]"
+        'oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Wall thickness pipe"
         oTable.Cell(row, 3).Range.Text = NumericUpDown57.Value.ToString("F1")
@@ -1649,7 +1649,7 @@ Public Class Form1
         oTable.Cell(row, 3).Range.Text = CType(NumericUpDown8.Value, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
         '  oTable.Cell(row, 5).Range.Text = TextBox46.Text
-        oTable.Cell(row, 4).Range.Text = "[kg]"
+        'oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Service factor"
         oTable.Cell(row, 3).Range.Text = CType(NumericUpDown18.Value, String)
@@ -1685,7 +1685,7 @@ Public Class Form1
 
         '============================================
         'Insert a 16 x 3 table, fill it with data and change the column widths.
-        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 12, 5)
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, 10, 5)
         oTable.Range.ParagraphFormat.SpaceAfter = 1
         oTable.Range.Font.Size = font_sizze
         oTable.Range.Font.Bold = CInt(False)
@@ -1713,42 +1713,36 @@ Public Class Form1
         oTable.Cell(row, 1).Range.Text = "Weight end plates"
         oTable.Cell(row, 3).Range.Text = part(0).P_dikte.ToString
         oTable.Cell(row, 2).Range.Text = "[mm]"
-        oTable.Cell(row, 5).Range.Text = part(0).P_kg_each.ToString
-        oTable.Cell(row, 4).Range.Text = "[kg]"
+        'oTable.Cell(row, 5).Range.Text = part(0).P_kg_each.ToString
+        'oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
 
         oTable.Cell(row, 1).Range.Text = "Weight trough"
         oTable.Cell(row, 3).Range.Text = part(1).P_dikte.ToString
         oTable.Cell(row, 2).Range.Text = "[mm]"
-        oTable.Cell(row, 5).Range.Text = part(1).P_kg_each.ToString
-        oTable.Cell(row, 4).Range.Text = "[kg]"
+        'oTable.Cell(row, 5).Range.Text = part(1).P_kg_each.ToString
+        'oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Weight cover"
         oTable.Cell(row, 3).Range.Text = part(2).P_dikte.ToString
         oTable.Cell(row, 2).Range.Text = "[mm]"
-        oTable.Cell(row, 5).Range.Text = part(2).P_kg_each.ToString
-        oTable.Cell(row, 4).Range.Text = "[kg]"
+        'oTable.Cell(row, 5).Range.Text = part(2).P_kg_each.ToString
+        'oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
 
         oTable.Cell(row, 1).Range.Text = "Weight flighting"
         oTable.Cell(row, 3).Range.Text = part(4).P_dikte.ToString
         oTable.Cell(row, 2).Range.Text = "[mm]"
-        oTable.Cell(row, 5).Range.Text = part(4).P_kg_each.ToString
-        oTable.Cell(row, 4).Range.Text = "[kg]"
+        'oTable.Cell(row, 5).Range.Text = part(4).P_kg_each.ToString
+        'oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
 
         oTable.Cell(row, 1).Range.Text = "Weight stub shafts"
         oTable.Cell(row, 3).Range.Text = part(5).P_dikte.ToString
         oTable.Cell(row, 2).Range.Text = "[mm]"
-        oTable.Cell(row, 5).Range.Text = part(5).P_kg_each.ToString
-        oTable.Cell(row, 4).Range.Text = "[kg]"
+        'oTable.Cell(row, 5).Range.Text = part(5).P_kg_each.ToString
+        'oTable.Cell(row, 4).Range.Text = "[kg]"
 
-        row += 1
-        oTable.Cell(row, 5).Range.Text = "_____"
-        row += 1
-        oTable.Cell(row, 1).Range.Text = "Total sheet steel"
-        oTable.Cell(row, 5).Range.Text = TextBox109.Text
-        oTable.Cell(row, 4).Range.Text = "[kg]"
 
         oTable.Columns.Item(1).Width = oWord.InchesToPoints(2.4)   'Change width of columns 1 & 2.
         oTable.Columns.Item(2).Width = oWord.InchesToPoints(0.6)
@@ -1769,29 +1763,34 @@ Public Class Form1
         oTable.Cell(row, 1).Range.Text = "Costs Material"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Total cost material "
-        oTable.Cell(row, 2).Range.Text = TextBox103.Text
-        oTable.Cell(row, 3).Range.Text = "[€]"
+        oTable.Cell(row, 2).Range.Text = "[€]"
+        oTable.Cell(row, 3).Range.Text = TextBox103.Text
+
         row += 1
         oTable.Cell(row, 1).Range.Text = "Percentage labour "
-        oTable.Cell(row, 2).Range.Text = TextBox101.Text
-        oTable.Cell(row, 3).Range.Text = ""
+        oTable.Cell(row, 2).Range.Text = ""
+        oTable.Cell(row, 3).Range.Text = TextBox101.Text
+
         row += 1
         oTable.Cell(row, 1).Range.Text = "Percentage material"
-        oTable.Cell(row, 2).Range.Text = TextBox100.Text
-        oTable.Cell(row, 3).Range.Text = ""
+        oTable.Cell(row, 2).Range.Text = ""
+        oTable.Cell(row, 3).Range.Text = TextBox100.Text
+
 
         If TextBox183.Text.Length > 0 Then
             row += 1
             oTable.Cell(row, 1).Range.Text = TextBox183.Text
-            oTable.Cell(row, 2).Range.Text = NumericUpDown67.Value.ToString("F0")
-            oTable.Cell(row, 3).Range.Text = "[€]"
+            oTable.Cell(row, 2).Range.Text = "[€]"
+            oTable.Cell(row, 3).Range.Text = NumericUpDown67.Value.ToString("F0")
+
         End If
 
         If TextBox184.Text.Length > 0 Then
             row += 1
             oTable.Cell(row, 1).Range.Text = TextBox184.Text
-            oTable.Cell(row, 2).Range.Text = NumericUpDown68.Value.ToString("F0")
-            oTable.Cell(row, 3).Range.Text = "[€]"
+            oTable.Cell(row, 2).Range.Text = "[€]"
+            oTable.Cell(row, 3).Range.Text = NumericUpDown68.Value.ToString("F0")
+
         End If
 
         oTable.Columns.Item(1).Width = oWord.InchesToPoints(2.4)
@@ -1850,32 +1849,38 @@ Public Class Form1
 
         row += 1
         oTable.Cell(row, 1).Range.Text = "Total cost price"
-        oTable.Cell(row, 5).Range.Text = TextBox73.Text
-        oTable.Cell(row, 4).Range.Text = "[€]"
+        oTable.Cell(row, 2).Range.Text = "[€]"
+        oTable.Cell(row, 3).Range.Text = TextBox73.Text
+
 
         row += 1
         oTable.Cell(row, 1).Range.Text = "Packing"
-        oTable.Cell(row, 5).Range.Text = CType(NumericUpDown49.Value, String)
-        oTable.Cell(row, 4).Range.Text = "[€]"
+        oTable.Cell(row, 2).Range.Text = "[€]"
+        oTable.Cell(row, 3).Range.Text = CType(NumericUpDown49.Value, String)
 
         row += 1
         oTable.Cell(row, 1).Range.Text = "Shipping"
-        oTable.Cell(row, 5).Range.Text = CType(NumericUpDown50.Value, String)
-        oTable.Cell(row, 4).Range.Text = "[€]"
+        oTable.Cell(row, 2).Range.Text = "[€]"
+        oTable.Cell(row, 3).Range.Text = CType(NumericUpDown50.Value, String)
 
         row += 1
         oTable.Cell(row, 1).Range.Text = "Total sales price"
-        oTable.Cell(row, 5).Range.Text = TextBox75.Text
-        oTable.Cell(row, 4).Range.Text = "[€]"
+        oTable.Cell(row, 2).Range.Text = "[€]"
+        oTable.Cell(row, 3).Range.Text = TextBox75.Text
 
-        oTable.Columns.Item(1).Width = oWord.InchesToPoints(1.2)   'Change width of columns 1 & 2.
-        oTable.Columns.Item(2).Width = oWord.InchesToPoints(0.4)
+
+        oTable.Columns.Item(1).Width = oWord.InchesToPoints(2.4)   'Change width of columns 1 & 2.
+        oTable.Columns.Item(2).Width = oWord.InchesToPoints(0.6)
         oTable.Columns.Item(3).Width = oWord.InchesToPoints(0.6)
         oTable.Columns.Item(4).Width = oWord.InchesToPoints(0.4)   'Change width of columns 1 & 2.
-        oTable.Columns.Item(5).Width = oWord.InchesToPoints(1.4)
-        oTable.Columns.Item(6).Width = oWord.InchesToPoints(1.5)
-        oTable.Columns.Item(7).Width = oWord.InchesToPoints(0.4)
-        oTable.Columns.Item(8).Width = oWord.InchesToPoints(0.6)
+        oTable.Columns.Item(5).Width = oWord.InchesToPoints(0.6)
+
+        '==========================================
+        '======== Present Datagridview 1 ==========
+
+        Dim dgv_title As String = "Costing section"
+        Print_dgv(DataGridView1, oDoc, oWord, dgv_title)
+
     End Sub
 
     Private Sub NewMethod(oTable As Word.Table, row As Integer)
@@ -3242,8 +3247,8 @@ Public Class Form1
         TextBox68.Text = total_cost.ToString("F0")                  'Totale prijs materiaal
 
         TextBox100.Text = perc_mater.ToString("F0") & "%"           'Totale percentage materiaal
-        TextBox98.Text = tot_prijsarbeid.ToString("F0") & "%"       'Totale prijs arbeid
-        TextBox101.Text = perc_arbeid.ToString("F0")                'Totale percentage arbeid
+        TextBox98.Text = tot_prijsarbeid.ToString("F0")             'Totale prijs arbeid
+        TextBox101.Text = perc_arbeid.ToString("F0") & "%"          'Totale percentage arbeid
         TextBox73.Text = geheel_totprijs.ToString("F0")             'Geheel totaalprijs
         TextBox74.Text = dekking.ToString("F0")                     'Dekking
         TextBox99.Text = marge_cost.ToString("F0")                  'Marge
@@ -3920,5 +3925,53 @@ Public Class Form1
         End If
     End Sub
 
+    Private Sub Print_dgv(dgv As DataGridView, oDoc As Word.Document, oWord As Word.Application, tekst As String)
+
+        '=================================================================
+        '======== Present Datagridview 2 ===================================
+        Dim row As Integer
+        Dim oPara2 As Word.Paragraph
+        Dim oTable As Word.Table
+
+        Dim row_cnt As Integer = dgv.RowCount()
+        Dim col_cnt As Integer = dgv.ColumnCount()
+
+        'Title
+        oPara2 = oDoc.Content.Paragraphs.Add(oDoc.Bookmarks.Item("\endofdoc").Range)
+        oPara2.Range.InsertParagraphBefore()
+        oPara2.Range.Font.Size = 9
+        oPara2.Range.Text = tekst
+        oPara2.Format.SpaceBefore = 0
+        oPara2.Range.InsertParagraphAfter()
+
+        oTable = oDoc.Tables.Add(oDoc.Bookmarks.Item("\endofdoc").Range, row_cnt + 1, col_cnt)
+        oTable.Range.ParagraphFormat.SpaceAfter = 0
+        oTable.Range.Font.Size = 6
+        oTable.Range.Font.Bold = CInt(False)
+        oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
+        row = 1
+
+        '----------- Headers Datagridview 2 -------
+        For header = 0 To col_cnt - 1
+            oTable.Cell(row, header + 1).Range.Text = dgv.Columns(header).HeaderText.ToString
+        Next
+
+        '---------- lines -------
+        For i = 0 To row_cnt - 1   'Lines
+            row += 1
+            For cel = 0 To col_cnt - 1
+                oTable.Cell(row, cel + 1).Range.Text = dgv.Rows(i).Cells(cel).FormattedValue.ToString
+            Next
+        Next
+
+        '---------- Column width -------
+        oTable.Columns(1).Width = oWord.InchesToPoints(0.3)   'Change width of columns
+        oTable.Columns(2).Width = oWord.InchesToPoints(0.8)   'Change width of columns
+        oTable.Columns(3).Width = oWord.InchesToPoints(0.3)   'Change width of columns
+        For i = 4 To col_cnt - 1
+            oTable.Columns(i).Width = oWord.InchesToPoints(0.4)   'Change width of columns
+        Next
+        oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
+    End Sub
 
 End Class
