@@ -5,6 +5,8 @@ Imports System.Globalization
 Imports System.Threading
 Imports Word = Microsoft.Office.Interop.Word
 Imports System.Windows.Forms.DataVisualization.Charting
+Imports Microsoft.Office.Interop
+Imports Microsoft.Office.Interop.Word
 Imports System.Windows.Forms
 
 Public Structure Conveyor_struct    'For conveyors
@@ -804,7 +806,8 @@ Public Class Form1
     Public Shared emotor() As String = {"3.0; 1500", "4.0; 1500", "5.5; 1500", "7.5; 1500", "11;  1500", "15; 1500", "22; 1500",
                                        "30  ; 1500", "37;  1500", "45;  1500", "55;  1500", "75; 1500", "90; 1500",
                                        "110 ; 1500", "132; 1500", "160; 1500", "200; 1500"}
-
+    Dim objApp As Excel.Application
+    Dim objBook As Excel._Workbook
 
     Public Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim words() As String
@@ -3158,9 +3161,9 @@ Public Class Form1
             total_cost += part(i).P_cost_mat * part(i).P_no
         Next
 
-        Debug.WriteLine("Part(0).P_no= " & part(0).P_no.ToString)
-        Debug.WriteLine("Part(0).P_kg_each= " & part(0).P_kg_each.ToString)
-        Debug.WriteLine("Part(0).P_cost_mat= " & part(0).P_cost_mat.ToString)
+        'Debug.WriteLine("Part(0).P_no= " & part(0).P_no.ToString)
+        'Debug.WriteLine("Part(0).P_kg_each= " & part(0).P_kg_each.ToString)
+        'Debug.WriteLine("Part(0).P_cost_mat= " & part(0).P_cost_mat.ToString)
 
         '============= Total weight + area =======
         Dim total_kg As Double
@@ -3303,8 +3306,7 @@ Public Class Form1
         Form2.Show()
     End Sub
     Private Sub Show_Top_end()
-
-        '  
+                '  
         Form2.Text = "Top end VTK vertical screw (P16.0102) Problems 1)Shrink fit bearing 2) Access very limited"
         Form2.Size = New Size(870, 734)
         Form2.PictureBox1.Image = Screw_conveyor.My.Resources.Resources.Top_end
@@ -3315,10 +3317,10 @@ Public Class Form1
             .Text = "Problems" & vbCrLf & "1) Shrink fit bearing is unsuitable " & vbCrLf & "2) Maintenance access very limited",
             .Visible = True,
             .Size = New Size(270, 60),
-            .BackColor = Color.Yellow,
-            .Font = New Font("Microsoft Sans Serif", 10, FontStyle.Bold),
-            .Location = New Point(10, 20)
-                 }
+            .BackColor = Color.Yellow}
+        '.Font = Font("Microsoft Sans Serif", 10, FontStyle.Bold),
+        '.Location = Point(10, 20)
+        '   }
         Form2.Controls.Add(newTB)
         newTB.BringToFront()
         Form2.Show()
@@ -3510,7 +3512,7 @@ Public Class Form1
         Chart1.ChartAreas.Add("ChartArea0")
         Chart1.Series(0).ChartArea = "ChartArea0"
         Chart1.Titles.Add("Simply supported Screw conveyor" & vbCrLf & "Shear force and Bending Moment")
-        Chart1.Titles(0).Font = New Font("Arial", 12, System.Drawing.FontStyle.Bold)
+        'Chart1.Titles(0).Font = Font("Arial", 12, FontStyle.Bold)
 
         '--------------- Legends and titles ---------------
         Chart1.ChartAreas("ChartArea0").AxisY.Title = "Shear force [N] and Bending Moment [N.m]"
@@ -3544,7 +3546,7 @@ Public Class Form1
         Chart2.ChartAreas.Add("ChartArea0")
         Chart2.Series(0).ChartArea = "ChartArea0"
         Chart2.Titles.Add("Deflection angle")
-        Chart2.Titles(0).Font = New Font("Arial", 12, System.Drawing.FontStyle.Bold)
+        'Chart2.Titles(0).Font = New Font("Arial", 12, System.Drawing.FontStyle.Bold)
 
         '--------------- Legends and titles ---------------
         Chart2.ChartAreas("ChartArea0").AxisY.Title = "Deflection angle [rad]"
@@ -3577,7 +3579,7 @@ Public Class Form1
         Chart3.ChartAreas.Add("ChartArea0")
         Chart3.Series(0).ChartArea = "ChartArea0"
         Chart3.Titles.Add("Deflection in [mm]")
-        Chart3.Titles(0).Font = New Font("Arial", 12, System.Drawing.FontStyle.Bold)
+        ' Chart3.Titles(0).Font = New Font("Arial", 12, System.Drawing.FontStyle.Bold)
 
         '--------------- Legends and titles ---------------
         Chart3.ChartAreas("ChartArea0").AxisY.Title = "Deflection [mm]"
@@ -3636,6 +3638,90 @@ Public Class Form1
             End If
         Next
     End Sub
+
+    Private Sub Button17_Click(sender As Object, e As EventArgs) Handles Button17.Click
+        Dim objBooks As Excel.Workbooks = Nothing
+        Dim objSheets As Excel.Sheets = Nothing
+        Dim objSheet As Excel._Worksheet = Nothing
+        Dim range As Excel.Range
+
+        Button17.Text = "Wait ......"
+
+        ' Create a new instance of Excel and start a new workbook.
+        objApp = New Excel.Application()
+        objBooks = objApp.Workbooks
+        objBook = objBooks.Add
+        objSheets = objBook.Worksheets
+        objSheet = CType(objSheets(1), Excel._Worksheet)
+
+        '=============== Rroject data ==========
+        range = objSheet.Range("A1: C9")
+        Dim prj_data(8, 3) As String   '(rows,columns)
+        ' Add some data to individual cells.
+        prj_data(0, 0) = "Proj_nr"
+        prj_data(1, 0) = "Naam"
+        prj_data(2, 0) = "Tag"
+        prj_data(3, 0) = "Date"
+        prj_data(4, 0) = "By"
+
+        prj_data(0, 1) = TextBox66.Text
+        prj_data(1, 1) = TextBox65.Text
+        prj_data(2, 1) = TextBox67.Text
+        prj_data(3, 1) = Now.Day.ToString & "-" & Now.Month.ToString & "-" & Now.Year.ToString
+
+        range.Value = prj_data
+
+        '============== Costs Sheet ============
+        'Get the range where the starting cell has the address
+        'm_sStartingCell and its dimensions are m_iNumRows x m_iNumCols.
+        range = objSheet.Range("A10: L100")
+
+        'Create an array.
+        Dim saRet(DataGridView1.Rows.Count - 1, DataGridView1.Columns.Count - 1) As String
+
+        'Fill the array.
+        Dim iRow As Integer
+        Dim iCol As Integer
+        '=========== Colum titles ==========
+        For iCol = 0 To DataGridView1.Columns.Count - 2
+            If Not IsNothing(DataGridView1.Rows(iRow).Cells(iCol).Value) Then
+                saRet(iRow, iCol) = DataGridView1.Columns(iCol).HeaderText.ToString
+            Else
+                saRet(iRow, iCol) = " "
+            End If
+        Next iCol
+        '========= Content ======
+        For iRow = 1 To DataGridView1.Rows.Count - 1
+            For iCol = 0 To DataGridView1.Columns.Count - 2
+                ' Put the row And column address in the cell.
+                If Not IsNothing(DataGridView1.Rows(iRow).Cells(iCol).Value) Then
+                    saRet(iRow, iCol) = DataGridView1.Rows(iRow).Cells(iCol).Value.ToString
+                Else
+                    saRet(iRow, iCol) = " "
+                End If
+            Next iCol
+        Next iRow
+
+        'Set the range value to the array.
+        range.Value = saRet
+        objSheet.Columns.AutoFit()
+        'Return control of Excel to the user.
+        objApp.Visible = True
+        objApp.UserControl = True
+
+        'Clean up a little.
+        range = Nothing
+        objSheet = Nothing
+        objSheets = Nothing
+        objBooks = Nothing
+
+        Button17.Text = "Print Costing to Excel"
+    End Sub
+
+    Private Function FindSheet(workbook As Excel.Workbook, sheet_name As String) As Excel.Worksheet
+        Throw New NotImplementedException()
+    End Function
+
     Private Sub Button13_Click(sender As Object, e As EventArgs) Handles Button13.Click, TabPage12.Enter, NumericUpDown53.ValueChanged, NumericUpDown52.ValueChanged, NumericUpDown51.ValueChanged, NumericUpDown46.ValueChanged, NumericUpDown55.ValueChanged, NumericUpDown54.ValueChanged, NumericUpDown56.ValueChanged
         Dim Qv As Double            '[m3/h] capacity 
         Dim Qm As Double            '[kg/h] capacity 
@@ -3847,7 +3933,7 @@ Public Class Form1
     Private Sub Init_Datagridview1()
         With DataGridView1
 
-            .ColumnHeadersDefaultCellStyle.Font = New Font("Tahoma", 8.25F, FontStyle.Regular)
+            '.ColumnHeadersDefaultCellStyle.Font = New Font("Tahoma", 8.25F, FontStyle.Regular)
             .ColumnCount = 15
             .Rows.Clear()
             .Rows.Add(part.Length)
