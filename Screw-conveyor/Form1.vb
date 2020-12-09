@@ -2901,13 +2901,12 @@ Public Class Form1
         Dim prijs_wvb, prijs_eng, prijs_pro, prijs_fab As Double
         Dim tot_prijsarbeid, geheel_totprijs, dekking, marge_cost, verkoopprijs As Double
         Dim perc_mater, perc_arbeid As Double
+        Dim marge_factor As Double
 
         If init_done Then
             TextBox23.Text = TextBox65.Text                'Project naam
             TextBox35.Text = TextBox66.Text                'Project nummer
             TextBox53.Text = TextBox67.Text                'Tag
-
-
             TextBox40.Text = ComboBox2.Text                'materiaalsoort staal
             TextBox41.Text = (_pipe_OD * 1000).ToString    'diameter pijp
             TextBox51.Text = CType(NumericUpDown3.Value, String)          'lengte trog
@@ -3119,7 +3118,108 @@ Public Class Form1
             Dim words5() As String = pakking(ComboBox10.SelectedIndex + 1).Split(CType(";", Char()))
             part(16).P_cost_mat_each = CDbl(words5(1))                   'Flange gaskets
 
-            '========= Adding labour costs =====
+            '============= Paint/Pickling ==========
+            Dim paint_area As Double = 0
+            For i = 0 To part.Length - 1
+                paint_area += part(i).P_area
+            Next
+            paint_area -= part(15).P_area   'Prevent double counting 
+            part(15).P_no = CInt(paint_area)
+            part(15).P_cost_mat_req = part(15).P_no * part(15).P_m2_cost       'verf m2*prijs
+
+
+            '----------------------------------------SALES PRICE CALCULATION-----------------------------------------------
+            '============= Total material per part ========
+            For i = 0 To 29
+                'Purchase components are excluded
+                If part(i).P_kg_each > 0 Then
+                    part(i).P_cost_mat_each = part(i).P_kg_each * part(i).P_kg_cost
+                End If
+            Next
+
+            '============= Total weight + area =======
+            Dim total_kg As Double
+
+            For i = 0 To part.Length - 1
+                total_kg += part(i).P_no * part(i).P_kg_each
+            Next
+
+            '============= Total material per part ========
+            For i = 0 To 29
+                'Purchase components are excluded
+                part(i).P_cost_mat_req = part(i).P_cost_mat_each * part(i).P_no
+            Next
+
+            '============= Intern transport ========
+            part(17).P_cost_mat_req = part(17).P_no * part(17).Σ1_mat_lab      'Intern Transport cost
+            part(18).P_cost_mat_req = part(18).P_no * part(18).Σ1_mat_lab      'Certificaat cost
+
+            '============= Manual preparation ========
+            part(21).P_cost_mat_req = NumericUpDown90.Value                    'Manual preparation
+
+            '======= Vrije regels =======
+            part(22).P_name = TextBox183.Text       'Vrije regel #1
+            part(23).P_name = TextBox184.Text       'Vrije regel #2
+            part(24).P_name = TextBox42.Text        'Vrije regel #3
+            part(25).P_name = TextBox43.Text        'Vrije regel #4
+
+
+            '============= Total material per part OPGETELD ========
+            total_cost = 0
+            For i = 0 To 29
+                total_cost += part(i).P_cost_mat_req
+            Next
+            part(30).P_cost_mat_req = total_cost    'Opgeteld material
+
+            '============== UREN CALCULATE =========
+            part(26).Lab_hrs = NumericUpDown48.Value    'Eng
+            part(27).Lab_hrs = NumericUpDown30.Value    'Wvb
+            part(28).Lab_hrs = NumericUpDown33.Value    'Project
+            part(29).Lab_hrs = NumericUpDown34.Value    'Fabriek
+
+            '=========== Uur tarief ===========
+            part(26).Lab_rate = NumericUpDown80.Value    'Eng
+            part(27).Lab_rate = NumericUpDown81.Value    'Wvb
+            part(28).Lab_rate = NumericUpDown82.Value    'Project
+            part(29).Lab_rate = NumericUpDown83.Value    'Fabriek
+
+            tot_uren = 0
+            For i = 0 To 29
+                part(i).Lab_cost = part(i).Lab_hrs * part(i).Lab_rate   'Labour cost
+                tot_uren += part(i).Lab_hrs                             'Totaal aantal uren
+            Next
+            part(30).Lab_hrs = tot_uren                 'Opgeteld
+
+            prijs_wvb = part(26).Lab_hrs * part(26).Lab_rate                 'Wvb cost
+            prijs_eng = part(27).Lab_hrs * part(27).Lab_rate                 'Engineering cost
+            prijs_pro = part(28).Lab_hrs * part(28).Lab_rate                 'Project management cost
+            prijs_fab = part(29).Lab_hrs * part(29).Lab_rate                 'Fabriek cost
+
+            tot_prijsarbeid = prijs_wvb + prijs_eng + prijs_pro + prijs_fab     'Totale prijs arbeid
+            geheel_totprijs = total_cost + tot_prijsarbeid                      'Totaal prijs
+
+            perc_mater = 100 * total_cost / geheel_totprijs                     'Percentage materiaal
+            perc_arbeid = 100 * tot_prijsarbeid / geheel_totprijs               'Percentage arbeid
+            dekking = geheel_totprijs * (1 / 0.96 - 1)                          'Risco Dekking 4%
+
+            uren_wvb = NumericUpDown48.Value
+            uren_eng = NumericUpDown30.Value
+            uren_pro = NumericUpDown33.Value
+            uren_fab = NumericUpDown34.Value
+
+            Dim uren_ratio(4) As Double
+            uren_ratio(0) = 100 * uren_wvb / tot_uren
+            uren_ratio(1) = 100 * uren_eng / tot_uren
+            uren_ratio(2) = 100 * uren_pro / tot_uren
+            uren_ratio(3) = 100 * uren_fab / tot_uren
+
+            TextBox144.Text = uren_ratio(0).ToString("F0") & "%"
+            TextBox145.Text = uren_ratio(1).ToString("F0") & "%"
+            TextBox146.Text = uren_ratio(2).ToString("F0") & "%"
+            TextBox147.Text = uren_ratio(3).ToString("F0") & "%"
+
+            '========================= Summaries ==============
+            '========================= Adding labour costs =====
             Dim qq As Double = 0
             For i = 0 To 29
                 qq += part(i).Lab_cost
@@ -3131,151 +3231,43 @@ Public Class Form1
                 part(i).Σ1_mat_lab = part(i).Lab_cost + part(i).P_cost_mat_req
             Next
 
-
-
             '========= Adding material and labour costs =====
-            'Dim pp As Double = 0
-            'For i = 0 To 29
-            '    ' part(i).Σ1_mat_lab = part(i).P_no * part(i).P_cost_mat_each + part(i).Lab_cost
-            '    pp += part(i).Σ1_mat_lab
-            'Next
-            'part(30).Σ1_mat_lab = pp    'Opgeteld labour + mat
+            Dim pp As Double = 0
+            For i = 0 To 29
+                pp += part(i).Σ1_mat_lab
+            Next
+            part(30).Σ1_mat_lab = pp    'Opgeteld labour + mat
+
+            '------- normal customer OR intercompany -------------
+            marge_factor = NumericUpDown65.Value                                'Marge factor
+            marge_cost = (geheel_totprijs + dekking) * (1 / marge_factor - 1)   'Marge
+            verkoopprijs = geheel_totprijs + dekking + marge_cost               'Verkoopprijs
+
+            'FILL TEXTBOXES ----------------------------------------------------------------------------------------
+            TextBox47.Text = total_kg.ToString("F0")                    'Totale weight sheet steel
+            TextBox109.Text = total_kg.ToString("F0")                   'Totale weight sheet steel
+
+            TextBox108.Text = paint_area.ToString("F1") & " m2"         'Paint m2
+            part(15).P_area = Round(paint_area, 1)                      'Paint m2
+
+            TextBox140.Text = prijs_wvb.ToString("F0")                  'Wvb cost
+            TextBox55.Text = prijs_eng.ToString("F0")                   'Engineering cost
+            TextBox70.Text = prijs_pro.ToString("F0")                   'Project management cost
+            TextBox72.Text = prijs_fab.ToString("F0")                   'Fabriek cost
+            TextBox106.Text = tot_uren.ToString("F0")                   'Totaal aantal uren
+
+            TextBox111.Text = total_cost.ToString("F0")                 'Totale prijs materiaal
+            TextBox103.Text = total_cost.ToString("F0")                 'Totale prijs materiaal
+            TextBox68.Text = total_cost.ToString("F0")                  'Totale prijs materiaal
+
+            TextBox100.Text = perc_mater.ToString("F0") & "%"           'Totale percentage materiaal
+            TextBox98.Text = tot_prijsarbeid.ToString("F0")             'Totale prijs arbeid
+            TextBox101.Text = perc_arbeid.ToString("F0") & "%"          'Totale percentage arbeid
+            TextBox73.Text = geheel_totprijs.ToString("F0")             'Geheel totaalprijs
+            TextBox74.Text = dekking.ToString("F0")                     'Dekking
+            TextBox99.Text = marge_cost.ToString("F0")                  'Marge
+            TextBox75.Text = verkoopprijs.ToString("F0")                'Verkoopprijs
         End If
-
-        '----------------------------------------SALES PRICE CALCULATION-----------------------------------------------
-        Dim marge_factor As Double
-
-        '============= Total material per part ========
-        For i = 0 To 29
-            'Purchase components are excluded
-            If part(i).P_kg_each > 0 Then
-                part(i).P_cost_mat_each = part(i).P_kg_each * part(i).P_kg_cost
-            End If
-        Next
-
-
-        '============= Total material per part ========
-        For i = 0 To 29
-            'Purchase components are excluded
-            part(i).P_cost_mat_req = part(i).P_cost_mat_each * part(i).P_no
-        Next
-
-        '============= Paint/Pickling ==========
-        Dim paint_area As Double = 0
-        For i = 0 To part.Length - 1
-            paint_area += part(i).P_area
-        Next
-        paint_area -= part(15).P_area   'Prevent double counting 
-        part(15).P_no = CInt(paint_area)
-        part(15).P_cost_mat_req = part(15).P_no * part(15).P_m2_cost       'verf m2*prijs
-
-        '============= Intern transport ========
-        part(17).P_cost_mat_req = part(17).P_no * part(17).Σ1_mat_lab      'Intern Transport cost
-        part(18).P_cost_mat_req = part(18).P_no * part(18).Σ1_mat_lab      'Certificaat cost
-
-        '============= Manual preparation ========
-        part(21).P_cost_mat_req = NumericUpDown90.Value                    'Manual preparation
-
-        '======= Vrije regels =======
-        part(22).P_name = TextBox183.Text       'Vrije regel #1
-        part(23).P_name = TextBox184.Text       'Vrije regel #2
-        part(24).P_name = TextBox42.Text        'Vrije regel #3
-        part(25).P_name = TextBox43.Text        'Vrije regel #4
-
-
-        '============= Total material per part OPGETELD ========
-        total_cost = 0
-        For i = 0 To 29
-            total_cost += part(i).P_cost_mat_req
-        Next
-        part(30).P_cost_mat_req = total_cost    'Opgeteld material
-
-        '============= Total weight + area =======
-        Dim total_kg As Double
-
-        For i = 0 To part.Length - 1
-            total_kg += part(i).P_no * part(i).P_kg_each
-        Next
-
-
-        '============== UREN CALCULATE =========
-        part(26).Lab_hrs = NumericUpDown48.Value    'Eng
-        part(27).Lab_hrs = NumericUpDown30.Value    'Wvb
-        part(28).Lab_hrs = NumericUpDown33.Value    'Project
-        part(29).Lab_hrs = NumericUpDown34.Value    'Fabriek
-
-        tot_uren = 0
-        For i = 0 To 29
-            part(i).Lab_cost = part(i).Lab_hrs * part(i).Lab_rate   'Labour cost
-            tot_uren += part(i).Lab_hrs                             'Totaal aantal uren
-        Next
-        part(30).Lab_hrs = tot_uren                 'Opgeteld
-
-
-        uren_wvb = NumericUpDown48.Value
-        uren_eng = NumericUpDown30.Value
-        uren_pro = NumericUpDown33.Value
-        uren_fab = NumericUpDown34.Value
-
-        Dim uren_ratio(4) As Double
-        uren_ratio(0) = 100 * uren_wvb / tot_uren
-        uren_ratio(1) = 100 * uren_eng / tot_uren
-        uren_ratio(2) = 100 * uren_pro / tot_uren
-        uren_ratio(3) = 100 * uren_fab / tot_uren
-
-        TextBox144.Text = uren_ratio(0).ToString("F0") & "%"
-        TextBox145.Text = uren_ratio(1).ToString("F0") & "%"
-        TextBox146.Text = uren_ratio(2).ToString("F0") & "%"
-        TextBox147.Text = uren_ratio(3).ToString("F0") & "%"
-
-        '=========== Uur tarief ===========
-        part(26).Lab_rate = NumericUpDown80.Value    'Eng
-        part(27).Lab_rate = NumericUpDown81.Value    'Wvb
-        part(28).Lab_rate = NumericUpDown82.Value    'Project
-        part(29).Lab_rate = NumericUpDown83.Value    'Fabriek
-
-        prijs_wvb = part(26).Lab_hrs * part(26).Lab_rate                 'Wvb cost
-        prijs_eng = part(27).Lab_hrs * part(27).Lab_rate                 'Engineering cost
-        prijs_pro = part(28).Lab_hrs * part(28).Lab_rate                 'Project management cost
-        prijs_fab = part(29).Lab_hrs * part(29).Lab_rate                 'Fabriek cost
-
-        tot_prijsarbeid = prijs_wvb + prijs_eng + prijs_pro + prijs_fab     'Totale prijs arbeid
-        geheel_totprijs = total_cost + tot_prijsarbeid                      'Totaal prijs
-
-        perc_mater = 100 * total_cost / geheel_totprijs                     'Percentage materiaal
-        perc_arbeid = 100 * tot_prijsarbeid / geheel_totprijs               'Percentage arbeid
-        dekking = geheel_totprijs * (1 / 0.96 - 1)                          'Risco Dekking 4%
-
-        '------- normal customer OR intercompany -------------
-        marge_factor = NumericUpDown65.Value                                'Marge factor
-        marge_cost = (geheel_totprijs + dekking) * (1 / marge_factor - 1)   'Marge
-        verkoopprijs = geheel_totprijs + dekking + marge_cost               'Verkoopprijs
-
-        'FILL TEXTBOXES ----------------------------------------------------------------------------------------
-        TextBox47.Text = total_kg.ToString("F0")                    'Totale weight sheet steel
-        TextBox109.Text = total_kg.ToString("F0")                   'Totale weight sheet steel
-
-        TextBox108.Text = paint_area.ToString("F1") & " m2"         'Paint m2
-        part(15).P_area = Round(paint_area, 1)                      'Paint m2
-
-        TextBox140.Text = prijs_wvb.ToString("F0")                  'Wvb cost
-        TextBox55.Text = prijs_eng.ToString("F0")                   'Engineering cost
-        TextBox70.Text = prijs_pro.ToString("F0")                   'Project management cost
-        TextBox72.Text = prijs_fab.ToString("F0")                   'Fabriek cost
-        TextBox106.Text = tot_uren.ToString("F0")                   'Totaal aantal uren
-
-        TextBox111.Text = total_cost.ToString("F0")                 'Totale prijs materiaal
-        TextBox103.Text = total_cost.ToString("F0")                 'Totale prijs materiaal
-        TextBox68.Text = total_cost.ToString("F0")                  'Totale prijs materiaal
-
-        TextBox100.Text = perc_mater.ToString("F0") & "%"           'Totale percentage materiaal
-        TextBox98.Text = tot_prijsarbeid.ToString("F0")             'Totale prijs arbeid
-        TextBox101.Text = perc_arbeid.ToString("F0") & "%"          'Totale percentage arbeid
-        TextBox73.Text = geheel_totprijs.ToString("F0")             'Geheel totaalprijs
-        TextBox74.Text = dekking.ToString("F0")                     'Dekking
-        TextBox99.Text = marge_cost.ToString("F0")                  'Marge
-        TextBox75.Text = verkoopprijs.ToString("F0")                'Verkoopprijs
-
     End Sub
 
     Private Sub PictureBox11_Click(sender As Object, e As EventArgs) Handles PictureBox11.Click
