@@ -25,22 +25,23 @@ Public Structure Conveyor_struct    'For conveyors
     Public rpm As Double            '[rpm]
 End Structure
 
-Public Structure Price_struct       'Cost price info
-    Public P_name As String         'Trof/eindplaat/...
-    Public P_no As Integer          '[-] aantal
-    Public P_tag As Double          ' 
-    Public P_dikte As Double        '[mm]
-    Public P_kg_each As Double      '[kg] each component
-    Public P_area As Double         '[m2]
-    Public P_kg_cost As Double      '[€/kg]
-    Public P_m2_cost As Double      '[€/m2]
-    Public P_cost_mat As Double     '[€] material cost
-    Public Lab_rate As Double       '[€/hour]
-    Public Lab_hrs As Double        '[hour]
-    Public Lab_cost As Double       '[€ each] cost
-    Public Σ1_mat_lab As Double    '[€ each] Material + labor 1 component
-    Public Remarks As String        '...
-    Public Mat As String            'Material
+Public Structure Price_struct           'Cost price info
+    Public P_name As String             'Trof/eindplaat/...
+    Public P_no As Integer              '[-] aantal
+    Public P_tag As Double              'identificatie
+    Public P_dikte As Double            '[mm] plate thickness
+    Public P_kg_each As Double          '[kg] each component
+    Public P_area As Double             '[m2] paint area
+    Public P_kg_cost As Double          '[€/kg] material cost per kg
+    Public P_m2_cost As Double          '[€/m2] paint per m2
+    Public P_cost_mat_each As Double    '[€] material + purchase cost each
+    Public P_cost_mat_req As Double     '[€] material * aantal
+    Public Lab_rate As Double           '[€/hour]
+    Public Lab_hrs As Double            '[hour]
+    Public Lab_cost As Double           '[€ each] labour cost
+    Public Σ1_mat_lab As Double         '[€ each] Material + labor 1 component
+    Public Remarks As String            '...
+    Public Mat As String                'Material
 End Structure
 
 Public Class Form1
@@ -1008,8 +1009,6 @@ Public Class Form1
         filling_perc = actual_cap_m3 / cap_hr_100 * 100             'Horizontal
         filling_perc_incl = actual_cap_m3 / cap_hr_100_in * 100     'Inclined
 
-
-
         Select Case RadioButton9.Checked
             Case True   'Transport screw
                 TextBox01.BackColor = CType(IIf(filling_perc > 45, Color.Red, Color.LightGreen), Color)
@@ -1071,8 +1070,6 @@ Public Class Form1
             Case Else
                 TextBox11.BackColor = Color.White
         End Select
-
-
     End Sub
 
     Private Function Calc_mekog(m_flow As Double, Length As Double) As Double
@@ -2906,6 +2903,11 @@ Public Class Form1
         Dim perc_mater, perc_arbeid As Double
 
         If init_done Then
+            TextBox23.Text = TextBox65.Text                'Project naam
+            TextBox35.Text = TextBox66.Text                'Project nummer
+            TextBox53.Text = TextBox67.Text                'Tag
+
+
             TextBox40.Text = ComboBox2.Text                'materiaalsoort staal
             TextBox41.Text = (_pipe_OD * 1000).ToString    'diameter pijp
             TextBox51.Text = CType(NumericUpDown3.Value, String)          'lengte trog
@@ -3003,17 +3005,17 @@ Public Class Form1
             part(6).P_dikte = NumericUpDown85.Value         '[mm] Schroefblad 
             part(7).P_dikte = NumericUpDown86.Value         '[mm] astap
 
-            part(9).P_cost_mat = NumericUpDown25.Value          'shaft Seals
-            part(11).P_cost_mat = NumericUpDown87.Value         'Hanger Bearings
-            part(17).P_cost_mat = NumericUpDown95.Value         'Intern transport
-            part(18).P_cost_mat = NumericUpDown98.Value         'Material Cert
-            part(19).P_cost_mat = NumericUpDown49.Value         'Packing
-            part(20).P_cost_mat = NumericUpDown50.Value         'Shipping
-            part(21).P_cost_mat = NumericUpDown90.Value         'Manual
-            part(22).P_cost_mat = NumericUpDown67.Value         'Free line #1
-            part(23).P_cost_mat = NumericUpDown68.Value         'Free line #2
-            part(24).P_cost_mat = NumericUpDown96.Value         'Free line #3
-            part(25).P_cost_mat = NumericUpDown97.Value         'Free line #4
+            part(9).P_cost_mat_each = NumericUpDown25.Value          'shaft Seals
+            part(11).P_cost_mat_each = NumericUpDown87.Value         'Hanger Bearings
+            part(17).P_cost_mat_each = NumericUpDown95.Value         'Intern transport
+            part(18).P_cost_mat_each = NumericUpDown98.Value         'Material Cert
+            part(19).P_cost_mat_each = NumericUpDown49.Value         'Packing
+            part(20).P_cost_mat_each = NumericUpDown50.Value         'Shipping
+            part(21).P_cost_mat_each = NumericUpDown90.Value         'Manual
+            part(22).P_cost_mat_each = NumericUpDown67.Value         'Free line #1
+            part(23).P_cost_mat_each = NumericUpDown68.Value         'Free line #2
+            part(24).P_cost_mat_each = NumericUpDown96.Value         'Free line #3
+            part(25).P_cost_mat_each = NumericUpDown97.Value         'Free line #4
 
             '---------------Aantalen---------------
             part(0).P_no = 2                                    'Eindplaten
@@ -3097,18 +3099,17 @@ Public Class Form1
 
             '========= End Bearing =======
             Dim words1() As String = lager(ComboBox8.SelectedIndex + 1).Split(CType(";", Char()))
-            part(10).P_cost_mat = CDbl(words1(1))                    'End bearing
-
+            part(10).P_cost_mat_each = CDbl(words1(1))                    'End bearing
 
             '========= Coupling =======
             Dim words2() As String = coupl(ComboBox7.SelectedIndex + 1).Split(CType(";", Char()))
-            part(12).P_cost_mat = CDbl(words2(1)) * CDbl(words2(2)) 'koppeling 
-            If Not CheckBox3.Checked Then part(12).P_cost_mat = 0
+            part(12).P_cost_mat_each = CDbl(words2(1)) * CDbl(words2(2)) 'koppeling 
+            If Not CheckBox3.Checked Then part(12).P_cost_mat_each = 0
 
             '========= Drive =======
             Dim words3() As String = motorred(ComboBox4.SelectedIndex + 1).Split(CType(";", Char()))
-            part(14).P_cost_mat = CDbl(words3(3))                  'cost_motorreductor
-            If Not CheckBox2.Checked Then part(14).P_cost_mat = 0
+            part(14).P_cost_mat_each = CDbl(words3(3))                  'cost_motorreductor
+            If Not CheckBox2.Checked Then part(14).P_cost_mat_each = 0
 
             '========= Paint ===========
             Dim words4() As String = ppaint(ComboBox12.SelectedIndex + 1).Split(CType(";", Char()))
@@ -3116,34 +3117,64 @@ Public Class Form1
 
             '========= Gasket =======
             Dim words5() As String = pakking(ComboBox10.SelectedIndex + 1).Split(CType(";", Char()))
-            part(16).P_cost_mat = CDbl(words5(1))                   'Flange gaskets
+            part(16).P_cost_mat_each = CDbl(words5(1))                   'Flange gaskets
+
+            '========= Adding labour costs =====
+            Dim qq As Double = 0
+            For i = 0 To 29
+                qq += part(i).Lab_cost
+            Next
+            part(30).Lab_cost = qq    'Opgeteld labour
+
+            '========= Adding labour + material =====
+            For i = 0 To 29
+                part(i).Σ1_mat_lab = part(i).Lab_cost + part(i).P_cost_mat_req
+            Next
+
+
 
             '========= Adding material and labour costs =====
-            For i = 0 To part.Length - 1
-                part(i).Σ1_mat_lab = part(i).P_no * part(i).P_cost_mat + part(i).Lab_cost
-            Next
+            'Dim pp As Double = 0
+            'For i = 0 To 29
+            '    ' part(i).Σ1_mat_lab = part(i).P_no * part(i).P_cost_mat_each + part(i).Lab_cost
+            '    pp += part(i).Σ1_mat_lab
+            'Next
+            'part(30).Σ1_mat_lab = pp    'Opgeteld labour + mat
         End If
 
         '----------------------------------------SALES PRICE CALCULATION-----------------------------------------------
         Dim marge_factor As Double
 
+        '============= Total material per part ========
+        For i = 0 To 29
+            'Purchase components are excluded
+            If part(i).P_kg_each > 0 Then
+                part(i).P_cost_mat_each = part(i).P_kg_each * part(i).P_kg_cost
+            End If
+        Next
+
+
+        '============= Total material per part ========
+        For i = 0 To 29
+            'Purchase components are excluded
+            part(i).P_cost_mat_req = part(i).P_cost_mat_each * part(i).P_no
+        Next
+
         '============= Paint/Pickling ==========
         Dim paint_area As Double = 0
-
         For i = 0 To part.Length - 1
             paint_area += part(i).P_area
         Next
         paint_area -= part(15).P_area   'Prevent double counting 
-
         part(15).P_no = CInt(paint_area)
-        part(15).P_cost_mat = part(15).P_no * part(15).P_m2_cost       'verf m2*prijs
+        part(15).P_cost_mat_req = part(15).P_no * part(15).P_m2_cost       'verf m2*prijs
 
         '============= Intern transport ========
-        part(17).P_cost_mat = part(17).P_no * part(17).Σ1_mat_lab      'Intern Transport cost
-        part(18).P_cost_mat = part(18).P_no * part(18).Σ1_mat_lab      'Certificaat cost
+        part(17).P_cost_mat_req = part(17).P_no * part(17).Σ1_mat_lab      'Intern Transport cost
+        part(18).P_cost_mat_req = part(18).P_no * part(18).Σ1_mat_lab      'Certificaat cost
 
         '============= Manual preparation ========
-        part(21).P_cost_mat = NumericUpDown90.Value                    'Manual preparation
+        part(21).P_cost_mat_req = NumericUpDown90.Value                    'Manual preparation
 
         '======= Vrije regels =======
         part(22).P_name = TextBox183.Text       'Vrije regel #1
@@ -3151,19 +3182,13 @@ Public Class Form1
         part(24).P_name = TextBox42.Text        'Vrije regel #3
         part(25).P_name = TextBox43.Text        'Vrije regel #4
 
-        '============= Total materials ========
-        total_cost = 0
-        For i = 0 To part.Length - 1
-            'Purchase components are excluded
-            If part(i).P_kg_each > 0 Then
-                part(i).P_cost_mat = part(i).P_kg_each * part(i).P_kg_cost
-            End If
-            total_cost += part(i).P_cost_mat * part(i).P_no
-        Next
 
-        'Debug.WriteLine("Part(0).P_no= " & part(0).P_no.ToString)
-        'Debug.WriteLine("Part(0).P_kg_each= " & part(0).P_kg_each.ToString)
-        'Debug.WriteLine("Part(0).P_cost_mat= " & part(0).P_cost_mat.ToString)
+        '============= Total material per part OPGETELD ========
+        total_cost = 0
+        For i = 0 To 29
+            total_cost += part(i).P_cost_mat_req
+        Next
+        part(30).P_cost_mat_req = total_cost    'Opgeteld material
 
         '============= Total weight + area =======
         Dim total_kg As Double
@@ -3171,12 +3196,6 @@ Public Class Form1
         For i = 0 To part.Length - 1
             total_kg += part(i).P_no * part(i).P_kg_each
         Next
-
-        If IsNothing(DataGridView1) Then
-
-            MsgBox("gg")
-            DataGridView1.Rows(30).Cells(4).Value = 99999 'total_kg.ToString("F0")
-        End If
 
 
         '============== UREN CALCULATE =========
@@ -3186,10 +3205,12 @@ Public Class Form1
         part(29).Lab_hrs = NumericUpDown34.Value    'Fabriek
 
         tot_uren = 0
-        For i = 0 To part.Length - 1
+        For i = 0 To 29
             part(i).Lab_cost = part(i).Lab_hrs * part(i).Lab_rate   'Labour cost
-            tot_uren += part(i).Lab_hrs                           'Totaal aantal uren
+            tot_uren += part(i).Lab_hrs                             'Totaal aantal uren
         Next
+        part(30).Lab_hrs = tot_uren                 'Opgeteld
+
 
         uren_wvb = NumericUpDown48.Value
         uren_eng = NumericUpDown30.Value
@@ -3213,7 +3234,6 @@ Public Class Form1
         part(28).Lab_rate = NumericUpDown82.Value    'Project
         part(29).Lab_rate = NumericUpDown83.Value    'Fabriek
 
-
         prijs_wvb = part(26).Lab_hrs * part(26).Lab_rate                 'Wvb cost
         prijs_eng = part(27).Lab_hrs * part(27).Lab_rate                 'Engineering cost
         prijs_pro = part(28).Lab_hrs * part(28).Lab_rate                 'Project management cost
@@ -3230,7 +3250,6 @@ Public Class Form1
         marge_factor = NumericUpDown65.Value                                'Marge factor
         marge_cost = (geheel_totprijs + dekking) * (1 / marge_factor - 1)   'Marge
         verkoopprijs = geheel_totprijs + dekking + marge_cost               'Verkoopprijs
-
 
         'FILL TEXTBOXES ----------------------------------------------------------------------------------------
         TextBox47.Text = total_kg.ToString("F0")                    'Totale weight sheet steel
@@ -3640,12 +3659,16 @@ Public Class Form1
     End Sub
 
     Private Sub Button17_Click(sender As Object, e As EventArgs) Handles Button17.Click
+        Write_to_Excel()
+    End Sub
+
+    Private Sub Write_to_Excel()
         Dim objBooks As Excel.Workbooks = Nothing
         Dim objSheets As Excel.Sheets = Nothing
         Dim objSheet As Excel._Worksheet = Nothing
-        Dim range As Excel.Range
+        Dim excl_range As Excel.Range
 
-        Button17.Text = "Wait ......"
+        Button17.Text = "Wait..(Excel is lazy)...."
 
         ' Create a new instance of Excel and start a new workbook.
         objApp = New Excel.Application()
@@ -3655,26 +3678,30 @@ Public Class Form1
         objSheet = CType(objSheets(1), Excel._Worksheet)
 
         '=============== Rroject data ==========
-        range = objSheet.Range("A1: C9")
+        excl_range = objSheet.Range("A1:C9")
         Dim prj_data(8, 3) As String   '(rows,columns)
-        ' Add some data to individual cells.
+
         prj_data(0, 0) = "Proj_nr"
         prj_data(1, 0) = "Naam"
         prj_data(2, 0) = "Tag"
         prj_data(3, 0) = "Date"
         prj_data(4, 0) = "By"
+        prj_data(5, 0) = "Diameter"
+        prj_data(6, 0) = "Trough length"
 
         prj_data(0, 1) = TextBox66.Text
         prj_data(1, 1) = TextBox65.Text
         prj_data(2, 1) = TextBox67.Text
         prj_data(3, 1) = Now.Day.ToString & "-" & Now.Month.ToString & "-" & Now.Year.ToString
+        prj_data(4, 1) = Environment.UserName
+        prj_data(5, 1) = NumericUpDown45.Value.ToString
+        prj_data(6, 1) = NumericUpDown3.Value.ToString
 
-        range.Value = prj_data
+        excl_range.Value = prj_data
 
         '============== Costs Sheet ============
-        'Get the range where the starting cell has the address
-        'm_sStartingCell and its dimensions are m_iNumRows x m_iNumCols.
-        range = objSheet.Range("A10: L100")
+        excl_range = objSheet.Range("A10:P46")
+        excl_range.Clear()
 
         'Create an array.
         Dim saRet(DataGridView1.Rows.Count - 1, DataGridView1.Columns.Count - 1) As String
@@ -3683,16 +3710,17 @@ Public Class Form1
         Dim iRow As Integer
         Dim iCol As Integer
         '=========== Colum titles ==========
-        For iCol = 0 To DataGridView1.Columns.Count - 2
+        For iCol = 0 To DataGridView1.Columns.Count - 1
             If Not IsNothing(DataGridView1.Rows(iRow).Cells(iCol).Value) Then
                 saRet(iRow, iCol) = DataGridView1.Columns(iCol).HeaderText.ToString
             Else
                 saRet(iRow, iCol) = " "
             End If
         Next iCol
+
         '========= Content ======
         For iRow = 1 To DataGridView1.Rows.Count - 1
-            For iCol = 0 To DataGridView1.Columns.Count - 2
+            For iCol = 0 To DataGridView1.Columns.Count - 1
                 ' Put the row And column address in the cell.
                 If Not IsNothing(DataGridView1.Rows(iRow).Cells(iCol).Value) Then
                     saRet(iRow, iCol) = DataGridView1.Rows(iRow).Cells(iCol).Value.ToString
@@ -3702,15 +3730,23 @@ Public Class Form1
             Next iCol
         Next iRow
 
-        'Set the range value to the array.
-        range.Value = saRet
+        excl_range.Value = saRet    'Set the range value to the array.
+
+
+        '======== Change format ======
         objSheet.Columns.AutoFit()
+        excl_range = objSheet.Range("A10:Q100")
+        With excl_range
+            .NumberFormat = "General"
+            .Value = .Value
+        End With
+
         'Return control of Excel to the user.
         objApp.Visible = True
         objApp.UserControl = True
 
         'Clean up a little.
-        range = Nothing
+        excl_range = Nothing
         objSheet = Nothing
         objSheets = Nothing
         objBooks = Nothing
@@ -3934,7 +3970,7 @@ Public Class Form1
         With DataGridView1
 
             '.ColumnHeadersDefaultCellStyle.Font = New Font("Tahoma", 8.25F, FontStyle.Regular)
-            .ColumnCount = 15
+            .ColumnCount = 16
             .Rows.Clear()
             .Rows.Add(part.Length)
             .RowHeadersVisible = False
@@ -3944,20 +3980,22 @@ Public Class Form1
             .Columns(1).HeaderText = "Part"
             .Columns(2).HeaderText = "No."
             .Columns(3).HeaderText = "[mm]"         'Mat
-            .Columns(4).HeaderText = "[kg] each"     'Mat
+            .Columns(4).HeaderText = "[kg] each"    'Mat
             .Columns(5).HeaderText = "[€/kg]"       'Mat
             .Columns(6).HeaderText = "[€]mat. each" 'Mat
 
             .Columns(7).HeaderText = "Paint [€/m2]" 'Paint
-            .Columns(8).HeaderText = "Paint [m2]"     'Paint
+            .Columns(8).HeaderText = "Paint [m2]"   'Paint
 
-            .Columns(9).HeaderText = "[hrs]"        'Labour
-            .Columns(10).HeaderText = "[€/hr]"      'Labour
-            .Columns(11).HeaderText = "[€ labor]"   'Labour
+            .Columns(9).HeaderText = "[€] mat."     'Mat cost total 
 
-            .Columns(12).HeaderText = "Σ[€]"        'Sum
-            .Columns(13).HeaderText = "Mat."        'Sum
-            .Columns(14).HeaderText = "Remarks"
+            .Columns(10).HeaderText = "[hrs]"       'Labour
+            .Columns(11).HeaderText = "[€/hr]"      'Labour
+            .Columns(12).HeaderText = "[€ labor]"   'Labour
+
+            .Columns(13).HeaderText = "Σ[€]"        'Sum
+            .Columns(14).HeaderText = "Mat."        'Sum
+            .Columns(15).HeaderText = "Remarks"
         End With
     End Sub
 
@@ -3973,22 +4011,23 @@ Public Class Form1
                     selCol = DataGridView1.CurrentCell.ColumnIndex
                 End If
 
-                For i = 0 To part.Length - 2
+                For i = 0 To 30
                     .Rows(i).Cells(0).Value = i.ToString
                     .Rows(i).Cells(1).Value = part(i).P_name
                     .Rows(i).Cells(2).Value = part(i).P_no
                     .Rows(i).Cells(3).Value = part(i).P_dikte
                     .Rows(i).Cells(4).Value = part(i).P_kg_each.ToString("F0")
                     .Rows(i).Cells(5).Value = part(i).P_kg_cost.ToString("F2")
-                    .Rows(i).Cells(6).Value = part(i).P_cost_mat.ToString("F0")
+                    .Rows(i).Cells(6).Value = part(i).P_cost_mat_each.ToString("F0")
                     .Rows(i).Cells(7).Value = part(i).P_m2_cost.ToString("F2")
                     .Rows(i).Cells(8).Value = part(i).P_area.ToString("F1")
-                    .Rows(i).Cells(9).Value = part(i).Lab_hrs.ToString("F0")
-                    .Rows(i).Cells(10).Value = part(i).Lab_rate.ToString("F0")
-                    .Rows(i).Cells(11).Value = part(i).Lab_cost.ToString("F0")
-                    .Rows(i).Cells(12).Value = part(i).Σ1_mat_lab.ToString("F0")
-                    .Rows(i).Cells(13).Value = part(i).Mat
-                    .Rows(i).Cells(14).Value = part(i).Remarks
+                    .Rows(i).Cells(9).Value = part(i).P_cost_mat_req.ToString("F0")
+                    .Rows(i).Cells(10).Value = part(i).Lab_hrs.ToString("F0")
+                    .Rows(i).Cells(11).Value = part(i).Lab_rate.ToString("F0")
+                    .Rows(i).Cells(12).Value = part(i).Lab_cost.ToString("F0")
+                    .Rows(i).Cells(13).Value = part(i).Σ1_mat_lab.ToString("F0")
+                    .Rows(i).Cells(14).Value = part(i).Mat
+                    .Rows(i).Cells(15).Value = part(i).Remarks
                     If IsNothing(part(i).P_name) Then Exit For
                 Next
 
@@ -4000,9 +4039,6 @@ Public Class Form1
                     .Columns(h).Width = 45
                 Next
                 .Columns(.Columns.Count - 1).Width = 90
-
-                '============== Water sorption air ==============
-                '.Rows(5).Cells(7).Style.BackColor = CType(IIf(D_step(5).air_RH <= food.air_RH_lim, Color.LightGreen, Color.Red), Color)
 
                 '------ return to start position --------
                 .CurrentCell = .Rows(selRow).Cells(selCol)

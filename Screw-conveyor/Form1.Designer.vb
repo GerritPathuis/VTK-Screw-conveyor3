@@ -899,7 +899,7 @@ Partial Class Form1
         Me.PictureBox14.Image = Global.Screw_conveyor.My.Resources.Resources.DIN_ISO
         Me.PictureBox14.Location = New System.Drawing.Point(853, 85)
         Me.PictureBox14.Name = "PictureBox14"
-        Me.PictureBox14.Size = New System.Drawing.Size(89, 61)
+        Me.PictureBox14.Size = New System.Drawing.Size(104, 65)
         Me.PictureBox14.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.PictureBox14.TabIndex = 80
         Me.PictureBox14.TabStop = False
@@ -908,9 +908,9 @@ Partial Class Form1
         '
         Me.PictureBox13.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.PictureBox13.Image = Global.Screw_conveyor.My.Resources.Resources.B36_10
-        Me.PictureBox13.Location = New System.Drawing.Point(853, 23)
+        Me.PictureBox13.Location = New System.Drawing.Point(853, 10)
         Me.PictureBox13.Name = "PictureBox13"
-        Me.PictureBox13.Size = New System.Drawing.Size(89, 52)
+        Me.PictureBox13.Size = New System.Drawing.Size(104, 65)
         Me.PictureBox13.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.PictureBox13.TabIndex = 79
         Me.PictureBox13.TabStop = False
@@ -1056,7 +1056,7 @@ Partial Class Form1
         '
         'TextBox65
         '
-        Me.TextBox65.Location = New System.Drawing.Point(175, 47)
+        Me.TextBox65.Location = New System.Drawing.Point(175, 21)
         Me.TextBox65.Name = "TextBox65"
         Me.TextBox65.Size = New System.Drawing.Size(172, 20)
         Me.TextBox65.TabIndex = 74
@@ -1066,7 +1066,7 @@ Partial Class Form1
         '
         Me.Label81.AutoSize = True
         Me.Label81.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label81.Location = New System.Drawing.Point(10, 46)
+        Me.Label81.Location = New System.Drawing.Point(10, 20)
         Me.Label81.Name = "Label81"
         Me.Label81.Size = New System.Drawing.Size(96, 18)
         Me.Label81.TabIndex = 69
@@ -1074,7 +1074,7 @@ Partial Class Form1
         '
         'TextBox66
         '
-        Me.TextBox66.Location = New System.Drawing.Point(175, 19)
+        Me.TextBox66.Location = New System.Drawing.Point(175, 49)
         Me.TextBox66.Name = "TextBox66"
         Me.TextBox66.Size = New System.Drawing.Size(172, 20)
         Me.TextBox66.TabIndex = 73
@@ -1084,11 +1084,11 @@ Partial Class Form1
         '
         Me.Label82.AutoSize = True
         Me.Label82.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label82.Location = New System.Drawing.Point(10, 19)
+        Me.Label82.Location = New System.Drawing.Point(10, 49)
         Me.Label82.Name = "Label82"
-        Me.Label82.Size = New System.Drawing.Size(141, 18)
+        Me.Label82.Size = New System.Drawing.Size(109, 18)
         Me.Label82.TabIndex = 70
-        Me.Label82.Text = "VTK Project number"
+        Me.Label82.Text = "Project number"
         '
         'TextBox67
         '
@@ -1104,9 +1104,9 @@ Partial Class Form1
         Me.Label83.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label83.Location = New System.Drawing.Point(10, 74)
         Me.Label83.Name = "Label83"
-        Me.Label83.Size = New System.Drawing.Size(149, 18)
+        Me.Label83.Size = New System.Drawing.Size(89, 18)
         Me.Label83.TabIndex = 71
-        Me.Label83.Text = "Machine identification"
+        Me.Label83.Text = "Schroef Tag"
         '
         'GroupBox7
         '
@@ -4581,6 +4581,7 @@ Partial Class Form1
         Me.GroupBox13.Controls.Add(Me.Label58)
         Me.GroupBox13.Controls.Add(Me.Label32)
         Me.GroupBox13.Controls.Add(Me.Label31)
+        Me.GroupBox13.Enabled = False
         Me.GroupBox13.Location = New System.Drawing.Point(13, 17)
         Me.GroupBox13.Name = "GroupBox13"
         Me.GroupBox13.Size = New System.Drawing.Size(244, 210)
@@ -4610,6 +4611,7 @@ Partial Class Form1
         '
         'TextBox53
         '
+        Me.TextBox53.Enabled = False
         Me.TextBox53.Location = New System.Drawing.Point(125, 64)
         Me.TextBox53.Name = "TextBox53"
         Me.TextBox53.Size = New System.Drawing.Size(97, 20)
@@ -4621,9 +4623,9 @@ Partial Class Form1
         Me.Label73.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label73.Location = New System.Drawing.Point(9, 62)
         Me.Label73.Name = "Label73"
-        Me.Label73.Size = New System.Drawing.Size(105, 16)
+        Me.Label73.Size = New System.Drawing.Size(82, 16)
         Me.Label73.TabIndex = 43
-        Me.Label73.Text = "Schroef nummer"
+        Me.Label73.Text = "Schroef Tag"
         '
         'TextBox52
         '
@@ -4683,6 +4685,7 @@ Partial Class Form1
         '
         'TextBox35
         '
+        Me.TextBox35.Enabled = False
         Me.TextBox35.Location = New System.Drawing.Point(125, 40)
         Me.TextBox35.Name = "TextBox35"
         Me.TextBox35.Size = New System.Drawing.Size(97, 20)
@@ -4690,6 +4693,7 @@ Partial Class Form1
         '
         'TextBox23
         '
+        Me.TextBox23.Enabled = False
         Me.TextBox23.Location = New System.Drawing.Point(125, 16)
         Me.TextBox23.Name = "TextBox23"
         Me.TextBox23.Size = New System.Drawing.Size(97, 20)
@@ -4729,7 +4733,7 @@ Partial Class Form1
         '
         Me.Label31.AutoSize = True
         Me.Label31.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label31.Location = New System.Drawing.Point(9, 86)
+        Me.Label31.Location = New System.Drawing.Point(9, 87)
         Me.Label31.Name = "Label31"
         Me.Label31.Size = New System.Drawing.Size(64, 16)
         Me.Label31.TabIndex = 0
@@ -7983,7 +7987,7 @@ Partial Class Form1
         Me.Controls.Add(Me.TabControl1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Form1"
-        Me.Text = "Screw conveyors 3.0 P"
+        Me.Text = "Screw conveyors 3.0 Q"
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage1.PerformLayout
