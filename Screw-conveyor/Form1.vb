@@ -3684,10 +3684,10 @@ Public Class Form1
         prj_data(0, 1) = TextBox66.Text
         prj_data(1, 1) = TextBox65.Text
         prj_data(2, 1) = TextBox67.Text
-        prj_data(3, 1) = Now.Day.ToString & "-" & Now.Month.ToString & "-" & Now.Year.ToString
+        prj_data(3, 1) = Now.Day.ToString & "-" & Now.Month.ToString & "-" & Now.Year.ToString & ", " & Now.TimeOfDay.Hours.ToString & ":" & Now.TimeOfDay.Minutes.ToString
         prj_data(4, 1) = Environment.UserName
-        prj_data(5, 1) = NumericUpDown45.Value.ToString
-        prj_data(6, 1) = NumericUpDown3.Value.ToString
+        prj_data(5, 1) = TextBox44.Text & " [m]"
+        prj_data(6, 1) = TextBox51.Text & " [m]"
 
         excl_range.Value = prj_data
 
@@ -3703,11 +3703,7 @@ Public Class Form1
         Dim iCol As Integer
         '=========== Colum titles ==========
         For iCol = 0 To DataGridView1.Columns.Count - 1
-            If Not IsNothing(DataGridView1.Rows(iRow).Cells(iCol).Value) Then
-                saRet(iRow, iCol) = DataGridView1.Columns(iCol).HeaderText.ToString
-            Else
-                saRet(iRow, iCol) = " "
-            End If
+            saRet(iRow, iCol) = DataGridView1.Columns(iCol).HeaderText.ToString
         Next iCol
 
         '========= Content ======

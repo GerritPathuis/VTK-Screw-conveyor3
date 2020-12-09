@@ -667,6 +667,9 @@ Partial Class Form1
         Me.PictureBox10 = New System.Windows.Forms.PictureBox()
         Me.TabPage14 = New System.Windows.Forms.TabPage()
         Me.TextBox46 = New System.Windows.Forms.TextBox()
+        Me.TabPage15 = New System.Windows.Forms.TabPage()
+        Me.Button18 = New System.Windows.Forms.Button()
+        Me.PictureBox17 = New System.Windows.Forms.PictureBox()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
         Me.TabControl1.SuspendLayout
@@ -846,6 +849,8 @@ Partial Class Form1
         CType(Me.NumericUpDown62, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.PictureBox10, System.ComponentModel.ISupportInitialize).BeginInit
         Me.TabPage14.SuspendLayout
+        Me.TabPage15.SuspendLayout
+        CType(Me.PictureBox17, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
@@ -865,6 +870,7 @@ Partial Class Form1
         Me.TabControl1.Controls.Add(Me.TabPage12)
         Me.TabControl1.Controls.Add(Me.TabPage13)
         Me.TabControl1.Controls.Add(Me.TabPage14)
+        Me.TabControl1.Controls.Add(Me.TabPage15)
         Me.TabControl1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Name = "TabControl1"
@@ -1060,7 +1066,7 @@ Partial Class Form1
         Me.TextBox65.Name = "TextBox65"
         Me.TextBox65.Size = New System.Drawing.Size(172, 20)
         Me.TextBox65.TabIndex = 74
-        Me.TextBox65.Text = "Test"
+        Me.TextBox65.Text = "Jane Doe Ltd"
         '
         'Label81
         '
@@ -1078,7 +1084,7 @@ Partial Class Form1
         Me.TextBox66.Name = "TextBox66"
         Me.TextBox66.Size = New System.Drawing.Size(172, 20)
         Me.TextBox66.TabIndex = 73
-        Me.TextBox66.Text = "P17.10"
+        Me.TextBox66.Text = "Q20.10"
         '
         'Label82
         '
@@ -1776,7 +1782,7 @@ Partial Class Form1
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage2.Size = New System.Drawing.Size(995, 664)
         Me.TabPage2.TabIndex = 1
-        Me.TabPage2.Text = "Stress calculations"
+        Me.TabPage2.Text = "Stress "
         Me.TabPage2.UseVisualStyleBackColor = True
         '
         'TextBox155
@@ -3430,7 +3436,7 @@ Partial Class Form1
         Me.TabPage3.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage3.Size = New System.Drawing.Size(995, 664)
         Me.TabPage3.TabIndex = 2
-        Me.TabPage3.Text = "Background Information"
+        Me.TabPage3.Text = "Background"
         Me.TabPage3.UseVisualStyleBackColor = True
         '
         'PictureBox2
@@ -6183,7 +6189,7 @@ Partial Class Form1
         Me.TabPage9.Padding = New System.Windows.Forms.Padding(3)
         Me.TabPage9.Size = New System.Drawing.Size(995, 664)
         Me.TabPage9.TabIndex = 8
-        Me.TabPage9.Text = "Discharge screw"
+        Me.TabPage9.Text = "Bin screw"
         Me.TabPage9.UseVisualStyleBackColor = True
         '
         'Label179
@@ -7975,6 +7981,37 @@ Partial Class Form1
         Me.TextBox46.TabIndex = 0
         Me.TextBox46.Text = "Modlog "
         '
+        'TabPage15
+        '
+        Me.TabPage15.Controls.Add(Me.Button18)
+        Me.TabPage15.Controls.Add(Me.PictureBox17)
+        Me.TabPage15.Location = New System.Drawing.Point(4, 22)
+        Me.TabPage15.Name = "TabPage15"
+        Me.TabPage15.Padding = New System.Windows.Forms.Padding(3)
+        Me.TabPage15.Size = New System.Drawing.Size(995, 664)
+        Me.TabPage15.TabIndex = 14
+        Me.TabPage15.Text = "Production"
+        Me.TabPage15.UseVisualStyleBackColor = True
+        '
+        'Button18
+        '
+        Me.Button18.Location = New System.Drawing.Point(739, 335)
+        Me.Button18.Name = "Button18"
+        Me.Button18.Size = New System.Drawing.Size(143, 68)
+        Me.Button18.TabIndex = 1
+        Me.Button18.Text = "Do not Hit this button"
+        Me.Button18.UseVisualStyleBackColor = True
+        '
+        'PictureBox17
+        '
+        Me.PictureBox17.Image = CType(resources.GetObject("PictureBox17.Image"), System.Drawing.Image)
+        Me.PictureBox17.Location = New System.Drawing.Point(296, 129)
+        Me.PictureBox17.Name = "PictureBox17"
+        Me.PictureBox17.Size = New System.Drawing.Size(311, 274)
+        Me.PictureBox17.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
+        Me.PictureBox17.TabIndex = 0
+        Me.PictureBox17.TabStop = False
+        '
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
@@ -8218,6 +8255,8 @@ Partial Class Form1
         CType(Me.PictureBox10, System.ComponentModel.ISupportInitialize).EndInit
         Me.TabPage14.ResumeLayout(False)
         Me.TabPage14.PerformLayout
+        Me.TabPage15.ResumeLayout(False)
+        CType(Me.PictureBox17, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
 
@@ -8859,4 +8898,7 @@ Partial Class Form1
     Friend WithEvents Label89 As Label
     Friend WithEvents NumericUpDown91 As NumericUpDown
     Friend WithEvents Button17 As Button
+    Friend WithEvents TabPage15 As TabPage
+    Friend WithEvents PictureBox17 As PictureBox
+    Friend WithEvents Button18 As Button
 End Class
