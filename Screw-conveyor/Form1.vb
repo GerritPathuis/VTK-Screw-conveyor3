@@ -831,7 +831,7 @@ Public Class Form1
             part(11).P_name = "Hanger Bearings"
             part(12).P_name = "Coupling"
             part(13).P_name = "Coupling guard"
-            part(14).P_name = "Drive"
+            part(14).P_name = "Drive "
             part(15).P_name = "Paint/Pickling"
             part(16).P_name = "Flange gasket"
             part(17).P_name = "Intern transp."
@@ -937,7 +937,7 @@ Public Class Form1
         Next hh
 
         Pipe_dia_combo_init()
-        Motorreductor()
+        'Motorreductor()
         Coupling_combo()
         Lager_combo()
 
@@ -1079,7 +1079,7 @@ Public Class Form1
         Return (mekog)
     End Function
 
-    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown10.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox4.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, TabPage4.Enter, CheckBox5.CheckedChanged, NumericUpDown68.ValueChanged, NumericUpDown67.ValueChanged, NumericUpDown79.ValueChanged, NumericUpDown78.ValueChanged, NumericUpDown77.ValueChanged, NumericUpDown76.ValueChanged, NumericUpDown75.ValueChanged, NumericUpDown74.ValueChanged, NumericUpDown73.ValueChanged, NumericUpDown72.ValueChanged, NumericUpDown71.ValueChanged, NumericUpDown70.ValueChanged, NumericUpDown69.ValueChanged, NumericUpDown89.ValueChanged, NumericUpDown88.ValueChanged, NumericUpDown25.ValueChanged, TextBox43.TextChanged, TextBox42.TextChanged, TextBox184.TextChanged, TextBox183.TextChanged, NumericUpDown97.ValueChanged, NumericUpDown96.ValueChanged, NumericUpDown99.ValueChanged, NumericUpDown98.ValueChanged, NumericUpDown87.ValueChanged, NumericUpDown86.ValueChanged, NumericUpDown85.ValueChanged, NumericUpDown84.ValueChanged, NumericUpDown95.ValueChanged, NumericUpDown91.ValueChanged, NumericUpDown90.ValueChanged, NumericUpDown27.ValueChanged
+    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown10.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, TabPage4.Enter, CheckBox5.CheckedChanged, NumericUpDown68.ValueChanged, NumericUpDown67.ValueChanged, NumericUpDown79.ValueChanged, NumericUpDown78.ValueChanged, NumericUpDown77.ValueChanged, NumericUpDown76.ValueChanged, NumericUpDown75.ValueChanged, NumericUpDown74.ValueChanged, NumericUpDown73.ValueChanged, NumericUpDown72.ValueChanged, NumericUpDown71.ValueChanged, NumericUpDown70.ValueChanged, NumericUpDown69.ValueChanged, NumericUpDown89.ValueChanged, NumericUpDown88.ValueChanged, NumericUpDown25.ValueChanged, TextBox43.TextChanged, TextBox42.TextChanged, TextBox184.TextChanged, TextBox183.TextChanged, NumericUpDown97.ValueChanged, NumericUpDown96.ValueChanged, NumericUpDown99.ValueChanged, NumericUpDown98.ValueChanged, NumericUpDown87.ValueChanged, NumericUpDown86.ValueChanged, NumericUpDown85.ValueChanged, NumericUpDown84.ValueChanged, NumericUpDown95.ValueChanged, NumericUpDown91.ValueChanged, NumericUpDown90.ValueChanged, NumericUpDown27.ValueChanged, TextBox48.TextChanged, CheckBox6.CheckedChanged, NumericUpDown92.ValueChanged
         Calc_sequence()
         Present_Datagridview1()
     End Sub
@@ -1489,17 +1489,17 @@ Public Class Form1
             Calulate_stress_1()
         End If
     End Sub
-    Private Sub Motorreductor()
-        Dim words() As String
+    'Private Sub Motorreductor()
+    '    Dim words() As String
 
-        ComboBox4.Items.Clear()
-        '-------Fill combobox4,  selection------------------
-        For hh = 1 To (UBound(motorred))                'Fill combobox 3 with pipe data
-            words = motorred(hh).Split(CType(";", Char()))
-            ComboBox4.Items.Add(Trim(words(0)))
-        Next hh
-        ComboBox4.SelectedIndex = 2
-    End Sub
+    '    ComboBox4.Items.Clear()
+    '    '-------Fill combobox4,  selection------------------
+    '    For hh = 1 To (UBound(motorred))                'Fill combobox 3 with pipe data
+    '        words = motorred(hh).Split(CType(";", Char()))
+    '        ComboBox4.Items.Add(Trim(words(0)))
+    '    Next hh
+    '    ComboBox4.SelectedIndex = 2
+    'End Sub
     Private Sub Coupling_combo()
         Dim words() As String
 
@@ -1695,8 +1695,8 @@ Public Class Form1
         oTable.Cell(row, 1).Range.Text = "Input data"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Gearreducer"
-        oTable.Cell(row, 3).Range.Text = CType(ComboBox4.SelectedItem, String)
-        oTable.Cell(row, 2).Range.Text = "[-]"
+        oTable.Cell(row, 3).Range.Text = TextBox48.Text
+        oTable.Cell(row, 2).Range.Text = " "
         row += 1
         oTable.Cell(row, 1).Range.Text = "Coupling"
         NewMethod(oTable, row)
@@ -1713,8 +1713,6 @@ Public Class Form1
         oTable.Cell(row, 1).Range.Text = "Weight end plates"
         oTable.Cell(row, 3).Range.Text = part(0).P_dikte.ToString
         oTable.Cell(row, 2).Range.Text = "[mm]"
-        'oTable.Cell(row, 5).Range.Text = part(0).P_kg_each.ToString
-        'oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
 
         oTable.Cell(row, 1).Range.Text = "Weight trough"
@@ -3099,6 +3097,7 @@ Public Class Form1
             '========= End Bearing =======
             Dim words1() As String = lager(ComboBox8.SelectedIndex + 1).Split(CType(";", Char()))
             part(10).P_cost_mat_each = CDbl(words1(1))                    'End bearing
+            If Not CheckBox6.Checked Then part(10).P_cost_mat_each = 0
 
             '========= Coupling =======
             Dim words2() As String = coupl(ComboBox7.SelectedIndex + 1).Split(CType(";", Char()))
@@ -3106,8 +3105,9 @@ Public Class Form1
             If Not CheckBox3.Checked Then part(12).P_cost_mat_each = 0
 
             '========= Drive =======
-            Dim words3() As String = motorred(ComboBox4.SelectedIndex + 1).Split(CType(";", Char()))
-            part(14).P_cost_mat_each = CDbl(words3(3))                  'cost_motorreductor
+            TextBox48.MaxLength = 15
+            part(14).P_name = "Drive " & TextBox48.Text
+            part(14).P_cost_mat_each = NumericUpDown92.Value     'cost_motorreductor
             If Not CheckBox2.Checked Then part(14).P_cost_mat_each = 0
 
             '========= Paint ===========
