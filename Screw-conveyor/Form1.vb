@@ -95,6 +95,69 @@ Public Class Form1
     Public Shared progress_resistance As Double    'Friction from product to steel
     Public init_done As Boolean = False
 
+    'Systeem Lennard Hubert
+    Public Shared Trog_uren() As String = {
+    "vanaf; tot; 0-3m; 3-6m; >6m; kuipflens; inlaat+flens; uitlaat+flens; schot_eindas; montage",
+    "0.0   ; 229.0 ; 4.8 ; 3.5 ; 3.2 ; 2.0 ; 3.0 ; 4.0 ; 3.6 ; 6.0 	",
+    "230.0 ; 299.0 ; 5.3 ; 4.0 ; 3.6 ; 2.0 ; 3.0 ; 4.0 ; 3.6 ; 6.0 	",
+    "300.0 ; 399.0 ; 5.5 ; 4.5 ; 4.1 ; 2.0 ; 4.0 ; 5.0 ; 4.5 ; 6.5 	",
+    "400.0 ; 499.0 ; 5.9 ; 5.5 ; 4.5 ; 2.5 ; 4.0 ; 5.0 ; 5.0 ; 7.0 	",
+    "500.0 ; 599.0 ; 6.4 ; 5.9 ; 5.0 ; 2.5 ; 4.5 ; 6.0 ; 5.4 ; 7.5 	",
+    "600.0 ; 750.0 ; 6.8 ; 6.3 ; 5.4 ; 3.0 ; 4.5 ; 7.0 ; 5.9 ; 8.0 	"}
+
+    Public Shared Schroef_uren() As String = {
+    "Dia1;Dia2;0-3m;3-6m ;>6m",
+    "0   ;	229; 4.75 ;	3.75 ; 3.25",
+    "230 ; 	299; 5.25 ;	4.25 ; 3.75",
+    "300 ;	399; 5.75 ;	4.50 ; 4.25",
+    "400 ;	499; 6.25 ;	5.25 ; 4.75",
+    "500 ;	599; 6.50 ;	5.75 ; 5.25",
+    "600 ;	750; 6.75 ;	6.25 ; 5.75"}
+
+    Public Shared Eindschot_uren() As String = {
+   "Dia1;Dia2;0-3m;3-6m;>6m",
+    "0	 ;229 ;5.00 ;6.00 ;	6.50",
+    "230 ;299 ;5.00 ;6.00 ;	6.50",
+    "300 ;399 ;6.00 ;6.50 ;	7.00",
+    "400 ;499 ;6.00 ;6.50 ;	7.00",
+    "500 ;599 ;6.50 ;7.00 ;	7.50",
+    "600 ;750 ;6.50 ;7.00 ;	7.50"}
+
+    '===== aantal uren identiek voor DE and NDE ===
+    Public Shared Assen_uren() As String = {
+    "Dia1;base;h/m",
+    "0  ; 1; 2.5",
+    "30 ; 1; 3.5",
+    "100; 1; 4.5",
+    "110; 2; 5.5",
+    "140; 2; 6.5",
+    "180; 3; 7.5"}
+
+    '===== Deksel uren alleen lengte afhankelijk ===
+    Public Shared Deksel_uren() As String = {
+    "L[m]; [h/m]",
+    "3 	;1.75",
+    "6	;1.40",
+    ">6	;1.00"}
+
+
+    Public Shared Pakkingbus_uren() As String = {
+   " kg;	uur ",
+    "1.0; 	1.0 ",
+    "9.0;	2.0 ",
+    "19.0;	4.0 ",
+    "29.0;	6.0 ",
+    "49.0;	8.0 ",
+    "79.0;	10.0",
+    "99.0;	12.0",
+    "119.0; 14.0",
+    "139.0; 16.0",
+    "159.0; 18.0",
+    "179.0; 20.0",
+    "199.0; 24.0",
+    "1000 ; 32.0"}
+
+
     'Materials name; CEMA Material code; Conveyor loading; Component group, density min, Density max, HP Material
     Public Shared _inputs() As String = {
     "--          ; 0000;30A;2B;500;500;1.0",
@@ -850,7 +913,21 @@ Public Class Form1
             part(30).P_name = "Sum costs"
         End With
 
-        Init_Datagridview1()
+        With DataGridView2
+            part(0).P_name = "Eindplaten "
+            part(1).P_name = "Trog"
+            part(2).P_name = "Deksel"
+            part(3).P_name = "Inlaat"
+            part(4).P_name = "Uitlaat"
+            part(5).P_name = "Trog voet"
+            part(6).P_name = "Schroefblad "
+            part(7).P_name = "Astap diam"
+            part(8).P_name = "Shaft seals"
+            part(8).P_name = "Montage"
+        End With
+
+        Init_Datagridview1()        'Materials
+        Init_Datagridview2()        'labour
 
         For hh = 0 To (UBound(_inputs) - 1)              'Fill combobox1
             words = _inputs(hh).Split(CType(";", Char()))
@@ -1460,7 +1537,6 @@ Public Class Form1
         Calc_sequence()
     End Sub
 
-
     Private Sub Pipe_dia_combo_init()
         Dim words(), tmp As String
 
@@ -1500,6 +1576,8 @@ Public Class Form1
     '    Next hh
     '    ComboBox4.SelectedIndex = 2
     'End Sub
+
+
     Private Sub Coupling_combo()
         Dim words() As String
 
@@ -1522,7 +1600,12 @@ Public Class Form1
         Next hh
         ComboBox8.SelectedIndex = 1
     End Sub
+
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        Print_word_doc()
+    End Sub
+
+    Private Sub Print_word_doc()
         Dim oWord As Word.Application
         Dim oDoc As Word.Document
         Dim oTable As Word.Table
@@ -1637,19 +1720,14 @@ Public Class Form1
         oTable.Cell(row, 1).Range.Text = "Diameter pipe"
         oTable.Cell(row, 3).Range.Text = CType(ComboBox9.SelectedItem, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
-        '  oTable.Cell(row, 5).Range.Text = TextBox45.Text
-        'oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Wall thickness pipe"
         oTable.Cell(row, 3).Range.Text = NumericUpDown57.Value.ToString("F1")
         oTable.Cell(row, 2).Range.Text = "[mm]"
-
         row += 1
         oTable.Cell(row, 1).Range.Text = "Flight thickness"
         oTable.Cell(row, 3).Range.Text = CType(NumericUpDown8.Value, String)
         oTable.Cell(row, 2).Range.Text = "[mm]"
-        '  oTable.Cell(row, 5).Range.Text = TextBox46.Text
-        'oTable.Cell(row, 4).Range.Text = "[kg]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Service factor"
         oTable.Cell(row, 3).Range.Text = CType(NumericUpDown18.Value, String)
@@ -3805,6 +3883,53 @@ Public Class Form1
     Private Sub Button14_Click(sender As Object, e As EventArgs) Handles Button14.Click
         Print_vertical_screw()
     End Sub
+
+    Private Sub Button18_Click(sender As Object, e As EventArgs) Handles Button18.Click
+        Dim dia, L As Double
+
+        'Dim Eindplaten As Double
+        Dim Trog As Double
+        'Dim Deksel As Double
+        'Dim Inlaat As Double
+        'Dim Uitlaat As Double
+        'Dim Schroef As Double
+        'Dim Astap As Double
+        'Dim seals As Double
+        'Dim Montage As Double
+
+        dia = _diam_flight
+        L = NumericUpDown3.Value
+
+        'Eindplaten = 1
+        Trog = Cost_trog(dia, L)
+        'Deksel = 1
+        'Inlaat = 1
+        'Uitlaat = 1
+        'Schroef = 1
+        'Astap = 1
+        'seals = 1
+        'Montage = 1
+
+    End Sub
+    Private Function Cost_trog(dia As Double, L As Double) As Double
+        Dim q As Double
+
+        Select Case True
+            Case dia < 230
+                Select Case True
+                    Case L < 3000
+                        q = 4.8
+                    Case L > 3000 And L <= 6000
+                        q = 3.5
+                    Case L > 6000
+                        q = 3.2
+                End Select
+        End Select
+
+
+        Return (q)
+    End Function
+
     Private Sub Print_vertical_screw()
         Dim oWord As Word.Application ' = Nothing
         Dim oDoc As Word.Document
@@ -3987,6 +4112,59 @@ Public Class Form1
         End With
     End Sub
 
+    Private Sub Init_Datagridview2()
+        Populate_DGV(DataGridView2, Trog_uren)
+        Populate_DGV(DataGridView3, Schroef_uren)
+        Populate_DGV(DataGridView4, Eindschot_uren)
+        Populate_DGV(DataGridView5, Pakkingbus_uren)
+        Populate_DGV(DataGridView6, Assen_uren)
+        Populate_DGV(DataGridView7, Deksel_uren)
+        Populate_DGV8()                             'Summary
+    End Sub
+    Private Sub Populate_DGV8()
+        With DataGridView8  'Deksel uren
+            .ColumnCount = 5
+            .Rows.Add(10)
+            .RowHeadersVisible = False
+
+            .Columns(0).HeaderText = "Onderdeel"
+            .Columns(1).HeaderText = "No"
+            .Columns(2).HeaderText = "h/each"
+            .Columns(3).HeaderText = "h/tot"
+
+            .Rows(0).Cells(0).Value = "Trog"
+            .Rows(1).Cells(0).Value = "Schroef"
+            .Rows(2).Cells(0).Value = "Pakkingsbus"
+            .Rows(3).Cells(0).Value = "Assen"
+            .Rows(4).Cells(0).Value = "Deksel"
+
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+        End With
+    End Sub
+
+    Private Sub Populate_DGV(dgv As DataGridView, data As String())
+        Dim words() As String
+        With dgv  'Deksel uren
+            words = data(0).Split(CType(";", Char()))
+            .ColumnCount = words.Length
+            .Rows.Clear()
+            .Rows.Add(part.Length)
+            .RowHeadersVisible = False
+
+            '--------- HeaderText --------------------
+            For i = 0 To words.Length - 1
+                .Columns(i).HeaderText = Trim(words(i))
+            Next
+            '--------- Content -----------
+            For hh = 0 To (UBound(data) - 1)
+                words = data(hh + 1).Split(CType(";", Char()))
+                For i = 0 To words.Length - 1
+                    .Rows(hh).Cells(i).Value = Trim(words(i))
+                Next
+            Next hh
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+        End With
+    End Sub
     Private Sub Present_Datagridview1()
         Dim selRow, selCol As Integer
 

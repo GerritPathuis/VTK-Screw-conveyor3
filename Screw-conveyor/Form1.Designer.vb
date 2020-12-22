@@ -24,15 +24,15 @@ Partial Class Form1
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
-        Dim ChartArea19 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend19 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series19 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea20 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend20 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series20 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea21 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend21 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series21 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea31 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend31 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series31 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea32 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend32 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series32 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea33 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend33 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series33 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.PictureBox14 = New System.Windows.Forms.PictureBox()
@@ -341,6 +341,9 @@ Partial Class Form1
         Me.Label66 = New System.Windows.Forms.Label()
         Me.DataGridView1 = New System.Windows.Forms.DataGridView()
         Me.GroupBox25 = New System.Windows.Forms.GroupBox()
+        Me.CheckBox6 = New System.Windows.Forms.CheckBox()
+        Me.TextBox48 = New System.Windows.Forms.TextBox()
+        Me.NumericUpDown92 = New System.Windows.Forms.NumericUpDown()
         Me.NumericUpDown97 = New System.Windows.Forms.NumericUpDown()
         Me.TextBox43 = New System.Windows.Forms.TextBox()
         Me.NumericUpDown96 = New System.Windows.Forms.NumericUpDown()
@@ -667,13 +670,24 @@ Partial Class Form1
         Me.TabPage14 = New System.Windows.Forms.TabPage()
         Me.TextBox46 = New System.Windows.Forms.TextBox()
         Me.TabPage15 = New System.Windows.Forms.TabPage()
+        Me.GroupBox49 = New System.Windows.Forms.GroupBox()
+        Me.DataGridView5 = New System.Windows.Forms.DataGridView()
+        Me.GroupBox48 = New System.Windows.Forms.GroupBox()
+        Me.DataGridView4 = New System.Windows.Forms.DataGridView()
+        Me.GroupBox47 = New System.Windows.Forms.GroupBox()
+        Me.DataGridView3 = New System.Windows.Forms.DataGridView()
+        Me.GroupBox46 = New System.Windows.Forms.GroupBox()
+        Me.DataGridView2 = New System.Windows.Forms.DataGridView()
         Me.Button18 = New System.Windows.Forms.Button()
         Me.PictureBox17 = New System.Windows.Forms.PictureBox()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
-        Me.NumericUpDown92 = New System.Windows.Forms.NumericUpDown()
-        Me.TextBox48 = New System.Windows.Forms.TextBox()
-        Me.CheckBox6 = New System.Windows.Forms.CheckBox()
+        Me.GroupBox50 = New System.Windows.Forms.GroupBox()
+        Me.DataGridView6 = New System.Windows.Forms.DataGridView()
+        Me.GroupBox51 = New System.Windows.Forms.GroupBox()
+        Me.DataGridView7 = New System.Windows.Forms.DataGridView()
+        Me.GroupBox52 = New System.Windows.Forms.GroupBox()
+        Me.DataGridView8 = New System.Windows.Forms.DataGridView()
         Me.TabControl1.SuspendLayout
         Me.TabPage1.SuspendLayout
         CType(Me.PictureBox14, System.ComponentModel.ISupportInitialize).BeginInit
@@ -763,6 +777,7 @@ Partial Class Form1
         CType(Me.NumericUpDown15, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox25.SuspendLayout
+        CType(Me.NumericUpDown92, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NumericUpDown97, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NumericUpDown96, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.NumericUpDown68, System.ComponentModel.ISupportInitialize).BeginInit
@@ -852,9 +867,22 @@ Partial Class Form1
         CType(Me.PictureBox10, System.ComponentModel.ISupportInitialize).BeginInit
         Me.TabPage14.SuspendLayout
         Me.TabPage15.SuspendLayout
+        Me.GroupBox49.SuspendLayout
+        CType(Me.DataGridView5, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox48.SuspendLayout
+        CType(Me.DataGridView4, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox47.SuspendLayout
+        CType(Me.DataGridView3, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox46.SuspendLayout
+        CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.PictureBox17, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.NumericUpDown92, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox50.SuspendLayout
+        CType(Me.DataGridView6, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox51.SuspendLayout
+        CType(Me.DataGridView7, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.GroupBox52.SuspendLayout
+        CType(Me.DataGridView8, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
         'TabControl1
@@ -4333,6 +4361,40 @@ Partial Class Form1
         Me.GroupBox25.TabStop = False
         Me.GroupBox25.Text = "Components"
         '
+        'CheckBox6
+        '
+        Me.CheckBox6.AutoSize = True
+        Me.CheckBox6.Checked = True
+        Me.CheckBox6.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox6.Location = New System.Drawing.Point(111, 66)
+        Me.CheckBox6.Name = "CheckBox6"
+        Me.CheckBox6.Size = New System.Drawing.Size(67, 17)
+        Me.CheckBox6.TabIndex = 159
+        Me.CheckBox6.Text = "Included"
+        Me.CheckBox6.UseVisualStyleBackColor = True
+        '
+        'TextBox48
+        '
+        Me.TextBox48.Location = New System.Drawing.Point(184, 17)
+        Me.TextBox48.MaxLength = 30
+        Me.TextBox48.Name = "TextBox48"
+        Me.TextBox48.Size = New System.Drawing.Size(157, 20)
+        Me.TextBox48.TabIndex = 158
+        Me.TextBox48.Text = "Type "
+        '
+        'NumericUpDown92
+        '
+        Me.NumericUpDown92.BackColor = System.Drawing.Color.Yellow
+        Me.NumericUpDown92.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.NumericUpDown92.Increment = New Decimal(New Integer() {10, 0, 0, 0})
+        Me.NumericUpDown92.Location = New System.Drawing.Point(347, 17)
+        Me.NumericUpDown92.Maximum = New Decimal(New Integer() {3000, 0, 0, 0})
+        Me.NumericUpDown92.Name = "NumericUpDown92"
+        Me.NumericUpDown92.Size = New System.Drawing.Size(64, 21)
+        Me.NumericUpDown92.TabIndex = 157
+        Me.NumericUpDown92.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.NumericUpDown92.Value = New Decimal(New Integer() {2000, 0, 0, 0})
+        '
         'NumericUpDown97
         '
         Me.NumericUpDown97.BackColor = System.Drawing.Color.Yellow
@@ -5888,17 +5950,17 @@ Partial Class Form1
         '
         'Chart3
         '
-        ChartArea19.Name = "ChartArea1"
-        Me.Chart3.ChartAreas.Add(ChartArea19)
+        ChartArea31.Name = "ChartArea1"
+        Me.Chart3.ChartAreas.Add(ChartArea31)
         Me.Chart3.Dock = System.Windows.Forms.DockStyle.Top
-        Legend19.Name = "Legend1"
-        Me.Chart3.Legends.Add(Legend19)
+        Legend31.Name = "Legend1"
+        Me.Chart3.Legends.Add(Legend31)
         Me.Chart3.Location = New System.Drawing.Point(176, 401)
         Me.Chart3.Name = "Chart3"
-        Series19.ChartArea = "ChartArea1"
-        Series19.Legend = "Legend1"
-        Series19.Name = "Series1"
-        Me.Chart3.Series.Add(Series19)
+        Series31.ChartArea = "ChartArea1"
+        Series31.Legend = "Legend1"
+        Series31.Name = "Series1"
+        Me.Chart3.Series.Add(Series31)
         Me.Chart3.Size = New System.Drawing.Size(816, 199)
         Me.Chart3.TabIndex = 4
         Me.Chart3.Text = "Chart3"
@@ -5915,34 +5977,34 @@ Partial Class Form1
         '
         'Chart2
         '
-        ChartArea20.Name = "ChartArea1"
-        Me.Chart2.ChartAreas.Add(ChartArea20)
+        ChartArea32.Name = "ChartArea1"
+        Me.Chart2.ChartAreas.Add(ChartArea32)
         Me.Chart2.Dock = System.Windows.Forms.DockStyle.Top
-        Legend20.Name = "Legend1"
-        Me.Chart2.Legends.Add(Legend20)
+        Legend32.Name = "Legend1"
+        Me.Chart2.Legends.Add(Legend32)
         Me.Chart2.Location = New System.Drawing.Point(176, 202)
         Me.Chart2.Name = "Chart2"
-        Series20.ChartArea = "ChartArea1"
-        Series20.Legend = "Legend1"
-        Series20.Name = "Series1"
-        Me.Chart2.Series.Add(Series20)
+        Series32.ChartArea = "ChartArea1"
+        Series32.Legend = "Legend1"
+        Series32.Name = "Series1"
+        Me.Chart2.Series.Add(Series32)
         Me.Chart2.Size = New System.Drawing.Size(816, 199)
         Me.Chart2.TabIndex = 3
         Me.Chart2.Text = "Chart2"
         '
         'Chart1
         '
-        ChartArea21.Name = "ChartArea1"
-        Me.Chart1.ChartAreas.Add(ChartArea21)
+        ChartArea33.Name = "ChartArea1"
+        Me.Chart1.ChartAreas.Add(ChartArea33)
         Me.Chart1.Dock = System.Windows.Forms.DockStyle.Top
-        Legend21.Name = "Legend1"
-        Me.Chart1.Legends.Add(Legend21)
+        Legend33.Name = "Legend1"
+        Me.Chart1.Legends.Add(Legend33)
         Me.Chart1.Location = New System.Drawing.Point(176, 3)
         Me.Chart1.Name = "Chart1"
-        Series21.ChartArea = "ChartArea1"
-        Series21.Legend = "Legend1"
-        Series21.Name = "Series1"
-        Me.Chart1.Series.Add(Series21)
+        Series33.ChartArea = "ChartArea1"
+        Series33.Legend = "Legend1"
+        Series33.Name = "Series1"
+        Me.Chart1.Series.Add(Series33)
         Me.Chart1.Size = New System.Drawing.Size(816, 199)
         Me.Chart1.TabIndex = 1
         Me.Chart1.Text = "Chart1"
@@ -7979,6 +8041,13 @@ Partial Class Form1
         '
         'TabPage15
         '
+        Me.TabPage15.Controls.Add(Me.GroupBox52)
+        Me.TabPage15.Controls.Add(Me.GroupBox51)
+        Me.TabPage15.Controls.Add(Me.GroupBox50)
+        Me.TabPage15.Controls.Add(Me.GroupBox49)
+        Me.TabPage15.Controls.Add(Me.GroupBox48)
+        Me.TabPage15.Controls.Add(Me.GroupBox47)
+        Me.TabPage15.Controls.Add(Me.GroupBox46)
         Me.TabPage15.Controls.Add(Me.Button18)
         Me.TabPage15.Controls.Add(Me.PictureBox17)
         Me.TabPage15.Location = New System.Drawing.Point(4, 22)
@@ -7989,22 +8058,106 @@ Partial Class Form1
         Me.TabPage15.Text = "Production"
         Me.TabPage15.UseVisualStyleBackColor = True
         '
+        'GroupBox49
+        '
+        Me.GroupBox49.Controls.Add(Me.DataGridView5)
+        Me.GroupBox49.Location = New System.Drawing.Point(564, 6)
+        Me.GroupBox49.Name = "GroupBox49"
+        Me.GroupBox49.Size = New System.Drawing.Size(130, 201)
+        Me.GroupBox49.TabIndex = 176
+        Me.GroupBox49.TabStop = False
+        Me.GroupBox49.Text = "Pakkingsbus [h/kg]"
+        '
+        'DataGridView5
+        '
+        Me.DataGridView5.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText
+        Me.DataGridView5.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView5.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView5.Location = New System.Drawing.Point(3, 16)
+        Me.DataGridView5.Name = "DataGridView5"
+        Me.DataGridView5.RowHeadersWidth = 62
+        Me.DataGridView5.Size = New System.Drawing.Size(124, 182)
+        Me.DataGridView5.TabIndex = 172
+        '
+        'GroupBox48
+        '
+        Me.GroupBox48.Controls.Add(Me.DataGridView4)
+        Me.GroupBox48.Location = New System.Drawing.Point(6, 213)
+        Me.GroupBox48.Name = "GroupBox48"
+        Me.GroupBox48.Size = New System.Drawing.Size(248, 201)
+        Me.GroupBox48.TabIndex = 175
+        Me.GroupBox48.TabStop = False
+        Me.GroupBox48.Text = "Eindschot fabrieksuren [h/m]"
+        '
+        'DataGridView4
+        '
+        Me.DataGridView4.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText
+        Me.DataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView4.Location = New System.Drawing.Point(3, 16)
+        Me.DataGridView4.Name = "DataGridView4"
+        Me.DataGridView4.RowHeadersWidth = 62
+        Me.DataGridView4.Size = New System.Drawing.Size(242, 182)
+        Me.DataGridView4.TabIndex = 172
+        '
+        'GroupBox47
+        '
+        Me.GroupBox47.Controls.Add(Me.DataGridView3)
+        Me.GroupBox47.Location = New System.Drawing.Point(260, 213)
+        Me.GroupBox47.Name = "GroupBox47"
+        Me.GroupBox47.Size = New System.Drawing.Size(248, 201)
+        Me.GroupBox47.TabIndex = 174
+        Me.GroupBox47.TabStop = False
+        Me.GroupBox47.Text = "Schroefstuk fabrieksuren [h/m]"
+        '
+        'DataGridView3
+        '
+        Me.DataGridView3.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText
+        Me.DataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView3.Location = New System.Drawing.Point(3, 16)
+        Me.DataGridView3.Name = "DataGridView3"
+        Me.DataGridView3.RowHeadersWidth = 62
+        Me.DataGridView3.Size = New System.Drawing.Size(242, 182)
+        Me.DataGridView3.TabIndex = 172
+        '
+        'GroupBox46
+        '
+        Me.GroupBox46.Controls.Add(Me.DataGridView2)
+        Me.GroupBox46.Location = New System.Drawing.Point(3, 6)
+        Me.GroupBox46.Name = "GroupBox46"
+        Me.GroupBox46.Size = New System.Drawing.Size(542, 201)
+        Me.GroupBox46.TabIndex = 173
+        Me.GroupBox46.TabStop = False
+        Me.GroupBox46.Text = "Kuip fabrieksuren [h/m]"
+        '
+        'DataGridView2
+        '
+        Me.DataGridView2.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText
+        Me.DataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView2.Location = New System.Drawing.Point(3, 16)
+        Me.DataGridView2.Name = "DataGridView2"
+        Me.DataGridView2.RowHeadersWidth = 62
+        Me.DataGridView2.Size = New System.Drawing.Size(536, 182)
+        Me.DataGridView2.TabIndex = 172
+        '
         'Button18
         '
-        Me.Button18.Location = New System.Drawing.Point(739, 335)
+        Me.Button18.Location = New System.Drawing.Point(865, 453)
         Me.Button18.Name = "Button18"
-        Me.Button18.Size = New System.Drawing.Size(143, 68)
+        Me.Button18.Size = New System.Drawing.Size(81, 29)
         Me.Button18.TabIndex = 1
-        Me.Button18.Text = "Do not Hit this button"
+        Me.Button18.Text = "Button18"
         Me.Button18.UseVisualStyleBackColor = True
         '
         'PictureBox17
         '
         Me.PictureBox17.Image = CType(resources.GetObject("PictureBox17.Image"), System.Drawing.Image)
-        Me.PictureBox17.Location = New System.Drawing.Point(296, 129)
+        Me.PictureBox17.Location = New System.Drawing.Point(814, 488)
         Me.PictureBox17.Name = "PictureBox17"
-        Me.PictureBox17.Size = New System.Drawing.Size(311, 274)
-        Me.PictureBox17.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
+        Me.PictureBox17.Size = New System.Drawing.Size(116, 105)
+        Me.PictureBox17.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.PictureBox17.TabIndex = 0
         Me.PictureBox17.TabStop = False
         '
@@ -8012,39 +8165,68 @@ Partial Class Form1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'NumericUpDown92
+        'GroupBox50
         '
-        Me.NumericUpDown92.BackColor = System.Drawing.Color.Yellow
-        Me.NumericUpDown92.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.NumericUpDown92.Increment = New Decimal(New Integer() {10, 0, 0, 0})
-        Me.NumericUpDown92.Location = New System.Drawing.Point(347, 17)
-        Me.NumericUpDown92.Maximum = New Decimal(New Integer() {3000, 0, 0, 0})
-        Me.NumericUpDown92.Name = "NumericUpDown92"
-        Me.NumericUpDown92.Size = New System.Drawing.Size(64, 21)
-        Me.NumericUpDown92.TabIndex = 157
-        Me.NumericUpDown92.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.NumericUpDown92.Value = New Decimal(New Integer() {2000, 0, 0, 0})
+        Me.GroupBox50.Controls.Add(Me.DataGridView6)
+        Me.GroupBox50.Location = New System.Drawing.Point(524, 213)
+        Me.GroupBox50.Name = "GroupBox50"
+        Me.GroupBox50.Size = New System.Drawing.Size(185, 201)
+        Me.GroupBox50.TabIndex = 177
+        Me.GroupBox50.TabStop = False
+        Me.GroupBox50.Text = "DE en NDE assen [h/m]"
         '
-        'TextBox48
+        'DataGridView6
         '
-        Me.TextBox48.Location = New System.Drawing.Point(184, 17)
-        Me.TextBox48.MaxLength = 30
-        Me.TextBox48.Name = "TextBox48"
-        Me.TextBox48.Size = New System.Drawing.Size(157, 20)
-        Me.TextBox48.TabIndex = 158
-        Me.TextBox48.Text = "Type "
+        Me.DataGridView6.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText
+        Me.DataGridView6.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView6.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView6.Location = New System.Drawing.Point(3, 16)
+        Me.DataGridView6.Name = "DataGridView6"
+        Me.DataGridView6.RowHeadersWidth = 62
+        Me.DataGridView6.Size = New System.Drawing.Size(179, 182)
+        Me.DataGridView6.TabIndex = 172
         '
-        'CheckBox6
+        'GroupBox51
         '
-        Me.CheckBox6.AutoSize = True
-        Me.CheckBox6.Checked = True
-        Me.CheckBox6.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.CheckBox6.Location = New System.Drawing.Point(111, 66)
-        Me.CheckBox6.Name = "CheckBox6"
-        Me.CheckBox6.Size = New System.Drawing.Size(67, 17)
-        Me.CheckBox6.TabIndex = 159
-        Me.CheckBox6.Text = "Included"
-        Me.CheckBox6.UseVisualStyleBackColor = True
+        Me.GroupBox51.Controls.Add(Me.DataGridView7)
+        Me.GroupBox51.Location = New System.Drawing.Point(729, 6)
+        Me.GroupBox51.Name = "GroupBox51"
+        Me.GroupBox51.Size = New System.Drawing.Size(137, 201)
+        Me.GroupBox51.TabIndex = 178
+        Me.GroupBox51.TabStop = False
+        Me.GroupBox51.Text = "Deksel fabrieksuren [h/m]"
+        '
+        'DataGridView7
+        '
+        Me.DataGridView7.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText
+        Me.DataGridView7.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView7.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView7.Location = New System.Drawing.Point(3, 16)
+        Me.DataGridView7.Name = "DataGridView7"
+        Me.DataGridView7.RowHeadersWidth = 62
+        Me.DataGridView7.Size = New System.Drawing.Size(131, 182)
+        Me.DataGridView7.TabIndex = 172
+        '
+        'GroupBox52
+        '
+        Me.GroupBox52.Controls.Add(Me.DataGridView8)
+        Me.GroupBox52.Location = New System.Drawing.Point(9, 420)
+        Me.GroupBox52.Name = "GroupBox52"
+        Me.GroupBox52.Size = New System.Drawing.Size(268, 198)
+        Me.GroupBox52.TabIndex = 179
+        Me.GroupBox52.TabStop = False
+        Me.GroupBox52.Text = "Samenvatting [h]"
+        '
+        'DataGridView8
+        '
+        Me.DataGridView8.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText
+        Me.DataGridView8.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView8.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView8.Location = New System.Drawing.Point(3, 16)
+        Me.DataGridView8.Name = "DataGridView8"
+        Me.DataGridView8.RowHeadersWidth = 62
+        Me.DataGridView8.Size = New System.Drawing.Size(262, 179)
+        Me.DataGridView8.TabIndex = 172
         '
         'Form1
         '
@@ -8173,6 +8355,7 @@ Partial Class Form1
         CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox25.ResumeLayout(False)
         Me.GroupBox25.PerformLayout
+        CType(Me.NumericUpDown92, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NumericUpDown97, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NumericUpDown96, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.NumericUpDown68, System.ComponentModel.ISupportInitialize).EndInit
@@ -8286,9 +8469,22 @@ Partial Class Form1
         Me.TabPage14.ResumeLayout(False)
         Me.TabPage14.PerformLayout
         Me.TabPage15.ResumeLayout(False)
+        Me.GroupBox49.ResumeLayout(False)
+        CType(Me.DataGridView5, System.ComponentModel.ISupportInitialize).EndInit
+        Me.GroupBox48.ResumeLayout(False)
+        CType(Me.DataGridView4, System.ComponentModel.ISupportInitialize).EndInit
+        Me.GroupBox47.ResumeLayout(False)
+        CType(Me.DataGridView3, System.ComponentModel.ISupportInitialize).EndInit
+        Me.GroupBox46.ResumeLayout(False)
+        CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.PictureBox17, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.NumericUpDown92, System.ComponentModel.ISupportInitialize).EndInit
+        Me.GroupBox50.ResumeLayout(False)
+        CType(Me.DataGridView6, System.ComponentModel.ISupportInitialize).EndInit
+        Me.GroupBox51.ResumeLayout(False)
+        CType(Me.DataGridView7, System.ComponentModel.ISupportInitialize).EndInit
+        Me.GroupBox52.ResumeLayout(False)
+        CType(Me.DataGridView8, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
 
     End Sub
@@ -8934,4 +9130,18 @@ Partial Class Form1
     Friend WithEvents NumericUpDown92 As NumericUpDown
     Friend WithEvents TextBox48 As TextBox
     Friend WithEvents CheckBox6 As CheckBox
+    Friend WithEvents DataGridView2 As DataGridView
+    Friend WithEvents GroupBox46 As GroupBox
+    Friend WithEvents GroupBox47 As GroupBox
+    Friend WithEvents DataGridView3 As DataGridView
+    Friend WithEvents GroupBox48 As GroupBox
+    Friend WithEvents DataGridView4 As DataGridView
+    Friend WithEvents GroupBox49 As GroupBox
+    Friend WithEvents DataGridView5 As DataGridView
+    Friend WithEvents GroupBox50 As GroupBox
+    Friend WithEvents DataGridView6 As DataGridView
+    Friend WithEvents GroupBox51 As GroupBox
+    Friend WithEvents DataGridView7 As DataGridView
+    Friend WithEvents GroupBox52 As GroupBox
+    Friend WithEvents DataGridView8 As DataGridView
 End Class
