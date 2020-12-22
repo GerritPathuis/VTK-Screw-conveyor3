@@ -97,35 +97,35 @@ Public Class Form1
 
     'Systeem Lennard Hubert
     Public Shared Trog_uren() As String = {
-    "vanaf; tot; 0-3m; 3-6m; >6m; kuipflens; inlaat+flens; uitlaat+flens; schot_eindas; montage",
-    "0.0   ; 229.0 ; 4.8 ; 3.5 ; 3.2 ; 2.0 ; 3.0 ; 4.0 ; 3.6 ; 6.0 	",
-    "230.0 ; 299.0 ; 5.3 ; 4.0 ; 3.6 ; 2.0 ; 3.0 ; 4.0 ; 3.6 ; 6.0 	",
-    "300.0 ; 399.0 ; 5.5 ; 4.5 ; 4.1 ; 2.0 ; 4.0 ; 5.0 ; 4.5 ; 6.5 	",
-    "400.0 ; 499.0 ; 5.9 ; 5.5 ; 4.5 ; 2.5 ; 4.0 ; 5.0 ; 5.0 ; 7.0 	",
-    "500.0 ; 599.0 ; 6.4 ; 5.9 ; 5.0 ; 2.5 ; 4.5 ; 6.0 ; 5.4 ; 7.5 	",
-    "600.0 ; 750.0 ; 6.8 ; 6.3 ; 5.4 ; 3.0 ; 4.5 ; 7.0 ; 5.9 ; 8.0 	"}
+    "Flight; 0-3m; 3-6m; >6m; kuipflens; inlaat+flens; uitlaat+flens; schot_eindas; montage",
+    "0.0 ; 4.8 ; 3.5 ; 3.2 ; 2.0 ; 3.0 ; 4.0 ; 3.6 ; 6.0",
+    "230 ; 5.3 ; 4.0 ; 3.6 ; 2.0 ; 3.0 ; 4.0 ; 3.6 ; 6.0",
+    "300 ; 5.5 ; 4.5 ; 4.1 ; 2.0 ; 4.0 ; 5.0 ; 4.5 ; 6.5",
+    "400 ; 5.9 ; 5.5 ; 4.5 ; 2.5 ; 4.0 ; 5.0 ; 5.0 ; 7.0",
+    "500 ; 6.4 ; 5.9 ; 5.0 ; 2.5 ; 4.5 ; 6.0 ; 5.4 ; 7.5",
+    "600 ; 6.8 ; 6.3 ; 5.4 ; 3.0 ; 4.5 ; 7.0 ; 5.9 ; 8.0"}
 
     Public Shared Schroef_uren() As String = {
-    "Dia1;Dia2;0-3m;3-6m ;>6m",
-    "0   ;	229; 4.75 ;	3.75 ; 3.25",
-    "230 ; 	299; 5.25 ;	4.25 ; 3.75",
-    "300 ;	399; 5.75 ;	4.50 ; 4.25",
-    "400 ;	499; 6.25 ;	5.25 ; 4.75",
-    "500 ;	599; 6.50 ;	5.75 ; 5.25",
-    "600 ;	750; 6.75 ;	6.25 ; 5.75"}
+    "Flight;0-3m; 3-6m ;>6m",
+    "0   ; 4.75 ; 3.75 ; 3.25",
+    "230 ; 5.25 ; 4.25 ; 3.75",
+    "300 ; 5.75 ; 4.50 ; 4.25",
+    "400 ; 6.25 ; 5.25 ; 4.75",
+    "500 ; 6.50 ; 5.75 ; 5.25",
+    "600 ; 6.75 ; 6.25 ; 5.75"}
 
     Public Shared Eindschot_uren() As String = {
-   "Dia1;Dia2;0-3m;3-6m;>6m",
-    "0	 ;229 ;5.00 ;6.00 ;	6.50",
-    "230 ;299 ;5.00 ;6.00 ;	6.50",
-    "300 ;399 ;6.00 ;6.50 ;	7.00",
-    "400 ;499 ;6.00 ;6.50 ;	7.00",
-    "500 ;599 ;6.50 ;7.00 ;	7.50",
-    "600 ;750 ;6.50 ;7.00 ;	7.50"}
+   "Flight;0-3m;3-6m;>6m",
+    "0	  ;5.00 ;6.00 ;	6.50",
+    "230  ;5.00 ;6.00 ;	6.50",
+    "300  ;6.00 ;6.50 ;	7.00",
+    "400  ;6.00 ;6.50 ;	7.00",
+    "500  ;6.50 ;7.00 ;	7.50",
+    "600  ;6.50 ;7.00 ;	7.50"}
 
     '===== aantal uren identiek voor DE and NDE ===
     Public Shared Assen_uren() As String = {
-    "Dia1;base;h/m",
+    "Shaft;base;h/m",
     "0  ; 1; 2.5",
     "30 ; 1; 3.5",
     "100; 1; 4.5",
@@ -142,7 +142,7 @@ Public Class Form1
 
 
     Public Shared Pakkingbus_uren() As String = {
-   " kg;	uur ",
+    "kg;	uur ",
     "1.0; 	1.0 ",
     "9.0;	2.0 ",
     "19.0;	4.0 ",
@@ -3884,51 +3884,110 @@ Public Class Form1
         Print_vertical_screw()
     End Sub
 
-    Private Sub Button18_Click(sender As Object, e As EventArgs) Handles Button18.Click
-        Dim dia, L As Double
+    Private Sub Button18_Click(sender As Object, e As EventArgs) Handles Button18.Click, TabPage15.Enter
 
-        'Dim Eindplaten As Double
-        Dim Trog As Double
-        'Dim Deksel As Double
-        'Dim Inlaat As Double
-        'Dim Uitlaat As Double
-        'Dim Schroef As Double
-        'Dim Astap As Double
-        'Dim seals As Double
-        'Dim Montage As Double
-
-        dia = _diam_flight
-        L = NumericUpDown3.Value
-
-        'Eindplaten = 1
-        Trog = Cost_trog(dia, L)
-        'Deksel = 1
-        'Inlaat = 1
-        'Uitlaat = 1
-        'Schroef = 1
-        'Astap = 1
-        'seals = 1
-        'Montage = 1
+        Hours_lennard(_diam_flight, NumericUpDown3.Value, NumericUpDown86.Value, NumericUpDown93.Value)
 
     End Sub
-    Private Function Cost_trog(dia As Double, L As Double) As Double
-        Dim q As Double
+    Private Sub Hours_lennard(dia As Double, L As Double, d_as As Double, kg As Double)
+        Dim trog As Double
+        Dim kuipflens As Double
+        Dim in_flens As Double
+        Dim uit_flens As Double
+        Dim schot As Double
+        Dim Schroef As Double
+        Dim Pakkingsbus As Double
+        Dim Assen As Double
+        Dim Deksel As Double
+        Dim montage As Double
 
-        Select Case True
-            Case dia < 230
-                Select Case True
-                    Case L < 3000
-                        q = 4.8
-                    Case L > 3000 And L <= 6000
-                        q = 3.5
-                    Case L > 6000
-                        q = 3.2
-                End Select
-        End Select
+        dia *= 1000     '[mm] flight diameter
+        With DataGridView2
+            For iRow = 1 To .Rows.Count - 1
+                If dia > CDbl(.Rows(iRow).Cells(0).Value) Then
+                    Debug.WriteLine(dia.ToString)
+                    Select Case True    'Screw length
+                        Case L < 3
+                            trog = CDbl(.Rows(iRow).Cells(1).Value)
+                        Case L >= 3 And L < 6
+                            trog = CDbl(.Rows(iRow).Cells(2).Value)
+                        Case Else
+                            trog = CDbl(.Rows(iRow).Cells(3).Value)
+                    End Select
+                    kuipflens = CDbl(.Rows(iRow).Cells(4).Value)
+                    in_flens = CDbl(.Rows(iRow).Cells(5).Value)
+                    uit_flens = CDbl(.Rows(iRow).Cells(6).Value)
+                    schot = CDbl(.Rows(iRow).Cells(7).Value)
+                    montage = CDbl(.Rows(iRow).Cells(8).Value)
+                    Exit For
+                End If
+            Next iRow
+        End With
 
+        With DataGridView3      'Schroef
+            For iRow = 1 To .Rows.Count - 1
+                If dia > CDbl(.Rows(iRow).Cells(0).Value) Then
+                    Schroef = CDbl(.Rows(iRow).Cells(1).Value)
+                    Exit For
+                End If
+            Next iRow
+        End With
 
-        Return (q)
-    End Function
+        With DataGridView5      'Pakkingsbus
+            For iRow = 1 To .Rows.Count - 1
+                If kg > CDbl(.Rows(iRow).Cells(0).Value) Then
+                    Pakkingsbus = CDbl(.Rows(iRow).Cells(1).Value)
+                    Exit For
+                End If
+            Next iRow
+        End With
+
+        With DataGridView6      'Assen
+            For iRow = 1 To .Rows.Count - 1
+                If d_as > CDbl(.Rows(iRow).Cells(0).Value) Then
+                    Assen = 2 * CDbl(.Rows(iRow).Cells(1).Value)
+                    Exit For
+                End If
+            Next iRow
+        End With
+
+        With DataGridView7      'Deksel
+            Select Case True    'Screw length
+                Case L < 3
+                    Deksel = CDbl(.Rows(0).Cells(1).Value)
+                Case L >= 3 And L < 6
+                    Deksel = CDbl(.Rows(1).Cells(1).Value)
+                Case Else
+                    Deksel = CDbl(.Rows(3).Cells(1).Value)
+            End Select
+        End With
+
+        With DataGridView8
+            .Rows(0).Cells(1).Value = trog.ToString("F0")
+            .Rows(1).Cells(1).Value = kuipflens.ToString("F0")
+            .Rows(2).Cells(1).Value = in_flens.ToString("F0")
+            .Rows(3).Cells(1).Value = uit_flens.ToString("F0")
+            .Rows(4).Cells(1).Value = schot.ToString("F0")
+            .Rows(5).Cells(1).Value = Schroef.ToString("F0")
+            .Rows(6).Cells(1).Value = Pakkingsbus.ToString("F0")
+            .Rows(7).Cells(1).Value = Assen.ToString("F0")
+            .Rows(8).Cells(1).Value = Deksel.ToString("F0")
+            .Rows(9).Cells(1).Value = montage.ToString("F0")
+
+            .Rows(0).Cells(2).Value = (L * trog).ToString("F0")
+            .Rows(1).Cells(2).Value = (2 * kuipflens).ToString("F0")
+            .Rows(2).Cells(2).Value = in_flens.ToString("F0")
+            .Rows(3).Cells(2).Value = uit_flens.ToString("F0")
+            .Rows(4).Cells(2).Value = (2 * schot).ToString("F0")
+            .Rows(5).Cells(2).Value = (L * Schroef).ToString("F0")
+            .Rows(6).Cells(2).Value = (2 * Pakkingsbus).ToString("F0")
+            .Rows(7).Cells(2).Value = (2 * Assen).ToString("F0")
+            .Rows(8).Cells(2).Value = (L * Deksel).ToString("F0")
+            .Rows(9).Cells(2).Value = montage.ToString("F0")
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+        End With
+
+    End Sub
 
     Private Sub Print_vertical_screw()
         Dim oWord As Word.Application ' = Nothing
@@ -4079,6 +4138,7 @@ Public Class Form1
         oTable.Rows.Item(1).Range.Font.Bold = CInt(True)
         oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
     End Sub
+
     Private Sub Init_Datagridview1()
         With DataGridView1
 
@@ -4119,24 +4179,28 @@ Public Class Form1
         Populate_DGV(DataGridView5, Pakkingbus_uren)
         Populate_DGV(DataGridView6, Assen_uren)
         Populate_DGV(DataGridView7, Deksel_uren)
-        Populate_DGV8()                             'Summary
+        Populate_DGV8()             'Summary
     End Sub
     Private Sub Populate_DGV8()
-        With DataGridView8  'Deksel uren
-            .ColumnCount = 5
-            .Rows.Add(10)
+        With DataGridView8  'Summary uren
+            .ColumnCount = 3
+            .Rows.Add(12)
             .RowHeadersVisible = False
 
             .Columns(0).HeaderText = "Onderdeel"
-            .Columns(1).HeaderText = "No"
-            .Columns(2).HeaderText = "h/each"
-            .Columns(3).HeaderText = "h/tot"
+            .Columns(1).HeaderText = "[h/m]"
+            .Columns(2).HeaderText = "[h]"
 
             .Rows(0).Cells(0).Value = "Trog"
-            .Rows(1).Cells(0).Value = "Schroef"
-            .Rows(2).Cells(0).Value = "Pakkingsbus"
-            .Rows(3).Cells(0).Value = "Assen"
-            .Rows(4).Cells(0).Value = "Deksel"
+            .Rows(1).Cells(0).Value = "Kuipflens"
+            .Rows(2).Cells(0).Value = "In_flens"
+            .Rows(3).Cells(0).Value = "Uit_flens"
+            .Rows(4).Cells(0).Value = "Schot"
+            .Rows(5).Cells(0).Value = "Schroef"
+            .Rows(6).Cells(0).Value = "Pakkingsbus"
+            .Rows(7).Cells(0).Value = "Assen"
+            .Rows(8).Cells(0).Value = "Deksel"
+            .Rows(9).Cells(0).Value = "Montage"
 
             .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
         End With
