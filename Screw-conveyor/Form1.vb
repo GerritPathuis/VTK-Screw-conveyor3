@@ -3996,16 +3996,16 @@ Public Class Form1
 
             With DataGridView8
                 If .Rows.Count > 0 Then     'Prevent problems
-                    .Rows(0).Cells(1).Value = trog.ToString("F1")
-                    .Rows(1).Cells(1).Value = kuipflens.ToString("F1")
-                    .Rows(2).Cells(1).Value = in_flens.ToString("F1")
-                    .Rows(3).Cells(1).Value = uit_flens.ToString("F1")
-                    .Rows(4).Cells(1).Value = schot.ToString("F1")
-                    .Rows(5).Cells(1).Value = Schroef.ToString("F1")
-                    .Rows(6).Cells(1).Value = Pakkingsbus.ToString("F1")
-                    .Rows(7).Cells(1).Value = Assen.ToString("F1")
-                    .Rows(8).Cells(1).Value = Deksel.ToString("F1")
-                    .Rows(9).Cells(1).Value = montage.ToString("F1")
+                    .Rows(0).Cells(1).Value = trog.ToString("F2")
+                    .Rows(1).Cells(1).Value = kuipflens.ToString("F2")
+                    .Rows(2).Cells(1).Value = in_flens.ToString("F2")
+                    .Rows(3).Cells(1).Value = uit_flens.ToString("F2")
+                    .Rows(4).Cells(1).Value = schot.ToString("F2")
+                    .Rows(5).Cells(1).Value = Schroef.ToString("F2")
+                    .Rows(6).Cells(1).Value = Pakkingsbus.ToString("F2")
+                    .Rows(7).Cells(1).Value = Assen.ToString("F2")
+                    .Rows(8).Cells(1).Value = Deksel.ToString("F2")
+                    .Rows(9).Cells(1).Value = montage.ToString("F2")
 
                     .Rows(0).Cells(2).Value = (L * trog).ToString("F0")
                     .Rows(1).Cells(2).Value = (2 * kuipflens).ToString("F0")
@@ -4243,7 +4243,7 @@ Public Class Form1
             .Rows(1).Cells(0).Value = "Troughflange"
             .Rows(2).Cells(0).Value = "Inlet+flange"
             .Rows(3).Cells(0).Value = "Outlet+flange"
-            .Rows(4).Cells(0).Value = "Endplate"
+            .Rows(4).Cells(0).Value = "Endplates"
             .Rows(5).Cells(0).Value = "Screw"
             .Rows(6).Cells(0).Value = "Seals"
             .Rows(7).Cells(0).Value = "Stubs"
@@ -4253,6 +4253,8 @@ Public Class Form1
 
             For h = 1 To .Columns.Count - 1
                 .Columns(h).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(h).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(h).Width = 45
             Next
 
         End With
@@ -4279,10 +4281,12 @@ Public Class Form1
                 Next
             Next hh
 
+            .Columns(0).Width = 45
             For h = 1 To .Columns.Count - 1
                 .Columns(h).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(h).HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter
+                .Columns(h).Width = 55
             Next
-            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader
         End With
     End Sub
     Private Sub Present_Datagridview1()
