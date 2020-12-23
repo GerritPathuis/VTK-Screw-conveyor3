@@ -97,13 +97,14 @@ Public Class Form1
 
     'Systeem Lennard Hubert
     Public Shared Trog_uren() As String = {
-    "Flight; 0-3m; 3-6m; >6m; kuipfl; inlaat+fl; uitlaat+fl; eind_schot; montage",
+    "Flight; 0-3m; 3-6m; >6m; kuipfl; inlet; outlet; end_plate; montage",
     "0   ; 4.8 ; 3.5 ; 3.2 ; 2.0 ; 3.0 ; 4.0 ; 3.6 ; 6.0",
     "230 ; 5.3 ; 4.0 ; 3.6 ; 2.0 ; 3.0 ; 4.0 ; 3.6 ; 6.0",
     "300 ; 5.5 ; 4.5 ; 4.1 ; 2.0 ; 4.0 ; 5.0 ; 4.5 ; 6.5",
     "400 ; 5.9 ; 5.5 ; 4.5 ; 2.5 ; 4.0 ; 5.0 ; 5.0 ; 7.0",
     "500 ; 6.4 ; 5.9 ; 5.0 ; 2.5 ; 4.5 ; 6.0 ; 5.4 ; 7.5",
-    "600 ; 6.8 ; 6.3 ; 5.4 ; 3.0 ; 4.5 ; 7.0 ; 5.9 ; 8.0"}
+    "600 ; 6.8 ; 6.3 ; 5.4 ; 3.0 ; 4.5 ; 7.0 ; 5.9 ; 8.0",
+    "700 ; 7.2 ; 6.7 ; 5.8 ; 3.0 ; 5.0 ; 8.0 ; 6.4 ; 8.5"}
 
     Public Shared Schroef_uren() As String = {
     "Flight;<3m; 3-6m ;>6m",
@@ -112,7 +113,8 @@ Public Class Form1
     "300 ; 5.75 ; 4.50 ; 4.25",
     "400 ; 6.25 ; 5.25 ; 4.75",
     "500 ; 6.50 ; 5.75 ; 5.25",
-    "600 ; 6.75 ; 6.25 ; 5.75"}
+    "600 ; 6.75 ; 6.25 ; 5.75",
+    "700 ; 7.00 ; 6.75 ; 5.50"}
 
     Public Shared Eindschot_uren() As String = {
    "Flight;<3m;3-6m;>6m",
@@ -121,7 +123,8 @@ Public Class Form1
     "300  ;6.00 ;6.50 ;	7.00",
     "400  ;6.00 ;6.50 ;	7.00",
     "500  ;6.50 ;7.00 ;	7.50",
-    "600  ;6.50 ;7.00 ;	7.50"}
+    "600  ;6.50 ;7.00 ;	7.50",
+    "700  ;6.50 ;7.50 ;	8.00"}
 
     '===== aantal uren identiek voor DE and NDE ===
     Public Shared Assen_uren() As String = {
@@ -131,13 +134,14 @@ Public Class Form1
     "100; 1; 4.5",
     "110; 2; 5.5",
     "140; 2; 6.5",
-    "180; 3; 7.5"}
+    "180; 3; 7.5",
+    "220; 4; 8.5"}
 
     '===== Deksel uren alleen lengte afhankelijk ===
     Public Shared Deksel_uren() As String = {
     "L[m]; [h/m]",
     "<3 ; 1.75",
-    "6	; 1.40",
+    "3-6; 1.40",
     ">6	; 1.00"}
 
 
@@ -954,6 +958,8 @@ Public Class Form1
         TextBox46.Text &= "28/11/2020, Tip speed horizontal 1.5 [m/s]" & vbCrLf
         TextBox46.Text &= "28/11/2020, Complete overhaul cost section" & vbCrLf
         TextBox46.Text &= "02/12/2020, Published, print-out and export WIP" & vbCrLf
+        TextBox46.Text &= "23/12/2020, Fabrication hour system LH added" & vbCrLf
+        TextBox46.Text &= "23/12/2020, Flight diameter limited to 699mm" & vbCrLf
         TextBox46.Text &= "" & vbCrLf
 
         TextBox133.Text = "Plaat zwart" & vbTab & "1.30 €/kg" & vbCrLf
@@ -1026,7 +1032,8 @@ Public Class Form1
     Private Sub Calc_sequence()
         Calculate_cap()
         Calulate_stress_1()
-        Costing_material()
+        Hours_lennard(_diam_flight, NumericUpDown3.Value, NumericUpDown86.Value, NumericUpDown93.Value)
+        Material_sales()
         Screen_contrast()
     End Sub
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles NumericUpDown9.ValueChanged, NumericUpDown7.ValueChanged, NumericUpDown6.ValueChanged, NumericUpDown5.ValueChanged, NumericUpDown4.ValueChanged, NumericUpDown3.ValueChanged, NumericUpDown2.ValueChanged, Button1.Click, TabPage1.Enter, NumericUpDown8.ValueChanged, NumericUpDown40.ValueChanged, NumericUpDown39.ValueChanged, NumericUpDown58.ValueChanged
@@ -1172,7 +1179,7 @@ Public Class Form1
         End If
     End Sub
 
-    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click, TabPage5.Enter, NumericUpDown34.ValueChanged, NumericUpDown33.ValueChanged, NumericUpDown30.ValueChanged, NumericUpDown48.ValueChanged, TextBox99.VisibleChanged, NumericUpDown50.ValueChanged, NumericUpDown49.ValueChanged, NumericUpDown65.ValueChanged, NumericUpDown83.ValueChanged, NumericUpDown82.ValueChanged, NumericUpDown81.ValueChanged, NumericUpDown80.ValueChanged
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click, TabPage5.Enter, NumericUpDown34.ValueChanged, NumericUpDown33.ValueChanged, NumericUpDown30.ValueChanged, NumericUpDown48.ValueChanged, TextBox99.VisibleChanged, NumericUpDown50.ValueChanged, NumericUpDown49.ValueChanged, NumericUpDown65.ValueChanged, NumericUpDown83.ValueChanged, NumericUpDown82.ValueChanged, NumericUpDown81.ValueChanged, NumericUpDown80.ValueChanged, CheckBox7.CheckedChanged
         Calc_sequence()
     End Sub
     'Please note complete calculation in [m] not [mm]
@@ -2964,7 +2971,7 @@ Public Class Form1
         oDoc.Bookmarks.Item("\endofdoc").Range.InsertParagraphAfter()
     End Sub
 
-    Private Sub Costing_material()
+    Private Sub Material_sales()
         Dim rho_staal As Double = 7950
         Dim opp_trog, opp_kopstaartplaat As Double
         Dim speling_trog, diam_schroef As Double
@@ -3885,10 +3892,6 @@ Public Class Form1
     End Sub
 
     Private Sub Button18_Click(sender As Object, e As EventArgs) Handles Button18.Click, TabPage15.Enter
-        TextBox57.Text = _diam_flight.ToString
-        TextBox54.Text = NumericUpDown3.Value.ToString
-        TextBox56.Text = NumericUpDown86.Value.ToString
-        TextBox58.Text = NumericUpDown93.Value.ToString
 
         Hours_lennard(_diam_flight, NumericUpDown3.Value, NumericUpDown86.Value, NumericUpDown93.Value)
     End Sub
@@ -3905,101 +3908,133 @@ Public Class Form1
         Dim montage As Double
         Dim som As Double
 
-        dia *= 1000     '[mm] flight diameter
-        With DataGridView2
-            For iRow = 0 To .Rows.Count - 1
-                If dia > CDbl(.Rows(iRow).Cells(0).Value) Then
-                    Debug.WriteLine(dia.ToString)
-                    Select Case True    'Screw length
+        If dia > 0 And L > 0 And kg > 0 Then
+            dia *= 1000     '[mm] flight diameter
+            TextBox57.Text = _diam_flight.ToString
+            TextBox54.Text = NumericUpDown3.Value.ToString
+            TextBox56.Text = NumericUpDown86.Value.ToString
+            TextBox58.Text = NumericUpDown93.Value.ToString
+
+            With DataGridView2
+                If .Rows.Count > 0 Then     'Prevent problems
+                    For iRow = 0 To .Rows.Count - 2
+                        Dim s As Double = CDbl(.Rows(iRow).Cells(0).Value)
+                        Dim s1 As Double = CDbl(.Rows(iRow + 1).Cells(0).Value)
+                        If dia >= s And dia < s1 Then
+
+                            Select Case True    'Screw length
+                                Case L < 3
+                                    trog = CDbl(.Rows(iRow).Cells(1).Value)
+                                Case L >= 3 And L < 6
+                                    trog = CDbl(.Rows(iRow).Cells(2).Value)
+                                Case Else
+                                    trog = CDbl(.Rows(iRow).Cells(3).Value)
+                            End Select
+                            kuipflens = CDbl(.Rows(iRow).Cells(4).Value)
+                            in_flens = CDbl(.Rows(iRow).Cells(5).Value)
+                            uit_flens = CDbl(.Rows(iRow).Cells(6).Value)
+                            schot = CDbl(.Rows(iRow).Cells(7).Value)
+                            montage = CDbl(.Rows(iRow).Cells(8).Value)
+                        End If
+                    Next iRow
+                End If
+            End With
+
+            With DataGridView3              'Schroef
+                If .Rows.Count > 0 Then     'Prevent problems
+                    For iRow = 0 To .Rows.Count - 1
+                        Dim s As Double = CDbl(.Rows(iRow).Cells(0).Value)
+                        Dim s1 As Double = CDbl(.Rows(iRow + 1).Cells(0).Value)
+                        If dia >= s And dia < s1 Then
+                            Schroef = CDbl(.Rows(iRow).Cells(1).Value)
+                            Exit For
+                        End If
+                    Next iRow
+                End If
+            End With
+
+            With DataGridView5              'Pakkingsbus
+                If .Rows.Count > 0 Then     'Prevent problems
+                    For iRow = 0 To .Rows.Count - 1
+                        Dim s As Double = CDbl(.Rows(iRow).Cells(0).Value)
+                        Dim s1 As Double = CDbl(.Rows(iRow + 1).Cells(0).Value)
+                        If kg >= s And kg < s1 Then
+                            Pakkingsbus = CDbl(.Rows(iRow).Cells(1).Value)
+                            Exit For
+                        End If
+                    Next iRow
+                End If
+            End With
+
+            With DataGridView6              'Assen (length assumed 500 mm)
+                If .Rows.Count > 0 Then     'Prevent problems
+                    For iRow = 0 To .Rows.Count - 1
+                        Dim s As Double = CDbl(.Rows(iRow).Cells(0).Value)
+                        Dim s1 As Double = CDbl(.Rows(iRow + 1).Cells(0).Value)
+                        If d_as >= s And d_as < s1 Then
+                            Dim base_part As Double = CDbl(.Rows(iRow).Cells(1).Value)
+                            Dim length_part As Double = CDbl(.Rows(iRow).Cells(2).Value)
+                            Assen = (base_part + length_part)
+                            Exit For
+                        End If
+                    Next iRow
+                End If
+            End With
+
+            With DataGridView7              'Deksel
+                If .Rows.Count > 0 Then     'Prevent problems
+                    Select Case True        'Screw length
                         Case L < 3
-                            trog = CDbl(.Rows(iRow).Cells(1).Value)
+                            Deksel = CDbl(.Rows(0).Cells(1).Value)
                         Case L >= 3 And L < 6
-                            trog = CDbl(.Rows(iRow).Cells(2).Value)
+                            Deksel = CDbl(.Rows(1).Cells(1).Value)
                         Case Else
-                            trog = CDbl(.Rows(iRow).Cells(3).Value)
+                            Deksel = CDbl(.Rows(2).Cells(1).Value)
                     End Select
-                    kuipflens = CDbl(.Rows(iRow).Cells(4).Value)
-                    in_flens = CDbl(.Rows(iRow).Cells(5).Value)
-                    uit_flens = CDbl(.Rows(iRow).Cells(6).Value)
-                    schot = CDbl(.Rows(iRow).Cells(7).Value)
-                    montage = CDbl(.Rows(iRow).Cells(8).Value)
-                    Exit For
                 End If
-            Next iRow
-        End With
+            End With
 
-        With DataGridView3      'Schroef
-            For iRow = 0 To .Rows.Count - 1
-                If dia > CDbl(.Rows(iRow).Cells(0).Value) Then
-                    Schroef = CDbl(.Rows(iRow).Cells(1).Value)
-                    Exit For
+            With DataGridView8
+                If .Rows.Count > 0 Then     'Prevent problems
+                    .Rows(0).Cells(1).Value = trog.ToString("F1")
+                    .Rows(1).Cells(1).Value = kuipflens.ToString("F1")
+                    .Rows(2).Cells(1).Value = in_flens.ToString("F1")
+                    .Rows(3).Cells(1).Value = uit_flens.ToString("F1")
+                    .Rows(4).Cells(1).Value = schot.ToString("F1")
+                    .Rows(5).Cells(1).Value = Schroef.ToString("F1")
+                    .Rows(6).Cells(1).Value = Pakkingsbus.ToString("F1")
+                    .Rows(7).Cells(1).Value = Assen.ToString("F1")
+                    .Rows(8).Cells(1).Value = Deksel.ToString("F1")
+                    .Rows(9).Cells(1).Value = montage.ToString("F1")
+
+                    .Rows(0).Cells(2).Value = (L * trog).ToString("F0")
+                    .Rows(1).Cells(2).Value = (2 * kuipflens).ToString("F0")
+                    .Rows(2).Cells(2).Value = in_flens.ToString("F0")
+                    .Rows(3).Cells(2).Value = uit_flens.ToString("F0")
+                    .Rows(4).Cells(2).Value = (2 * schot).ToString("F0")
+                    .Rows(5).Cells(2).Value = (L * Schroef).ToString("F0")
+                    .Rows(6).Cells(2).Value = (2 * Pakkingsbus).ToString("F0")
+                    .Rows(7).Cells(2).Value = (2 * Assen).ToString("F0")
+                    .Rows(8).Cells(2).Value = (L * Deksel).ToString("F0")
+                    .Rows(9).Cells(2).Value = montage.ToString("F0")
+
+                    som = 0
+                    For iRow = 0 To 9
+                        som += CDbl(.Rows(iRow).Cells(2).Value)
+                    Next iRow
+
+                    If CheckBox7.Checked Then   'Sync with sales price tab
+                        NumericUpDown34.Value = CDec(som)
+                    End If
+
+                    .Rows(10).Cells(2).Value = som.ToString("F0")
+
+                    .Columns(0).Width = 80
+                    .Columns(1).Width = 50
+                    .Columns(2).Width = 50
                 End If
-            Next iRow
-        End With
-
-        With DataGridView5      'Pakkingsbus
-            For iRow = 0 To .Rows.Count - 1
-                If kg > CDbl(.Rows(iRow).Cells(0).Value) Then
-                    Pakkingsbus = CDbl(.Rows(iRow).Cells(1).Value)
-                    Exit For
-                End If
-            Next iRow
-        End With
-
-        With DataGridView6      'Assen (length assumed 500 mm)
-            For iRow = 0 To .Rows.Count - 1
-                If d_as > CDbl(.Rows(iRow).Cells(0).Value) Then
-                    Dim base_part As Double = CDbl(.Rows(iRow).Cells(1).Value)
-                    Dim length_part As Double = CDbl(.Rows(iRow).Cells(2).Value)
-                    Assen = (base_part + length_part)
-                    Exit For
-                End If
-            Next iRow
-        End With
-
-        With DataGridView7      'Deksel
-            Select Case True    'Screw length
-                Case L < 3
-                    Deksel = CDbl(.Rows(0).Cells(1).Value)
-                Case L >= 3 And L < 6
-                    Deksel = CDbl(.Rows(1).Cells(1).Value)
-                Case Else
-                    Deksel = CDbl(.Rows(3).Cells(1).Value)
-            End Select
-        End With
-
-        With DataGridView8
-            .Rows(0).Cells(1).Value = trog.ToString("F1")
-            .Rows(1).Cells(1).Value = kuipflens.ToString("F1")
-            .Rows(2).Cells(1).Value = in_flens.ToString("F1")
-            .Rows(3).Cells(1).Value = uit_flens.ToString("F1")
-            .Rows(4).Cells(1).Value = schot.ToString("F1")
-            .Rows(5).Cells(1).Value = Schroef.ToString("F1")
-            .Rows(6).Cells(1).Value = Pakkingsbus.ToString("F1")
-            .Rows(7).Cells(1).Value = Assen.ToString("F1")
-            .Rows(8).Cells(1).Value = Deksel.ToString("F1")
-            .Rows(9).Cells(1).Value = montage.ToString("F1")
-
-            .Rows(0).Cells(2).Value = (L * trog).ToString("F0")
-            .Rows(1).Cells(2).Value = (2 * kuipflens).ToString("F0")
-            .Rows(2).Cells(2).Value = in_flens.ToString("F0")
-            .Rows(3).Cells(2).Value = uit_flens.ToString("F0")
-            .Rows(4).Cells(2).Value = (2 * schot).ToString("F0")
-            .Rows(5).Cells(2).Value = (L * Schroef).ToString("F0")
-            .Rows(6).Cells(2).Value = (2 * Pakkingsbus).ToString("F0")
-            .Rows(7).Cells(2).Value = (2 * Assen).ToString("F0")
-            .Rows(8).Cells(2).Value = (L * Deksel).ToString("F0")
-            .Rows(9).Cells(2).Value = montage.ToString("F0")
-
-            som = 0
-            For iRow = 0 To 9
-                som += CDbl(.Rows(iRow).Cells(2).Value)
-            Next iRow
-
-            .Rows(10).Cells(2).Value = som.ToString("F0")
-            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
-        End With
-
+            End With
+        End If
     End Sub
 
     Private Sub Print_vertical_screw()
@@ -4200,26 +4235,26 @@ Public Class Form1
             .Rows.Add(12)
             .RowHeadersVisible = False
 
-            .Columns(0).HeaderText = "Onderdeel"
+            .Columns(0).HeaderText = "Part"
             .Columns(1).HeaderText = "[h/m]"
             .Columns(2).HeaderText = "[h]"
 
-            .Rows(0).Cells(0).Value = "Trog"
-            .Rows(1).Cells(0).Value = "Kuipflens"
-            .Rows(2).Cells(0).Value = "In_flens"
-            .Rows(3).Cells(0).Value = "Uit_flens"
-            .Rows(4).Cells(0).Value = "Schot"
-            .Rows(5).Cells(0).Value = "Schroef"
-            .Rows(6).Cells(0).Value = "Pakkingsbus"
-            .Rows(7).Cells(0).Value = "Assen"
-            .Rows(8).Cells(0).Value = "Deksel"
-            .Rows(9).Cells(0).Value = "Montage"
-            .Rows(10).Cells(0).Value = "Som"
+            .Rows(0).Cells(0).Value = "Trough"
+            .Rows(1).Cells(0).Value = "Troughflange"
+            .Rows(2).Cells(0).Value = "Inlet+flange"
+            .Rows(3).Cells(0).Value = "Outlet+flange"
+            .Rows(4).Cells(0).Value = "Endplate"
+            .Rows(5).Cells(0).Value = "Screw"
+            .Rows(6).Cells(0).Value = "Seals"
+            .Rows(7).Cells(0).Value = "Stubs"
+            .Rows(8).Cells(0).Value = "Cover"
+            .Rows(9).Cells(0).Value = "Assembly"
+            .Rows(10).Cells(0).Value = "Sum"
 
             For h = 1 To .Columns.Count - 1
                 .Columns(h).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
             Next
-            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+
         End With
     End Sub
 
@@ -4247,7 +4282,7 @@ Public Class Form1
             For h = 1 To .Columns.Count - 1
                 .Columns(h).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
             Next
-            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells
+            .AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader
         End With
     End Sub
     Private Sub Present_Datagridview1()

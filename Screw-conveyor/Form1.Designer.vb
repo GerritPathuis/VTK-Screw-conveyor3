@@ -24,15 +24,15 @@ Partial Class Form1
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
-        Dim ChartArea19 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend19 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series19 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea20 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend20 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series20 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
-        Dim ChartArea21 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
-        Dim Legend21 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
-        Dim Series21 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea28 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend28 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series28 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea29 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend29 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series29 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
+        Dim ChartArea30 As System.Windows.Forms.DataVisualization.Charting.ChartArea = New System.Windows.Forms.DataVisualization.Charting.ChartArea()
+        Dim Legend30 As System.Windows.Forms.DataVisualization.Charting.Legend = New System.Windows.Forms.DataVisualization.Charting.Legend()
+        Dim Series30 As System.Windows.Forms.DataVisualization.Charting.Series = New System.Windows.Forms.DataVisualization.Charting.Series()
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.PictureBox14 = New System.Windows.Forms.PictureBox()
@@ -409,6 +409,7 @@ Partial Class Form1
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.Button17 = New System.Windows.Forms.Button()
         Me.GroupBox34 = New System.Windows.Forms.GroupBox()
+        Me.Label115 = New System.Windows.Forms.Label()
         Me.NumericUpDown83 = New System.Windows.Forms.NumericUpDown()
         Me.NumericUpDown82 = New System.Windows.Forms.NumericUpDown()
         Me.NumericUpDown81 = New System.Windows.Forms.NumericUpDown()
@@ -673,6 +674,15 @@ Partial Class Form1
         Me.TabPage14 = New System.Windows.Forms.TabPage()
         Me.TextBox46 = New System.Windows.Forms.TextBox()
         Me.TabPage15 = New System.Windows.Forms.TabPage()
+        Me.GroupBox54 = New System.Windows.Forms.GroupBox()
+        Me.TextBox54 = New System.Windows.Forms.TextBox()
+        Me.TextBox58 = New System.Windows.Forms.TextBox()
+        Me.Label107 = New System.Windows.Forms.Label()
+        Me.Label109 = New System.Windows.Forms.Label()
+        Me.TextBox57 = New System.Windows.Forms.TextBox()
+        Me.Label92 = New System.Windows.Forms.Label()
+        Me.Label91 = New System.Windows.Forms.Label()
+        Me.TextBox56 = New System.Windows.Forms.TextBox()
         Me.GroupBox52 = New System.Windows.Forms.GroupBox()
         Me.DataGridView8 = New System.Windows.Forms.DataGridView()
         Me.GroupBox51 = New System.Windows.Forms.GroupBox()
@@ -691,16 +701,8 @@ Partial Class Form1
         Me.PictureBox17 = New System.Windows.Forms.PictureBox()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
-        Me.TextBox54 = New System.Windows.Forms.TextBox()
-        Me.Label91 = New System.Windows.Forms.Label()
-        Me.TextBox56 = New System.Windows.Forms.TextBox()
-        Me.Label92 = New System.Windows.Forms.Label()
-        Me.TextBox57 = New System.Windows.Forms.TextBox()
-        Me.Label107 = New System.Windows.Forms.Label()
-        Me.TextBox58 = New System.Windows.Forms.TextBox()
-        Me.Label109 = New System.Windows.Forms.Label()
-        Me.GroupBox54 = New System.Windows.Forms.GroupBox()
-        Me.Label115 = New System.Windows.Forms.Label()
+        Me.CheckBox7 = New System.Windows.Forms.CheckBox()
+        Me.Label118 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout
         Me.TabPage1.SuspendLayout
         CType(Me.PictureBox14, System.ComponentModel.ISupportInitialize).BeginInit
@@ -882,6 +884,7 @@ Partial Class Form1
         CType(Me.PictureBox10, System.ComponentModel.ISupportInitialize).BeginInit
         Me.TabPage14.SuspendLayout
         Me.TabPage15.SuspendLayout
+        Me.GroupBox54.SuspendLayout
         Me.GroupBox52.SuspendLayout
         CType(Me.DataGridView8, System.ComponentModel.ISupportInitialize).BeginInit
         Me.GroupBox51.SuspendLayout
@@ -898,7 +901,6 @@ Partial Class Form1
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.PictureBox17, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GroupBox54.SuspendLayout
         Me.SuspendLayout
         '
         'TabControl1
@@ -1456,7 +1458,7 @@ Partial Class Form1
         Me.NumericUpDown58.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.NumericUpDown58.Increment = New Decimal(New Integer() {10, 0, 0, 0})
         Me.NumericUpDown58.Location = New System.Drawing.Point(208, 19)
-        Me.NumericUpDown58.Maximum = New Decimal(New Integer() {1000, 0, 0, 0})
+        Me.NumericUpDown58.Maximum = New Decimal(New Integer() {699, 0, 0, 0})
         Me.NumericUpDown58.Minimum = New Decimal(New Integer() {10, 0, 0, 0})
         Me.NumericUpDown58.Name = "NumericUpDown58"
         Me.NumericUpDown58.Size = New System.Drawing.Size(65, 22)
@@ -5137,6 +5139,16 @@ Partial Class Form1
         Me.GroupBox34.TabStop = False
         Me.GroupBox34.Text = "Labour rates 2021"
         '
+        'Label115
+        '
+        Me.Label115.AutoSize = True
+        Me.Label115.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label115.Location = New System.Drawing.Point(12, 131)
+        Me.Label115.Name = "Label115"
+        Me.Label115.Size = New System.Drawing.Size(172, 16)
+        Me.Label115.TabIndex = 188
+        Me.Label115.Text = "Fabrieks prijs/uur (PL) 39.50"
+        '
         'NumericUpDown83
         '
         Me.NumericUpDown83.BackColor = System.Drawing.Color.Yellow
@@ -5630,6 +5642,7 @@ Partial Class Form1
         '
         'GroupBox18
         '
+        Me.GroupBox18.Controls.Add(Me.CheckBox7)
         Me.GroupBox18.Controls.Add(Me.TextBox147)
         Me.GroupBox18.Controls.Add(Me.TextBox146)
         Me.GroupBox18.Controls.Add(Me.TextBox144)
@@ -5855,7 +5868,7 @@ Partial Class Form1
         Me.NumericUpDown30.Size = New System.Drawing.Size(56, 22)
         Me.NumericUpDown30.TabIndex = 73
         Me.NumericUpDown30.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
-        Me.NumericUpDown30.Value = New Decimal(New Integer() {35, 0, 0, 0})
+        Me.NumericUpDown30.Value = New Decimal(New Integer() {16, 0, 0, 0})
         '
         'Label104
         '
@@ -6010,17 +6023,17 @@ Partial Class Form1
         '
         'Chart3
         '
-        ChartArea19.Name = "ChartArea1"
-        Me.Chart3.ChartAreas.Add(ChartArea19)
+        ChartArea28.Name = "ChartArea1"
+        Me.Chart3.ChartAreas.Add(ChartArea28)
         Me.Chart3.Dock = System.Windows.Forms.DockStyle.Top
-        Legend19.Name = "Legend1"
-        Me.Chart3.Legends.Add(Legend19)
+        Legend28.Name = "Legend1"
+        Me.Chart3.Legends.Add(Legend28)
         Me.Chart3.Location = New System.Drawing.Point(176, 401)
         Me.Chart3.Name = "Chart3"
-        Series19.ChartArea = "ChartArea1"
-        Series19.Legend = "Legend1"
-        Series19.Name = "Series1"
-        Me.Chart3.Series.Add(Series19)
+        Series28.ChartArea = "ChartArea1"
+        Series28.Legend = "Legend1"
+        Series28.Name = "Series1"
+        Me.Chart3.Series.Add(Series28)
         Me.Chart3.Size = New System.Drawing.Size(816, 199)
         Me.Chart3.TabIndex = 4
         Me.Chart3.Text = "Chart3"
@@ -6037,34 +6050,34 @@ Partial Class Form1
         '
         'Chart2
         '
-        ChartArea20.Name = "ChartArea1"
-        Me.Chart2.ChartAreas.Add(ChartArea20)
+        ChartArea29.Name = "ChartArea1"
+        Me.Chart2.ChartAreas.Add(ChartArea29)
         Me.Chart2.Dock = System.Windows.Forms.DockStyle.Top
-        Legend20.Name = "Legend1"
-        Me.Chart2.Legends.Add(Legend20)
+        Legend29.Name = "Legend1"
+        Me.Chart2.Legends.Add(Legend29)
         Me.Chart2.Location = New System.Drawing.Point(176, 202)
         Me.Chart2.Name = "Chart2"
-        Series20.ChartArea = "ChartArea1"
-        Series20.Legend = "Legend1"
-        Series20.Name = "Series1"
-        Me.Chart2.Series.Add(Series20)
+        Series29.ChartArea = "ChartArea1"
+        Series29.Legend = "Legend1"
+        Series29.Name = "Series1"
+        Me.Chart2.Series.Add(Series29)
         Me.Chart2.Size = New System.Drawing.Size(816, 199)
         Me.Chart2.TabIndex = 3
         Me.Chart2.Text = "Chart2"
         '
         'Chart1
         '
-        ChartArea21.Name = "ChartArea1"
-        Me.Chart1.ChartAreas.Add(ChartArea21)
+        ChartArea30.Name = "ChartArea1"
+        Me.Chart1.ChartAreas.Add(ChartArea30)
         Me.Chart1.Dock = System.Windows.Forms.DockStyle.Top
-        Legend21.Name = "Legend1"
-        Me.Chart1.Legends.Add(Legend21)
+        Legend30.Name = "Legend1"
+        Me.Chart1.Legends.Add(Legend30)
         Me.Chart1.Location = New System.Drawing.Point(176, 3)
         Me.Chart1.Name = "Chart1"
-        Series21.ChartArea = "ChartArea1"
-        Series21.Legend = "Legend1"
-        Series21.Name = "Series1"
-        Me.Chart1.Series.Add(Series21)
+        Series30.ChartArea = "ChartArea1"
+        Series30.Legend = "Legend1"
+        Series30.Name = "Series1"
+        Me.Chart1.Series.Add(Series30)
         Me.Chart1.Size = New System.Drawing.Size(816, 199)
         Me.Chart1.TabIndex = 1
         Me.Chart1.Text = "Chart1"
@@ -8119,175 +8132,23 @@ Partial Class Form1
         Me.TabPage15.Text = "Production hours"
         Me.TabPage15.UseVisualStyleBackColor = True
         '
-        'GroupBox52
+        'GroupBox54
         '
-        Me.GroupBox52.Controls.Add(Me.DataGridView8)
-        Me.GroupBox52.Location = New System.Drawing.Point(705, 213)
-        Me.GroupBox52.Name = "GroupBox52"
-        Me.GroupBox52.Size = New System.Drawing.Size(195, 325)
-        Me.GroupBox52.TabIndex = 179
-        Me.GroupBox52.TabStop = False
-        Me.GroupBox52.Text = "Samenvatting [h]"
-        '
-        'DataGridView8
-        '
-        Me.DataGridView8.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText
-        Me.DataGridView8.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView8.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataGridView8.Location = New System.Drawing.Point(3, 16)
-        Me.DataGridView8.Name = "DataGridView8"
-        Me.DataGridView8.RowHeadersWidth = 62
-        Me.DataGridView8.Size = New System.Drawing.Size(189, 306)
-        Me.DataGridView8.TabIndex = 172
-        '
-        'GroupBox51
-        '
-        Me.GroupBox51.Controls.Add(Me.DataGridView7)
-        Me.GroupBox51.Location = New System.Drawing.Point(688, 6)
-        Me.GroupBox51.Name = "GroupBox51"
-        Me.GroupBox51.Size = New System.Drawing.Size(137, 201)
-        Me.GroupBox51.TabIndex = 178
-        Me.GroupBox51.TabStop = False
-        Me.GroupBox51.Text = "Deksel fabrieksuren [h/m]"
-        '
-        'DataGridView7
-        '
-        Me.DataGridView7.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText
-        Me.DataGridView7.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView7.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataGridView7.Location = New System.Drawing.Point(3, 16)
-        Me.DataGridView7.Name = "DataGridView7"
-        Me.DataGridView7.RowHeadersWidth = 62
-        Me.DataGridView7.Size = New System.Drawing.Size(131, 182)
-        Me.DataGridView7.TabIndex = 172
-        '
-        'GroupBox50
-        '
-        Me.GroupBox50.Controls.Add(Me.DataGridView6)
-        Me.GroupBox50.Location = New System.Drawing.Point(514, 213)
-        Me.GroupBox50.Name = "GroupBox50"
-        Me.GroupBox50.Size = New System.Drawing.Size(185, 201)
-        Me.GroupBox50.TabIndex = 177
-        Me.GroupBox50.TabStop = False
-        Me.GroupBox50.Text = "DE en NDE assen [h/m]"
-        '
-        'DataGridView6
-        '
-        Me.DataGridView6.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText
-        Me.DataGridView6.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView6.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataGridView6.Location = New System.Drawing.Point(3, 16)
-        Me.DataGridView6.Name = "DataGridView6"
-        Me.DataGridView6.RowHeadersWidth = 62
-        Me.DataGridView6.Size = New System.Drawing.Size(179, 182)
-        Me.DataGridView6.TabIndex = 172
-        '
-        'GroupBox49
-        '
-        Me.GroupBox49.Controls.Add(Me.DataGridView5)
-        Me.GroupBox49.Location = New System.Drawing.Point(552, 6)
-        Me.GroupBox49.Name = "GroupBox49"
-        Me.GroupBox49.Size = New System.Drawing.Size(130, 201)
-        Me.GroupBox49.TabIndex = 176
-        Me.GroupBox49.TabStop = False
-        Me.GroupBox49.Text = "Pakkingsbus [h/kg]"
-        '
-        'DataGridView5
-        '
-        Me.DataGridView5.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText
-        Me.DataGridView5.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView5.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataGridView5.Location = New System.Drawing.Point(3, 16)
-        Me.DataGridView5.Name = "DataGridView5"
-        Me.DataGridView5.RowHeadersWidth = 62
-        Me.DataGridView5.Size = New System.Drawing.Size(124, 182)
-        Me.DataGridView5.TabIndex = 172
-        '
-        'GroupBox48
-        '
-        Me.GroupBox48.Controls.Add(Me.DataGridView4)
-        Me.GroupBox48.Location = New System.Drawing.Point(6, 213)
-        Me.GroupBox48.Name = "GroupBox48"
-        Me.GroupBox48.Size = New System.Drawing.Size(236, 201)
-        Me.GroupBox48.TabIndex = 175
-        Me.GroupBox48.TabStop = False
-        Me.GroupBox48.Text = "Eindschot fabrieksuren [h/m]"
-        '
-        'DataGridView4
-        '
-        Me.DataGridView4.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText
-        Me.DataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView4.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataGridView4.Location = New System.Drawing.Point(3, 16)
-        Me.DataGridView4.Name = "DataGridView4"
-        Me.DataGridView4.RowHeadersWidth = 62
-        Me.DataGridView4.Size = New System.Drawing.Size(230, 182)
-        Me.DataGridView4.TabIndex = 172
-        '
-        'GroupBox47
-        '
-        Me.GroupBox47.Controls.Add(Me.DataGridView3)
-        Me.GroupBox47.Location = New System.Drawing.Point(260, 213)
-        Me.GroupBox47.Name = "GroupBox47"
-        Me.GroupBox47.Size = New System.Drawing.Size(237, 201)
-        Me.GroupBox47.TabIndex = 174
-        Me.GroupBox47.TabStop = False
-        Me.GroupBox47.Text = "Schroefstuk fabrieksuren [h/m]"
-        '
-        'DataGridView3
-        '
-        Me.DataGridView3.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText
-        Me.DataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataGridView3.Location = New System.Drawing.Point(3, 16)
-        Me.DataGridView3.Name = "DataGridView3"
-        Me.DataGridView3.RowHeadersWidth = 62
-        Me.DataGridView3.Size = New System.Drawing.Size(231, 182)
-        Me.DataGridView3.TabIndex = 172
-        '
-        'GroupBox46
-        '
-        Me.GroupBox46.Controls.Add(Me.DataGridView2)
-        Me.GroupBox46.Location = New System.Drawing.Point(3, 6)
-        Me.GroupBox46.Name = "GroupBox46"
-        Me.GroupBox46.Size = New System.Drawing.Size(542, 201)
-        Me.GroupBox46.TabIndex = 173
-        Me.GroupBox46.TabStop = False
-        Me.GroupBox46.Text = "Kuip fabrieksuren [h/m]"
-        '
-        'DataGridView2
-        '
-        Me.DataGridView2.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText
-        Me.DataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.DataGridView2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.DataGridView2.Location = New System.Drawing.Point(3, 16)
-        Me.DataGridView2.Name = "DataGridView2"
-        Me.DataGridView2.RowHeadersWidth = 62
-        Me.DataGridView2.Size = New System.Drawing.Size(536, 182)
-        Me.DataGridView2.TabIndex = 172
-        '
-        'Button18
-        '
-        Me.Button18.Location = New System.Drawing.Point(391, 509)
-        Me.Button18.Name = "Button18"
-        Me.Button18.Size = New System.Drawing.Size(81, 29)
-        Me.Button18.TabIndex = 1
-        Me.Button18.Text = "Button18"
-        Me.Button18.UseVisualStyleBackColor = True
-        '
-        'PictureBox17
-        '
-        Me.PictureBox17.Image = CType(resources.GetObject("PictureBox17.Image"), System.Drawing.Image)
-        Me.PictureBox17.Location = New System.Drawing.Point(176, 475)
-        Me.PictureBox17.Name = "PictureBox17"
-        Me.PictureBox17.Size = New System.Drawing.Size(116, 105)
-        Me.PictureBox17.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox17.TabIndex = 0
-        Me.PictureBox17.TabStop = False
-        '
-        'OpenFileDialog1
-        '
-        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+        Me.GroupBox54.Controls.Add(Me.Label118)
+        Me.GroupBox54.Controls.Add(Me.TextBox54)
+        Me.GroupBox54.Controls.Add(Me.TextBox58)
+        Me.GroupBox54.Controls.Add(Me.Label107)
+        Me.GroupBox54.Controls.Add(Me.Label109)
+        Me.GroupBox54.Controls.Add(Me.TextBox57)
+        Me.GroupBox54.Controls.Add(Me.Label92)
+        Me.GroupBox54.Controls.Add(Me.Label91)
+        Me.GroupBox54.Controls.Add(Me.TextBox56)
+        Me.GroupBox54.Location = New System.Drawing.Point(820, 8)
+        Me.GroupBox54.Name = "GroupBox54"
+        Me.GroupBox54.Size = New System.Drawing.Size(156, 149)
+        Me.GroupBox54.TabIndex = 188
+        Me.GroupBox54.TabStop = False
+        Me.GroupBox54.Text = "Conveyor"
         '
         'TextBox54
         '
@@ -8298,6 +8159,56 @@ Partial Class Form1
         Me.TextBox54.Size = New System.Drawing.Size(56, 22)
         Me.TextBox54.TabIndex = 185
         Me.TextBox54.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'TextBox58
+        '
+        Me.TextBox58.Enabled = False
+        Me.TextBox58.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox58.Location = New System.Drawing.Point(93, 92)
+        Me.TextBox58.Name = "TextBox58"
+        Me.TextBox58.Size = New System.Drawing.Size(56, 22)
+        Me.TextBox58.TabIndex = 187
+        Me.TextBox58.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label107
+        '
+        Me.Label107.AutoSize = True
+        Me.Label107.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label107.Location = New System.Drawing.Point(7, 43)
+        Me.Label107.Name = "Label107"
+        Me.Label107.Size = New System.Drawing.Size(70, 16)
+        Me.Label107.TabIndex = 180
+        Me.Label107.Text = "Length [m]"
+        '
+        'Label109
+        '
+        Me.Label109.AutoSize = True
+        Me.Label109.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label109.Location = New System.Drawing.Point(7, 94)
+        Me.Label109.Name = "Label109"
+        Me.Label109.Size = New System.Drawing.Size(84, 16)
+        Me.Label109.TabIndex = 186
+        Me.Label109.Text = "Stuff box [kg]"
+        '
+        'TextBox57
+        '
+        Me.TextBox57.Enabled = False
+        Me.TextBox57.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox57.Location = New System.Drawing.Point(93, 14)
+        Me.TextBox57.Name = "TextBox57"
+        Me.TextBox57.Size = New System.Drawing.Size(56, 22)
+        Me.TextBox57.TabIndex = 181
+        Me.TextBox57.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label92
+        '
+        Me.Label92.AutoSize = True
+        Me.Label92.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label92.Location = New System.Drawing.Point(7, 68)
+        Me.Label92.Name = "Label92"
+        Me.Label92.Size = New System.Drawing.Size(87, 16)
+        Me.Label92.TabIndex = 182
+        Me.Label92.Text = "D stubb [mm]"
         '
         'Label91
         '
@@ -8319,82 +8230,205 @@ Partial Class Form1
         Me.TextBox56.TabIndex = 183
         Me.TextBox56.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
-        'Label92
+        'GroupBox52
         '
-        Me.Label92.AutoSize = True
-        Me.Label92.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label92.Location = New System.Drawing.Point(7, 68)
-        Me.Label92.Name = "Label92"
-        Me.Label92.Size = New System.Drawing.Size(71, 16)
-        Me.Label92.TabIndex = 182
-        Me.Label92.Text = "Shaft [mm]"
+        Me.GroupBox52.Controls.Add(Me.DataGridView8)
+        Me.GroupBox52.Location = New System.Drawing.Point(705, 213)
+        Me.GroupBox52.Name = "GroupBox52"
+        Me.GroupBox52.Size = New System.Drawing.Size(203, 325)
+        Me.GroupBox52.TabIndex = 179
+        Me.GroupBox52.TabStop = False
+        Me.GroupBox52.Text = "Summary [h]"
         '
-        'TextBox57
+        'DataGridView8
         '
-        Me.TextBox57.Enabled = False
-        Me.TextBox57.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox57.Location = New System.Drawing.Point(93, 14)
-        Me.TextBox57.Name = "TextBox57"
-        Me.TextBox57.Size = New System.Drawing.Size(56, 22)
-        Me.TextBox57.TabIndex = 181
-        Me.TextBox57.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.DataGridView8.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText
+        Me.DataGridView8.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView8.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView8.Location = New System.Drawing.Point(3, 16)
+        Me.DataGridView8.Name = "DataGridView8"
+        Me.DataGridView8.RowHeadersWidth = 62
+        Me.DataGridView8.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.DataGridView8.Size = New System.Drawing.Size(197, 306)
+        Me.DataGridView8.TabIndex = 172
         '
-        'Label107
+        'GroupBox51
         '
-        Me.Label107.AutoSize = True
-        Me.Label107.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label107.Location = New System.Drawing.Point(7, 43)
-        Me.Label107.Name = "Label107"
-        Me.Label107.Size = New System.Drawing.Size(70, 16)
-        Me.Label107.TabIndex = 180
-        Me.Label107.Text = "Length [m]"
+        Me.GroupBox51.Controls.Add(Me.DataGridView7)
+        Me.GroupBox51.Location = New System.Drawing.Point(675, 8)
+        Me.GroupBox51.Name = "GroupBox51"
+        Me.GroupBox51.Size = New System.Drawing.Size(137, 201)
+        Me.GroupBox51.TabIndex = 178
+        Me.GroupBox51.TabStop = False
+        Me.GroupBox51.Text = "Cover [h/m]"
         '
-        'TextBox58
+        'DataGridView7
         '
-        Me.TextBox58.Enabled = False
-        Me.TextBox58.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox58.Location = New System.Drawing.Point(93, 92)
-        Me.TextBox58.Name = "TextBox58"
-        Me.TextBox58.Size = New System.Drawing.Size(56, 22)
-        Me.TextBox58.TabIndex = 187
-        Me.TextBox58.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.DataGridView7.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText
+        Me.DataGridView7.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView7.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView7.Location = New System.Drawing.Point(3, 16)
+        Me.DataGridView7.Name = "DataGridView7"
+        Me.DataGridView7.RowHeadersWidth = 62
+        Me.DataGridView7.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.DataGridView7.Size = New System.Drawing.Size(131, 182)
+        Me.DataGridView7.TabIndex = 172
         '
-        'Label109
+        'GroupBox50
         '
-        Me.Label109.AutoSize = True
-        Me.Label109.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label109.Location = New System.Drawing.Point(7, 94)
-        Me.Label109.Name = "Label109"
-        Me.Label109.Size = New System.Drawing.Size(84, 16)
-        Me.Label109.TabIndex = 186
-        Me.Label109.Text = "Stuff box [kg]"
+        Me.GroupBox50.Controls.Add(Me.DataGridView6)
+        Me.GroupBox50.Location = New System.Drawing.Point(506, 213)
+        Me.GroupBox50.Name = "GroupBox50"
+        Me.GroupBox50.Size = New System.Drawing.Size(185, 201)
+        Me.GroupBox50.TabIndex = 177
+        Me.GroupBox50.TabStop = False
+        Me.GroupBox50.Text = "DE en NDE stub ends [h/m]"
         '
-        'GroupBox54
+        'DataGridView6
         '
-        Me.GroupBox54.Controls.Add(Me.TextBox54)
-        Me.GroupBox54.Controls.Add(Me.TextBox58)
-        Me.GroupBox54.Controls.Add(Me.Label107)
-        Me.GroupBox54.Controls.Add(Me.Label109)
-        Me.GroupBox54.Controls.Add(Me.TextBox57)
-        Me.GroupBox54.Controls.Add(Me.Label92)
-        Me.GroupBox54.Controls.Add(Me.Label91)
-        Me.GroupBox54.Controls.Add(Me.TextBox56)
-        Me.GroupBox54.Location = New System.Drawing.Point(831, 6)
-        Me.GroupBox54.Name = "GroupBox54"
-        Me.GroupBox54.Size = New System.Drawing.Size(156, 125)
-        Me.GroupBox54.TabIndex = 188
-        Me.GroupBox54.TabStop = False
-        Me.GroupBox54.Text = "Conveyor"
+        Me.DataGridView6.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText
+        Me.DataGridView6.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView6.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView6.Location = New System.Drawing.Point(3, 16)
+        Me.DataGridView6.Name = "DataGridView6"
+        Me.DataGridView6.RowHeadersWidth = 62
+        Me.DataGridView6.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.DataGridView6.Size = New System.Drawing.Size(179, 182)
+        Me.DataGridView6.TabIndex = 172
         '
-        'Label115
+        'GroupBox49
         '
-        Me.Label115.AutoSize = True
-        Me.Label115.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label115.Location = New System.Drawing.Point(12, 131)
-        Me.Label115.Name = "Label115"
-        Me.Label115.Size = New System.Drawing.Size(172, 16)
-        Me.Label115.TabIndex = 188
-        Me.Label115.Text = "Fabrieks prijs/uur (PL) 39.50"
+        Me.GroupBox49.Controls.Add(Me.DataGridView5)
+        Me.GroupBox49.Location = New System.Drawing.Point(552, 8)
+        Me.GroupBox49.Name = "GroupBox49"
+        Me.GroupBox49.Size = New System.Drawing.Size(115, 201)
+        Me.GroupBox49.TabIndex = 176
+        Me.GroupBox49.TabStop = False
+        Me.GroupBox49.Text = "Stuffing box [h/kg]"
+        '
+        'DataGridView5
+        '
+        Me.DataGridView5.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText
+        Me.DataGridView5.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView5.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView5.Location = New System.Drawing.Point(3, 16)
+        Me.DataGridView5.Name = "DataGridView5"
+        Me.DataGridView5.RowHeadersWidth = 62
+        Me.DataGridView5.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.DataGridView5.Size = New System.Drawing.Size(109, 182)
+        Me.DataGridView5.TabIndex = 172
+        '
+        'GroupBox48
+        '
+        Me.GroupBox48.Controls.Add(Me.DataGridView4)
+        Me.GroupBox48.Location = New System.Drawing.Point(6, 213)
+        Me.GroupBox48.Name = "GroupBox48"
+        Me.GroupBox48.Size = New System.Drawing.Size(236, 201)
+        Me.GroupBox48.TabIndex = 175
+        Me.GroupBox48.TabStop = False
+        Me.GroupBox48.Text = "End plates [h/m]"
+        '
+        'DataGridView4
+        '
+        Me.DataGridView4.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText
+        Me.DataGridView4.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView4.Location = New System.Drawing.Point(3, 16)
+        Me.DataGridView4.Name = "DataGridView4"
+        Me.DataGridView4.RowHeadersWidth = 62
+        Me.DataGridView4.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.DataGridView4.Size = New System.Drawing.Size(230, 182)
+        Me.DataGridView4.TabIndex = 172
+        '
+        'GroupBox47
+        '
+        Me.GroupBox47.Controls.Add(Me.DataGridView3)
+        Me.GroupBox47.Location = New System.Drawing.Point(256, 213)
+        Me.GroupBox47.Name = "GroupBox47"
+        Me.GroupBox47.Size = New System.Drawing.Size(237, 201)
+        Me.GroupBox47.TabIndex = 174
+        Me.GroupBox47.TabStop = False
+        Me.GroupBox47.Text = "Conveyor screw [h/m]"
+        '
+        'DataGridView3
+        '
+        Me.DataGridView3.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText
+        Me.DataGridView3.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView3.Location = New System.Drawing.Point(3, 16)
+        Me.DataGridView3.Name = "DataGridView3"
+        Me.DataGridView3.RowHeadersWidth = 62
+        Me.DataGridView3.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.DataGridView3.Size = New System.Drawing.Size(231, 182)
+        Me.DataGridView3.TabIndex = 172
+        '
+        'GroupBox46
+        '
+        Me.GroupBox46.Controls.Add(Me.DataGridView2)
+        Me.GroupBox46.Location = New System.Drawing.Point(3, 8)
+        Me.GroupBox46.Name = "GroupBox46"
+        Me.GroupBox46.Size = New System.Drawing.Size(542, 201)
+        Me.GroupBox46.TabIndex = 173
+        Me.GroupBox46.TabStop = False
+        Me.GroupBox46.Text = "Trough+flanges, inlet, outlet [h/m]"
+        '
+        'DataGridView2
+        '
+        Me.DataGridView2.ClipboardCopyMode = System.Windows.Forms.DataGridViewClipboardCopyMode.EnableAlwaysIncludeHeaderText
+        Me.DataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DataGridView2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.DataGridView2.Location = New System.Drawing.Point(3, 16)
+        Me.DataGridView2.Name = "DataGridView2"
+        Me.DataGridView2.RowHeadersWidth = 62
+        Me.DataGridView2.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
+        Me.DataGridView2.Size = New System.Drawing.Size(536, 182)
+        Me.DataGridView2.TabIndex = 172
+        '
+        'Button18
+        '
+        Me.Button18.Location = New System.Drawing.Point(391, 509)
+        Me.Button18.Name = "Button18"
+        Me.Button18.Size = New System.Drawing.Size(81, 29)
+        Me.Button18.TabIndex = 1
+        Me.Button18.Text = "Button18"
+        Me.Button18.UseVisualStyleBackColor = True
+        Me.Button18.Visible = False
+        '
+        'PictureBox17
+        '
+        Me.PictureBox17.Image = CType(resources.GetObject("PictureBox17.Image"), System.Drawing.Image)
+        Me.PictureBox17.Location = New System.Drawing.Point(176, 475)
+        Me.PictureBox17.Name = "PictureBox17"
+        Me.PictureBox17.Size = New System.Drawing.Size(116, 105)
+        Me.PictureBox17.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox17.TabIndex = 0
+        Me.PictureBox17.TabStop = False
+        '
+        'OpenFileDialog1
+        '
+        Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+        '
+        'CheckBox7
+        '
+        Me.CheckBox7.AutoSize = True
+        Me.CheckBox7.Checked = True
+        Me.CheckBox7.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.CheckBox7.Location = New System.Drawing.Point(177, 176)
+        Me.CheckBox7.Name = "CheckBox7"
+        Me.CheckBox7.Size = New System.Drawing.Size(50, 17)
+        Me.CheckBox7.TabIndex = 59
+        Me.CheckBox7.Text = "Sync"
+        Me.CheckBox7.UseVisualStyleBackColor = True
+        '
+        'Label118
+        '
+        Me.Label118.AutoSize = True
+        Me.Label118.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label118.Location = New System.Drawing.Point(7, 130)
+        Me.Label118.Name = "Label118"
+        Me.Label118.Size = New System.Drawing.Size(115, 13)
+        Me.Label118.TabIndex = 188
+        Me.Label118.Text = "Stub ends L=500 each"
         '
         'Form1
         '
@@ -8640,6 +8674,8 @@ Partial Class Form1
         Me.TabPage14.ResumeLayout(False)
         Me.TabPage14.PerformLayout
         Me.TabPage15.ResumeLayout(False)
+        Me.GroupBox54.ResumeLayout(False)
+        Me.GroupBox54.PerformLayout
         Me.GroupBox52.ResumeLayout(False)
         CType(Me.DataGridView8, System.ComponentModel.ISupportInitialize).EndInit
         Me.GroupBox51.ResumeLayout(False)
@@ -8656,8 +8692,6 @@ Partial Class Form1
         CType(Me.DataGridView2, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.PictureBox17, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.BindingSource1, System.ComponentModel.ISupportInitialize).EndInit
-        Me.GroupBox54.ResumeLayout(False)
-        Me.GroupBox54.PerformLayout
         Me.ResumeLayout(False)
 
     End Sub
@@ -9330,4 +9364,6 @@ Partial Class Form1
     Friend WithEvents Label91 As Label
     Friend WithEvents TextBox56 As TextBox
     Friend WithEvents Label115 As Label
+    Friend WithEvents CheckBox7 As CheckBox
+    Friend WithEvents Label118 As Label
 End Class
