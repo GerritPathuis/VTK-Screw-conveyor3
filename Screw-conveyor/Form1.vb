@@ -104,7 +104,11 @@ Public Class Form1
     "400 ; 5.9 ; 5.5 ; 4.5 ; 2.5 ; 4.0 ; 5.0 ; 5.0 ; 7.0",
     "500 ; 6.4 ; 5.9 ; 5.0 ; 2.5 ; 4.5 ; 6.0 ; 5.4 ; 7.5",
     "600 ; 6.8 ; 6.3 ; 5.4 ; 3.0 ; 4.5 ; 7.0 ; 5.9 ; 8.0",
-    "700 ; 7.2 ; 6.7 ; 5.8 ; 3.0 ; 5.0 ; 8.0 ; 6.4 ; 8.5"}
+    "700 ; 7.2 ; 6.7 ; 5.8 ; 3.0 ; 5.0 ; 8.0 ; 6.4 ; 8.5",   'Dit is de laatste van Lennard
+    "800 ; 7.6 ; 7.1 ; 6.2 ; 3.5 ; 5.0 ; 9.0 ; 6.9 ; 9.0",
+    "900 ; 8.0 ; 7.5 ; 6.6 ; 3.5 ; 5.5 ; 10.0; 7.4 ; 9.5",
+    "1000; 8.4 ; 7.9 ; 7.0 ; 4.0 ; 5.5 ; 11.0; 7.9 ; 10.0",
+    "1100; 8.8 ; 8.3 ; 7.4 ; 4.0 ; 6.0 ; 12. ; 8.4 ; 10.5"}
 
     Public Shared Schroef_uren() As String = {
     "Flight;<3m; 3-6m ;>6m",
@@ -114,7 +118,11 @@ Public Class Form1
     "400 ; 6.25 ; 5.25 ; 4.75",
     "500 ; 6.50 ; 5.75 ; 5.25",
     "600 ; 6.75 ; 6.25 ; 5.75",
-    "700 ; 7.00 ; 6.75 ; 6.25"}
+    "700 ; 7.00 ; 6.75 ; 6.25",
+    "800 ; 7.25 ; 7.00 ; 6.25",     'Dit is de laatste van Lennard
+    "900 ; 7.50 ; 7.25 ; 6.50",
+    "1000 ; 7.75; 7.50 ; 6.75",
+    "1100 ; 8.00; 7.75 ; 7.00"}
 
     Public Shared Eindschot_uren() As String = {
    "Flight;<3m;3-6m;>6m",
@@ -124,7 +132,11 @@ Public Class Form1
     "400  ;6.00 ;6.50 ;	7.00",
     "500  ;6.50 ;7.00 ;	7.50",
     "600  ;6.50 ;7.00 ;	7.50",
-    "700  ;6.50 ;7.50 ;	8.00"}
+    "700  ;6.50 ;7.50 ;	8.00",
+    "800  ;6.50 ;7.00 ;	7.50",   'Dit is de laatste van Lennard
+    "900  ;7.00 ;7.50 ;	8.00",
+    "1000 ;7.00 ;7.50 ;	8.00",
+    "1100 ;7.00 ;7.50 ;	8.00"}
 
     '===== aantal uren identiek voor DE and NDE ===
     Public Shared Assen_uren() As String = {
@@ -135,7 +147,10 @@ Public Class Form1
     "110; 2; 5.5",
     "140; 2; 6.5",
     "180; 3; 7.5",
-    "220; 4; 8.5"}
+    "229; 4; 8.5",   'Dit is de laatste van Lennard
+    "273; 4; 9.5",
+    "324; 5; 10.5",
+    "356; 5; 11.5"}
 
     '===== Deksel uren alleen lengte afhankelijk ===
     Public Shared Deksel_uren() As String = {
@@ -960,6 +975,7 @@ Public Class Form1
         TextBox46.Text &= "02/12/2020, Published, print-out and export WIP" & vbCrLf
         TextBox46.Text &= "23/12/2020, Fabrication hour system LH added" & vbCrLf
         TextBox46.Text &= "23/12/2020, Flight diameter limited to 699mm" & vbCrLf
+        TextBox46.Text &= "20/01/2020, Flight diameter limited to 1099mm, Lennard tables extended" & vbCrLf
         TextBox46.Text &= "" & vbCrLf
 
         TextBox133.Text = "Plaat zwart" & vbTab & "1.30 €/kg" & vbCrLf
@@ -1244,7 +1260,7 @@ Public Class Form1
                     Double.TryParse(words(17), sigma02)    'Sigma 0.2 [N/mm]
             End Select
             TextBox07.Text = CType(sigma02, String)
-            sigma_fatique = sigma02 * 0.3                   'Fatique stress uitgelegd op oneindige levensduur
+            sigma_fatique = sigma02 * 0.12                 'Fatique stress uitgelegd op oneindige levensduur
             TextBox08.Text = sigma_fatique.ToString("F0")
         End If
 
@@ -1551,7 +1567,7 @@ Public Class Form1
         ComboBox9.Items.Clear()
 
         '-------Fill combobox3, Pipe selection------------------
-        For hh = 0 To (UBound(pipe_steel) - 1)                'Fill combobox 3 with pipe data
+        For hh = 0 To (UBound(pipe_steel))                'Fill combobox 3 with pipe data
             words = pipe_steel(hh).Split(CType(";", Char()))
             ComboBox3.Items.Add(Trim(words(2)))
             ComboBox9.Items.Add(Trim(words(2)))
@@ -3586,8 +3602,6 @@ Public Class Form1
     Private Sub PictureBox10_Click(sender As Object, e As EventArgs) Handles PictureBox10.Click
         Show_shaftless()
     End Sub
-
-
 
     Private Sub Draw_chart1()
         Dim hh As Integer
