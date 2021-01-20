@@ -1838,7 +1838,7 @@ Partial Class Form1
         '
         'TextBox155
         '
-        Me.TextBox155.Location = New System.Drawing.Point(13, 647)
+        Me.TextBox155.Location = New System.Drawing.Point(13, 635)
         Me.TextBox155.Name = "TextBox155"
         Me.TextBox155.Size = New System.Drawing.Size(307, 20)
         Me.TextBox155.TabIndex = 38
@@ -2791,7 +2791,7 @@ Partial Class Form1
         Me.GroupBox10.Controls.Add(Me.TextBox22)
         Me.GroupBox10.Controls.Add(Me.Label47)
         Me.GroupBox10.Controls.Add(Me.Label46)
-        Me.GroupBox10.Location = New System.Drawing.Point(13, 468)
+        Me.GroupBox10.Location = New System.Drawing.Point(13, 455)
         Me.GroupBox10.Name = "GroupBox10"
         Me.GroupBox10.Size = New System.Drawing.Size(307, 173)
         Me.GroupBox10.TabIndex = 10
@@ -2913,7 +2913,7 @@ Partial Class Form1
         Me.GroupBox9.Controls.Add(Me.Label45)
         Me.GroupBox9.Controls.Add(Me.TextBox02)
         Me.GroupBox9.Controls.Add(Me.Label38)
-        Me.GroupBox9.Location = New System.Drawing.Point(13, 211)
+        Me.GroupBox9.Location = New System.Drawing.Point(13, 209)
         Me.GroupBox9.Name = "GroupBox9"
         Me.GroupBox9.Size = New System.Drawing.Size(307, 70)
         Me.GroupBox9.TabIndex = 9
@@ -2972,7 +2972,7 @@ Partial Class Form1
         Me.GroupBox8.Controls.Add(Me.Label29)
         Me.GroupBox8.Controls.Add(Me.Label26)
         Me.GroupBox8.Controls.Add(Me.TextBox13)
-        Me.GroupBox8.Location = New System.Drawing.Point(13, 293)
+        Me.GroupBox8.Location = New System.Drawing.Point(13, 283)
         Me.GroupBox8.Name = "GroupBox8"
         Me.GroupBox8.Size = New System.Drawing.Size(307, 169)
         Me.GroupBox8.TabIndex = 8
