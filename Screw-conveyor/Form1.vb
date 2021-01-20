@@ -150,7 +150,10 @@ Public Class Form1
     "229; 4; 8.5",   'Dit is de laatste van Lennard
     "273; 4; 9.5",
     "324; 5; 10.5",
-    "356; 5; 11.5"}
+    "356; 5; 11.5",
+    "406; 6; 12.5",
+    "457; 6; 13.5",
+    "508; 7; 14.5"}
 
     '===== Deksel uren alleen lengte afhankelijk ===
     Public Shared Deksel_uren() As String = {
@@ -695,17 +698,18 @@ Public Class Form1
     "DN500;20 inch; 508;   6.3; 7.1;    8  ;10   ;12.7;16.0"}
 
     Public Shared pipe_steel() As String =
-   {"DN80; 2 inch;  88.9;  3.05;  5.49; 7.6; 0",
-    "DN100;4 inch; 114.3;  6.02;  8.56; 0;   0",
-    "DN125;5 inch; 141.3;  6.55;  9.53; 0;   0",
-    "DN150;6 inch; 168.3;  7.11; 10.97; 0;   0",
-    "DN200;8 inch; 219.1;  6.35;  8.18; 12.7;0",
-    "Specl;.. inch; 229.0;  20.00;  20.00; 20.00;0",
-    "DN250;10 inch; 273;   6.35;  9.27; 12.7;0",
-    "DN300;12 inch; 323.9; 6.35;  9.27; 12.7;0",
-    "DN350;14 inch; 355.6; 7.92;  9.53; 0;   0",
-    "DN400;16 inch; 406.4; 7.92;  9.53; 0;   0"}
-
+   {"DN80; 2 inch;  88.9;   3.05;  5.49; 7.6; 0",
+    "DN100;4 inch; 114.3;   6.02;  8.56; 0;   0",
+    "DN125;5 inch; 141.3;   6.55;  9.53; 0;   0",
+    "DN150;6 inch; 168.3;   7.11; 10.97; 0;   0",
+    "DN200;8 inch; 219.1;   6.35;  8.18; 12.7;0",
+    "Specl;.. inch; 229.0;  20.0;  20.0; 20.0;0",
+    "DN250;10 inch; 273;    6.35;  9.27; 12.7;0",
+    "DN300;12 inch; 323.9;  6.35;  9.27; 12.7;0",
+    "DN350;14 inch; 355.6;  7.92;  9.53; 12.7;0",
+    "DN400;16 inch; 406.4;  7.92;  9.53; 12.7;0",
+    "DN450;18 inch; 457;    9.53;  12.7; 0;   0",
+    "DN500;20 inch; 508;    9.53;  12.7; 0;   0"}
 
     Public Shared motorred() As String =
      {"Description; Speed;      power;           cost;  shaftdia",
@@ -2130,15 +2134,15 @@ Public Class Form1
                 Dim grbx As System.Windows.Forms.NumericUpDown = CType(all_num(i), System.Windows.Forms.NumericUpDown)
                 '--- dit deel voorkomt problemen bij het uitbreiden van het aantal checkboxes--
                 If (i < words.Length - 1) Then
-                    If Not (Double.TryParse(words(i + 1), ttt)) Then MessageBox.Show("Numeric controls conversion problem occured")
+                    If Not (Double.TryParse(words(i + 1), ttt)) Then TextBox59.Text &= grbx.Name & " conversion problem occured" & vbCrLf
                     If ttt <= grbx.Maximum And ttt >= grbx.Minimum Then
                         grbx.Value = CDec(ttt)          'OK
                     Else
                         grbx.Value = grbx.Minimum       'NOK
-                        MessageBox.Show("Numeric controls value out of min-max range, Minimum value is used")
+                        TextBox59.Text &= grbx.Name & " value out of min-max range, Minimum value is used" & vbCrLf
                     End If
                 Else
-                    MessageBox.Show("Warning last Numeric-Updown-controls not found in file")  'NOK
+                    TextBox59.Text &= grbx.Name & " Warning last Numeric-Updown-controls not found in file" & vbCrLf  'NOK
                 End If
             Next
 
@@ -2152,7 +2156,7 @@ Public Class Form1
                 If (i < words.Length - 1) Then
                     grbx.SelectedItem = words(i + 1)
                 Else
-                    MessageBox.Show("Warning last combobox not found in file")
+                    TextBox59.Text &= grbx.Name & " Warning last combobox not found in file" & vbCrLf
                 End If
             Next
 
@@ -2166,7 +2170,7 @@ Public Class Form1
                 If (i < words.Length - 1) Then
                     Boolean.TryParse(words(i + 1), grbx.Checked)
                 Else
-                    MessageBox.Show("Warning last checkbox not found in file")
+                    TextBox59.Text &= grbx.Name & " Warning last checkbox not found in file" & vbCrLf
                 End If
             Next
 
@@ -2180,7 +2184,7 @@ Public Class Form1
                 If (i < words.Length - 1) Then
                     Boolean.TryParse(words(i + 1), grbx.Checked)
                 Else
-                    MessageBox.Show("Warning last radiobutton not found in file")
+                    TextBox59.Text &= grbx.Name & " Warning last radiobutton not found in file" & vbCrLf
                 End If
             Next
 
