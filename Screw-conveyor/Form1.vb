@@ -108,7 +108,9 @@ Public Class Form1
     "800 ; 7.6 ; 7.1 ; 6.2 ; 3.5 ; 5.0 ; 9.0 ; 6.9 ; 9.0",
     "900 ; 8.0 ; 7.5 ; 6.6 ; 3.5 ; 5.5 ; 10.0; 7.4 ; 9.5",
     "1000; 8.4 ; 7.9 ; 7.0 ; 4.0 ; 5.5 ; 11.0; 7.9 ; 10.0",
-    "1100; 8.8 ; 8.3 ; 7.4 ; 4.0 ; 6.0 ; 12. ; 8.4 ; 10.5"}
+    "1100; 8.8 ; 8.3 ; 7.4 ; 4.0 ; 6.0 ; 12. ; 8.4 ; 10.5",
+    "1200; 9.2 ; 8.9 ; 8.0 ; 4.5 ; 6.0 ; 13. ; 8.9 ; 11.0",
+    "1300; 9.6 ; 9.2 ; 8.6 ; 4.5 ; 6.5 ; 14. ; 9.4 ; 11.5"}
 
     Public Shared Schroef_uren() As String = {
     "Flight;<3m; 3-6m ;>6m",
@@ -121,8 +123,10 @@ Public Class Form1
     "700 ; 7.00 ; 6.75 ; 6.25",
     "800 ; 7.25 ; 7.00 ; 6.25",     'Dit is de laatste van Lennard
     "900 ; 7.50 ; 7.25 ; 6.50",
-    "1000 ; 7.75; 7.50 ; 6.75",
-    "1100 ; 8.00; 7.75 ; 7.00"}
+    "1000; 7.75 ; 7.50 ; 6.75",
+    "1100; 8.00 ; 7.75 ; 7.00",
+    "1200; 8.25 ; 8.00 ; 7.25",
+    "1300; 8.50 ; 8.25 ; 7.50"}
 
     Public Shared Eindschot_uren() As String = {
    "Flight;<3m;3-6m;>6m",
@@ -133,10 +137,12 @@ Public Class Form1
     "500  ;6.50 ;7.00 ;	7.50",
     "600  ;6.50 ;7.00 ;	7.50",
     "700  ;6.50 ;7.50 ;	8.00",
-    "800  ;6.50 ;7.00 ;	7.50",   'Dit is de laatste van Lennard
-    "900  ;7.00 ;7.50 ;	8.00",
-    "1000 ;7.00 ;7.50 ;	8.00",
-    "1100 ;7.00 ;7.50 ;	8.00"}
+    "800  ;6.50 ;7.50 ;	8.00",   'Dit is de laatste van Lennard
+    "900  ;7.00 ;8.0 ;	8.50",
+    "1000 ;7.00 ;8.0 ;	8.50",
+    "1100 ;7.00 ;8.50 ;	9.00",
+    "1200 ;7.50 ;8.50 ;	9.00",
+    "1300 ;7.50 ;9.90 ;	9.50"}
 
     '===== aantal uren identiek voor DE and NDE ===
     Public Shared Assen_uren() As String = {
@@ -153,7 +159,8 @@ Public Class Form1
     "356; 5; 11.5",
     "406; 6; 12.5",
     "457; 6; 13.5",
-    "508; 7; 14.5"}
+    "508; 7; 14.5",
+    "559; 7; 15.5"}
 
     '===== Deksel uren alleen lengte afhankelijk ===
     Public Shared Deksel_uren() As String = {
@@ -177,8 +184,8 @@ Public Class Form1
     "159; 18",
     "179; 20",
     "199; 24",
-    "400; 32"}
-
+    "400; 32",
+    "600; 40"}
 
     'Materials name; CEMA Material code; Conveyor loading; Component group, density min, Density max, HP Material
     Public Shared _inputs() As String = {
@@ -979,7 +986,8 @@ Public Class Form1
         TextBox46.Text &= "02/12/2020, Published, print-out and export WIP" & vbCrLf
         TextBox46.Text &= "23/12/2020, Fabrication hour system LH added" & vbCrLf
         TextBox46.Text &= "23/12/2020, Flight diameter limited to 699mm" & vbCrLf
-        TextBox46.Text &= "20/01/2020, Flight diameter limited to 1099mm, Lennard tables extended" & vbCrLf
+        TextBox46.Text &= "20/01/2020, Flight diameter limited to 1099mm, LH tables extended" & vbCrLf
+        TextBox46.Text &= "21/01/2020, Flight diameter limited to 1299mm, LH tables extended" & vbCrLf
         TextBox46.Text &= "" & vbCrLf
 
         TextBox133.Text = "Plaat zwart" & vbTab & "1.30 €/kg" & vbCrLf
@@ -4250,6 +4258,7 @@ Public Class Form1
     Private Sub Populate_DGV8()
         With DataGridView8  'Summary uren
             .ColumnCount = 3
+            .Rows.Clear()
             .Rows.Add(12)
             .RowHeadersVisible = False
 
@@ -4284,7 +4293,7 @@ Public Class Form1
             words = data(0).Split(CType(";", Char()))
             .ColumnCount = words.Length
             .Rows.Clear()
-            .Rows.Add(part.Length)
+            .Rows.Add(14)
             .RowHeadersVisible = False
 
             '--------- HeaderText --------------------
