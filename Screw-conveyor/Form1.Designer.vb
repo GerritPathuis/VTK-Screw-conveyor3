@@ -2321,7 +2321,7 @@ Partial Class Form1
         Me.Label119.Name = "Label119"
         Me.Label119.Size = New System.Drawing.Size(246, 13)
         Me.Label119.TabIndex = 26
-        Me.Label119.Text = "St37-2 @ 70 N/mm2 gives 200 *10^6 rev (9 years)"
+        Me.Label119.Text = "St37-2 @ 38 N/mm2 gives 200 *10^6 rev (9 years)"
         '
         'Label34
         '
@@ -3377,7 +3377,7 @@ Partial Class Form1
         Me.Label16.Name = "Label16"
         Me.Label16.Size = New System.Drawing.Size(179, 18)
         Me.Label16.TabIndex = 8
-        Me.Label16.Text = "Max fatique (12%) [N/mm]"
+        Me.Label16.Text = "Max fatique (10%) [N/mm]"
         '
         'TextBox08
         '

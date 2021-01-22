@@ -1272,7 +1272,7 @@ Public Class Form1
                     Double.TryParse(words(17), sigma02)    'Sigma 0.2 [N/mm]
             End Select
             TextBox07.Text = CType(sigma02, String)
-            sigma_fatique = sigma02 * 0.12                 'Fatique stress uitgelegd op oneindige levensduur
+            sigma_fatique = sigma02 * 0.1                 'Fatique stress uitgelegd op oneindige levensduur
             TextBox08.Text = sigma_fatique.ToString("F0")
         End If
 
