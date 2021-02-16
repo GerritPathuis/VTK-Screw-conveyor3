@@ -976,6 +976,7 @@ Public Class Form1
         TextBox46.Text &= "16/02/2020, Bugfix, cost paint is now included in total, hours WVB and ENG swapped." & vbCrLf
         TextBox46.Text &= "16/02/2020, Bugfix, Excel did not print 1st line of the Costs DataGridView." & vbCrLf
         TextBox46.Text &= "16/02/2020, Price Pickling & passivating updated, Labor tariff back to 2020" & vbCrLf
+        TextBox46.Text &= "16/02/2020, End bearing now 2 off, Material Certificates and Intern transport now work." & vbCrLf
         TextBox46.Text &= "" & vbCrLf
 
         TextBox133.Text = "Plaat zwart" & vbTab & "1.30 €/kg" & vbCrLf
@@ -3133,7 +3134,7 @@ Public Class Form1
             part(7).P_no = 2                                    'Astap 
             part(8).P_no = 1                                    'Pijp 
             part(9).P_no = CInt(NumericUpDown89.Value)          'shaft Seals
-            part(10).P_no = 1                                   'End Bearings
+            part(10).P_no = 2                                   'End Bearings
             part(11).P_no = CInt(NumericUpDown35.Value)         'Hanger Bearings
             part(12).P_no = 1                                   'Coupling
             part(13).P_no = CInt(NumericUpDown88.Value)         'Coupling guard
@@ -3264,8 +3265,8 @@ Public Class Form1
             part(15).P_cost_mat_req = paint_area * part(15).P_m2_cost
 
             '============= Intern transport ========
-            part(17).P_cost_mat_req = part(17).P_no * part(17).Σ1_mat_lab      'Intern Transport cost
-            part(18).P_cost_mat_req = part(18).P_no * part(18).Σ1_mat_lab      'Certificaat cost
+            part(17).P_cost_mat_req = part(17).P_no * part(17).P_cost_mat_each     'Intern Transport cost
+            part(18).P_cost_mat_req = part(18).P_no * part(18).P_cost_mat_each     'Certificaat cost
 
             '============= Manual preparation ========
             part(21).P_cost_mat_req = NumericUpDown90.Value                    'Manual preparation
