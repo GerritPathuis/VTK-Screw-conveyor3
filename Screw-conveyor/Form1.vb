@@ -973,6 +973,8 @@ Public Class Form1
         TextBox46.Text &= "23/12/2020, Flight diameter limited to 699mm" & vbCrLf
         TextBox46.Text &= "20/01/2020, Flight diameter limited to 1099mm, LH tables extended" & vbCrLf
         TextBox46.Text &= "21/01/2020, Flight diameter limited to 1299mm, LH tables extended" & vbCrLf
+        TextBox46.Text &= "16/02/2020, Bugfix, cost paint is now included in total, hours WVB and ENG swapped." & vbCrLf
+        TextBox46.Text &= "16/02/2020, Bugfix, Excel did not print 1st line of the Costs DataGridView." & vbCrLf
         TextBox46.Text &= "" & vbCrLf
 
         TextBox133.Text = "Plaat zwart" & vbTab & "1.30 €/kg" & vbCrLf
@@ -1033,13 +1035,12 @@ Public Class Form1
         Next hh
 
         Pipe_dia_combo_init()
-        'Motorreductor()
         Coupling_combo()
         Lager_combo()
 
         Paint_combo()
         Pakking_combo()
-
+        Calc_sequence()
         init_done = True
     End Sub
     Private Sub Calc_sequence()
@@ -1071,11 +1072,11 @@ Public Class Form1
         Dim cap_under_angle As Double
         Dim filling_perc As Double      'Conveyor horizontal
         Dim filling_perc_incl As Double 'Conveyor horizontal
+        Dim flight_height As Double     '[mm] Flight height
 
         '-------------- get data----------
-        Double.TryParse(CType(ComboBox3.SelectedItem, String), _pipe_OD)
+        Double.TryParse(TextBox16.Text, _pipe_OD)
         _pipe_OD /= 1000                                    '[m]
-
 
         _diam_flight = NumericUpDown58.Value / 1000         '[mm] -> [m]
         TextBox17.Text = _diam_flight.ToString("F0")        '[mm]
@@ -1086,6 +1087,8 @@ Public Class Form1
         progress_resistance = NumericUpDown9.Value          '[-]
         density = NumericUpDown6.Value                      '[kg/m3] Density
         _λ6 = NumericUpDown3.Value                          '[m] lengte van de trog/schroef 
+        flight_height = (_diam_flight - _pipe_OD) / 2 * 1000 '[mm] Flight height
+
 
         '------- Flight speed (ATEX < 1 [m/s])-----------
         flight_speed = _rpm_hor / 60 * PI * _diam_flight   '[m/s]
@@ -1153,13 +1156,16 @@ Public Class Form1
         TextBox126.Text = cap_under_angle.ToString("F2")    'Inclination factor
         TextBox124.Text = actual_cap_m3.ToString("F1")      '[m3/hr] 
 
+        TextBox60.Text = flight_height.ToString("F0")         '[mm] Flight height
+
         '--------------- checks ---------------------
         NumericUpDown7.BackColor = CType(IIf(_rpm_hor > 75, Color.Red, Color.Yellow), Color)
+        TextBox60.BackColor = CType(IIf(flight_height < 20, Color.Red, Color.LightGreen), Color)
         Label135.Visible = CBool(IIf(flight_speed > 1.0, True, False))
 
         Select Case True
             Case flight_speed < 1.4
-                TextBox11.BackColor = Color.LightSalmon
+                TextBox11.BackColor = Color.LightSkyBlue
             Case flight_speed >= 1.4 And flight_speed <= 1.6
                 TextBox11.BackColor = Color.LightGreen
             Case flight_speed > 1.6
@@ -1176,7 +1182,7 @@ Public Class Form1
         Return (mekog)
     End Function
 
-    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown10.ValueChanged, ComboBox9.SelectedIndexChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, TabPage4.Enter, CheckBox5.CheckedChanged, NumericUpDown68.ValueChanged, NumericUpDown67.ValueChanged, NumericUpDown79.ValueChanged, NumericUpDown78.ValueChanged, NumericUpDown77.ValueChanged, NumericUpDown76.ValueChanged, NumericUpDown75.ValueChanged, NumericUpDown74.ValueChanged, NumericUpDown73.ValueChanged, NumericUpDown72.ValueChanged, NumericUpDown71.ValueChanged, NumericUpDown70.ValueChanged, NumericUpDown69.ValueChanged, NumericUpDown89.ValueChanged, NumericUpDown88.ValueChanged, NumericUpDown25.ValueChanged, TextBox43.TextChanged, TextBox42.TextChanged, TextBox184.TextChanged, TextBox183.TextChanged, NumericUpDown97.ValueChanged, NumericUpDown96.ValueChanged, NumericUpDown99.ValueChanged, NumericUpDown98.ValueChanged, NumericUpDown87.ValueChanged, NumericUpDown86.ValueChanged, NumericUpDown85.ValueChanged, NumericUpDown84.ValueChanged, NumericUpDown95.ValueChanged, NumericUpDown91.ValueChanged, NumericUpDown90.ValueChanged, NumericUpDown27.ValueChanged, TextBox48.TextChanged, CheckBox6.CheckedChanged, NumericUpDown92.ValueChanged
+    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown10.ValueChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, TabPage4.Enter, CheckBox5.CheckedChanged, NumericUpDown68.ValueChanged, NumericUpDown67.ValueChanged, NumericUpDown79.ValueChanged, NumericUpDown78.ValueChanged, NumericUpDown77.ValueChanged, NumericUpDown76.ValueChanged, NumericUpDown75.ValueChanged, NumericUpDown74.ValueChanged, NumericUpDown73.ValueChanged, NumericUpDown72.ValueChanged, NumericUpDown71.ValueChanged, NumericUpDown70.ValueChanged, NumericUpDown69.ValueChanged, NumericUpDown89.ValueChanged, NumericUpDown88.ValueChanged, NumericUpDown25.ValueChanged, TextBox43.TextChanged, TextBox42.TextChanged, TextBox184.TextChanged, TextBox183.TextChanged, NumericUpDown97.ValueChanged, NumericUpDown96.ValueChanged, NumericUpDown99.ValueChanged, NumericUpDown98.ValueChanged, NumericUpDown87.ValueChanged, NumericUpDown86.ValueChanged, NumericUpDown85.ValueChanged, NumericUpDown84.ValueChanged, NumericUpDown95.ValueChanged, NumericUpDown91.ValueChanged, NumericUpDown90.ValueChanged, NumericUpDown27.ValueChanged, TextBox48.TextChanged, CheckBox6.CheckedChanged, NumericUpDown92.ValueChanged, NumericUpDown93.ValueChanged
         Calc_sequence()
         Present_Datagridview1()
     End Sub
@@ -1205,7 +1211,7 @@ Public Class Form1
         Dim Q_max_bend As Double
         Dim F_tangent, Radius_transport As Double
         Dim pipe_weight_m As Double
-        Dim pipe_OR, pipe_IR As Double
+        Dim pipe_OR As Double
         Dim sigma_eg As Double                      'Sigma eigen gewicht
         Dim flight_hoogte, flight_gewicht, flight_lengte_buiten, flight_lengte_binnen, flight_lengte_gem, fligh_dik As Double
         Dim P_torque, Tou_torque As Double           'Torque @ aandrijving
@@ -1268,9 +1274,9 @@ Public Class Form1
             _pipe_OD /= 1000                            'Outside Diameter [m]
             pipe_OR = _pipe_OD / 2                      'Radius [mm]
             _pipe_wall = NumericUpDown57.Value          'Wall thickness [mm]
-            _pipe_wall /= 1000
+            TextBox62.Text = _pipe_wall.ToString("F1")  'Wall thickness [mm]
+            _pipe_wall /= 1000                          'Wall thickness [m]
             _pipe_ID = (_pipe_OD - 2 * _pipe_wall)      'Inside diameter [mm]
-            pipe_IR = _pipe_ID / 2                      'Inside radius [mm]
 
             pipe_weight_m = PI / 4 * (_pipe_OD ^ 2 - _pipe_ID ^ 2) * 7850   'Weight per meter [kg/m]
 
@@ -1561,24 +1567,25 @@ Public Class Form1
         Dim words(), tmp As String
 
         ComboBox3.Items.Clear()
-        ComboBox9.Items.Clear()
 
         '-------Fill combobox3, Pipe selection------------------
         For hh = 0 To (UBound(pipe_steel))                'Fill combobox 3 with pipe data
             words = pipe_steel(hh).Split(CType(";", Char()))
             ComboBox3.Items.Add(Trim(words(2)))
-            ComboBox9.Items.Add(Trim(words(2)))
+
             tmp = "     " & Trim(words(2))
             ComboBox14.Items.Add(tmp)
         Next hh
         ComboBox3.SelectedIndex = 5
-        ComboBox9.SelectedIndex = 2
         ComboBox14.SelectedIndex = 2
 
         words = pipe_steel(ComboBox3.SelectedIndex).Split(CType(";", Char()))
         Double.TryParse(words(2), _pipe_OD)
-        _pipe_OD /= 1000                                         'Outside Diameter [mm]
-        TextBox16.Text = (_pipe_OD * 1000).ToString("F1")     'Diameter [mm]
+        _pipe_OD /= 1000                                      '[mm] Outside Diameter 
+
+        '------ present -------
+        TextBox61.Text = (_pipe_OD * 1000).ToString("F1")     '[mm] Diameter
+        TextBox16.Text = (_pipe_OD * 1000).ToString("F1")     '[mm] Diameter 
     End Sub
     Private Sub Pipe_wall_combo_init()
         If ComboBox3.Items.Count > 0 Then 'Prevent exceptions
@@ -1622,6 +1629,8 @@ Public Class Form1
     End Sub
 
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        Calc_sequence()
+        Present_Datagridview1()
         Print_word_doc()
     End Sub
 
@@ -1738,7 +1747,7 @@ Public Class Form1
 
         row += 1
         oTable.Cell(row, 1).Range.Text = "Diameter pipe"
-        oTable.Cell(row, 3).Range.Text = CType(ComboBox9.SelectedItem, String)
+        oTable.Cell(row, 3).Range.Text = TextBox61.Text
         oTable.Cell(row, 2).Range.Text = "[mm]"
         row += 1
         oTable.Cell(row, 1).Range.Text = "Wall thickness pipe"
@@ -3153,16 +3162,16 @@ Public Class Form1
             part(8).P_area = _pipe_OD / 1000 * PI * _λ6             'Pipe
 
             '-------------- Gewichten---------------
-            part(0).P_kg_each = _diam_flight ^ 2 * part(0).P_dikte / 1000 * rho_staal             'Eindplaat
-            part(1).P_kg_each = _diam_flight * 4 * part(1).P_dikte / 1000 * _λ6 * rho_staal       'Trog
-            part(2).P_kg_each = _diam_flight * 1.1 * part(2).P_dikte / 1000 * _λ6 * rho_staal     '50mm voor de horizontale flens en 25mm voor het stukje naar beneden
+            part(0).P_kg_each = _diam_flight ^ 2 * (part(0).P_dikte / 1000) * rho_staal             'Eindplaat
+            part(1).P_kg_each = _diam_flight * 4 * (part(1).P_dikte / 1000) * _λ6 * rho_staal       'Trog
+            part(2).P_kg_each = _diam_flight * 1.1 * (part(2).P_dikte / 1000) * _λ6 * rho_staal     '50mm voor de horizontale flens en 25mm voor het stukje naar beneden
             part(3).P_kg_each = 10                                     '[kg] inlaat chute
             part(4).P_kg_each = 10                                     '[kg] uitlaat chute
             part(5).P_kg_each = 5                                      '[kg] conveyor supports
             part(13).P_kg_each = 10                                    '[kg] koppelingkap
 
             '--------------- pipe gewicht (8)-------------------
-            Double.TryParse(CType(ComboBox9.SelectedItem, String), _pipe_OD)         ' ComboBox3 = ComboBox9
+            Double.TryParse(TextBox61.Text, _pipe_OD)         ' ComboBox3 = ComboBox9
             part(8).P_dikte = _pipe_OD              '[mm]
             _pipe_OD /= 1000                        '[m]
             _pipe_wall = NumericUpDown57.Value      '[mm]
@@ -3222,8 +3231,8 @@ Public Class Form1
                 paint_area += part(i).P_area
             Next
             paint_area -= part(15).P_area   'Prevent double counting 
-            part(15).P_no = CInt(paint_area)
-            part(15).P_cost_mat_req = part(15).P_no * part(15).P_m2_cost       'verf m2*prijs
+            part(15).P_no = 1
+
 
 
             '----------------------------------------SALES PRICE CALCULATION-----------------------------------------------
@@ -3234,6 +3243,8 @@ Public Class Form1
                     part(i).P_cost_mat_each = part(i).P_kg_each * part(i).P_kg_cost
                 End If
             Next
+
+            'verf m2*prijs
 
             '============= Total weight + area =======
             Dim total_kg As Double
@@ -3247,6 +3258,9 @@ Public Class Form1
                 'Purchase components are excluded
                 part(i).P_cost_mat_req = part(i).P_cost_mat_each * part(i).P_no
             Next
+
+            '============= Paint ========
+            part(15).P_cost_mat_req = paint_area * part(15).P_m2_cost
 
             '============= Intern transport ========
             part(17).P_cost_mat_req = part(17).P_no * part(17).Σ1_mat_lab      'Intern Transport cost
@@ -3270,14 +3284,14 @@ Public Class Form1
             part(30).P_cost_mat_req = total_cost    'Opgeteld material
 
             '============== UREN CALCULATE =========
-            part(26).Lab_hrs = NumericUpDown48.Value    'Eng
-            part(27).Lab_hrs = NumericUpDown30.Value    'Wvb
+            part(26).Lab_hrs = NumericUpDown30.Value    'Eng
+            part(27).Lab_hrs = NumericUpDown48.Value    'Wvb
             part(28).Lab_hrs = NumericUpDown33.Value    'Project
             part(29).Lab_hrs = NumericUpDown34.Value    'Fabriek
 
             '=========== Uur tarief ===========
-            part(26).Lab_rate = NumericUpDown80.Value    'Eng
-            part(27).Lab_rate = NumericUpDown81.Value    'Wvb
+            part(26).Lab_rate = NumericUpDown81.Value    'Eng
+            part(27).Lab_rate = NumericUpDown80.Value    'Wvb
             part(28).Lab_rate = NumericUpDown82.Value    'Project
             part(29).Lab_rate = NumericUpDown83.Value    'Fabriek
 
@@ -3288,8 +3302,8 @@ Public Class Form1
             Next
             part(30).Lab_hrs = tot_uren                 'Opgeteld
 
-            prijs_wvb = part(26).Lab_hrs * part(26).Lab_rate                 'Wvb cost
-            prijs_eng = part(27).Lab_hrs * part(27).Lab_rate                 'Engineering cost
+            prijs_eng = part(26).Lab_hrs * part(26).Lab_rate                 'Engineering cost
+            prijs_wvb = part(27).Lab_hrs * part(27).Lab_rate                 'Wvb cost
             prijs_pro = part(28).Lab_hrs * part(28).Lab_rate                 'Project management cost
             prijs_fab = part(29).Lab_hrs * part(29).Lab_rate                 'Fabriek cost
 
@@ -3747,6 +3761,8 @@ Public Class Form1
     End Sub
 
     Private Sub Button17_Click(sender As Object, e As EventArgs) Handles Button17.Click
+        Calc_sequence()
+        Present_Datagridview1()
         Write_to_Excel()
     End Sub
 
@@ -3803,7 +3819,7 @@ Public Class Form1
         Next iCol
 
         '========= Content ======
-        For iRow = 1 To DataGridView1.Rows.Count - 1
+        For iRow = 0 To DataGridView1.Rows.Count - 1
             For iCol = 0 To DataGridView1.Columns.Count - 1
                 ' Put the row And column address in the cell.
                 If Not IsNothing(DataGridView1.Rows(iRow).Cells(iCol).Value) Then
