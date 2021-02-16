@@ -778,7 +778,7 @@ Public Class Form1
 
     Public Shared ppaint() As String =
      {"Description;cost",
-      "Pickling + passivating; 0.50",
+      "Pickling + passivating; 30.00",
       "10-20 m2 75um zink compound;13.25",
       "20-100 m2 75um zink compound;12.50",
       "10-20 m2 150um primer en epoxy (binnen);17.0",
@@ -975,6 +975,7 @@ Public Class Form1
         TextBox46.Text &= "21/01/2020, Flight diameter limited to 1299mm, LH tables extended" & vbCrLf
         TextBox46.Text &= "16/02/2020, Bugfix, cost paint is now included in total, hours WVB and ENG swapped." & vbCrLf
         TextBox46.Text &= "16/02/2020, Bugfix, Excel did not print 1st line of the Costs DataGridView." & vbCrLf
+        TextBox46.Text &= "16/02/2020, Price Pickling & passivating updated, Labor tariff back to 2020" & vbCrLf
         TextBox46.Text &= "" & vbCrLf
 
         TextBox133.Text = "Plaat zwart" & vbTab & "1.30 €/kg" & vbCrLf
@@ -3162,7 +3163,7 @@ Public Class Form1
             part(8).P_area = _pipe_OD / 1000 * PI * _λ6             'Pipe
 
             '-------------- Gewichten---------------
-            part(0).P_kg_each = _diam_flight ^ 2 * (part(0).P_dikte / 1000) * rho_staal             'Eindplaat
+            part(0).P_kg_each = _diam_flight ^ 2 * (part(0).P_dikte / 1000) * rho_staal * 3         'Eindplaat (x3= VTK standard)
             part(1).P_kg_each = _diam_flight * 4 * (part(1).P_dikte / 1000) * _λ6 * rho_staal       'Trog
             part(2).P_kg_each = _diam_flight * 1.1 * (part(2).P_dikte / 1000) * _λ6 * rho_staal     '50mm voor de horizontale flens en 25mm voor het stukje naar beneden
             part(3).P_kg_each = 10                                     '[kg] inlaat chute
