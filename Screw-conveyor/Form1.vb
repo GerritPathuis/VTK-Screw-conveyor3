@@ -52,7 +52,7 @@ Public Class Form1
     ReadOnly dirpath_Home_GP As String = "C:\Temp\"
 
     Public conv As Conveyor_struct   'Conveyors data
-    Public part(35) As Price_struct  'Part cost price info
+    Public part(36) As Price_struct  'Part cost price info
 
     Public _steps As Integer = 150   'Calculation _steps
     Public _d(_steps) As Double      '[m] Distance to drive plate
@@ -909,55 +909,40 @@ Public Class Form1
         Thread.CurrentThread.CurrentCulture = New CultureInfo("en-US")
         Thread.CurrentThread.CurrentUICulture = New CultureInfo("en-US")
 
-        With DataGridView1
-            part(0).P_name = "Eindplaten "
-            part(1).P_name = "Trog"
-            part(2).P_name = "Deksel"
-            part(3).P_name = "Inlaat"
-            part(4).P_name = "Uitlaat"
-            part(5).P_name = "Trog voet"
-            part(6).P_name = "Schroefblad "
-            part(7).P_name = "Astap diam"
-            part(8).P_name = "Pijp diam"
-            part(9).P_name = "Shaft seals"
-            part(10).P_name = "End Bearings"
-            part(11).P_name = "Hanger Bearings"
-            part(12).P_name = "Coupling"
-            part(13).P_name = "Coupling guard"
-            part(14).P_name = "Drive "
-            part(15).P_name = "Paint/Pickling"
-            part(16).P_name = "Flange gasket"
-            part(17).P_name = "Intern transp."
-            part(18).P_name = "Material Cert."
-            part(19).P_name = "Packing"
-            part(20).P_name = "Shipping"
-            part(21).P_name = "Manuals"
-            part(22).P_name = "Vrije regel #1"
-            part(23).P_name = "Vrije regel #2"
-            part(24).P_name = "Vrije regel #3"
-            part(25).P_name = "Vrije regel #4"
-            part(26).P_name = "Lab. Eng cost"
-            part(27).P_name = "Lab. Wvb cost"
-            part(28).P_name = "Lab. Proj.cost"
-            part(29).P_name = "Lab. Fabr.cost"
-            part(30).P_name = "Sum costs"
-        End With
+        part(0).P_name = "Eindplaten"
+        part(1).P_name = "Trog"
+        part(2).P_name = "Deksel"
+        part(3).P_name = "Inlaat"
+        part(4).P_name = "Uitlaat"
+        part(5).P_name = "Trog voet"
+        part(6).P_name = "Schroefblad"
+        part(7).P_name = "Astap diam"
+        part(8).P_name = "Pijp diam"
+        part(9).P_name = "Shaft seals"
+        part(10).P_name = "End Bearings"
+        part(11).P_name = "Hanger Bearings"
+        part(12).P_name = "Coupling"
+        part(13).P_name = "Coupling guard"
+        part(14).P_name = "Drive "
+        part(15).P_name = "Paint/Pickling"
+        part(16).P_name = "Flange gasket"
+        part(17).P_name = "Intern transp."
+        part(18).P_name = "Material Cert."
+        part(19).P_name = "Packing"
+        part(20).P_name = "Shipping"
+        part(21).P_name = "Manuals"
+        part(22).P_name = "Vrije regel #1"
+        part(23).P_name = "Vrije regel #2"
+        part(24).P_name = "Vrije regel #3"
+        part(25).P_name = "Vrije regel #4"
+        part(26).P_name = "Lab. Eng cost"
+        part(27).P_name = "Lab. Wvb cost"
+        part(28).P_name = "Lab. Proj.cost"
+        part(29).P_name = "Lab. Fabr.cost"
+        part(30).P_name = "Sum costs"
 
-        With DataGridView2
-            part(0).P_name = "Eindplaten "
-            part(1).P_name = "Trog"
-            part(2).P_name = "Deksel"
-            part(3).P_name = "Inlaat"
-            part(4).P_name = "Uitlaat"
-            part(5).P_name = "Trog voet"
-            part(6).P_name = "Schroefblad "
-            part(7).P_name = "Astap diam"
-            part(8).P_name = "Shaft seals"
-            part(8).P_name = "Montage"
-        End With
-
-        Init_Datagridview1()        'Materials
-        Init_Datagridview2()        'labour
+        Init_Datagridview1()    'Materials
+        Init_hours_DGV()        'labour
 
         For hh = 0 To (UBound(_inputs) - 1)              'Fill combobox1
             words = _inputs(hh).Split(CType(";", Char()))
@@ -4245,8 +4230,54 @@ Public Class Form1
             .Columns(15).HeaderText = "Remarks"
         End With
     End Sub
+    Private Sub Present_Datagridview1()
+        Dim selRow, selCol As Integer
 
-    Private Sub Init_Datagridview2()
+        If init_done Then
+            With DataGridView1
+                .SuspendLayout()    'Speed and flicker
+                '-------- determine the start position ---------
+                If .SelectedCells().Count > 0 Then
+                    selRow = DataGridView1.CurrentCell.RowIndex
+                    selCol = DataGridView1.CurrentCell.ColumnIndex
+                End If
+
+                For i = 0 To 30
+                    .Rows(i).Cells(0).Value = i.ToString
+                    .Rows(i).Cells(1).Value = part(i).P_name
+                    .Rows(i).Cells(2).Value = part(i).P_no
+                    .Rows(i).Cells(3).Value = part(i).P_dikte
+                    .Rows(i).Cells(4).Value = part(i).P_kg_each.ToString("F0")
+                    .Rows(i).Cells(5).Value = part(i).P_kg_cost.ToString("F2")
+                    .Rows(i).Cells(6).Value = part(i).P_cost_mat_each.ToString("F0")
+                    .Rows(i).Cells(7).Value = part(i).P_m2_cost.ToString("F2")
+                    .Rows(i).Cells(8).Value = part(i).P_area.ToString("F1")
+                    .Rows(i).Cells(9).Value = part(i).P_cost_mat_req.ToString("F0")
+                    .Rows(i).Cells(10).Value = part(i).Lab_hrs.ToString("F0")
+                    .Rows(i).Cells(11).Value = part(i).Lab_rate.ToString("F0")
+                    .Rows(i).Cells(12).Value = part(i).Lab_cost.ToString("F0")
+                    .Rows(i).Cells(13).Value = part(i).Σ1_mat_lab.ToString("F0")
+                    .Rows(i).Cells(14).Value = part(i).Mat
+                    .Rows(i).Cells(15).Value = part(i).Remarks
+                    If IsNothing(part(i).P_name) Then Exit For
+                Next
+
+                '============== Set column width ==============
+                .Columns(0).Width = 30
+                .Columns(1).Width = 80
+                For h = 2 To .Columns.Count - 1
+                    .Columns(h).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+                    .Columns(h).Width = 45
+                Next
+                .Columns(.Columns.Count - 1).Width = 90
+
+                '------ return to start position --------
+                .CurrentCell = .Rows(selRow).Cells(selCol)
+                .ResumeLayout()
+            End With
+        End If
+    End Sub
+    Private Sub Init_hours_DGV()
         Populate_DGV(DataGridView2, Trog_uren)
         Populate_DGV(DataGridView3, Schroef_uren)
         Populate_DGV(DataGridView4, Eindschot_uren)
@@ -4316,53 +4347,53 @@ Public Class Form1
             Next
         End With
     End Sub
-    Private Sub Present_Datagridview1()
-        Dim selRow, selCol As Integer
+    'Private Sub Present_Datagridview1()
+    '    Dim selRow, selCol As Integer
 
-        If init_done Then
-            With DataGridView1
-                .SuspendLayout()    'Speed and flicker
-                '-------- determine the start position ---------
-                If .SelectedCells().Count > 0 Then
-                    selRow = DataGridView1.CurrentCell.RowIndex
-                    selCol = DataGridView1.CurrentCell.ColumnIndex
-                End If
+    '    If init_done Then
+    '        With DataGridView1
+    '            .SuspendLayout()    'Speed and flicker
+    '            '-------- determine the start position ---------
+    '            If .SelectedCells().Count > 0 Then
+    '                selRow = DataGridView1.CurrentCell.RowIndex
+    '                selCol = DataGridView1.CurrentCell.ColumnIndex
+    '            End If
 
-                For i = 0 To 30
-                    .Rows(i).Cells(0).Value = i.ToString
-                    .Rows(i).Cells(1).Value = part(i).P_name
-                    .Rows(i).Cells(2).Value = part(i).P_no
-                    .Rows(i).Cells(3).Value = part(i).P_dikte
-                    .Rows(i).Cells(4).Value = part(i).P_kg_each.ToString("F0")
-                    .Rows(i).Cells(5).Value = part(i).P_kg_cost.ToString("F2")
-                    .Rows(i).Cells(6).Value = part(i).P_cost_mat_each.ToString("F0")
-                    .Rows(i).Cells(7).Value = part(i).P_m2_cost.ToString("F2")
-                    .Rows(i).Cells(8).Value = part(i).P_area.ToString("F1")
-                    .Rows(i).Cells(9).Value = part(i).P_cost_mat_req.ToString("F0")
-                    .Rows(i).Cells(10).Value = part(i).Lab_hrs.ToString("F0")
-                    .Rows(i).Cells(11).Value = part(i).Lab_rate.ToString("F0")
-                    .Rows(i).Cells(12).Value = part(i).Lab_cost.ToString("F0")
-                    .Rows(i).Cells(13).Value = part(i).Σ1_mat_lab.ToString("F0")
-                    .Rows(i).Cells(14).Value = part(i).Mat
-                    .Rows(i).Cells(15).Value = part(i).Remarks
-                    If IsNothing(part(i).P_name) Then Exit For
-                Next
+    '            For i = 0 To 30
+    '                .Rows(i).Cells(0).Value = i.ToString
+    '                .Rows(i).Cells(1).Value = part(i).P_name
+    '                .Rows(i).Cells(2).Value = part(i).P_no
+    '                .Rows(i).Cells(3).Value = part(i).P_dikte
+    '                .Rows(i).Cells(4).Value = part(i).P_kg_each.ToString("F0")
+    '                .Rows(i).Cells(5).Value = part(i).P_kg_cost.ToString("F2")
+    '                .Rows(i).Cells(6).Value = part(i).P_cost_mat_each.ToString("F0")
+    '                .Rows(i).Cells(7).Value = part(i).P_m2_cost.ToString("F2")
+    '                .Rows(i).Cells(8).Value = part(i).P_area.ToString("F1")
+    '                .Rows(i).Cells(9).Value = part(i).P_cost_mat_req.ToString("F0")
+    '                .Rows(i).Cells(10).Value = part(i).Lab_hrs.ToString("F0")
+    '                .Rows(i).Cells(11).Value = part(i).Lab_rate.ToString("F0")
+    '                .Rows(i).Cells(12).Value = part(i).Lab_cost.ToString("F0")
+    '                .Rows(i).Cells(13).Value = part(i).Σ1_mat_lab.ToString("F0")
+    '                .Rows(i).Cells(14).Value = part(i).Mat
+    '                .Rows(i).Cells(15).Value = part(i).Remarks
+    '                If IsNothing(part(i).P_name) Then Exit For
+    '            Next
 
-                '============== Set column width ==============
-                .Columns(0).Width = 30
-                .Columns(1).Width = 80
-                For h = 2 To .Columns.Count - 1
-                    .Columns(h).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
-                    .Columns(h).Width = 45
-                Next
-                .Columns(.Columns.Count - 1).Width = 90
+    '            '============== Set column width ==============
+    '            .Columns(0).Width = 30
+    '            .Columns(1).Width = 80
+    '            For h = 2 To .Columns.Count - 1
+    '                .Columns(h).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+    '                .Columns(h).Width = 45
+    '            Next
+    '            .Columns(.Columns.Count - 1).Width = 90
 
-                '------ return to start position --------
-                .CurrentCell = .Rows(selRow).Cells(selCol)
-                .ResumeLayout()
-            End With
-        End If
-    End Sub
+    '            '------ return to start position --------
+    '            .CurrentCell = .Rows(selRow).Cells(selCol)
+    '            .ResumeLayout()
+    '        End With
+    '    End If
+    'End Sub
 
     Private Sub Print_dgv(dgv As DataGridView, oDoc As Word.Document, oWord As Word.Application, tekst As String)
 
