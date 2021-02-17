@@ -718,6 +718,12 @@ Public Class Form1
     "DN450;18 inch; 457;    9.53;  12.7; 0;   0",
     "DN500;20 inch; 508;    9.53;  12.7; 0;   0"}
 
+    'http://www.atlassteels.com.au/documents/Section-8-PRM-Engineering-Bar.pdf
+    'http://www.atlassteels.com.au/documents/Section-7-PRM-Stainless-Steel-Sections.pdf
+    Public Shared round_bar_304() As Double = {8, 10, 12, 14, 16, 18, 20,
+    22, 24, 25, 30, 35, 40, 44.45, 50, 60, 69.8, 76.2, 82.55, 88.9, 95.2, 100, 114.3, 127, 140, 152.4, 165,
+     205, 228.6, 254, 304.8}
+
     Public Shared motorred() As String =
      {"Description; Speed;      power;           cost;  shaftdia",
      "0.18 Kw,R27DR63M4;                69.5;   0.18;   253.51; 25",
@@ -974,9 +980,10 @@ Public Class Form1
         TextBox46.Text &= "20/01/2020, Flight diameter limited to 1099mm, LH tables extended" & vbCrLf
         TextBox46.Text &= "21/01/2020, Flight diameter limited to 1299mm, LH tables extended" & vbCrLf
         TextBox46.Text &= "16/02/2020, Bugfix, cost paint is now included in total, hours WVB and ENG swapped." & vbCrLf
-        TextBox46.Text &= "16/02/2020, Bugfix, Excel did not print 1st line of the Costs DataGridView." & vbCrLf
+        TextBox46.Text &= "16/02/2020, Bugfix, Excel did not print first line of the Costs DataGridView." & vbCrLf
         TextBox46.Text &= "16/02/2020, Price Pickling & passivating updated, Labor tariff back to 2020" & vbCrLf
-        TextBox46.Text &= "16/02/2020, End bearing now 2 off, Material Certificates and Intern transport now work." & vbCrLf
+        TextBox46.Text &= "16/02/2020, End bearing 2 off, Material Certificates and Intern transport now work." & vbCrLf
+        TextBox46.Text &= "17/02/2020, Multi instance application enabled" & vbCrLf
         TextBox46.Text &= "" & vbCrLf
 
         TextBox133.Text = "Plaat zwart" & vbTab & "1.30 €/kg" & vbCrLf

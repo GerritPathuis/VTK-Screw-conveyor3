@@ -27,7 +27,7 @@
     <InstallUrl>\\DCF1\data2%24\Engineering\VBasic\Conveyor_sizing\</InstallUrl>
     <ProductName>Screw Conveyor</ProductName>
     <PublisherName>Pathuis Heavy Industries</PublisherName>
-    <ApplicationRevision>110</ApplicationRevision>
+    <ApplicationRevision>111</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -95,6 +95,9 @@
   <PropertyGroup>
     <ApplicationManifest>My Project\app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -145,6 +148,7 @@
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <Compile Include="My Project\Class1.vb" />
     <Compile Include="My Project\Resources.Designer.vb">
