@@ -776,24 +776,10 @@ Public Class Form1
 
     Public Shared ppaint() As String =
      {"Description;cost",
-      "Pickling + passivating; 30.00",
-      "10-20 m2 75um zink compound;13.25",
-      "20-100 m2 75um zink compound;12.50",
-      "10-20 m2 150um primer en epoxy (binnen);17.0",
-      "20-100 m2 150um primer en epoxy (binnen);16.40",
-      "10-20 m2 150um primer en polyurethaan (buiten);17.90",
-      "20-100 m2 150um primer en polyurethaan (buiten);17.25",
-      "10-20 m2 225um primer, midcoat, polyurethaan (buiten);18.60",
-      "20-100 m2 225um primer, midcoat, polyurethaan (buiten);18.15",
-      "10-20 m2 330um primer, midcoat, polyurethaan (buiten);20.75",
-      "20-100 m2 330um primer, midcoat, polyurethaan (buiten);20.0",
-      "10-20 m2 75um primer, zincsilicaat -90C/+400C;13.25",
-      "20-100 m2 75um primer,  zincsilicaat -90C tot +400C;12.50",
-      "10-20 m2 120um primer,  zincsilicaat -90C tot +400C;19.50",
-      "20-100 m2 120um primer,  zincsilicaat -90C tot +400C;18.0",
-      "10-20 m2 250um primer, midcoat, polyurethaan;23.0",
-      "20-100 m2 250um primer, midcoat, polyurethaan;22.0"}
-
+      "Pickling + passivating;                  30.00",
+      "primer 75um;                             18.00",
+      "primer 100um, coat 50um;                 22.50",
+      "primer 75um, midcoat100 um, coat 50um;   25.00"}
 
     Public Shared lager() As String = 'T=trekbus, C=cylindrisch, zie SKFboekje
      {"dia;diameter;prijs",
