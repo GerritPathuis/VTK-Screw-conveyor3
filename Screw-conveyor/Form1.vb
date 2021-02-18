@@ -986,7 +986,8 @@ Public Class Form1
         TextBox46.Text &= "16/02/2020, Bugfix, Excel did not print first line of the Costs DataGridView." & vbCrLf
         TextBox46.Text &= "16/02/2020, Price Pickling & passivating updated, Labor tariff back to 2020" & vbCrLf
         TextBox46.Text &= "16/02/2020, End bearing 2 off, Material Certificates and Intern transport now work." & vbCrLf
-        TextBox46.Text &= "17/02/2020, Multi instance application enabled" & vbCrLf
+        TextBox46.Text &= "17/02/2020, Multi instance application enabled." & vbCrLf
+        TextBox46.Text &= "18/02/2020, Excel export now with column titles." & vbCrLf
         TextBox46.Text &= "" & vbCrLf
 
         TextBox133.Text = "Plaat zwart" & vbTab & "1.30 €/kg" & vbCrLf
@@ -3844,24 +3845,25 @@ Public Class Form1
         excl_range.Clear()
 
         'Create an array.
-        Dim saRet(DataGridView1.Rows.Count - 1, DataGridView1.Columns.Count - 1) As String
+        Dim saRet(DataGridView1.Rows.Count + 5, DataGridView1.Columns.Count + 2) As String
 
         'Fill the array.
         Dim iRow As Integer
         Dim iCol As Integer
-        '=========== Colum titles ==========
+
+        '=========== Colum titles (row10) ==========
         For iCol = 0 To DataGridView1.Columns.Count - 1
             saRet(iRow, iCol) = DataGridView1.Columns(iCol).HeaderText.ToString
         Next iCol
 
-        '========= Content ======
-        For iRow = 0 To DataGridView1.Rows.Count - 1
+        '========= Content (row11)======
+        For iRow = 0 To DataGridView1.Rows.Count - 2
             For iCol = 0 To DataGridView1.Columns.Count - 1
                 ' Put the row And column address in the cell.
                 If Not IsNothing(DataGridView1.Rows(iRow).Cells(iCol).Value) Then
-                    saRet(iRow, iCol) = DataGridView1.Rows(iRow).Cells(iCol).Value.ToString
+                    saRet(iRow + 1, iCol) = DataGridView1.Rows(iRow).Cells(iCol).Value.ToString
                 Else
-                    saRet(iRow, iCol) = " "
+                    saRet(iRow + 1, iCol) = " "
                 End If
             Next iCol
         Next iRow
