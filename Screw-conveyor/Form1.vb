@@ -752,35 +752,26 @@ Public Class Form1
       "45 Kw, R147DRP250M4/TF/NIB/PT;   49;     45;     8588.74;110",
       "37 Kw, 1482 rpm;                 1482;   37;     0;0"}
 
-    Public Shared coupl() As String =
-     {"Diameter;cost,percentage na korting",
-      "58 mm, n-eupexB;102.7;0.55",
-      "68 mm, n-eupexB;111.24;0.55",
-      "80 mm, n-eupexB;127.5;0.55",
-      "95 mm, n-eupexB;159.58;0.55",
-      "160 mm, n-eupexB;294.50;0.45",
-      "flender, n-eupexB180;264.94;1",
-      "flender, n-eupexB225;313.77;1",
-      "N-eupexA250;509.57;1",
-      "flender, n-eupexB250;387.75;1",
-      "flender, n-eupexA280;763.26;1",
-      "flender, n-eupexA315;852.50;1",
-      "flender, n-eupexA400;1545.50;1",
-      "200 mm, n-eupexB;480;0.45",
-      "110 mm, n-eupexA;291.6;0.55",
-      "125 mm, n-eupexA;407.35;0.55",
-      "140 mm, n-eupexA;534.4;0.55",
-      "160 mm, n-eupexA;742.05;0.55",
-      "180 mm, n-eupexA;904.4;0.55",
-      "200 mm, n-eupexA;1173.5;0.55",
-      "225 mm, n-eupexA;1580;0.55",
-      "250 mm, n-eupexA;1907.1;0.55",
-      "280 mm, n-eupexA;2339;0.55",
-      "315 mm, n-eupexA;3190.7;0.55",
-      "350 mm, n-eupexA;4433;0.55",
-      "400 mm, n-eupexA;5778;0.55",
-      "440 mm, n-eupexA;7167.5;0.55",
-      "480 mm, n-eupexA;8983.5;0.55"}
+    Public Shared coupling() As String =
+     {"Diameter;cost",
+      "35;  B58, n-eupex     ;50",
+      "45;  B58, n-eupex     ;50",
+      "58;  B58, n-eupex     ;50",
+      "68;  B68, n-eupex     ;53",
+      "80;  B80, n-eupex     ;58",
+      "95;  B95, n-eupex     ;71",
+      "110; B110, n-eupex    ;103",
+      "125; B125, n-eupex    ;135",
+      "140; B140, n-eupex    ;178",
+      "160; B160, n-eupex    ;234",
+      "180; B180, n-eupex    ;289",
+      "200; B200, n-eupex    ;372",
+      "225; B225, n-eupex    ;442",
+      "250; B250, n-eupex    ;541",
+      "280; B280, n-eupex    ;638",
+      "315; A315, n-eupex    ;1148",     'with spacer
+      "350; A350, n-eupex    ;1572",     'with spacer
+      "400; A400, n-eupex    ;2013"}     'with spacer
 
 
     Public Shared ppaint() As String =
@@ -863,6 +854,8 @@ Public Class Form1
 
     Public Shared Flight_dia() As String =   'tbv screw diameter selectie
       {"Flight_dia;empty",
+      "160 ;0",
+      "200 ;0",
       "280 ;0",
       "330 ;0",
       "400 ;0",
@@ -920,7 +913,7 @@ Public Class Form1
         part(1).P_name = "Trough"
         part(2).P_name = "Cover"
         part(3).P_name = "Inlet chute"
-        part(4).P_name = "Discharge"
+        part(4).P_name = "Discharge chute"
         part(5).P_name = "Trough support"
         part(6).P_name = "Flights"
         part(7).P_name = "Stubs bar"
@@ -934,7 +927,7 @@ Public Class Form1
         part(15).P_name = "----"
         part(16).P_name = "Drive "
         part(17).P_name = "Paint/Pickling"
-        part(18).P_name = "Flange gasket"
+        part(18).P_name = "Gaskets(fla+cov)"
         part(19).P_name = "Intern transp."
         part(20).P_name = "Material Cert."
         part(21).P_name = "Packing"
@@ -974,6 +967,9 @@ Public Class Form1
         ComboBox5.SelectedIndex = 0
 
         TextBox46.Text = "Modlog" & vbCrLf
+        TextBox46.Text &= "20-12-2015, First issue"
+        TextBox46.Text &= "03-01-2016, Major Update"
+        TextBox46.Text &= "01-11-2017, Major Update"
         TextBox46.Text &= "28/11/2020, Tip speed vertical 5 [m/s]" & vbCrLf
         TextBox46.Text &= "28/11/2020, Tip speed horizontal 1.5 [m/s]" & vbCrLf
         TextBox46.Text &= "28/11/2020, Complete overhaul cost section" & vbCrLf
@@ -1066,6 +1062,7 @@ Public Class Form1
         Hours_lennard(_diam_flight, NumericUpDown3.Value, bearing_ID)
         Material_sales()
         Check_bearing_diameter()
+        Check_coupling_diameter()
     End Sub
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles NumericUpDown9.ValueChanged, NumericUpDown7.ValueChanged, NumericUpDown6.ValueChanged, NumericUpDown5.ValueChanged, NumericUpDown4.ValueChanged, NumericUpDown3.ValueChanged, NumericUpDown2.ValueChanged, Button1.Click, TabPage1.Enter, NumericUpDown8.ValueChanged, NumericUpDown40.ValueChanged, NumericUpDown39.ValueChanged, NumericUpDown58.ValueChanged
         Calc_sequence()
@@ -1199,7 +1196,7 @@ Public Class Form1
         Return (mekog)
     End Function
 
-    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown10.ValueChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, TabPage4.Enter, CheckBox5.CheckedChanged, NumericUpDown68.ValueChanged, NumericUpDown67.ValueChanged, NumericUpDown79.ValueChanged, NumericUpDown78.ValueChanged, NumericUpDown77.ValueChanged, NumericUpDown76.ValueChanged, NumericUpDown75.ValueChanged, NumericUpDown74.ValueChanged, NumericUpDown73.ValueChanged, NumericUpDown72.ValueChanged, NumericUpDown71.ValueChanged, NumericUpDown70.ValueChanged, NumericUpDown69.ValueChanged, NumericUpDown89.ValueChanged, NumericUpDown88.ValueChanged, NumericUpDown25.ValueChanged, TextBox43.TextChanged, TextBox42.TextChanged, TextBox184.TextChanged, TextBox183.TextChanged, NumericUpDown97.ValueChanged, NumericUpDown96.ValueChanged, NumericUpDown99.ValueChanged, NumericUpDown98.ValueChanged, NumericUpDown87.ValueChanged, NumericUpDown85.ValueChanged, NumericUpDown84.ValueChanged, NumericUpDown95.ValueChanged, NumericUpDown91.ValueChanged, NumericUpDown90.ValueChanged, TextBox48.TextChanged, CheckBox6.CheckedChanged, NumericUpDown92.ValueChanged, NumericUpDown94.ValueChanged, NumericUpDown86.ValueChanged, NumericUpDown102.ValueChanged, NumericUpDown101.ValueChanged
+    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click, TabControl1.Enter, RadioButton8.CheckedChanged, RadioButton7.CheckedChanged, RadioButton6.CheckedChanged, RadioButton4.CheckedChanged, NumericUpDown35.ValueChanged, NumericUpDown23.ValueChanged, NumericUpDown21.ValueChanged, NumericUpDown20.ValueChanged, NumericUpDown15.ValueChanged, NumericUpDown14.ValueChanged, NumericUpDown10.ValueChanged, ComboBox8.SelectedIndexChanged, ComboBox7.SelectedIndexChanged, ComboBox12.SelectedIndexChanged, ComboBox10.SelectedIndexChanged, CheckBox3.CheckedChanged, CheckBox2.CheckedChanged, TabPage4.Enter, CheckBox5.CheckedChanged, NumericUpDown68.ValueChanged, NumericUpDown67.ValueChanged, NumericUpDown79.ValueChanged, NumericUpDown78.ValueChanged, NumericUpDown77.ValueChanged, NumericUpDown76.ValueChanged, NumericUpDown75.ValueChanged, NumericUpDown74.ValueChanged, NumericUpDown73.ValueChanged, NumericUpDown72.ValueChanged, NumericUpDown71.ValueChanged, NumericUpDown70.ValueChanged, NumericUpDown69.ValueChanged, NumericUpDown89.ValueChanged, NumericUpDown88.ValueChanged, NumericUpDown25.ValueChanged, TextBox43.TextChanged, TextBox42.TextChanged, TextBox184.TextChanged, TextBox183.TextChanged, NumericUpDown97.ValueChanged, NumericUpDown96.ValueChanged, NumericUpDown99.ValueChanged, NumericUpDown98.ValueChanged, NumericUpDown87.ValueChanged, NumericUpDown85.ValueChanged, NumericUpDown84.ValueChanged, NumericUpDown95.ValueChanged, NumericUpDown91.ValueChanged, NumericUpDown90.ValueChanged, TextBox48.TextChanged, CheckBox6.CheckedChanged, NumericUpDown92.ValueChanged, NumericUpDown94.ValueChanged, NumericUpDown86.ValueChanged, NumericUpDown102.ValueChanged, NumericUpDown101.ValueChanged, CheckBox4.CheckedChanged
         Calc_sequence()
         Present_Datagridview1()
     End Sub
@@ -1630,11 +1627,11 @@ Public Class Form1
 
         ComboBox7.Items.Clear()
         '-------Fill combobox7,  selection------------------
-        For hh = 1 To (UBound(coupl))                'Fill combobox 7 with coupling data
-            words = coupl(hh).Split(CType(";", Char()))
-            ComboBox7.Items.Add(Trim(words(0)))
+        For hh = 1 To (UBound(coupling))                'Fill combobox 7 with coupling data
+            words = coupling(hh).Split(CType(";", Char()))
+            ComboBox7.Items.Add(Trim(words(1)))
         Next hh
-        ComboBox7.SelectedIndex = 1
+        ComboBox7.SelectedIndex = 2
     End Sub
     Private Sub Lager_combo()
         Dim words() As String
@@ -1645,7 +1642,7 @@ Public Class Form1
             words = lager(hh).Split(CType(";", Char()))
             ComboBox8.Items.Add(words(1))
         Next hh
-        ComboBox8.SelectedIndex = 1
+        ComboBox8.SelectedIndex = 3
     End Sub
 
     Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
@@ -3238,8 +3235,9 @@ Public Class Form1
 
 
             '========= Coupling =======
-            Dim words2() As String = coupl(ComboBox7.SelectedIndex + 1).Split(CType(";", Char()))
-            part(12).P_cost_mat_each = CDbl(words2(1)) * CDbl(words2(2)) 'koppeling 
+            Dim words2() As String = coupling(ComboBox7.SelectedIndex + 1).Split(CType(";", Char()))
+            part(12).P_cost_mat_each = CDbl(words2(2))  'koppeling price 
+            TextBox33.Text = words2(0)                  'koppeling diameter
             If Not CheckBox3.Checked Then part(12).P_cost_mat_each = 0
 
             '========= Inspection door =======
@@ -3271,7 +3269,7 @@ Public Class Form1
             '========= Gasket =======
             Dim words5() As String = pakking(ComboBox10.SelectedIndex + 1).Split(CType(";", Char()))
             part(18).P_cost_mat_each = CDbl(words5(1))                   'Flange gaskets
-
+            If Not CheckBox4.Checked Then part(18).P_cost_mat_each = 0
 
             '----------------------------------------SALES PRICE CALCULATION-----------------------------------------------
             '============= Total material per part ========
@@ -3420,16 +3418,28 @@ Public Class Form1
 
         Double.TryParse(TextBox61.Text, dia_pipe)    'User Selected bearing
         Double.TryParse(TextBox69.Text, Bear_id)    'User Selected bearing
-        skf1 = dia_pipe / 3
+        skf1 = dia_pipe / 3.4
         skf2 = dia_pipe / 4
 
         If Bear_id > skf2 And Bear_id < skf1 Then
-            Label62.BackColor = Color.Transparent
-            Label69.BackColor = Color.Transparent
+            TextBox69.BackColor = Color.LightGreen
         Else
-            Label62.BackColor = Color.Red
-            Label69.BackColor = Color.Red
+            TextBox69.BackColor = Color.Red
         End If
+    End Sub
+    Private Sub Check_coupling_diameter()
+        Dim Bear_id As Double
+        Dim Coupling_id As Double
+
+        Double.TryParse(TextBox69.Text, Bear_id)        'User Selected bearing
+        Double.TryParse(TextBox33.Text, Coupling_id)    'User Selected coupling
+
+        If Coupling_id < Bear_id And (Coupling_id > 0.8 * Bear_id) Then
+            TextBox33.BackColor = Color.LightGreen
+        Else
+            TextBox33.BackColor = Color.Red
+        End If
+
     End Sub
 
     Private Sub PictureBox11_Click(sender As Object, e As EventArgs) Handles PictureBox11.Click
