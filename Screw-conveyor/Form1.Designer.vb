@@ -322,6 +322,10 @@ Partial Class Form1
         Me.NumericUpDown72 = New System.Windows.Forms.NumericUpDown()
         Me.NumericUpDown71 = New System.Windows.Forms.NumericUpDown()
         Me.GroupBox27 = New System.Windows.Forms.GroupBox()
+        Me.Label32 = New System.Windows.Forms.Label()
+        Me.TextBox58 = New System.Windows.Forms.TextBox()
+        Me.TextBox64 = New System.Windows.Forms.TextBox()
+        Me.TextBox41 = New System.Windows.Forms.TextBox()
         Me.ComboBox12 = New System.Windows.Forms.ComboBox()
         Me.TextBox108 = New System.Windows.Forms.TextBox()
         Me.GroupBox26 = New System.Windows.Forms.GroupBox()
@@ -712,8 +716,12 @@ Partial Class Form1
         Me.PictureBox17 = New System.Windows.Forms.PictureBox()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.BindingSource1 = New System.Windows.Forms.BindingSource(Me.components)
-        Me.TextBox41 = New System.Windows.Forms.TextBox()
-        Me.TextBox58 = New System.Windows.Forms.TextBox()
+        Me.Label62 = New System.Windows.Forms.Label()
+        Me.Label84 = New System.Windows.Forms.Label()
+        Me.TextBox71 = New System.Windows.Forms.TextBox()
+        Me.TextBox76 = New System.Windows.Forms.TextBox()
+        Me.Label88 = New System.Windows.Forms.Label()
+        Me.Label109 = New System.Windows.Forms.Label()
         Me.TabControl1.SuspendLayout
         Me.TabPage1.SuspendLayout
         CType(Me.PictureBox14, System.ComponentModel.ISupportInitialize).BeginInit
@@ -4153,16 +4161,57 @@ Partial Class Form1
         '
         'GroupBox27
         '
+        Me.GroupBox27.Controls.Add(Me.Label32)
         Me.GroupBox27.Controls.Add(Me.TextBox58)
+        Me.GroupBox27.Controls.Add(Me.TextBox64)
         Me.GroupBox27.Controls.Add(Me.TextBox41)
         Me.GroupBox27.Controls.Add(Me.ComboBox12)
         Me.GroupBox27.Controls.Add(Me.TextBox108)
         Me.GroupBox27.Location = New System.Drawing.Point(270, 500)
         Me.GroupBox27.Name = "GroupBox27"
-        Me.GroupBox27.Size = New System.Drawing.Size(426, 50)
+        Me.GroupBox27.Size = New System.Drawing.Size(426, 77)
         Me.GroupBox27.TabIndex = 11
         Me.GroupBox27.TabStop = False
         Me.GroupBox27.Text = "Surface treatment"
+        '
+        'Label32
+        '
+        Me.Label32.AutoSize = True
+        Me.Label32.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label32.Location = New System.Drawing.Point(11, 50)
+        Me.Label32.Name = "Label32"
+        Me.Label32.Size = New System.Drawing.Size(120, 15)
+        Me.Label32.TabIndex = 181
+        Me.Label32.Tag = ""
+        Me.Label32.Text = "Surface treatment [€]"
+        '
+        'TextBox58
+        '
+        Me.TextBox58.Enabled = False
+        Me.TextBox58.Location = New System.Drawing.Point(366, 18)
+        Me.TextBox58.Name = "TextBox58"
+        Me.TextBox58.Size = New System.Drawing.Size(45, 20)
+        Me.TextBox58.TabIndex = 155
+        Me.TextBox58.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'TextBox64
+        '
+        Me.TextBox64.Enabled = False
+        Me.TextBox64.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TextBox64.Location = New System.Drawing.Point(149, 47)
+        Me.TextBox64.Name = "TextBox64"
+        Me.TextBox64.Size = New System.Drawing.Size(76, 21)
+        Me.TextBox64.TabIndex = 180
+        Me.TextBox64.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'TextBox41
+        '
+        Me.TextBox41.Enabled = False
+        Me.TextBox41.Location = New System.Drawing.Point(312, 18)
+        Me.TextBox41.Name = "TextBox41"
+        Me.TextBox41.Size = New System.Drawing.Size(48, 20)
+        Me.TextBox41.TabIndex = 154
+        Me.TextBox41.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
         '
         'ComboBox12
         '
@@ -4749,7 +4798,7 @@ Partial Class Form1
         '
         'Button7
         '
-        Me.Button7.Location = New System.Drawing.Point(270, 575)
+        Me.Button7.Location = New System.Drawing.Point(270, 614)
         Me.Button7.Name = "Button7"
         Me.Button7.Size = New System.Drawing.Size(150, 23)
         Me.Button7.TabIndex = 7
@@ -5260,7 +5309,7 @@ Partial Class Form1
         Me.GroupBox34.Controls.Add(Me.Label112)
         Me.GroupBox34.Location = New System.Drawing.Point(14, 364)
         Me.GroupBox34.Name = "GroupBox34"
-        Me.GroupBox34.Size = New System.Drawing.Size(346, 150)
+        Me.GroupBox34.Size = New System.Drawing.Size(346, 167)
         Me.GroupBox34.TabIndex = 57
         Me.GroupBox34.TabStop = False
         Me.GroupBox34.Text = "Labour rates 2021"
@@ -5428,6 +5477,12 @@ Partial Class Form1
         '
         'GroupBox16
         '
+        Me.GroupBox16.Controls.Add(Me.TextBox76)
+        Me.GroupBox16.Controls.Add(Me.Label88)
+        Me.GroupBox16.Controls.Add(Me.Label109)
+        Me.GroupBox16.Controls.Add(Me.TextBox71)
+        Me.GroupBox16.Controls.Add(Me.Label62)
+        Me.GroupBox16.Controls.Add(Me.Label84)
         Me.GroupBox16.Controls.Add(Me.NumericUpDown65)
         Me.GroupBox16.Controls.Add(Me.Label207)
         Me.GroupBox16.Controls.Add(Me.Label208)
@@ -5460,7 +5515,7 @@ Partial Class Form1
         Me.GroupBox16.Controls.Add(Me.Label94)
         Me.GroupBox16.Location = New System.Drawing.Point(366, 12)
         Me.GroupBox16.Name = "GroupBox16"
-        Me.GroupBox16.Size = New System.Drawing.Size(324, 347)
+        Me.GroupBox16.Size = New System.Drawing.Size(324, 389)
         Me.GroupBox16.TabIndex = 54
         Me.GroupBox16.TabStop = False
         Me.GroupBox16.Text = "Totalen"
@@ -5742,9 +5797,9 @@ Partial Class Form1
         Me.Label99.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label99.Location = New System.Drawing.Point(9, 81)
         Me.Label99.Name = "Label99"
-        Me.Label99.Size = New System.Drawing.Size(113, 16)
+        Me.Label99.Size = New System.Drawing.Size(103, 16)
         Me.Label99.TabIndex = 46
-        Me.Label99.Text = "Gehele totaalprijs"
+        Me.Label99.Text = "Totaal kost prijs"
         '
         'Label90
         '
@@ -8247,11 +8302,11 @@ Partial Class Form1
         'TextBox59
         '
         Me.TextBox59.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TextBox59.Location = New System.Drawing.Point(20, 269)
+        Me.TextBox59.Location = New System.Drawing.Point(20, 380)
         Me.TextBox59.Multiline = True
         Me.TextBox59.Name = "TextBox59"
         Me.TextBox59.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.TextBox59.Size = New System.Drawing.Size(936, 359)
+        Me.TextBox59.Size = New System.Drawing.Size(936, 248)
         Me.TextBox59.TabIndex = 1
         Me.TextBox59.Text = "Retrieve log"
         '
@@ -8262,7 +8317,7 @@ Partial Class Form1
         Me.TextBox46.Multiline = True
         Me.TextBox46.Name = "TextBox46"
         Me.TextBox46.ScrollBars = System.Windows.Forms.ScrollBars.Both
-        Me.TextBox46.Size = New System.Drawing.Size(936, 227)
+        Me.TextBox46.Size = New System.Drawing.Size(936, 353)
         Me.TextBox46.TabIndex = 0
         Me.TextBox46.Text = "Modlog "
         '
@@ -8551,23 +8606,61 @@ Partial Class Form1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'TextBox41
+        'Label62
         '
-        Me.TextBox41.Enabled = False
-        Me.TextBox41.Location = New System.Drawing.Point(312, 18)
-        Me.TextBox41.Name = "TextBox41"
-        Me.TextBox41.Size = New System.Drawing.Size(48, 20)
-        Me.TextBox41.TabIndex = 154
-        Me.TextBox41.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.Label62.AutoSize = True
+        Me.Label62.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label62.Location = New System.Drawing.Point(166, 318)
+        Me.Label62.Name = "Label62"
+        Me.Label62.Size = New System.Drawing.Size(16, 18)
+        Me.Label62.TabIndex = 156
+        Me.Label62.Text = "€"
         '
-        'TextBox58
+        'Label84
         '
-        Me.TextBox58.Enabled = False
-        Me.TextBox58.Location = New System.Drawing.Point(366, 18)
-        Me.TextBox58.Name = "TextBox58"
-        Me.TextBox58.Size = New System.Drawing.Size(45, 20)
-        Me.TextBox58.TabIndex = 155
-        Me.TextBox58.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        Me.Label84.AutoSize = True
+        Me.Label84.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label84.Location = New System.Drawing.Point(9, 318)
+        Me.Label84.Name = "Label84"
+        Me.Label84.Size = New System.Drawing.Size(118, 16)
+        Me.Label84.TabIndex = 154
+        Me.Label84.Text = "Totaal kost prijs/m"
+        '
+        'TextBox71
+        '
+        Me.TextBox71.Location = New System.Drawing.Point(189, 317)
+        Me.TextBox71.Name = "TextBox71"
+        Me.TextBox71.Size = New System.Drawing.Size(74, 20)
+        Me.TextBox71.TabIndex = 157
+        Me.TextBox71.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'TextBox76
+        '
+        Me.TextBox76.Location = New System.Drawing.Point(189, 343)
+        Me.TextBox76.Name = "TextBox76"
+        Me.TextBox76.Size = New System.Drawing.Size(74, 20)
+        Me.TextBox76.TabIndex = 160
+        Me.TextBox76.TextAlign = System.Windows.Forms.HorizontalAlignment.Center
+        '
+        'Label88
+        '
+        Me.Label88.AutoSize = True
+        Me.Label88.Font = New System.Drawing.Font("Microsoft Sans Serif", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label88.Location = New System.Drawing.Point(166, 344)
+        Me.Label88.Name = "Label88"
+        Me.Label88.Size = New System.Drawing.Size(16, 18)
+        Me.Label88.TabIndex = 159
+        Me.Label88.Text = "€"
+        '
+        'Label109
+        '
+        Me.Label109.AutoSize = True
+        Me.Label109.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label109.Location = New System.Drawing.Point(9, 344)
+        Me.Label109.Name = "Label109"
+        Me.Label109.Size = New System.Drawing.Size(86, 16)
+        Me.Label109.TabIndex = 158
+        Me.Label109.Text = "Sales prijs/m"
         '
         'Form1
         '
@@ -8577,7 +8670,7 @@ Partial Class Form1
         Me.Controls.Add(Me.TabControl1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "Form1"
-        Me.Text = "Screw conveyors 3.0 W (18/02/2021)"
+        Me.Text = "Screw conveyors 3.0 X (19/02/2021)"
         Me.TabControl1.ResumeLayout(False)
         Me.TabPage1.ResumeLayout(False)
         Me.TabPage1.PerformLayout
@@ -9519,4 +9612,12 @@ Partial Class Form1
     Friend WithEvents TextBox33 As TextBox
     Friend WithEvents TextBox58 As TextBox
     Friend WithEvents TextBox41 As TextBox
+    Friend WithEvents Label32 As Label
+    Friend WithEvents TextBox64 As TextBox
+    Friend WithEvents TextBox71 As TextBox
+    Friend WithEvents Label62 As Label
+    Friend WithEvents Label84 As Label
+    Friend WithEvents TextBox76 As TextBox
+    Friend WithEvents Label88 As Label
+    Friend WithEvents Label109 As Label
 End Class

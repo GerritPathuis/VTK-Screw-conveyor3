@@ -33,10 +33,7 @@ Public Structure Price_struct           'Cost price info
     Public P_length As Double           '[m] part length
     Public P_weight As Double           '[kg] each component
     Public P_kg_cost As Double          '[€/kg] material cost per kg
-
     Public P_paint_area As Double       '[m2] paint area
-    Public P_sat_costs As Double        '[€] Surface Area Treatent costs
-
     Public P_cost_mat_each As Double    '[€] material + purchase cost each
     Public P_cost_mat_req As Double     '[€] material * aantal
     Public Lab_rate As Double           '[€/hour]
@@ -45,7 +42,7 @@ Public Structure Price_struct           'Cost price info
     Public Σ1_mat_lab As Double         '[€ each] Material + labor 1 component
     Public Remarks As String            '...
     Public Mat As String                'Material
-    Public surface_t As Boolean         'Surface treatment yes/no
+    Public P_surface_Bool As Boolean    'Surface treatment yes/no
 End Structure
 
 Public Class Form1
@@ -975,7 +972,8 @@ Public Class Form1
         TextBox46.Text &= "17/02/2020, Multi instance application enabled." & vbCrLf
         TextBox46.Text &= "18/02/2020, Excel export now with column titles." & vbCrLf
         TextBox46.Text &= "18/02/2020, Check ratio (center pipe diameter/bearing diameter)." & vbCrLf
-        TextBox46.Text &= "" & vbCrLf
+        TextBox46.Text &= "19/02/2020, Paint tariff based on m2, Pickling+galvanized on kg." & vbCrLf
+        TextBox46.Text &= "19/02/2020, Cost and Sales price per meter conveyor added." & vbCrLf
 
         TextBox133.Text = "Plaat zwart" & vbTab & "1.30 €/kg" & vbCrLf
         TextBox133.Text &= "Plaat 304 " & vbTab & vbTab & "0.00 €/kg " & vbCrLf
@@ -1469,20 +1467,16 @@ Public Class Form1
                 End If
             Next
 
-            'Debug.WriteLine(_d(imax_count).ToString)
-
             '=========== Deflection angle, Left hand side ===============
             _α(imax_count) = 0
             For i = imax_count - 1 To 0 Step -1
                 _α(i) = _α(i + 1) + _m(i) * ΔL / (2 * Young * pipe_Ix * 10 ^ 6) 'Angle [rad]
-                'Debug.WriteLine("Left part i= " & i.ToString & ",  _α(i)= " & _α(i).ToString)
             Next
 
             '=========== Deflection angle. Right hand side ===============
             _α(imax_count) = 0
             For i = imax_count + 1 To _steps
                 _α(i) = _α(i - 1) - _m(i) * ΔL / (2 * Young * pipe_Ix * 10 ^ 6) 'Angle [rad]
-                'Debug.WriteLine("Right part i= " & i.ToString & ",  _α(i)= " & _α(i).ToString)
             Next
 
             '=========== Deflection /sag ==================
@@ -1550,10 +1544,8 @@ Public Class Form1
                     max_sag = 1000
             End Select
 
-
             TextBox49.Text = product_density.ToString("0")
 
-            ' Debug.WriteLine(_αv(imax_count).ToString & " " & (_λ7 * 1000 / max_sag).ToString)
             '---------- checks---------
             TextBox20.BackColor = CType(IIf(_αv(imax_count) > (_λ7 * 1000 / max_sag), Color.Red, Color.LightGreen), Color)
             TextBox09.BackColor = CType(IIf(sigma_eg > sigma_fatique, Color.Red, Color.LightGreen), Color)
@@ -2259,13 +2251,8 @@ Public Class Form1
         conv.pitch = NumericUpDown42.Value * conv.pipe_od       '[m] pitch
         conv.Flight_short_side = NumericUpDown41.Value / 1000        '[m] flight thickness
 
-
-        ' Debug.WriteLine("conv.pipe_od= " & conv.pipe_od.ToString)
-
         '---------- blank dimensions before forming ----
         blank_Dia = Blank_OD(conv.flight_OD, conv.pitch)          '[m] 
-
-        'Debug.WriteLine(" blank_Dia= " & blank_Dia.ToString)
 
         blank_wgt = blank_Dia ^ 2 * conv.Flight_short_side * 7850    '[kg]
         blank_cost = blank_wgt * NumericUpDown45.Value          '[e]
@@ -2289,12 +2276,6 @@ Public Class Form1
         tip_length = Sqrt(c.pitch ^ 2 + c.flight_OD ^ 2)           '[m]
 
         c.flight_weight = PI / 4 * 7850 * c.Flight_short_side * no_f * (c.flight_OD ^ 2 - c.pipe_od ^ 2) / Cos(hoek_spoed)
-
-        'Debug.WriteLine("============== ")
-        'Debug.WriteLine("pitch= " & c.pitch.ToString)
-        'Debug.WriteLine("c.dia_flight= " & c.flight_OD.ToString)
-        'Debug.WriteLine("c.pipe_od= " & c.pipe_od.ToString)
-        'Debug.WriteLine("c.flight_weight= " & c.flight_weight.ToString)
     End Sub
     Private Function Blank_OD(d1 As Double, pitch As Double) As Double
         'Weight of the square blank
@@ -3036,7 +3017,7 @@ Public Class Form1
                     Else
                         part(8).P_kg_cost = NumericUpDown75.Value    'Welded
                     End If
-                Case (RadioButton7.Checked)                         'rvs304, (Koud + 2B)
+                Case (RadioButton7.Checked)                          'rvs304, (Koud + 2B)
                     part(0).P_kg_cost = NumericUpDown70.Value        'kop staart 
                     part(1).P_kg_cost = NumericUpDown70.Value        'trog
                     part(0).Mat = "304"
@@ -3054,7 +3035,7 @@ Public Class Form1
                     part(5).P_kg_cost = NumericUpDown70.Value        '[€/kg] Trog voet 
                     part(6).P_kg_cost = NumericUpDown73.Value        'schroefblad
                     part(7).P_kg_cost = NumericUpDown79.Value        'astap [€/kg] materiaal is standaard van staal
-                    If CheckBox5.Checked Then                       'schroefpijp staal(seam / seamless)
+                    If CheckBox5.Checked Then                        'schroefpijp staal(seam / seamless)
                         part(8).P_kg_cost = NumericUpDown77.Value
                     Else
                         part(8).P_kg_cost = NumericUpDown78.Value
@@ -3166,15 +3147,15 @@ Public Class Form1
             part(27).P_no = 1                                   'Free line #4
 
             '================ surfae treatment  ================
-            part(0).surface_t = True                '[m] Eindplaten
-            part(1).surface_t = True                '[mm] Trog    
-            part(2).surface_t = True                '[mm] Deksel
-            part(3).surface_t = True                '[mm] inlaten  
-            part(4).surface_t = True                '[mm] uitlaten 
-            part(5).surface_t = True                '[mm] voet
-            part(6).surface_t = True                '[mm] Schroefblad 
-            part(7).surface_t = False               'Stub end bar (DE + NDE)
-            part(8).surface_t = True                'Schroef pijp 
+            part(0).P_surface_Bool = True                '[m] Eindplaten
+            part(1).P_surface_Bool = True                '[mm] Trog    
+            part(2).P_surface_Bool = True                '[mm] Deksel
+            part(3).P_surface_Bool = True                '[mm] inlaten  
+            part(4).P_surface_Bool = True                '[mm] uitlaten 
+            part(5).P_surface_Bool = True                '[mm] voet
+            part(6).P_surface_Bool = True                '[mm] Schroefblad 
+            part(7).P_surface_Bool = False               'Stub end bar (DE + NDE)
+            part(8).P_surface_Bool = True                'Schroef pijp 
 
             '================ staal Oppervlaktes ================
             opp_trog = PI * _diam_flight * _λ6
@@ -3267,26 +3248,15 @@ Public Class Form1
 
             Dim CCost As Double
             Double.TryParse(TextBox41.Text, CCost)
-            DataGridView1.Columns(8).HeaderText = "Area [m2]"               'Part area
+            Dim Cwght As Double
+            Double.TryParse(TextBox47.Text, Cwght)
 
             If Trim(TextBox58.Text).Equals("€/m2") Then
-                '============= Paint ========
-                DataGridView1.Columns(7).HeaderText = "SAT Paint [€]"       'Paint
-                For i = 0 To part.Length - 1
-                    part(i).P_sat_costs = CCost * part(i).P_paint_area      'Paint
-                    If part(i).surface_t = False Then part(i).P_sat_costs = 0
-
-                    Debug.WriteLine("Paint" & part(i).P_sat_costs.ToString)
-                Next
+                part(17).P_cost_mat_each = CCost * paint_area       'Paint
             Else
-                '============= Pickling/kg ========
-                DataGridView1.Columns(7).HeaderText = "SAT Pickel [€]"      'Pickle
-                For i = 0 To part.Length - 1
-                    part(i).P_sat_costs = CCost * part(i).P_weight   'Pickle
-                    If part(i).surface_t = False Then part(i).P_sat_costs = 0
-                    Debug.WriteLine("Pickle" & part(i).P_sat_costs.ToString)
-                Next
+                part(17).P_cost_mat_each = CCost * Cwght            'Pickling
             End If
+            TextBox64.Text = part(17).P_cost_mat_each.ToString("F0")
 
             '========= Gasket =======
             Dim words5() As String = pakking(ComboBox10.SelectedIndex + 1).Split(CType(";", Char()))
@@ -3313,9 +3283,8 @@ Public Class Form1
             '==============================================
             For i = 0 To 31
                 'Purchase components are excluded
-                part(i).P_cost_mat_req = part(i).P_no * part(i).P_cost_mat_each + part(i).P_sat_costs
+                part(i).P_cost_mat_req = part(i).P_no * part(i).P_cost_mat_each
             Next
-
 
             '============= Intern transport ========
             part(19).P_cost_mat_req = part(19).P_no * part(19).P_cost_mat_each     'Intern Transport cost
@@ -3334,6 +3303,7 @@ Public Class Form1
                 total_cost += part(i).P_cost_mat_req
             Next
             part(32).P_cost_mat_req = total_cost    'Opgeteld material
+
 
             '============== UREN CALCULATE =========
             part(28).Lab_hrs = NumericUpDown30.Value    'Eng
@@ -3428,9 +3398,11 @@ Public Class Form1
             TextBox98.Text = tot_prijsarbeid.ToString("F0")             'Totale prijs arbeid
             TextBox101.Text = perc_arbeid.ToString("F0") & "%"          'Totale percentage arbeid
             TextBox73.Text = geheel_totprijs.ToString("F0")             'Geheel totaalprijs
+            TextBox71.Text = (geheel_totprijs / NumericUpDown3.Value).ToString("F0")   'Geheel totaalprijs/m schroef
             TextBox74.Text = dekking.ToString("F0")                     'Dekking
             TextBox99.Text = marge_cost.ToString("F0")                  'Marge
             TextBox75.Text = verkoopprijs.ToString("F0")                'Verkoopprijs
+            TextBox76.Text = (verkoopprijs / NumericUpDown3.Value).ToString("F0")       'Verkoopprijs/m schroef
         End If
     End Sub
     Private Sub Check_bearing_diameter()
@@ -4268,22 +4240,22 @@ Public Class Form1
             .Columns(0).HeaderText = "Pos"
             .Columns(1).HeaderText = "Part"
             .Columns(2).HeaderText = "No."
-            .Columns(3).HeaderText = "[mm]"         'Mat
-            .Columns(4).HeaderText = "[kg] each"    'Mat
+            .Columns(3).HeaderText = "[mm]"             'Mat
+            .Columns(4).HeaderText = "[kg] each"        'Mat
             .Columns(5).HeaderText = "Mat [€/kg]"       'Mat
-            .Columns(6).HeaderText = "[€]mat. each" 'Mat
+            .Columns(6).HeaderText = "[€]mat. each"     'Mat
 
-            .Columns(7).HeaderText = "Paint/pickle [€]"
-            .Columns(8).HeaderText = "Area [m2]"   'Surface area treatment
+            .Columns(7).HeaderText = "Paint"
+            .Columns(8).HeaderText = "Σ Area [m2]"      'Surface area treatment
 
-            .Columns(9).HeaderText = "Σ Mat [€]"     'Mat cost total 
+            .Columns(9).HeaderText = "Σ Mat [€]"        'Mat cost total 
 
-            .Columns(10).HeaderText = "[hrs]"       'Labour
-            .Columns(11).HeaderText = "[€/hr]"      'Labour
-            .Columns(12).HeaderText = "Labor [€]"   'Labour
+            .Columns(10).HeaderText = "Labor [hrs]"     'Labour
+            .Columns(11).HeaderText = "Labor [€/hr]"    'Labour
+            .Columns(12).HeaderText = "Labor [€]"       'Labour
 
-            .Columns(13).HeaderText = "Σ[€]"        'Sum
-            .Columns(14).HeaderText = "Mat."        'Sum
+            .Columns(13).HeaderText = "Σ [€]"            'Sum
+            .Columns(14).HeaderText = "Mat."            'Sum
             .Columns(15).HeaderText = "Remarks"
         End With
     End Sub
@@ -4299,16 +4271,16 @@ Public Class Form1
                     selCol = DataGridView1.CurrentCell.ColumnIndex
                 End If
 
-                For i = 0 To 36
+                For i = 0 To 32
                     .Rows(i).Cells(0).Value = i.ToString
                     .Rows(i).Cells(1).Value = part(i).P_name                            'Part name
                     .Rows(i).Cells(2).Value = part(i).P_no                              'Part number
                     .Rows(i).Cells(3).Value = part(i).P_dikte                           'Part
-                    .Rows(i).Cells(4).Value = part(i).P_weight.ToString("F0")          'Steel
+                    .Rows(i).Cells(4).Value = part(i).P_weight.ToString("F0")           'Steel
                     .Rows(i).Cells(5).Value = part(i).P_kg_cost.ToString("F2")          'Steel
                     .Rows(i).Cells(6).Value = part(i).P_cost_mat_each.ToString("F0")    'Steel
 
-                    .Rows(i).Cells(7).Value = part(i).P_sat_costs.ToString("F2")       'Surface_treatment
+                    .Rows(i).Cells(7).Value = part(i).P_surface_Bool.ToString()         'Surface_treatment Yes/No
                     .Rows(i).Cells(8).Value = part(i).P_paint_area.ToString("F1")       'Surface_treatment Area
 
                     .Rows(i).Cells(9).Value = part(i).P_cost_mat_req.ToString("F0")     'Mat cost total 
