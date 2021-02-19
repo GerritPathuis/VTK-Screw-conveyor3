@@ -31,10 +31,12 @@ Public Structure Price_struct           'Cost price info
     Public P_tag As Double              'identificatie
     Public P_dikte As Double            '[mm] plate thickness
     Public P_length As Double           '[m] part length
-    Public P_kg_each As Double          '[kg] each component
-    Public P_area As Double             '[m2] paint area
+    Public P_weight As Double           '[kg] each component
     Public P_kg_cost As Double          '[€/kg] material cost per kg
-    Public P_m2_cost As Double          '[€/m2] paint per m2
+
+    Public P_paint_area As Double       '[m2] paint area
+    Public P_sat_costs As Double        '[€] Surface Area Treatent costs
+
     Public P_cost_mat_each As Double    '[€] material + purchase cost each
     Public P_cost_mat_req As Double     '[€] material * aantal
     Public Lab_rate As Double           '[€/hour]
@@ -43,6 +45,7 @@ Public Structure Price_struct           'Cost price info
     Public Σ1_mat_lab As Double         '[€ each] Material + labor 1 component
     Public Remarks As String            '...
     Public Mat As String                'Material
+    Public surface_t As Boolean         'Surface treatment yes/no
 End Structure
 
 Public Class Form1
@@ -776,12 +779,13 @@ Public Class Form1
 
     Public Shared ppaint() As String =
      {"Description;cost",
-      "Pickling + passivating;                  30.00",
-      "primer 75um;                             18.00",
-      "primer 100um, coat 50um;                 22.50",
-      "primer 75um, midcoat100 um, coat 50um;   25.00"}
+      "Pickling + passivating;                      0.75; €/kg",
+      "Hot dip galvanizing;                         1.30; €/kg",
+      "Primer 75um;                                 18.00; €/m2",
+      "Primer 100um, top coat 50um;                 22.50; €/m2",
+      "Primer 75um, mid coat 100um, top coat 50um;  25.00; €/m2"}
 
-    Public Shared lager() As String = 'T=trekbus, C=cylindrisch, zie SKFboekje
+    Public Shared lager() As String = 'T=trekbus, C=cylindrisch, zie SKF boekje
      {"dia;diameter;prijs",
       "40;40 mm Trekbus;120.45",
       "50;50 mm Trekbus;152.57",
@@ -1034,8 +1038,8 @@ Public Class Form1
         Coupling_combo()
         Lager_combo()
 
-        Paint_combo()
-        Pakking_combo()
+        Paint_combo_init()
+        Pakking_combo_init()
         Calc_sequence()
         init_done = True
     End Sub
@@ -2216,7 +2220,7 @@ Public Class Form1
         TextBox122.Text = force.ToString("0")
     End Sub
 
-    Private Sub Paint_combo()
+    Private Sub Paint_combo_init()
         Dim words() As String
 
         ComboBox12.Items.Clear()
@@ -2227,7 +2231,7 @@ Public Class Form1
         Next hh
         ComboBox12.SelectedIndex = 0            'Pickling + passivating
     End Sub
-    Private Sub Pakking_combo()
+    Private Sub Pakking_combo_init()
         Dim words() As String
 
         ComboBox10.Items.Clear()
@@ -3161,27 +3165,38 @@ Public Class Form1
             part(26).P_no = 1                                   'Free line #3
             part(27).P_no = 1                                   'Free line #4
 
+            '================ surfae treatment  ================
+            part(0).surface_t = True                '[m] Eindplaten
+            part(1).surface_t = True                '[mm] Trog    
+            part(2).surface_t = True                '[mm] Deksel
+            part(3).surface_t = True                '[mm] inlaten  
+            part(4).surface_t = True                '[mm] uitlaten 
+            part(5).surface_t = True                '[mm] voet
+            part(6).surface_t = True                '[mm] Schroefblad 
+            part(7).surface_t = False               'Stub end bar (DE + NDE)
+            part(8).surface_t = True                'Schroef pijp 
+
             '================ staal Oppervlaktes ================
             opp_trog = PI * _diam_flight * _λ6
             opp_kopstaartplaat = _diam_flight ^ 2
 
             '--------------paint Oppervlaktes -------
-            part(0).P_area = 2 * opp_kopstaartplaat                 'Binnen en buiten
-            part(1).P_area = 2 * (opp_kopstaartplaat + opp_trog)    'kuip zowel uitwendig als inwendig
-            part(2).P_area = 2 * _λ6 * _diam_flight * 1.1           'Deksel zowel inwendig als uitwendig
-            part(3).P_area = 1                                      '[m2] inlaat (est)
-            part(4).P_area = 1                                      '[m2] uitlaat
-            part(5).P_area = 0.5                                    '[m2] voet
-            part(8).P_area = _pipe_OD / 1000 * PI * _λ6             'Pipe
+            part(0).P_paint_area = 2 * opp_kopstaartplaat                 'Binnen en buiten
+            part(1).P_paint_area = 2 * (opp_kopstaartplaat + opp_trog)    'kuip zowel uitwendig als inwendig
+            part(2).P_paint_area = 2 * _λ6 * _diam_flight * 1.1           'Deksel zowel inwendig als uitwendig
+            part(3).P_paint_area = 1                                      '[m2] inlaat (est)
+            part(4).P_paint_area = 1                                      '[m2] uitlaat
+            part(5).P_paint_area = 0.5                                    '[m2] voet
+            part(8).P_paint_area = _pipe_OD / 1000 * PI * _λ6             'Pipe
 
             '================ Gewichten =================
-            part(0).P_kg_each = _diam_flight ^ 2 * (part(0).P_dikte / 1000) * rho_staal * 3         'Eindplaat (x3= VTK standard)
-            part(1).P_kg_each = _diam_flight * 4 * (part(1).P_dikte / 1000) * _λ6 * rho_staal       'Trog
-            part(2).P_kg_each = _diam_flight * 1.1 * (part(2).P_dikte / 1000) * _λ6 * rho_staal     '50mm voor de horizontale flens en 25mm voor het stukje naar beneden
-            part(3).P_kg_each = 10                                     '[kg] inlaat chute
-            part(4).P_kg_each = 10                                     '[kg] uitlaat chute
-            part(5).P_kg_each = 5                                      '[kg] conveyor supports
-            part(13).P_kg_each = 10                                    '[kg] koppelingkap
+            part(0).P_weight = _diam_flight ^ 2 * (part(0).P_dikte / 1000) * rho_staal * 3         'Eindplaat (x3= VTK standard)
+            part(1).P_weight = _diam_flight * 4 * (part(1).P_dikte / 1000) * _λ6 * rho_staal       'Trog
+            part(2).P_weight = _diam_flight * 1.1 * (part(2).P_dikte / 1000) * _λ6 * rho_staal     '50mm voor de horizontale flens en 25mm voor het stukje naar beneden
+            part(3).P_weight = 10                                     '[kg] inlaat chute
+            part(4).P_weight = 10                                     '[kg] uitlaat chute
+            part(5).P_weight = 5                                      '[kg] conveyor supports
+            part(13).P_weight = 10                                    '[kg] koppelingkap
 
             '--------------- pipe gewicht (8)-------------------
             Double.TryParse(TextBox61.Text, _pipe_OD)         ' ComboBox3 = ComboBox9
@@ -3190,7 +3205,7 @@ Public Class Form1
             _pipe_wall = NumericUpDown57.Value      '[mm]
             _pipe_wall /= 1000                      '[m]
             _pipe_ID = (_pipe_OD - 2 * _pipe_wall)
-            part(8).P_kg_each = rho_staal * PI / 4 * (_pipe_OD ^ 2 - _pipe_ID ^ 2) * _λ6
+            part(8).P_weight = rho_staal * PI / 4 * (_pipe_OD ^ 2 - _pipe_ID ^ 2) * _λ6
 
             '--------------- flight gewicht (6)-------------------
             'radiale speling schroef in kuip: tot diam 0.3m 7.5 mm, daarboven 10mm
@@ -3205,20 +3220,19 @@ Public Class Form1
             nr_flights = _λ6 / spoed
             hoek_spoed = Atan(spoed / (PI * diam_schroef))       '[rad]    
 
-            part(6).P_kg_each = PI * rho_staal * (part(6).P_dikte / 1000) * 0.25 * nr_flights * (diam_schroef ^ 2 - _pipe_OD ^ 2) / Cos(hoek_spoed)         ' DIT IS DE ECHTE FORMULE!!!!!
-            part(6).P_area = 2 * (part(4).P_kg_each / (part(6).P_dikte * rho_staal / 1000))
+            part(6).P_weight = PI * rho_staal * (part(6).P_dikte / 1000) * 0.25 * nr_flights * (diam_schroef ^ 2 - _pipe_OD ^ 2) / Cos(hoek_spoed)         ' DIT IS DE ECHTE FORMULE!!!!!
+            part(6).P_paint_area = 2 * (part(4).P_weight / (part(6).P_dikte * rho_staal / 1000))
 
             '--------------- Stub bar weight (7)-------------------
             part(7).P_length = NumericUpDown94.Value + NumericUpDown86.Value   '[m] lengte (DE + NDE)
-            part(7).P_kg_each = PI / 4 * (part(7).P_dikte / 1000) ^ 2 * part(7).P_length * 7850
-            part(7).P_area = 0
+            part(7).P_weight = PI / 4 * (part(7).P_dikte / 1000) ^ 2 * part(7).P_length * 7850
+            part(7).P_paint_area = 0
 
             '========= End Bearing =======
             Dim words1() As String = lager(ComboBox8.SelectedIndex + 1).Split(CType(";", Char()))
             part(10).P_cost_mat_each = CDbl(words1(2))          'End bearing
             TextBox69.Text = Trim(words1(0))                    'End bearing diameter
             If Not CheckBox6.Checked Then part(10).P_cost_mat_each = 0
-
 
             '========= Coupling =======
             Dim words2() As String = coupling(ComboBox7.SelectedIndex + 1).Split(CType(";", Char()))
@@ -3240,17 +3254,39 @@ Public Class Form1
 
             '============= Paint/Pickling ==========
             Dim words4() As String = ppaint(ComboBox12.SelectedIndex + 1).Split(CType(";", Char()))
-            part(17).P_m2_cost = CDbl(words4(1))                   'Paint
 
+            TextBox41.Text = CDbl(words4(1)).ToString("F2")     'Tariff
+            TextBox58.Text = words4(2)                          'Unit
             Dim paint_area As Double = 0
+
             For i = 0 To part.Length - 1
-                paint_area += part(i).P_area
+                paint_area += part(i).P_paint_area
             Next
-            paint_area -= part(17).P_area   'Prevent double counting 
+            paint_area -= part(17).P_paint_area   'Prevent double counting 
             part(17).P_no = 1
 
-            '============= Paint ========
-            part(17).P_cost_mat_req = paint_area * part(17).P_m2_cost
+            Dim CCost As Double
+            Double.TryParse(TextBox41.Text, CCost)
+            DataGridView1.Columns(8).HeaderText = "Area [m2]"               'Part area
+
+            If Trim(TextBox58.Text).Equals("€/m2") Then
+                '============= Paint ========
+                DataGridView1.Columns(7).HeaderText = "SAT Paint [€]"       'Paint
+                For i = 0 To part.Length - 1
+                    part(i).P_sat_costs = CCost * part(i).P_paint_area      'Paint
+                    If part(i).surface_t = False Then part(i).P_sat_costs = 0
+
+                    Debug.WriteLine("Paint" & part(i).P_sat_costs.ToString)
+                Next
+            Else
+                '============= Pickling/kg ========
+                DataGridView1.Columns(7).HeaderText = "SAT Pickel [€]"      'Pickle
+                For i = 0 To part.Length - 1
+                    part(i).P_sat_costs = CCost * part(i).P_weight   'Pickle
+                    If part(i).surface_t = False Then part(i).P_sat_costs = 0
+                    Debug.WriteLine("Pickle" & part(i).P_sat_costs.ToString)
+                Next
+            End If
 
             '========= Gasket =======
             Dim words5() As String = pakking(ComboBox10.SelectedIndex + 1).Split(CType(";", Char()))
@@ -3261,23 +3297,23 @@ Public Class Form1
             '============= Total material per part ========
             For i = 0 To 31
                 'Purchase components are excluded
-                If part(i).P_kg_each > 0 Then
-                    part(i).P_cost_mat_each = part(i).P_kg_each * part(i).P_kg_cost
+                If part(i).P_weight > 0 Then
+                    part(i).P_cost_mat_each = part(i).P_weight * part(i).P_kg_cost
                 End If
             Next
 
-            '============= Total weight + area =======
+            '============= Total weight  =======
             Dim total_kg_nett As Double
 
             For i = 0 To part.Length - 1
-                total_kg_nett += part(i).P_no * part(i).P_kg_each
+                total_kg_nett += part(i).P_no * part(i).P_weight
             Next
 
             '============= Total material per part ========
             '==============================================
             For i = 0 To 31
                 'Purchase components are excluded
-                part(i).P_cost_mat_req = part(i).P_cost_mat_each * part(i).P_no
+                part(i).P_cost_mat_req = part(i).P_no * part(i).P_cost_mat_each + part(i).P_sat_costs
             Next
 
 
@@ -3376,7 +3412,7 @@ Public Class Form1
             TextBox109.Text = total_kg_nett.ToString("F0")               'Totale Nett weight sheet steel
 
             TextBox108.Text = paint_area.ToString("F1") & " m2"         'Paint m2
-            part(17).P_area = Round(paint_area, 1)                      'Paint m2
+            part(17).P_paint_area = Round(paint_area, 1)                      'Paint m2
 
             TextBox140.Text = prijs_wvb.ToString("F0")                  'Wvb cost
             TextBox55.Text = prijs_eng.ToString("F0")                   'Engineering cost
@@ -3475,7 +3511,7 @@ Public Class Form1
         Form2.Show()
     End Sub
     Private Sub Show_Top_end()
-                '  
+        '  
         Form2.Text = "Top end VTK vertical screw (P16.0102) Problems 1)Shrink fit bearing 2) Access very limited"
         Form2.Size = New Size(870, 734)
         Form2.PictureBox1.Image = Screw_conveyor.My.Resources.Resources.Top_end
@@ -4234,17 +4270,17 @@ Public Class Form1
             .Columns(2).HeaderText = "No."
             .Columns(3).HeaderText = "[mm]"         'Mat
             .Columns(4).HeaderText = "[kg] each"    'Mat
-            .Columns(5).HeaderText = "[€/kg]"       'Mat
+            .Columns(5).HeaderText = "Mat [€/kg]"       'Mat
             .Columns(6).HeaderText = "[€]mat. each" 'Mat
 
-            .Columns(7).HeaderText = "Paint [€/m2]" 'Paint
-            .Columns(8).HeaderText = "Paint [m2]"   'Paint
+            .Columns(7).HeaderText = "Paint/pickle [€]"
+            .Columns(8).HeaderText = "Area [m2]"   'Surface area treatment
 
-            .Columns(9).HeaderText = "[€] mat."     'Mat cost total 
+            .Columns(9).HeaderText = "Σ Mat [€]"     'Mat cost total 
 
             .Columns(10).HeaderText = "[hrs]"       'Labour
             .Columns(11).HeaderText = "[€/hr]"      'Labour
-            .Columns(12).HeaderText = "[€ labor]"   'Labour
+            .Columns(12).HeaderText = "Labor [€]"   'Labour
 
             .Columns(13).HeaderText = "Σ[€]"        'Sum
             .Columns(14).HeaderText = "Mat."        'Sum
@@ -4265,15 +4301,17 @@ Public Class Form1
 
                 For i = 0 To 36
                     .Rows(i).Cells(0).Value = i.ToString
-                    .Rows(i).Cells(1).Value = part(i).P_name
-                    .Rows(i).Cells(2).Value = part(i).P_no
-                    .Rows(i).Cells(3).Value = part(i).P_dikte
-                    .Rows(i).Cells(4).Value = part(i).P_kg_each.ToString("F0")
-                    .Rows(i).Cells(5).Value = part(i).P_kg_cost.ToString("F2")
-                    .Rows(i).Cells(6).Value = part(i).P_cost_mat_each.ToString("F0")
-                    .Rows(i).Cells(7).Value = part(i).P_m2_cost.ToString("F2")
-                    .Rows(i).Cells(8).Value = part(i).P_area.ToString("F1")
-                    .Rows(i).Cells(9).Value = part(i).P_cost_mat_req.ToString("F0")
+                    .Rows(i).Cells(1).Value = part(i).P_name                            'Part name
+                    .Rows(i).Cells(2).Value = part(i).P_no                              'Part number
+                    .Rows(i).Cells(3).Value = part(i).P_dikte                           'Part
+                    .Rows(i).Cells(4).Value = part(i).P_weight.ToString("F0")          'Steel
+                    .Rows(i).Cells(5).Value = part(i).P_kg_cost.ToString("F2")          'Steel
+                    .Rows(i).Cells(6).Value = part(i).P_cost_mat_each.ToString("F0")    'Steel
+
+                    .Rows(i).Cells(7).Value = part(i).P_sat_costs.ToString("F2")       'Surface_treatment
+                    .Rows(i).Cells(8).Value = part(i).P_paint_area.ToString("F1")       'Surface_treatment Area
+
+                    .Rows(i).Cells(9).Value = part(i).P_cost_mat_req.ToString("F0")     'Mat cost total 
                     .Rows(i).Cells(10).Value = part(i).Lab_hrs.ToString("F0")
                     .Rows(i).Cells(11).Value = part(i).Lab_rate.ToString("F0")
                     .Rows(i).Cells(12).Value = part(i).Lab_cost.ToString("F0")
