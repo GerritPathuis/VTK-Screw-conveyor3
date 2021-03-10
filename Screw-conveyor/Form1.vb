@@ -694,7 +694,8 @@ Public Class Form1
 
     'DN, inch,OD, wall1, wall2, wall3,...
     Public Shared pipe_ss() As String =
-   {"DN80; 3 inch; 88.9;   3.0; 4.0;    5.5;7.6  ;11.1;15.2",
+   {"DN50; 2 inch; 60.3;   3.18;3.91;   5.5;0.0  ; 0.0;0.0",
+    "DN80; 3 inch; 88.9;   3.0; 4.0;    5.5;7.6  ;11.1;15.2",
     "DN100;4 inch; 114.3;  6.3; 7.1;    8  ;10   ;12.7;16.0",
     "DN125;5 inch; 139.7;  6.3; 7.1;    8  ;10   ;12.7;16.0",
     "DN150;6 inch; 168.3;  6.3; 7.1;    8  ;10   ;12.7;16.0",
@@ -705,8 +706,10 @@ Public Class Form1
     "DN400;16 inch; 406.4; 6.3; 7.1;    8  ;10   ;12.7;16.0",
     "DN500;20 inch; 508;   6.3; 7.1;    8  ;10   ;12.7;16.0"}
 
+    'DN, inch,OD, wall1, wall2, wall3,...
     Public Shared pipe_steel() As String =
-   {"DN80; 2 inch;  88.9;   3.05;  5.49; 7.6; 0",
+   {"DN50; 2 inch;  60.3;   3.18;  3.91; 5.5; 0",
+    "DN80; 3 inch;  88.9;   4.78;  5.49; 7.6; 0",
     "DN100;4 inch; 114.3;   6.02;  8.56; 0;   0",
     "DN125;5 inch; 141.3;   6.55;  9.53; 0;   0",
     "DN150;6 inch; 168.3;   7.11; 10.97; 0;   0",
@@ -963,17 +966,18 @@ Public Class Form1
         TextBox46.Text &= "02/12/2020, Published, print-out and export WIP" & vbCrLf
         TextBox46.Text &= "23/12/2020, Fabrication hour system LH added" & vbCrLf
         TextBox46.Text &= "23/12/2020, Flight diameter limited to 699mm" & vbCrLf
-        TextBox46.Text &= "20/01/2020, Flight diameter limited to 1099mm, LH tables extended" & vbCrLf
-        TextBox46.Text &= "21/01/2020, Flight diameter limited to 1299mm, LH tables extended" & vbCrLf
-        TextBox46.Text &= "16/02/2020, Bugfix, cost paint is now included in total, hours WVB and ENG swapped." & vbCrLf
-        TextBox46.Text &= "16/02/2020, Bugfix, Excel did not print first line of the Costs DataGridView." & vbCrLf
-        TextBox46.Text &= "16/02/2020, Price Pickling & passivating updated, Labor tariff back to 2020" & vbCrLf
-        TextBox46.Text &= "16/02/2020, End bearing 2 off, Material Certificates and Intern transport now work." & vbCrLf
-        TextBox46.Text &= "17/02/2020, Multi instance application enabled." & vbCrLf
-        TextBox46.Text &= "18/02/2020, Excel export now with column titles." & vbCrLf
-        TextBox46.Text &= "18/02/2020, Check ratio (center pipe diameter/bearing diameter)." & vbCrLf
-        TextBox46.Text &= "19/02/2020, Paint tariff based on m2, Pickling+galvanized on kg." & vbCrLf
-        TextBox46.Text &= "19/02/2020, Cost and Sales price per meter conveyor added." & vbCrLf
+        TextBox46.Text &= "20/01/2021, Flight diameter limited to 1099mm, LH tables extended" & vbCrLf
+        TextBox46.Text &= "21/01/2021, Flight diameter limited to 1299mm, LH tables extended" & vbCrLf
+        TextBox46.Text &= "16/02/2021, Bugfix, cost paint is now included in total, hours WVB and ENG swapped." & vbCrLf
+        TextBox46.Text &= "16/02/2021, Bugfix, Excel did not print first line of the Costs DataGridView." & vbCrLf
+        TextBox46.Text &= "16/02/2021, Price Pickling & passivating updated, Labor tariff back to 2020" & vbCrLf
+        TextBox46.Text &= "16/02/2021, End bearing 2 off, Material Certificates and Intern transport now work." & vbCrLf
+        TextBox46.Text &= "17/02/2021, Multi instance application enabled." & vbCrLf
+        TextBox46.Text &= "18/02/2021, Excel export now with column titles." & vbCrLf
+        TextBox46.Text &= "18/02/2021, Check ratio (center pipe diameter/bearing diameter)." & vbCrLf
+        TextBox46.Text &= "19/02/2021, Paint tariff based on m2, Pickling+galvanized on kg." & vbCrLf
+        TextBox46.Text &= "19/02/2021, Cost and Sales price per meter conveyor added." & vbCrLf
+        TextBox46.Text &= "10/03/2021, 2 Inch-DN50 added center pipe selection list" & vbCrLf
 
         TextBox133.Text = "Plaat zwart" & vbTab & "1.30 €/kg" & vbCrLf
         TextBox133.Text &= "Plaat 304 " & vbTab & vbTab & "0.00 €/kg " & vbCrLf
@@ -1575,34 +1579,15 @@ Public Class Form1
             tmp = "     " & Trim(words(2))
             ComboBox14.Items.Add(tmp)
         Next hh
-        ComboBox3.SelectedIndex = 5
-        ComboBox14.SelectedIndex = 2
+        ComboBox3.SelectedIndex = 6
+        ComboBox14.SelectedIndex = 3
 
-        'words = pipe_steel(ComboBox3.SelectedIndex).Split(CType(";", Char()))
-        'Double.TryParse(words(2), _pipe_OD)
-        '_pipe_OD /= 1000                                      '[mm] Outside Diameter 
-
-        ''------ present -------
-        'TextBox61.Text = (_pipe_OD * 1000).ToString("F1")     '[mm] Diameter
-        'TextBox16.Text = (_pipe_OD * 1000).ToString("F1")     '[mm] Diameter 
     End Sub
     Private Sub Pipe_wall_combo_init()
         If ComboBox3.Items.Count > 0 Then 'Prevent exceptions
             Calulate_stress_1()
         End If
     End Sub
-    'Private Sub Motorreductor()
-    '    Dim words() As String
-
-    '    ComboBox4.Items.Clear()
-    '    '-------Fill combobox4,  selection------------------
-    '    For hh = 1 To (UBound(motorred))                'Fill combobox 3 with pipe data
-    '        words = motorred(hh).Split(CType(";", Char()))
-    '        ComboBox4.Items.Add(Trim(words(0)))
-    '    Next hh
-    '    ComboBox4.SelectedIndex = 2
-    'End Sub
-
 
     Private Sub Coupling_combo()
         Dim words() As String
